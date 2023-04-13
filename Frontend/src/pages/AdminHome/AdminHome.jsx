@@ -8,10 +8,12 @@ function AdminHome() {
 
   useEffect(function loadData() {
     // Load data from backend API
-    axios.get("http://localhost:8080/demo/all").then(function (response) {
-      // Store data into react state
-      setUsers(response.data);
-    });
+    axios
+      .get("http://localhost:8080/useraccount/all")
+      .then(function (response) {
+        // Store data into react state
+        setUsers(response.data);
+      });
     // [] means the loadData function only runs once when the page first loads
   }, []);
 
