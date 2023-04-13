@@ -24,7 +24,7 @@ public class UserAccountEntity {
     }
 
     // Read One
-    public UserAccount get(Integer id) {
+    public UserAccount get(Integer id) throws NoSuchElementException {
         return repo.findById(id).get();
     }
 
