@@ -1,7 +1,6 @@
 import UsersRolesTable from "./UserRolesTable";
 import { useEffect, useState } from "react";
 import axios from "axios";
-const rolesData = ["Manager", "Collaborator", "Contractor"];
 
 function AdminHome() {
   // State to store data
