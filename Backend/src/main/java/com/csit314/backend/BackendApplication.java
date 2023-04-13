@@ -19,7 +19,7 @@ public class BackendApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				// Allow all /demo requests if origin is http://localhost:5173
-				registry.addMapping("/demo/*").allowedOrigins("http://127.0.0.1:5173", "http://localhost:5173/");
+				registry.addMapping("/*").allowedOrigins("http://127.0.0.1:5173", "http://localhost:5173/");
 			}
 		};
 	}
