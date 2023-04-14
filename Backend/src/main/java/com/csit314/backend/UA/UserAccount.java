@@ -17,6 +17,17 @@ public class UserAccount {
 
     private Boolean suspended = false;
 
+    // Default Contructor
+    public UserAccount() {
+
+    }
+
+    // Constructor without suspended status
+    public UserAccount(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public Integer getId() {
         return id;
     }
