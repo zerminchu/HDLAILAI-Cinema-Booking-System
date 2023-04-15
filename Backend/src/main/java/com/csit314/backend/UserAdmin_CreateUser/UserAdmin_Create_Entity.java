@@ -1,10 +1,10 @@
-package com.csit314.backend.UA;
+package com.csit314.backend.UserAdmin_CreateUser;
 
 import org.springframework.transaction.annotation.Transactional;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.csit314.backend.UA.UserAdmin_Create;
+import com.csit314.backend.UserAdmin_CreateUser.UserAdmin_Create;
 
 @Service
 @Transactional

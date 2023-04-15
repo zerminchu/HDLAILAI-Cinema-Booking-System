@@ -1,4 +1,4 @@
-package com.csit314.backend.UA;
+package com.csit314.backend.UserAdmin_CreateUser;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
