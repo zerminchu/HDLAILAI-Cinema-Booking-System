@@ -4,6 +4,8 @@ import CustomerHome from "../pages/CustomerHome";
 import ManagerHome from "../pages/ManagerHome";
 import AdminHome from "../pages/AdminHome/AdminHome";
 import OwnerHome from "../pages/OwnerHome";
+import Login from "../pages/Login/Login";
+import TestPage from "../pages/Login/TestPage";
 
 function PageRoutes() {
   return (
@@ -14,6 +16,8 @@ function PageRoutes() {
         <Route path="/ManagerHome" element={<ManagerHome />} />
         <Route path="/OwnerHome" element={<OwnerHome />} />
         <Route path="/AdminHome" element={<AdminHome />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/TestPage" element={<TestPage />} />
       </Routes>
     </Router>
   );
