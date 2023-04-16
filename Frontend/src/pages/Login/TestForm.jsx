@@ -8,8 +8,9 @@ function LoginForm() {
   const [password, setPassword] = useState("");
 
   function handleSubmit(event) {
-    // handle submit here
+    // Prevent submit from refreshing the page
     event.preventDefault();
+    // handle submit here
     console.log(email, password);
     axios
       .post("http://localhost:8080/login", {
