@@ -60,31 +60,76 @@ import "./TestCss.css";
 //   );
 // }
 
-import Modal from 'react-modal';
-import { LoginFields } from "./LoginFields";
+import Modal from "react-modal";
+import { EmailField, PasswordField } from "./LoginFields";
+import LoginForm from "./TestForm";
 
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
 
-function LoginModal() {
+/* function LoginModal() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  function handleSubmit() {
+    console.log("submitted");
+    console.log(email);
+    console.log(password);
+  }
 
   return (
     <div>
       <button onClick={() => setModalIsOpen(true)}>Login</button>
-      <Modal dialogClassName="myModal" isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+      <Modal
+        dialogClassName="myModal"
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+      >
         <h2
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}>Login</h2>
-        <form>
-          <LoginFields />
-          <button className="SubmitBtn" type="submit">Login</button>
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          Login
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <EmailField email={email} setEmail={setEmail} />
+          <PasswordField password={password} setPassword={setPassword} />
+          <button className="SubmitBtn" type="submit">
+            Login
+          </button>
         </form>
         <button onClick={() => setModalIsOpen(false)}>Close</button>
       </Modal>
     </div>
+  );
+} */
+
+function CustomModal({ children }) {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  return (
+    <div>
+      <button onClick={() => setModalIsOpen(true)}>{Login}</button>
+      <Modal
+        dialogClassName="myModal"
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+      >
+        {children}
+        <button onClick={() => setModalIsOpen(false)}>Close</button>
+      </Modal>
+    </div>
+  );
+}
+
+function LoginModal() {
+  return (
+    <CustomModal>
+      <LoginForm />
+      <h1>hello</h1>
+      <p>This is a test</p>
+    </CustomModal>
   );
 }
 

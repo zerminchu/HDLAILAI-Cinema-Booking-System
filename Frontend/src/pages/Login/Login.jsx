@@ -1,16 +1,17 @@
-import React from 'react';
-import { LoginFields } from './LoginFields';
+import React from "react";
 import "./LoginCss.css";
-import LoginModal from './LoginModal';
-import logo from './logo-no-background.png';
+import LoginModal from "./LoginModal";
+import logo from "./logo-no-background.png";
 
 function LoginPage() {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // handle form submission here
+    console.log(email);
+    console.log(password);
   };
 
   return (
@@ -24,11 +25,12 @@ function LoginPage() {
           <LoginFields />
         </div>
         <div>
-          <button className="SubmitBtn" type="submit">Submit</button>
+          <button className="SubmitBtn" type="submit">
+            Submit
+          </button>
         </div>
       </form>
     </div>
-    
   );
 }
 

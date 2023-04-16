@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { TextInput, PasswordInput, Tooltip, Center, Text } from '@mantine/core';
-import { IconInfoCircle } from '@tabler/icons-react';
+import { useState } from "react";
+import { TextInput, PasswordInput, Tooltip, Center, Text } from "@mantine/core";
+import { IconInfoCircle } from "@tabler/icons-react";
 
-function TooltipIcon() {
+export function EmailField({ email, setEmail }) {
   const rightSection = (
     <Tooltip
       label="We store your data securely"
       position="top-end"
       withArrow
-      transitionProps={{ transition: 'pop-bottom-right' }}
+      transitionProps={{ transition: "pop-bottom-right" }}
     >
-      <Text color="dimmed" sx={{ cursor: 'help' }}>
+      <Text color="dimmed" sx={{ cursor: "help" }}>
         <Center>
           <IconInfoCircle size="1.1rem" stroke={1.5} />
         </Center>
@@ -23,41 +23,21 @@ function TooltipIcon() {
       rightSection={rightSection}
       label="Email"
       placeholder="Enter your email"
+      value={email}
+      onChange={(event) => setEmail(event.target.value)}
     />
   );
 }
 
-function TooltipFocus() {
-  const [opened, setOpened] = useState(false);
-  const [value, setValue] = useState('');
-  const valid = value.trim().length >= 6;
+export function PasswordField({ password, setPassword }) {
   return (
-    <Tooltip
-      label={valid ? 'All good!' : 'Password must include at least 6 characters'}
-      position="bottom-start"
-      withArrow
-      opened={opened}
-      color={valid ? 'teal' : undefined}
-    >
-      <PasswordInput
-        label="Password"
-        required
-        placeholder="Enter your password"
-        onFocus={() => setOpened(true)}
-        onBlur={() => setOpened(false)}
-        mt="md"
-        value={value}
-        onChange={(event) => setValue(event.currentTarget.value)}
-      />
-    </Tooltip>
-  );
-}
-
-export function LoginFields() {
-  return (
-    <>
-      <TooltipIcon />
-      <TooltipFocus />
-    </>
+    <PasswordInput
+      label="Password"
+      required
+      placeholder="Enter your password"
+      mt="md"
+      value={password}
+      onChange={(event) => setPassword(event.target.value)}
+    />
   );
 }
