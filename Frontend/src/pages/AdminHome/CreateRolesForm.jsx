@@ -45,16 +45,15 @@ function CreateRolesForm(props) {
   const handleAddClick = () => {
     const newProfile = { name: profileName, role: selectedRole };
     setProfiles([...profiles, newProfile]);
+    // Resets the form fields
     setProfileName("");
     setSelectedRole("");
     props.onAddUser(profileName, selectedRole); // Pass profileName and selectedRole to onAddUser prop
   };
-  
 
   const handleRoleSelect = (value) => {
     setSelectedRole(value);
   };
-  
 
   return (
     <div>
@@ -79,7 +78,6 @@ function CreateRolesForm(props) {
       <Button className={classes.button} onClick={handleAddClick}>
         Add
       </Button>
-      <DisplayRoles data={props.data} />
     </div>
   );
 }

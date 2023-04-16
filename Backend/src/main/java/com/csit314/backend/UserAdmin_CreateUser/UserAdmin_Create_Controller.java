@@ -23,6 +23,8 @@ public class UserAdmin_Create_Controller {
     private UserAdmin_Create_Entity UAEntity;
 
     @PostMapping(path = "/add") // Map ONLY POST Requests
+    // Java automatically contructs the user object using the values passed in from
+    // the frontend
     public @ResponseBody String addNewUser(@RequestBody UserAdmin_Create user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestBody means it is the message sent in the GET or POST request
