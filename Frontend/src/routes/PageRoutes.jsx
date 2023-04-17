@@ -6,7 +6,7 @@ import AdminHome from "../pages/AdminHome/AdminHome";
 import OwnerHome from "../pages/OwnerHome";
 import Login from "../pages/Login/Login";
 import TestPage from "../pages/Login/TestPage";
-import LoginForm from "../pages/Login/TestForm";
+import LoginTest from "../pages/LoginTest/LoginTest";
 
 function PageRoutes() {
   return (
@@ -17,8 +17,7 @@ function PageRoutes() {
         <Route path="/ManagerHome" element={<ManagerHome />} />
         <Route path="/OwnerHome" element={<OwnerHome />} />
         <Route path="/AdminHome" element={<AdminHome />} />
-        <Route path="/Login" element={<LoginForm />} />
-        <Route path="/TestPage" element={<TestPage />} />
+        <Route path="/LoginTest" element={<LoginTest />} />
       </Routes>
     </Router>
   );
