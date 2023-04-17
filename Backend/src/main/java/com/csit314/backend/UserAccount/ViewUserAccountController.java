@@ -1,4 +1,4 @@
-package com.csit314.backend.UA;
+package com.csit314.backend.UserAccount;
 
 import java.util.NoSuchElementException;
 
@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/useraccount") // This means URL's start with /useraccount (after Application path)
-public class UserAccountController {
+public class ViewUserAccountController {
     @Autowired
     private UserAccountEntity UAEntity;
 
     @PostMapping(path = "/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewUser(@RequestBody UserAccount user) {
+    public @ResponseBody ResponseEntity<String> addNewUser(@RequestBody UserAccount user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestBody means it is the message sent in the GET or POST request
         UAEntity.save(user);
-        return "Saved";
+        return ResponseEntity.ok("Saved");
     }
 
     @GetMapping(path = "/all")
@@ -66,7 +66,7 @@ public class UserAccountController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<String> validateLogin(@RequestBody UserAccount user){
+    public ResponseEntity<String> validateLogin(@RequestBody UserAccount user) {
         // Check email empty or password empty
         if (user.getEmail() == "") {
             return new ResponseBody<String>("Empty email", HttpStatus.BAD_REQUEST);
@@ -91,9 +91,7 @@ public class UserAccountController {
             session.invalidate();
         }
         // Redirect the user to the login page
-        return new ResponseEntity<String>("Logout successful", HttpStatus.OK)
+        return new ResponseEntity<String>("Logout successful", HttpStatus.OK);
     }
 
-
 }
-

@@ -1,3 +1,5 @@
+import UAHomeButton from "./UAHomeButton";
+
 import {
   Avatar,
   Badge,
@@ -6,6 +8,9 @@ import {
   Text,
   Select,
   ScrollArea,
+  TextInput,
+  Button,
+  Anchor,
 } from "@mantine/core";
 
 const rolesData = ["Customer", "Manager", "Owner", "User Admin"];
@@ -14,41 +19,57 @@ export function UsersRolesTable({ data }) {
   const rows = data.map((item, index) => (
     <tr key={index}>
       <td>
-        <Group spacing="sm">
-          <div style={{ textAlign: "left" }}>
-            <Text fz="sm" fw={500}>
-              {item.name}
-            </Text>
-            <Text fz="xs" c="dimmed">
-              {item.email}
-            </Text>
-          </div>
-        </Group>
+        <div style={{ textAlign: "left" }}>
+          <Text>{item.name}</Text>
+        </div>
       </td>
 
       <td>
-        <Select data={rolesData} defaultValue={item.role} variant="unstyled" />
+        <div style={{ textAlign: "left" }}>
+          <Text>{item.email}</Text>
+        </div>
+      </td>
+
+      <td>
+        {/*  <Select data={rolesData} defaultValue={item.role} variant="unstyled" /> */}
+        <Text>{item.userProfile.profileName}</Text>
       </td>
       <td>
-        {Math.random() > 0.5 ? (
-          <Badge fullWidth>Active</Badge>
-        ) : (
-          <Badge color="gray" fullWidth>
-            Disabled
-          </Badge>
-        )}
+        {
+          (item.suspended = true ? (
+            <Button variant="outline" radius="xl" size="xs" uppercase>
+              Active
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              radius="xl"
+              size="xs"
+              color="gray"
+              uppercase
+            >
+              Suspended
+            </Button>
+          ))
+        }
+      </td>
+
+      <td>
+        <UAHomeButton />
       </td>
     </tr>
   ));
 
   return (
     <ScrollArea>
-      <Table miw={800} verticalSpacing="sm">
+      <Table miw={1200} verticalSpacing="sm">
         <thead>
           <tr>
-            <th>Employee</th>
+            <th>Name</th>
+            <th>Email</th>
             <th>Role</th>
             <th>Status</th>
+            <th>Update</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

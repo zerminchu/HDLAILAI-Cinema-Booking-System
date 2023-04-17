@@ -1,11 +1,17 @@
-package com.csit314.backend.UA;
+package com.csit314.backend.UserAccount;
 
+import com.csit314.backend.UserProfile.UserProfile;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "useraccount")
 public class UserAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,18 +21,13 @@ public class UserAccount {
 
     private String email;
 
+    private String password = "password";
+
     private Boolean suspended = false;
 
-    // Default Contructor
-    public UserAccount() {
-
-    }
-
-    // Constructor without suspended status
-    public UserAccount(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
+    @ManyToOne
+    @JoinColumn(name = "userProfile_id", nullable = false)
+    private UserProfile userProfile;
 
     public Integer getId() {
         return id;
@@ -52,11 +53,27 @@ public class UserAccount {
         this.email = email;
     }
 
-    public void setSuspended(boolean suspended) {
+    public void setSuspended(Boolean suspended) {
         this.suspended = suspended;
     }
 
     public Boolean getSuspended() {
         return suspended;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 }

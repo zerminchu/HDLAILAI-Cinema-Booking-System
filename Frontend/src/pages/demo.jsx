@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { List } from "@mantine/core";
 
 function Demo() {
   const [name, setName] = useState("");
@@ -23,37 +25,29 @@ function Demo() {
     <div>
       <h1>DEMO</h1>
       <div className="card">
-        <form onSubmit>
-          <div style={{ width: "100%" }}>
-            <label for="name">Name:</label>
-            <input
-              style={{
-                margin: "10px",
-                justifyContent: "center",
-              }}
-              type="text"
-              name="name"
-              value={name}
-              placeholder="John Doe"
-              onChange={(event) => setName(event.target.value)}
-            />
-          </div>
-          <div style={{ width: "100%" }}>
-            <label for="email">Email:</label>
-            <input
-              style={{
-                margin: "10px",
-                justifyContent: "center",
-              }}
-              type="text"
-              name="email"
-              value={email}
-              placeholder="example@email.com"
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </div>
-          <button onClick={handleSubmit}>Submit</button>
-        </form>
+        <List>
+          <List.Item>
+            <Link to="/DisplayRoles">Display Roles</Link>
+          </List.Item>{" "}
+          <List.Item>
+            <Link to="/CustomerHome">Customer Home</Link>
+          </List.Item>{" "}
+          <List.Item>
+            <Link to="/ManagerHome">Manager Home</Link>{" "}
+          </List.Item>{" "}
+          <List.Item>
+            <Link to="/OwnerHome">Owner Home</Link>{" "}
+          </List.Item>{" "}
+          <List.Item>
+            <Link to="/ViewUserAccount">View User Account</Link>{" "}
+          </List.Item>{" "}
+          <List.Item>
+            <Link to="/CreateUserAccount">Create User Account</Link>{" "}
+          </List.Item>{" "}
+          <List.Item>
+            <Link to="/CreateRolesPage">Create Role</Link>{" "}
+          </List.Item>
+        </List>
       </div>
     </div>
   );
