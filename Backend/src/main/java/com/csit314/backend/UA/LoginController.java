@@ -20,8 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/login") // This means URL's start with /useraccount (after Application path)
 public class LoginController {
-    @PostMapping // Map ONLY POST Requests
-    public @ResponseBody String login(@RequestBody Map<String, String> loginInfo) {
+    @PostMapping(path = "/loginUA") // Map ONLY POST Requests
+    public @ResponseBody String login(@RequestBody Map<String, String, String> loginInfo) {
+        System.out.println(loginInfo.get("role"));
         System.out.println(loginInfo.get("email"));
         System.out.println(loginInfo.get("password"));
         return "hello";

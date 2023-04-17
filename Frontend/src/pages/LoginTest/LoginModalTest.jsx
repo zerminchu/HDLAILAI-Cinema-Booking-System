@@ -11,7 +11,7 @@ function CustomModal({ children }) {
       <div>
         <button onClick={() => setModalIsOpen(true)}>Login</button>
         <Modal
-          dialogClassName="myModal"
+          className="myModal"
           isOpen={modalIsOpen}
           onRequestClose={() => setModalIsOpen(false)}
         >

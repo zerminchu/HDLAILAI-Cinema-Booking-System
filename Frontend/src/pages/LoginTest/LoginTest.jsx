@@ -3,6 +3,7 @@ import LoginModalTest from './LoginModalTest';
 import axios from "axios";
 
 function LoginTest() {
+    const [role, setRole] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -11,6 +12,7 @@ function LoginTest() {
     // handle form submission here
     axios
       .post("http://localhost:8080/login", { 
+        role: role,
         email: email, 
         password: password })
       .then((response) => {

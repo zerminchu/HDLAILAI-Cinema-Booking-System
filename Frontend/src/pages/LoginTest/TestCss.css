@@ -1,4 +1,4 @@
-body.active-modal {
+/* body.active-modal {
     overflow-y: hidden;
 }
 
@@ -28,20 +28,43 @@ body.active-modal {
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
-    background: #f1f1f1;
+    background: #b00000;
     padding: 14px 28px;
     border-radius: 3px;
     max-width: 600px;
     min-width: 300px;
 }
 
+.modal-content {
+    height: 300px;
+  }
+
 .close-modal {
     position: absolute;
     top: 10px;
     right: 10px;
     padding: 5px 7px;
-}
+} */
 
 .myModal {
-    max-width: 50%
-} 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.4;
+    background: #ffffff;
+    padding: 100px 150px;
+    border-radius: 10px;
+    max-width: 600px;
+    min-width: 300px;
+}
+
+.PasswordFieldTest {
+    padding: 20px 0px;
+    width: 100%;
+}
+
+.loginForm {
+    padding: 0px 0px;
+    width: 100%;
+}
