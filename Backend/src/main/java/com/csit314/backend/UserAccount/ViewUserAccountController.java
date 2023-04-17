@@ -65,33 +65,4 @@ public class ViewUserAccountController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(path = "/login")
-    public ResponseEntity<String> validateLogin(@RequestBody UserAccount user) {
-        // Check email empty or password empty
-        if (user.getEmail() == "") {
-            return new ResponseBody<String>("Empty email", HttpStatus.BAD_REQUEST);
-        }
-        if (user.getPassword() == "") {
-            return new ResponseBody<String>("Empty password", HttpStatus.BAD_REQUEST);
-        }
-        String loginResult = UAEntity.login(user);
-        if (loginResult != "success") {
-            return new ResponseEntity<String>(loginResult, HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<String>("Login successful", HttpStatus.OK);
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
-        // Clear the authentication details
-        SecurityContextHolder.getContext().setAuthentication(null);
-        // Get the current session and invalidate it
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        // Redirect the user to the login page
-        return new ResponseEntity<String>("Logout successful", HttpStatus.OK);
-    }
-
 }

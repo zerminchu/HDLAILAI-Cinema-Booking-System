@@ -68,17 +68,20 @@ public class UserAccountEntity {
     public String login(UserAccount user) {
         try {
             // Find user with email
-            UserAccount dbUser = UAEntity.findByEmail(user.getEmail());
+            UserAccount dbUser = repo.findByEmailAndUserProfile(user.getEmail(), user.getUserProfile());
+            if (dbUser == null) {
+                return "User does not exist";
+            }
             // User is suspended
-            if(dbUser.getSuspended()) {
+            if (dbUser.getSuspended()) {
                 return "Suspended";
             }
             // Password does not match
-            if(!dbUser.getPassword().equals(user.getPassword())) {
+            if (!dbUser.getPassword().equals(user.getPassword())) {
                 return "Password incorrect";
             }
             return "success";
-        } catch (NoSuchElementException e) { 
+        } catch (NoSuchElementException e) {
             return "User does not exist";
         }
     }

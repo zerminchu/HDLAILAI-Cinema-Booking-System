@@ -1,4 +1,4 @@
-package com.csit314.backend.UA;
+package com.csit314.backend.UserAccount;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -20,11 +20,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/login") // This means URL's start with /useraccount (after Application path)
 public class LoginController {
-    @PostMapping(path = "/loginUA") // Map ONLY POST Requests
-    public @ResponseBody String login(@RequestBody Map<String, String, String> loginInfo) {
-        System.out.println(loginInfo.get("role"));
-        System.out.println(loginInfo.get("email"));
-        System.out.println(loginInfo.get("password"));
-        return "hello";
+    @Autowired
+    private UserAccountEntity UAEntity;
+
+    @PostMapping
+    public ResponseEntity<String> validateLogin(@RequestBody UserAccount user) {
+        // Check email empty or password empty
+        if (user.getEmail() == "") {
+            return new ResponseEntity<String>("Empty email", HttpStatus.BAD_REQUEST);
+        }
+        if (user.getPassword() == "") {
+            return new ResponseEntity<String>("Empty password", HttpStatus.BAD_REQUEST);
+        }
+        String loginResult = UAEntity.login(user);
+        if (loginResult != "success") {
+            return new ResponseEntity<String>(loginResult, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>("Login successful", HttpStatus.OK);
     }
+
+    /*
+     * @PostMapping("/logout")
+     * public ResponseEntity<String> logout() {
+     * // Clear the authentication details
+     * SecurityContextHolder.getContext().setAuthentication(null);
+     * // Get the current session and invalidate it
+     * HttpSession session = request.getSession(false);
+     * if (session != null) {
+     * session.invalidate();
+     * }
+     * // Redirect the user to the login page
+     * return new ResponseEntity<String>("Logout successful", HttpStatus.OK);
+     * }
+     */
 }

@@ -1,64 +1,79 @@
-import { useState } from "react";
-import { TextInput, PasswordInput, Button } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { TextInput, PasswordInput, Button, Select } from "@mantine/core";
 import axios from "axios";
 import "./TestCss.css";
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 // import { EmailFieldTest, PasswordFieldTest } from "./LoginFieldsTest";
 
 function LoginFormTest() {
-  const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userProfile, setUserProfile] = useState("");
+  const [profileOptions, setProfileOptions] = useState([
+    { value: "", label: "" },
+  ]);
+  // Load user profiles
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/createuserprofile/all")
+      .then(({ data }) => {
+        if (data) {
+          const options = data.map((profile) => {
+            return { value: profile.id, label: profile.profileName };
+          });
+          setProfileOptions(options);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   function handleSubmit(event) {
     // Prevent submit from refreshing the page
     event.preventDefault();
     // handle submit here
-    console.log(role, email, password);
     axios
-      .post("http://localhost:8080/login/loginUA", {
-        role: role,
+      .post("http://localhost:8080/login", {
+        userProfile: { id: userProfile },
         email: email,
         password: password,
       })
       .then((response) => {
-        console.log(response.data);
+        alert(response.data);
+      })
+      .catch((response) => {
+        alert(response.data);
       });
   }
 
-  const options = [
-    'Customer', 'Owner', 'Manager', 'Admin'
-    ];
-
   return (
     <form className="loginForm" onSubmit={handleSubmit}>
-        <div className="formFields">
-        
-            <Dropdown 
-            options={options} 
-            value={role} 
-            placeholder="Login As" 
-            onChange={(selectedOption) => setRole(selectedOption.value)}
-            />
+      <div className="formFields">
+        <Select
+          data={profileOptions}
+          value={userProfile}
+          placeholder="Login As"
+          onChange={setUserProfile}
+        />
 
-            <TextInput
-            className="EmailFieldTest"
-            label="Email"
-            value={email}
-            onChange={(event) => setEmail(event.currentTarget.value)}
-            />
+        <TextInput
+          className="EmailFieldTest"
+          label="Email"
+          value={email}
+          onChange={(event) => setEmail(event.currentTarget.value)}
+        />
 
-            <PasswordInput
-            className="PasswordFieldTest"
-            label="Password"
-            value={password}
-            onChange={(event) => setPassword(event.currentTarget.value)}
-            />
+        <PasswordInput
+          className="PasswordFieldTest"
+          label="Password"
+          value={password}
+          onChange={(event) => setPassword(event.currentTarget.value)}
+        />
 
-            <Button className="loginBtn" type="submit">Submit</Button>
-        </div>
-      
+        <Button className="loginBtn" type="submit">
+          Submit
+        </Button>
+      </div>
     </form>
   );
 }

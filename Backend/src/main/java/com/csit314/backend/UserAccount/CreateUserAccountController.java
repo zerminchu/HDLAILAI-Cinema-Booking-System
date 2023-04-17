@@ -40,5 +40,5 @@ public class CreateUserAccountController {
         }
         UAEntity.save(user);
         return ResponseEntity.ok("Saved");
-    } 
+    }
 }

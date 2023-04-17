@@ -28,24 +28,27 @@ function Demo() {
         <List>
           <List.Item>
             <Link to="/DisplayRoles">Display Roles</Link>
-          </List.Item>{" "}
+          </List.Item>
           <List.Item>
             <Link to="/CustomerHome">Customer Home</Link>
-          </List.Item>{" "}
+          </List.Item>
           <List.Item>
-            <Link to="/ManagerHome">Manager Home</Link>{" "}
-          </List.Item>{" "}
+            <Link to="/ManagerHome">Manager Home</Link>
+          </List.Item>
           <List.Item>
-            <Link to="/OwnerHome">Owner Home</Link>{" "}
-          </List.Item>{" "}
+            <Link to="/OwnerHome">Owner Home</Link>
+          </List.Item>
           <List.Item>
-            <Link to="/ViewUserAccount">View User Account</Link>{" "}
-          </List.Item>{" "}
+            <Link to="/ViewUserAccount">View User Account</Link>
+          </List.Item>
           <List.Item>
-            <Link to="/CreateUserAccount">Create User Account</Link>{" "}
-          </List.Item>{" "}
+            <Link to="/CreateUserAccount">Create User Account</Link>
+          </List.Item>
           <List.Item>
-            <Link to="/CreateRolesPage">Create Role</Link>{" "}
+            <Link to="/CreateRolesPage">Create Role</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/Login">Login</Link>
           </List.Item>
         </List>
       </div>
