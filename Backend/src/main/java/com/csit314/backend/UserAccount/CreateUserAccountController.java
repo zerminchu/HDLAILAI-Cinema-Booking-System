@@ -26,7 +26,14 @@ public class CreateUserAccountController {
     public @ResponseBody String addNewUser(@RequestBody UserAccount user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestBody means it is the message sent in the GET or POST request
-        UAEntity.save(user);
-        return "Saved";
+        try{
+            System.out.println(user.getEmail().toString());
+            UAEntity.save(user);
+            return "Saved";
+        }
+        catch (Exception e) {
+            System.out.print(e);
+            return "false";
+        }
     }
 }

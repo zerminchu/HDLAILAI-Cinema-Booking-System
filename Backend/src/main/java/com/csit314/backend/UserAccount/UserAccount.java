@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -21,6 +20,8 @@ public class UserAccount {
     private String name;
 
     private String email;
+
+    private String password = "password";
 
     @ManyToOne
     @JoinColumn(name="userProfile_id", nullable=false)
@@ -59,6 +60,14 @@ public class UserAccount {
 
     public Boolean getSuspended() {
         return suspended;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public UserProfile getUserProfile() {

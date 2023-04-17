@@ -1,11 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
 import { useForm } from '@mantine/form';
-function UACreateAccount() {
+function CreateUserAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //const [userProfile, setProfile] = useState("");
+  const [userprofile, setProfile] = useState("");
   //const [cfmPassword, setcfmPassword] = useState("");
 
   
@@ -20,7 +20,7 @@ function UACreateAccount() {
 
   // Validation (Not too sure if validation should be done here or at controller)
   const form = useForm({
-    initialValues: { name: '', password: 'secret', email: ''},
+    initialValues: { name: '', password: 'password', email: ''},
 
     // functions will be used to validate values at corresponding key
     /*validate: {
@@ -44,9 +44,9 @@ function UACreateAccount() {
   // Not yet make changes
   function handleSubmit(event) {
     event.preventDefault();
-
+    console.log (name);
     axios
-      .post("http://localhost:8080/createuseraccount/add", { name: name, password: password, email: email})
+      .post("http://localhost:8080/createuseraccount/add", { name: name, password: password, email: email, userprofile: userprofile})
       .then((res) => {
         console.log(res);
         alert(res.data);
@@ -116,16 +116,16 @@ function UACreateAccount() {
             
             />
           </div> 
-          {/*{}
+          {}
           <div style={{ width: "100%" }}>
-            <label htmlFor="userProfile">User Profile:</label>
+            <label htmlFor="userprofile">User Profile:</label>
            <select
             style={{
                 margin: "10px",
                 justifyContent: "center",
             }}
-            name="userProfile"
-            value={userProfile}
+            name="userprofile"
+            value={userprofile}
             onChange={(event) => setProfile(event.target.value)}
          
   >
@@ -135,7 +135,7 @@ function UACreateAccount() {
                 </option>
             ))}
             </select>
-            </div> */}
+            </div>
           <button onClick={handleSubmit}>Submit</button>
           <button onClick={handleReturn}>Return</button>
         </form>
@@ -145,4 +145,4 @@ function UACreateAccount() {
   );
 }
 
-export default UACreateAccount;
+export default CreateUserAccount;
