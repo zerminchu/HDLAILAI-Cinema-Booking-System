@@ -14,6 +14,7 @@ function AdminHome() {
       .get("http://localhost:8080/useraccount/all")
       .then(function (response) {
         // Store data into react state
+        console.log(response);
         setUsers(response.data);
       });
     // [] means the loadData function only runs once when the page first loads
