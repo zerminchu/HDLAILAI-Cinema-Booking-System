@@ -66,28 +66,23 @@ public class UserAccountController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<String> login(@RequestBody UserAccount user){
-        UserAccount dbUser = null;
-        try {
-            dbUser = UAEntity.findByEmail(user.getEmail());
-            if(dbUser == null) {
-                return new ResponseEntity<>("User with email " + user.getEmail() + " not found", HttpStatus.NOT_FOUND);
-            } else if (!dbUser.getSuspended()) {
-                if (dbUser.getEmail().equals(user.getEmail()) && dbUser.getPassword().equals(user.getPassword())) {
-                    return new ResponseEntity<>("Login successful", HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
-                }
-            } else {
-                return new ResponseEntity<>("Account is suspended", HttpStatus.FORBIDDEN);
-            }
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>("User with email " + user.getEmail() + " not found", HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> validateLogin(@RequestBody UserAccount user){
+        // Check email empty or password empty
+        if (user.getEmail() == "") {
+            return new ResponseBody<String>("Empty email", HttpStatus.BAD_REQUEST);
         }
+        if (user.getPassword() == "") {
+            return new ResponseBody<String>("Empty password", HttpStatus.BAD_REQUEST);
+        }
+        String loginResult = UAEntity.login(user);
+        if (loginResult != "success") {
+            return new ResponseEntity<String>(loginResult, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>("Login successful", HttpStatus.OK);
     }
 
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
         // Clear the authentication details
         SecurityContextHolder.getContext().setAuthentication(null);
         // Get the current session and invalidate it
@@ -96,10 +91,9 @@ public class UserAccountController {
             session.invalidate();
         }
         // Redirect the user to the login page
-        return "redirect:/login";
+        return new ResponseEntity<String>("Logout successful", HttpStatus.OK)
     }
 
 
 }
 
-}
