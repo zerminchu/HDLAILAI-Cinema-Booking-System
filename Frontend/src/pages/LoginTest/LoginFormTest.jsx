@@ -30,7 +30,6 @@ function LoginFormTest() {
   const options = [
     'Customer', 'Owner', 'Manager', 'Admin'
     ];
-    const defaultOption = options[0];
 
   return (
     <form className="loginForm" onSubmit={handleSubmit}>
@@ -39,8 +38,8 @@ function LoginFormTest() {
             <Dropdown 
             options={options} 
             value={role} 
-            placeholder="Login As"
-            onChange={(event) => setRole(event.currentTarget.value)} 
+            placeholder="Login As" 
+            onChange={(selectedOption) => setRole(selectedOption.value)}
             />
 
             <TextInput

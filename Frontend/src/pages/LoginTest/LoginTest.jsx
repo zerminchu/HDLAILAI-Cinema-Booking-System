@@ -11,7 +11,7 @@ function LoginTest() {
     event.preventDefault();
     // handle form submission here
     axios
-      .post("http://localhost:8080/login", { 
+      .post("http://localhost:8080/login/loginUA", { 
         role: role,
         email: email, 
         password: password })
