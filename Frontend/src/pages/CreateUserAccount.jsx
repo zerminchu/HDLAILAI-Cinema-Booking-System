@@ -1,26 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from '@mantine/form';
+import { useForm } from "@mantine/form";
+import { Select } from "@mantine/core";
 function CreateUserAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userprofile, setProfile] = useState("");
+  const [userProfile, setUserProfile] = useState("");
+  const [profileOptions, setProfileOptions] = useState([
+    { value: "", label: "" },
+  ]);
   //const [cfmPassword, setcfmPassword] = useState("");
-
-  
-  // if i set this as const, i cannot add more profiles in
-  const profileOptions = [
-    { value: "", label: "Select a profile" },
-    { value: "Admin", label: "Admin" },
-    { value: "CinemaOwner", label: "Cinema Owner" },
-    { value: "CinemaManager", label: "Cinema Manager" },
-    { value: "Customer", label: "Customer" }
-  ];
 
   // Validation (Not too sure if validation should be done here or at controller)
   const form = useForm({
-    initialValues: { name: '', password: 'password', email: ''},
+    initialValues: { name: "", password: "secret", email: "" },
 
     // functions will be used to validate values at corresponding key
     /*validate: {
@@ -40,13 +34,34 @@ function CreateUserAccount() {
         
     }, */
   });
-  
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/createuserprofile/all")
+      .then(({ data }) => {
+        if (data) {
+          const options = data.map((profile) => {
+            return { value: profile.id, label: profile.profileName };
+          });
+          setProfileOptions(options);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   // Not yet make changes
   function handleSubmit(event) {
     event.preventDefault();
-    console.log (name);
+    console.log(userProfile);
     axios
-      .post("http://localhost:8080/createuseraccount/add", { name: name, password: password, email: email, userprofile: userprofile})
+      .post("http://localhost:8080/createuseraccount/add", {
+        name: name,
+        password: password,
+        email: email,
+        userProfile: {
+          id: userProfile,
+        },
+      })
       .then((res) => {
         console.log(res);
         alert(res.data);
@@ -56,20 +71,18 @@ function CreateUserAccount() {
         alert(error.message);
       });
   }
-  function handleReturn(event){
+  function handleReturn(event) {
     event.preventDefault();
-
   }
 
   return (
-    <form onSubmit={form.onSubmit((values) => console.log(values))}>
     <div>
       <h1>UserAdmin Create Account</h1>
       <div className="card">
-        <form onSubmit>
+        <form>
           {/* Name */}
           <div style={{ width: "100%" }}>
-            <label for="name">Name:</label>
+            <label htmlFor="name">Name:</label>
             <input
               style={{
                 margin: "10px",
@@ -80,13 +93,11 @@ function CreateUserAccount() {
               value={name}
               placeholder="John Doe"
               onChange={(event) => setName(event.target.value)}
-
-             
             />
           </div>
           {/* Email */}
           <div style={{ width: "100%" }}>
-            <label for="email">Email:</label>
+            <label htmlFor="email">Email:</label>
             <input
               style={{
                 margin: "10px",
@@ -97,12 +108,11 @@ function CreateUserAccount() {
               value={email}
               placeholder="JohnDoe@gmail.com"
               onChange={(event) => setEmail(event.target.value)}
-             
             />
           </div>
           {/* Password */}
           <div style={{ width: "100%" }}>
-            <label for="Password">Password:</label>
+            <label htmlFor="Password">Password:</label>
             <input
               style={{
                 margin: "10px",
@@ -113,35 +123,24 @@ function CreateUserAccount() {
               value={password}
               placeholder="********"
               onChange={(event) => setPassword(event.target.value)}
-            
             />
-          </div> 
-          {}
+          </div>
+
           <div style={{ width: "100%" }}>
             <label htmlFor="userprofile">User Profile:</label>
-           <select
-            style={{
-                margin: "10px",
-                justifyContent: "center",
-            }}
-            name="userprofile"
-            value={userprofile}
-            onChange={(event) => setProfile(event.target.value)}
-         
-  >
-            {profileOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-                {option.label}
-                </option>
-            ))}
-            </select>
-            </div>
+            <Select
+              label="Your favorite framework/library"
+              placeholder="Pick one"
+              data={profileOptions}
+              value={userProfile}
+              onChange={setUserProfile}
+            />
+          </div>
           <button onClick={handleSubmit}>Submit</button>
           <button onClick={handleReturn}>Return</button>
         </form>
       </div>
     </div>
-    </form>
   );
 }
 

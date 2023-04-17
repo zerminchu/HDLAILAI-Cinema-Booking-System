@@ -1,6 +1,6 @@
 package com.csit314.backend.UserAccount;
-import com.csit314.backend.UserProfile.UserProfile;
 
+import com.csit314.backend.UserProfile.UserProfile;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +11,7 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
-@Table (name = "useraccount")
+@Table(name = "useraccount")
 public class UserAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,12 +23,11 @@ public class UserAccount {
 
     private String password = "password";
 
-    @ManyToOne
-    @JoinColumn(name="userProfile_id", nullable=false)
-    private UserProfile userProfile;
-
     private Boolean suspended = false;
 
+    @ManyToOne
+    @JoinColumn(name = "userProfile_id", nullable = false)
+    private UserProfile userProfile;
 
     public Integer getId() {
         return id;
@@ -54,7 +53,7 @@ public class UserAccount {
         this.email = email;
     }
 
-    public void setSuspended(boolean suspended) {
+    public void setSuspended(Boolean suspended) {
         this.suspended = suspended;
     }
 

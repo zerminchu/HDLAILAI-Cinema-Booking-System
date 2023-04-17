@@ -1,4 +1,5 @@
 package com.csit314.backend.UserProfile;
+
 import com.csit314.backend.UserAccount.UserAccount;
 import java.util.Set;
 import jakarta.persistence.OneToMany;
@@ -8,7 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity // This tells Hibernate to make a table out of this class
-public class UserProfile{
+public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -19,7 +20,7 @@ public class UserProfile{
 
     private Boolean suspended = false;
 
-    @OneToMany(mappedBy="userProfile")
+    @OneToMany(mappedBy = "userProfile")
     private Set<UserAccount> userAccounts;
 
     public Integer getId() {
@@ -46,7 +47,7 @@ public class UserProfile{
         this.permission = permission;
     }
 
-    public void setSuspended(boolean suspended) {
+    public void setSuspended(Boolean suspended) {
         this.suspended = suspended;
     }
 

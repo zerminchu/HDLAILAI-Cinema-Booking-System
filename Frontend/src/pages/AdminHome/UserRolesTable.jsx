@@ -10,7 +10,7 @@ import {
   ScrollArea,
   TextInput,
   Button,
-  Anchor
+  Anchor,
 } from "@mantine/core";
 
 const rolesData = ["Customer", "Manager", "Owner", "User Admin"];
@@ -19,34 +19,43 @@ export function UsersRolesTable({ data }) {
   const rows = data.map((item, index) => (
     <tr key={index}>
       <td>
-      <div style={{ textAlign: "left" }}>
-        <TextInput placeholder={item.name} defaultValue={item.name} disabled />
-      </div>
+        <div style={{ textAlign: "left" }}>
+          <Text>{item.name}</Text>
+        </div>
       </td>
 
       <td>
-      <div style={{ textAlign: "left" }}>
-        <TextInput placeholder={item.email} defaultValue={item.email} disabled />
-      </div>
+        <div style={{ textAlign: "left" }}>
+          <Text>{item.email}</Text>
+        </div>
       </td>
 
       <td>
-        <Select data={rolesData} defaultValue={item.role} variant="unstyled" />
+        {/*  <Select data={rolesData} defaultValue={item.role} variant="unstyled" /> */}
+        <Text>{item.userProfile.profileName}</Text>
       </td>
       <td>
-        {item.suspended = true ? (
+        {
+          (item.suspended = true ? (
             <Button variant="outline" radius="xl" size="xs" uppercase>
               Active
             </Button>
-        ) : (
-          <Button variant="outline" radius="xl" size="xs" color="gray" uppercase>
-          Suspended
-          </Button>
-        )}
+          ) : (
+            <Button
+              variant="outline"
+              radius="xl"
+              size="xs"
+              color="gray"
+              uppercase
+            >
+              Suspended
+            </Button>
+          ))
+        }
       </td>
 
       <td>
-          <UAHomeButton />
+        <UAHomeButton />
       </td>
     </tr>
   ));
