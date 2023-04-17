@@ -2,6 +2,8 @@ import UsersRolesTable from "./UserRolesTable";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import ButtonMenu from "./ButtonMenu";
+
 function AdminHome() {
   // State to store data
   const [users, setUsers] = useState([]);
@@ -20,6 +22,7 @@ function AdminHome() {
   return (
     <div>
       <h1>Admin Home</h1>
+      <ButtonMenu />
       <UsersRolesTable data={users} />
     </div>
   );

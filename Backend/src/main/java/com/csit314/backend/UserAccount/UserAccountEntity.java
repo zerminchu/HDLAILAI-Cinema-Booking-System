@@ -1,6 +1,8 @@
-package com.csit314.backend.UserAccount.old;
+package com.csit314.backend.UserAccount;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import com.csit314.backend.UserAccount.UserAccount;
 
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +63,5 @@ public class UserAccountEntity {
         } catch (NoSuchElementException e) {
             return false;
         }
-
     }
 }

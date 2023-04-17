@@ -1,4 +1,4 @@
-package com.csit314.backend.UserAccount.old;
+package com.csit314.backend.UserAccount;
 
 import org.springframework.data.repository.CrudRepository;
 
