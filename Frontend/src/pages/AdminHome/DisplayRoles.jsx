@@ -18,6 +18,7 @@ import axios from "axios";
 function DisplayRoles({ data = [], permissions = [] }) {
   const [editProfileName, setEditProfileName] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [editSuspend, setSuspend] = useState("");
 
   const handleEdit = (id, profileName) => {
     setEditingId(id);
@@ -28,41 +29,44 @@ function DisplayRoles({ data = [], permissions = [] }) {
     const updatedProfile = {
       profileName: editProfileName,
     };
-
+  
     axios
       .put(`http://localhost:8080/createuserprofile/update/${id}`, updatedProfile)
       .then((response) => {
         console.log(response.data);
-
+  
         axios
           .get("http://localhost:8080/createuserprofile/all")
-          .then((response) => setUsers(response.data))
+          .then((response) => setEditingId(response.data)) // call setUsers instead of setData
           .catch((error) => console.log(error));
       })
       .catch((error) => console.log(error));
-
+  
     setEditingId(null);
   };
-
+  
   const handleCancelEdit = () => {
     setEditingId(null);
     setEditProfileName("");
   };
   const handleSuspend = (id) => {
+    setSuspend([...editSuspend, handleSuspend]);
+    const updatedUser = {
+      suspended: true,
+    };
     axios
-      .delete(`http://localhost:8080/createuserprofile/${id}`, {
-        suspended: true,
-      })
+      .delete(`http://localhost:8080/createuserprofile/${id}`, updatedUser)
+
       .then(() => {
         // Update the state to add the strikethrough and gray out
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.id === id ? { ...user, suspended: true } : user
-          )
-        );
-      })
-      .catch((error) => console.log(error));
-  };
+        setSuspend((prevData) =>
+        prevData.map((user) =>
+          user.id === id ? { ...user, suspended: true } : user
+        )
+      );
+    })
+    .catch((error) => console.log(error));
+};
   
 
 /*   const handleUnsuspend = (id) => {
@@ -163,6 +167,7 @@ DisplayRoles.propTypes = {
       permissionId: PropTypes.number.isRequired,
     })
   ),
+  permissions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
 export default DisplayRoles;

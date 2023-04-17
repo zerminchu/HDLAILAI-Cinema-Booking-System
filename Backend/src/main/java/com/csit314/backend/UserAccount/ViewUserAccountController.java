@@ -67,25 +67,4 @@ public class ViewUserAccountController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(path = "/login")
-    public ResponseEntity<String> login(@RequestBody UserAccount user){
-        UserAccount dbUser = null;
-        try {
-            dbUser = UAEntity.findByEmail(user.getEmail());
-            if(dbUser == null) {
-                return new ResponseEntity<>("User with email " + user.getEmail() + " not found", HttpStatus.NOT_FOUND);
-            } else if (!dbUser.getSuspended()) {
-                if (dbUser.getEmail().equals(user.getEmail()) && dbUser.getPassword().equals(user.getPassword())) {
-                    return new ResponseEntity<>("Login successful", HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
-                }
-            } else {
-                return new ResponseEntity<>("Account is suspended", HttpStatus.FORBIDDEN);
-            }
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>("User with email " + user.getEmail() + " not found", HttpStatus.NOT_FOUND);
-        }
-    }
-
 }
