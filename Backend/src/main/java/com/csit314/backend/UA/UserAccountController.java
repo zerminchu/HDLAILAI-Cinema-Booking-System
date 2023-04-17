@@ -86,6 +86,20 @@ public class UserAccountController {
         }
     }
 
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        // Clear the authentication details
+        SecurityContextHolder.getContext().setAuthentication(null);
+        // Get the current session and invalidate it
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        // Redirect the user to the login page
+        return "redirect:/login";
+    }
+
+
 }
 
 }
