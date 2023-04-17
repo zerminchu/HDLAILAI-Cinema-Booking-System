@@ -23,15 +23,26 @@ function DisplayRoles({ data = [], permissions = [] }) {
     console.log(permissions);
     return (
       <tr key={item.id}>
-        <td>{item.profileName}</td>
-        <td>{item.permission}</td>
+        <td><Group>{item.profileName}</Group></td>
+        <td><Group>{item.permission}</Group></td>
+        <td>
+        <Group spacing={0} position="right">
+          <ActionIcon>
+            <IconPencil size="1rem" stroke={1.5} />
+          </ActionIcon>
+          <ActionIcon color="red">
+            <IconTrash size="1rem" stroke={1.5} />
+          </ActionIcon>
+        </Group>
+        </td>
       </tr>
     );
   });
 
   return (
     <ScrollArea>
-      <Table sx={{ minWidth: 400 }} verticalSpacing="sm">
+      <Group><h3>Existing Profiles:</h3></Group>
+      <Table sx={{ minWidth: 400}} verticalSpacing="sm">
         <thead>
           <tr>
             <th>Profile Name</th>

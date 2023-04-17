@@ -1,4 +1,4 @@
-import { createStyles, rem } from "@mantine/core";
+import { createStyles, rem, Group, Box} from "@mantine/core";
 import { useState } from "react";
 import { TextInput, Select, Button } from "@mantine/core";
 import DisplayRoles from "./DisplayRoles";
@@ -10,16 +10,7 @@ const useStyles = createStyles((theme) => ({
 
   input: {
     height: rem(54),
-    paddingTop: rem(18),
-  },
-
-  label: {
-    position: "absolute",
-    pointerEvents: "none",
-    fontSize: theme.fontSizes.xs,
-    paddingLeft: theme.spacing.sm,
-    paddingTop: `calc(${theme.spacing.sm} / 2)`,
-    zIndex: 1,
+    paddingTop: rem(18),  
   },
 
   button: {
@@ -64,6 +55,7 @@ function CreateRolesForm(props) {
         value={profileName}
         onChange={(event) => setProfileName(event.target.value)}
       />
+      
       <Select
         mt="md"
         withinPortal
@@ -75,9 +67,11 @@ function CreateRolesForm(props) {
         onChange={handleRoleSelect}
       />
 
+      <Group position="right" mt="md">
       <Button className={classes.button} onClick={handleAddClick}>
         Add
       </Button>
+      </Group>
     </div>
   );
 }
