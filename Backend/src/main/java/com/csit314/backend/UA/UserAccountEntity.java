@@ -62,4 +62,22 @@ public class UserAccountEntity {
             return false;
         }
     }
+
+    public String login(UserAccount user) {
+        try {
+            // Find user with email
+            UserAccount dbUser = UAEntity.findByEmail(user.getEmail());
+            // User is suspended
+            if(dbUser.getSuspended()) {
+                return "Suspended";
+            }
+            // Password does not match
+            if(!dbUser.getPassword().equals(user.getPassword())) {
+                return "Password incorrect";
+            }
+            return "success";
+        } catch (NoSuchElementException e) { 
+            return "User does not exist";
+        }
+    }
 }
