@@ -21,7 +21,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 // data=[] means if data is not provided, default to an empty array instead
-function DisplayRoles({ data = [], permissions = [] }) {
+function DisplayRoles({ data = [], setData = null, permissions = [] }) {
   const [editProfileName, setEditProfileName] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editSuspend, setSuspend] = useState("");
@@ -35,7 +35,7 @@ function DisplayRoles({ data = [], permissions = [] }) {
     const updatedProfile = {
       profileName: editProfileName,
     };
-  
+
     axios
       .put(
         `http://localhost:8080/createuserprofile/update/${id}`,
@@ -43,17 +43,26 @@ function DisplayRoles({ data = [], permissions = [] }) {
       )
       .then((response) => {
         console.log(response.data);
-  
+
         axios
           .get("http://localhost:8080/createuserprofile/all")
-          .then((response) => setEditingId(response.data)) // call setUsers instead of setData
+          .then((response) => {
+            setData((prevUsers) =>
+              prevUsers.map((user) =>
+                user.id === id
+                  ? { ...user, profileName: editProfileName }
+                  : user
+              )
+            );
+            setEditingId(response.data);
+          }) // call setUsers instead of setData
           .catch((error) => console.log(error));
       })
       .catch((error) => console.log(error));
-  
+
     setEditingId(null);
   };
-  
+
   const handleCancelEdit = () => {
     setEditingId(null);
     setEditProfileName("");
@@ -68,7 +77,7 @@ function DisplayRoles({ data = [], permissions = [] }) {
 
       .then(() => {
         // Update the state to add the strikethrough and gray out
-        setUsers((prevUsers) =>
+        setData((prevUsers) =>
           prevUsers.map((user) =>
             user.id === id ? { ...user, suspended: true } : user
           )
@@ -158,7 +167,7 @@ function DisplayRoles({ data = [], permissions = [] }) {
         <h3>Existing Profiles:</h3>
       </Group>
       <Table sx={{ minWidth: 400 }} verticalSpacing="sm">
-          <thead>
+        <thead>
           <tr>
             <th>Profile Name</th>
             <th>Permission</th>

@@ -28,10 +28,11 @@ public class CreateUserProfileEntity {
     }
 
     // Update
-    public Boolean update(UserProfile userAccount, Integer id) {
+    public Boolean update(UserProfile userProfile, Integer id) {
         try {
             UserProfile existUser = this.get(id);
-            repo.save(userAccount);
+            existUser.setProfileName(userProfile.getProfileName());
+            repo.save(existUser);
             return true;
         } catch (NoSuchElementException e) {
             return false;
