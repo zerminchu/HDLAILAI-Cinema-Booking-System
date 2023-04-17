@@ -1,7 +1,7 @@
 import { createStyles, rem, Group, Box} from "@mantine/core";
 import { useState } from "react";
 import { TextInput, Select, Button } from "@mantine/core";
-import DisplayRoles from "./DisplayRoles";
+import { toast } from "react-toastify";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -34,6 +34,11 @@ function CreateRolesForm(props) {
   ];
 
   const handleAddClick = () => {
+    if (!profileName || !selectedRole) {
+      toast.error("Please fill out all fields");
+      return;
+    }
+
     const newProfile = { name: profileName, role: selectedRole };
     setProfiles([...profiles, newProfile]);
     // Resets the form fields

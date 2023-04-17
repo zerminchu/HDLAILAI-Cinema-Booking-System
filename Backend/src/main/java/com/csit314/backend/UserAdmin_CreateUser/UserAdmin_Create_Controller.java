@@ -24,14 +24,17 @@ public class UserAdmin_Create_Controller {
     private UserAdmin_Create_Entity UAEntity;
 
     @PostMapping(path = "/add") // Map ONLY POST Requests
-    // Java automatically contructs the user object using the values passed in from
-    // the frontend
-    public @ResponseBody String addNewUser(@RequestBody UserAdmin_Create user) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestBody means it is the message sent in the GET or POST request
+    public ResponseEntity<?> addNewUser(@RequestBody UserAdmin_Create user) {
+        if (user.getProfileName() == null || user.getProfileName().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name cannot be empty");
+        }
+        if (user.getPermission() == null || user.getPermission().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role cannot be empty");
+        }
         UAEntity.save(user);
-        return "Saved";
+        return ResponseEntity.ok("Saved");
     }
+    
 
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<UserAdmin_Create> getAllUsers() {
