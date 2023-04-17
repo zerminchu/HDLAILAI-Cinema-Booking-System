@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <App />
-      <ToastContainer /> 
+      <ToastContainer /> // Add this line to display the Toastify container
     </MantineProvider>
   </React.StrictMode>
 );
