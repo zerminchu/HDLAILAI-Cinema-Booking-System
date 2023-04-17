@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CreateRolesForm from "./CreateRolesForm";
 import DisplayRoles from "./DisplayRoles";
+import { Divider } from "@mantine/core";
 
 function CreateRolesPage() {
   const [users, setUsers] = useState([]);

@@ -141,7 +141,8 @@ function DisplayRoles({ data = [], permissions = [] }) {
 
   return (
     <ScrollArea>
-      <Table sx={{ minWidth: 400 }} verticalSpacing="sm">
+      <Group><h3>Existing Profiles:</h3></Group>
+      <Table sx={{ minWidth: 400}} verticalSpacing="sm">
         <thead>
           <tr>
             <th>Profile Name</th>
