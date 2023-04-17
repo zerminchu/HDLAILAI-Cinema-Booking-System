@@ -1,12 +1,14 @@
-package com.csit314.backend.UserAdmin_CreateUser;
-
+package com.csit314.backend.UserProfile;
+import com.csit314.backend.UserAccount.UserAccount;
+import java.util.Set;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity // This tells Hibernate to make a table out of this class
-public class UserAdmin_Create{
+public class UserProfile{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -16,6 +18,9 @@ public class UserAdmin_Create{
     private String permission;
 
     private Boolean suspended = false;
+
+    @OneToMany(mappedBy="userProfile")
+    private Set<UserAccount> userAccounts;
 
     public Integer getId() {
         return id;

@@ -24,7 +24,7 @@ public class ViewUserAccountController {
     private UserAccountEntity UAEntity;
 
     @PostMapping(path = "/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewUser(@RequestBody UserAccount user) {
+    public @ResponseBody ResponseEntity<String> addNewUser(@RequestBody UserAccount user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestBody means it is the message sent in the GET or POST request
         UAEntity.save(user);

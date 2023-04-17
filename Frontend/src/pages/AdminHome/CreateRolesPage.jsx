@@ -10,7 +10,7 @@ function CreateRolesPage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/admin_createAcc/all")
+      .get("http://localhost:8080/createuserprofile/all")
       .then((response) => {
         console.log(response.data);
         setUsers(response.data);
@@ -23,7 +23,7 @@ function CreateRolesPage() {
 
     // Make sure key of javascript dictionary matches the java object in the backend
     axios
-      .post("http://localhost:8080/admin_createAcc/add", {
+      .post("http://localhost:8080/createuserprofile/add", {
         profileName, // Means profileName: profileName
         permission: selectedRole,
       })
@@ -31,7 +31,7 @@ function CreateRolesPage() {
         console.log(response.data); // Check that the new profile is received correctly
 
         axios
-          .get("http://localhost:8080/admin_createAcc/all")
+          .get("http://localhost:8080/createuserprofile/all")
           .then((response) => setUsers(response.data))
           .catch((error) => console.log(error));
       })

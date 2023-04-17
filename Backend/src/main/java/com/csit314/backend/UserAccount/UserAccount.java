@@ -1,9 +1,12 @@
 package com.csit314.backend.UserAccount;
+import com.csit314.backend.UserProfile.UserProfile;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -19,10 +22,9 @@ public class UserAccount {
 
     private String email;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "profileID")
-    private UserProfile userProfileID;
+    @ManyToOne
+    @JoinColumn(name="userProfile_id", nullable=false)
+    private UserProfile userProfile;
 
     private Boolean suspended = false;
 
@@ -59,11 +61,11 @@ public class UserAccount {
         return suspended;
     }
 
-    public UserProfile getUserProfileID() {
-        return userProfileID;
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 
-    public void setUserProfileID(UserProfile userProfileID) {
-        this.userProfileID = userProfileID;
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 }

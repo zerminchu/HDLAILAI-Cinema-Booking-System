@@ -30,12 +30,12 @@ function DisplayRoles({ data = [], permissions = [] }) {
     };
 
     axios
-      .put(`http://localhost:8080/admin_createAcc/update/${id}`, updatedProfile)
+      .put(`http://localhost:8080/createuserprofile/update/${id}`, updatedProfile)
       .then((response) => {
         console.log(response.data);
 
         axios
-          .get("http://localhost:8080/admin_createAcc/all")
+          .get("http://localhost:8080/createuserprofile/all")
           .then((response) => setUsers(response.data))
           .catch((error) => console.log(error));
       })
@@ -50,7 +50,7 @@ function DisplayRoles({ data = [], permissions = [] }) {
   };
   const handleSuspend = (id) => {
     axios
-      .delete(`http://localhost:8080/admin_createAcc/${id}`, {
+      .delete(`http://localhost:8080/createuserprofile/${id}`, {
         suspended: true,
       })
       .then(() => {
@@ -67,7 +67,7 @@ function DisplayRoles({ data = [], permissions = [] }) {
 
 /*   const handleUnsuspend = (id) => {
     axios
-      .put(`http://localhost:8080/admin_createAcc/unsuspend/${id}`, {
+      .put(`http://localhost:8080/createuserprofile/unsuspend/${id}`, {
         suspended: false,
       })
       .then(() => {

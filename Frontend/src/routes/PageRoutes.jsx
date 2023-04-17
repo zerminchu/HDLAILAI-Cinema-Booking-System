@@ -5,6 +5,9 @@ import ManagerHome from "../pages/ManagerHome";
 import ViewUserAccount from "../pages/AdminHome/ViewUserAccount";
 import OwnerHome from "../pages/OwnerHome";
 import CreateUserAccount from "../pages/CreateUserAccount";
+import CreateRolesPage from "../pages/AdminHome/CreateRolesPage";
+import DisplayRoles from "../pages/AdminHome/DisplayRoles";
+
 
 function PageRoutes() {
   return (
@@ -16,6 +19,9 @@ function PageRoutes() {
         <Route path="/OwnerHome" element={<OwnerHome />} />
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
+        <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
+        <Route path="/DisplayRoles" element={<DisplayRoles />} />
+        
       </Routes>
     </Router>
   );

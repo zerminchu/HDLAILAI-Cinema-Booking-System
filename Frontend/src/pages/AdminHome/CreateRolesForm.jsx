@@ -27,10 +27,10 @@ function CreateRolesForm(props) {
   const [selectedRole, setSelectedRole] = useState("");
 
   const rolesData = [
-    { label: "Customer", value: "customer" },
-    { label: "Cinema Manager", value: "cinema_manager" },
-    { label: "Cinema Owner", value: "cinema_owner" },
-    { label: "User Admin", value: "user_admin" },
+    { label: "Customer", value: "Customer" },
+    { label: "Cinema Manager", value: "Cinema Manage" },
+    { label: "Cinema Owner", value: "Cinema Owner" },
+    { label: "User Admin", value: "User Admin" },
   ];
 
   const handleAddClick = () => {
