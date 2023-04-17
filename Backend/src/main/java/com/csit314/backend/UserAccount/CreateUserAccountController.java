@@ -23,17 +23,22 @@ public class CreateUserAccountController {
     private UserAccountEntity UAEntity;
 
     @PostMapping(path = "/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewUser(@RequestBody UserAccount user) {
+    public @ResponseBody ResponseEntity<?> addNewUser(@RequestBody UserAccount user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestBody means it is the message sent in the GET or POST request
-        try{
-            System.out.println(user.getEmail().toString());
-            UAEntity.save(user);
-            return "Saved";
+        if (user.getName() == null || user.getName().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name cannot be empty");
         }
-        catch (Exception e) {
-            System.out.print(e);
-            return "false";
+        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email cannot be empty");
         }
-    }
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password cannot be empty");
+        }
+        if (user.getUserProfile().getId() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User Profile cannot be empty");
+        }
+        UAEntity.save(user);
+        return ResponseEntity.ok("Saved");
+    } 
 }
