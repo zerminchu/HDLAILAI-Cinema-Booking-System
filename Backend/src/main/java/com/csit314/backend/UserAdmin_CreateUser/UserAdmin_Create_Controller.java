@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/admin_createAcc") // This means URL's start with /useraccount (after Application path)
 public class UserAdmin_Create_Controller {
@@ -43,7 +44,7 @@ public class UserAdmin_Create_Controller {
         return UAEntity.get(id);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping(path = "/update/{id}")
     public ResponseEntity<?> update(@RequestBody UserAdmin_Create user, @PathVariable Integer id) {
         if (UAEntity.update(user, id)) {
             return new ResponseEntity<>(HttpStatus.OK);
