@@ -1,5 +1,3 @@
-import UAHomeButton from "./UAHomeButton";
-
 import {
   Avatar,
   Badge,
@@ -8,9 +6,6 @@ import {
   Text,
   Select,
   ScrollArea,
-  TextInput,
-  Button,
-  Anchor
 } from "@mantine/core";
 
 const rolesData = ["Customer", "Manager", "Owner", "User Admin"];
@@ -19,48 +14,41 @@ export function UsersRolesTable({ data }) {
   const rows = data.map((item, index) => (
     <tr key={index}>
       <td>
-      <div style={{ textAlign: "left" }}>
-        <TextInput placeholder={item.name} defaultValue={item.name} disabled />
-      </div>
-      </td>
-
-      <td>
-      <div style={{ textAlign: "left" }}>
-        <TextInput placeholder={item.email} defaultValue={item.email} disabled />
-      </div>
+        <Group spacing="sm">
+          <div style={{ textAlign: "left" }}>
+            <Text fz="sm" fw={500}>
+              {item.name}
+            </Text>
+            <Text fz="xs" c="dimmed">
+              {item.email}
+            </Text>
+          </div>
+        </Group>
       </td>
 
       <td>
         <Select data={rolesData} defaultValue={item.role} variant="unstyled" />
       </td>
       <td>
-        {item.suspended = true ? (
-            <Button variant="outline" radius="xl" size="xs" uppercase>
-              Active
-            </Button>
+        {Math.random() > 0.5 ? (
+          <Badge fullWidth>Active</Badge>
         ) : (
-          <Button variant="outline" radius="xl" size="xs" color="gray" uppercase>
-          Suspended
-          </Button>
+          <Badge color="gray" fullWidth>
+            Disabled
+          </Badge>
         )}
-      </td>
-
-      <td>
-          <UAHomeButton />
       </td>
     </tr>
   ));
 
   return (
     <ScrollArea>
-      <Table miw={1200} verticalSpacing="sm">
+      <Table miw={800} verticalSpacing="sm">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
+            <th>Employee</th>
             <th>Role</th>
             <th>Status</th>
-            <th>Update</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
