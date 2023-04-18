@@ -7,10 +7,8 @@ import "./LoginStyle.css";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userProfile, setUserProfile] = useState("");
-  const [profileOptions, setProfileOptions] = useState([
-    { value: "", label: "" },
-  ]);
+  const [userProfileId, setUserProfileId] = useState(-1);
+  const [profileOptions, setProfileOptions] = useState([]);
   // Load user profiles
   useEffect(() => {
     axios
@@ -20,7 +18,7 @@ function LoginForm() {
           const options = data.map((profile) => {
             return { value: profile.id, label: profile.profileName };
           });
-          setProfileOptions(options);
+          setProfileOptions([...options]);
         }
       })
       .catch((error) => console.log(error));
@@ -29,18 +27,20 @@ function LoginForm() {
   function handleSubmit(event) {
     // Prevent submit from refreshing the page
     event.preventDefault();
+    console.log(userProfileId);
     // handle submit here
     axios
       .post("http://localhost:8080/login", {
-        userProfile: { id: userProfile },
+        userProfile: { id: userProfileId },
         email: email,
         password: password,
       })
       .then((response) => {
         alert(response.data);
       })
-      .catch((response) => {
-        alert(response.data);
+      .catch((error) => {
+        console.log(error);
+        alert(error.response.data);
       });
   }
 
@@ -50,9 +50,9 @@ function LoginForm() {
         <Select
           className="profileField"
           data={profileOptions}
-          value={userProfile}
+          value={userProfileId}
           placeholder="Login As"
-          onChange={setUserProfile}
+          onChange={setUserProfileId}
         />
 
         <TextInput

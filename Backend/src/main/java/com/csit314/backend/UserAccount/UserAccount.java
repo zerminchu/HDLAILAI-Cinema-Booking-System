@@ -17,9 +17,9 @@ public class UserAccount {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String name;
+    private String name = "";
 
-    private String email;
+    private String email = "";
 
     private String password = "password";
 

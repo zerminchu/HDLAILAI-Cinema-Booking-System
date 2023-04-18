@@ -69,7 +69,7 @@ function CreateUserAccount() {
       })
       .catch((error) => {
         console.log(error);
-        alert(error.message);
+        alert(error.response.message);
       });
   }
   function handleReturn(event) {

@@ -11,4 +11,6 @@ import com.csit314.backend.UserProfile.UserProfile;
 // Change name of repository and ClassType
 public interface UserAccountRepository extends CrudRepository<UserAccount, Integer> {
     UserAccount findByEmailAndUserProfile(String emailAddress, UserProfile userProfile);
+
+    UserAccount findByEmailAndUserProfileId(String emailAddress, Integer userProfileId);
 }
