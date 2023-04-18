@@ -14,7 +14,7 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String profile_name;
+    private String profileName;
 
     private String permission;
 
@@ -32,11 +32,11 @@ public class UserProfile {
     }
 
     public String getProfileName() {
-        return profile_name;
+        return profileName;
     }
 
     public void setProfileName(String profile_name) {
-        this.profile_name = profile_name;
+        this.profileName = profile_name;
     }
 
     public String getPermission() {
