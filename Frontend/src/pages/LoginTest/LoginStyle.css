@@ -1,0 +1,33 @@
+/* .myModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.4;
+    background: #ffffff;
+    padding: 100px 150px;
+    border-radius: 10px;
+    max-width: 600px;
+    min-width: 300px;
+} */
+
+.emailField {
+    padding-top: 20px;
+}
+
+.passwordField {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.loginBtn {
+    align-self: center;
+}
+
+.loginButton {
+    align-items: center;
+}
+
+.formFields {
+    padding: 20px 0px;
+}

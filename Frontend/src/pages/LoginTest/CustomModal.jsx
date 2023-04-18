@@ -1,23 +1,27 @@
 import React, { useState } from "react";
-import "./TestCss.css";
-import Modal from "react-modal";
-import LoginFormTest from "./LoginFormTest";
-import { Button } from "@mantine/core";
+import "./LoginStyle.css";
+// import Modal from "react-modal";
+import { useDisclosure } from '@mantine/hooks';
+import { Button, Modal } from "@mantine/core";
 
-Modal.setAppElement("#root");
+// Modal.setAppElement("#root");
 
 function CustomModal({ children }) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  // const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
   return (
     <div>
-      <Button onClick={() => setModalIsOpen(true)}>Login</Button>
-      <Modal
+      <Button onClick={open}>Login</Button>
+      {/* <Modal
         className="myModal"
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
       >
         {children}
         <Button onClick={() => setModalIsOpen(false)}>Close</Button>
+      </Modal> */}
+      <Modal opened={opened} onClose={close}>
+        {children}
       </Modal>
     </div>
   );

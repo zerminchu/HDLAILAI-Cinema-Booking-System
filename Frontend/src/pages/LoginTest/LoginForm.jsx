@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { TextInput, PasswordInput, Button, Select } from "@mantine/core";
 import axios from "axios";
-import "./TestCss.css";
-import Dropdown from "react-dropdown";
-import "react-dropdown/style.css";
-// import { EmailFieldTest, PasswordFieldTest } from "./LoginFieldsTest";
+import "./LoginStyle.css";
+// import "react-dropdown/style.css";
 
-function LoginFormTest() {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userProfile, setUserProfile] = useState("");
@@ -50,6 +48,7 @@ function LoginFormTest() {
     <form className="loginForm" onSubmit={handleSubmit}>
       <div className="formFields">
         <Select
+          className="profileField"
           data={profileOptions}
           value={userProfile}
           placeholder="Login As"
@@ -57,19 +56,18 @@ function LoginFormTest() {
         />
 
         <TextInput
-          className="EmailFieldTest"
+          className="emailField"
           label="Email"
           value={email}
           onChange={(event) => setEmail(event.currentTarget.value)}
         />
 
         <PasswordInput
-          className="PasswordFieldTest"
+          className="passwordField"
           label="Password"
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
         />
-
         <Button className="loginBtn" type="submit">
           Submit
         </Button>
@@ -78,4 +76,4 @@ function LoginFormTest() {
   );
 }
 
-export default LoginFormTest;
+export default LoginForm;

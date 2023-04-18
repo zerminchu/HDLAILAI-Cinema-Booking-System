@@ -4,9 +4,7 @@ import CustomerHome from "../pages/CustomerHome";
 import ManagerHome from "../pages/ManagerHome";
 import ViewUserAccount from "../pages/AdminHome/ViewUserAccount";
 import OwnerHome from "../pages/OwnerHome";
-import Login from "../pages/Login/Login";
-import TestPage from "../pages/Login/TestPage";
-import LoginModalTest from "../pages/LoginTest/LoginModalTest";
+import LoginModal from "../pages/LoginTest/LoginModal";
 import CreateUserAccount from "../pages/CreateUserAccount";
 import CreateRolesPage from "../pages/AdminHome/CreateRolesPage";
 import DisplayRoles from "../pages/AdminHome/DisplayRoles";
@@ -19,7 +17,7 @@ function PageRoutes() {
         <Route path="/CustomerHome" element={<CustomerHome />} />
         <Route path="/ManagerHome" element={<ManagerHome />} />
         <Route path="/OwnerHome" element={<OwnerHome />} />
-        <Route path="/Login" element={<LoginModalTest />} />
+        <Route path="/Login" element={<LoginModal />} />
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
         <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
