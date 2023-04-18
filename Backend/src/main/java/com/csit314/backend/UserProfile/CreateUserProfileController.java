@@ -30,6 +30,11 @@ public class CreateUserProfileController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role cannot be empty");
         }
 
+           // Check for duplicated profile name
+        if (UPEntity.findByProfileName(user.getProfileName()) != null) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name already exists");
+    }
+
         try {
             UPEntity.save(user);
             return ResponseEntity.ok("Saved");
