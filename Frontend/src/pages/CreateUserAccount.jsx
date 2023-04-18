@@ -6,7 +6,7 @@ function CreateUserAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userProfile, setUserProfile] = useState("");
+  const [userProfileId, setUserProfileId] = useState("");
   const [profileOptions, setProfileOptions] = useState([
     { value: "", label: "" },
   ]);
@@ -52,23 +52,24 @@ function CreateUserAccount() {
   // Not yet make changes
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(userProfile);
+    console.log(userProfileId);
     axios
       .post("http://localhost:8080/createuseraccount/add", {
         name: name,
         password: password,
         email: email,
+        // userProfile is an object that contains an id
         userProfile: {
-          id: userProfile,
+          id: userProfileId,
         },
       })
-      .then((res) => {
-        console.log(res);
-        alert(res.data);
+      .then((response) => {
+        console.log(response);
+        alert(response.data);
       })
       .catch((error) => {
         console.log(error);
-        alert(error.message);
+        alert(error.response.data);
       });
   }
   function handleReturn(event) {
@@ -132,8 +133,8 @@ function CreateUserAccount() {
               label="Your favorite framework/library"
               placeholder="Pick one"
               data={profileOptions}
-              value={userProfile}
-              onChange={setUserProfile}
+              value={userProfileId}
+              onChange={setUserProfileId}
             />
           </div>
           <button onClick={handleSubmit}>Submit</button>
