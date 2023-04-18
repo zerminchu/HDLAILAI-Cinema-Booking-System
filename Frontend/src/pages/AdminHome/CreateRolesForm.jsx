@@ -1,4 +1,4 @@
-import { createStyles, rem, Group, Box} from "@mantine/core";
+import { createStyles, rem, Group, Box } from "@mantine/core";
 import { useState } from "react";
 import { TextInput, Select, Button } from "@mantine/core";
 import { toast } from "react-toastify";
@@ -10,7 +10,7 @@ const useStyles = createStyles((theme) => ({
 
   input: {
     height: rem(54),
-    paddingTop: rem(18),  
+    paddingTop: rem(18),
   },
 
   button: {
@@ -18,11 +18,10 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-function CreateRolesForm(props) {
+function CreateRolesForm({ onAddUser }) {
   const classes = useStyles();
   //const [user, setUser] = useState({});
   const [profiles, setProfiles] = useState([]);
-
   const [profileName, setProfileName] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
 
@@ -34,17 +33,21 @@ function CreateRolesForm(props) {
   ];
 
   const handleAddClick = () => {
-    if (!profileName || !selectedRole) {
+    /* if (!profileName || !selectedRole) {
       toast.error("Please fill out all fields");
       return;
+    } */
+    try {
+      const newProfile = { name: profileName, role: selectedRole };
+      setProfiles([...profiles, newProfile]);
+      // Resets the form fields
+      setProfileName("");
+      setSelectedRole("");
+      onAddUser(profileName, selectedRole); // Pass profileName and selectedRole to onAddUser prop
+    } catch (error) {
+      console.log("hi");
+      console.log(error);
     }
-
-    const newProfile = { name: profileName, role: selectedRole };
-    setProfiles([...profiles, newProfile]);
-    // Resets the form fields
-    setProfileName("");
-    setSelectedRole("");
-    props.onAddUser(profileName, selectedRole); // Pass profileName and selectedRole to onAddUser prop
   };
 
   const handleRoleSelect = (value) => {
@@ -60,7 +63,7 @@ function CreateRolesForm(props) {
         value={profileName}
         onChange={(event) => setProfileName(event.target.value)}
       />
-      
+
       <Select
         mt="md"
         withinPortal
@@ -73,9 +76,9 @@ function CreateRolesForm(props) {
       />
 
       <Group position="right" mt="md">
-      <Button className={classes.button} onClick={handleAddClick}>
-        Add
-      </Button>
+        <Button className={classes.button} onClick={handleAddClick}>
+          Add
+        </Button>
       </Group>
     </div>
   );

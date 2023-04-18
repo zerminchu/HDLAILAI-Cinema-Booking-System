@@ -3,9 +3,11 @@ import axios from "axios";
 import CreateRolesForm from "./CreateRolesForm";
 import DisplayRoles from "./DisplayRoles";
 import { Divider } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 
 function CreateRolesPage() {
   const [users, setUsers] = useState([]);
+  const [error, setError] = useState("");
   //const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {
@@ -17,7 +19,6 @@ function CreateRolesPage() {
       })
       .catch((error) => console.log(error));
   }, []);
-
   const handleAddUser = (profileName, selectedRole) => {
     console.log(profileName, selectedRole); // Check that profileName and selectedRole are received correctly
 
@@ -35,7 +36,14 @@ function CreateRolesPage() {
           .then((response) => setUsers(response.data))
           .catch((error) => console.log(error));
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error.message);
+        notifications.show({
+          title: `Error creating User Profile`,
+          message: `${error.message}`,
+          autoClose: 3000,
+        });
+      });
   };
 
   return (
