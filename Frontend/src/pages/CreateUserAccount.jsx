@@ -34,7 +34,7 @@ function CreateUserAccount() {
         
     }, */
   });
-
+  // Load userProfiles from backend
   useEffect(() => {
     axios
       .get("http://localhost:8080/createuserprofile/all")
