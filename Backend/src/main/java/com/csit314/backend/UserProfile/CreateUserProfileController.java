@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/createuserprofile") // This means URL's start with /useraccount (after Application path)
 public class CreateUserProfileController {
@@ -30,10 +29,14 @@ public class CreateUserProfileController {
         if (user.getPermission() == null || user.getPermission().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role cannot be empty");
         }
-        UPEntity.save(user);
-        return ResponseEntity.ok("Saved");
+
+        try {
+            UPEntity.save(user);
+            return ResponseEntity.ok("Saved");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
-    
 
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<UserProfile> getAllUserProfiles() {

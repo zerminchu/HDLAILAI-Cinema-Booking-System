@@ -1,20 +1,16 @@
 import {
-  Avatar,
-  Badge,
   Table,
   Group,
   Text,
   ActionIcon,
-  Anchor,
   ScrollArea,
-  useMantineTheme,
 } from "@mantine/core";
 import {
   IconPencil,
-  IconTrash,
   IconCheck,
   IconX,
   IconCircleMinus,
+  IconArrowBack,
 } from "@tabler/icons-react";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
@@ -24,7 +20,7 @@ import axios from "axios";
 function DisplayRoles({ data = [], setData = null, permissions = [] }) {
   const [editProfileName, setEditProfileName] = useState("");
   const [editingId, setEditingId] = useState(null);
-  const [editSuspend, setSuspend] = useState("");
+
 
   const handleEdit = (id, profileName) => {
     setEditingId(id);
@@ -68,7 +64,6 @@ function DisplayRoles({ data = [], setData = null, permissions = [] }) {
     setEditProfileName("");
   };
   const handleSuspend = (id) => {
-    setSuspend([...editSuspend, handleSuspend]);
     const updatedUser = {
       suspended: true,
     };
@@ -86,20 +81,23 @@ function DisplayRoles({ data = [], setData = null, permissions = [] }) {
       .catch((error) => console.log(error));
   };
 
-  /*   const handleUnsuspend = (id) => {
+  const handleUnsuspend = (id) => {
+    const updatedUser = {
+      suspended: false,
+    };
     axios
       .put(`http://localhost:8080/createuserprofile/unsuspend/${id}`, {
-        suspended: false,
+        updatedUser,
       })
       .then(() => {
-        setUsers((prevUsers) =>
+        setData((prevUsers) =>
           prevUsers.map((user) =>
             user.id === id ? { ...user, suspended: false } : user
           )
         );
       })
       .catch((error) => console.log(error));
-  }; */
+  }; 
 
   const rows = data.map((item) => {
     const isEditing = item.id === editingId;
@@ -134,9 +132,14 @@ function DisplayRoles({ data = [], setData = null, permissions = [] }) {
         <td>{item.permission}</td>
         <td>
           {isSuspended ? (
+            <Group spacing={0} position="right">
             <Text size="sm" color="gray">
               Suspended
             </Text>
+            <ActionIcon onClick={() => handleUnsuspend(item.id)}>
+                <IconArrowBack CircleMinus size="1rem" stroke={1.5} />
+              </ActionIcon>
+            </Group>
           ) : isEditing ? (
             <Group spacing={0} position="right">
               <ActionIcon onClick={() => handleUpdate(item.id)}>
