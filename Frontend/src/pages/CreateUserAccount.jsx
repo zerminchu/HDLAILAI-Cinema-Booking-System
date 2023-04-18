@@ -44,7 +44,7 @@ function CreateUserAccount() {
       })
       .catch((error) => {
         console.log(error);
-        alert(error.message);
+        alert(error.response.data);
       });
   }
   function handleReturn(event) {

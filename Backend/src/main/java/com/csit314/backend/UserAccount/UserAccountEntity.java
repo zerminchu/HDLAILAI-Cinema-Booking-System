@@ -34,7 +34,11 @@ public class UserAccountEntity {
     public Boolean update(UserAccount userAccount, Integer id) {
         try {
             UserAccount existUser = this.get(id);
-            repo.save(userAccount);
+            existUser.setName(userAccount.getName());
+            existUser.setPassword(userAccount.getPassword());
+            existUser.setEmail(userAccount.getEmail());
+            existUser.setUserProfile(userAccount.getUserProfile());
+            repo.save(existUser);
             return true;
         } catch (NoSuchElementException e) {
             return false;

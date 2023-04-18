@@ -1,4 +1,6 @@
 import UAHomeButton from "./UAHomeButton";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 import {
   Avatar,
@@ -13,14 +15,34 @@ import {
   Anchor,
 } from "@mantine/core";
 
-const rolesData = ["Customer", "Manager", "Owner", "User Admin"];
-
 export function UsersRolesTable({ data }) {
+
+  /*const [id, setId] = useState("");
+  // for button onClick= {handleSuspend (item.id)}
+
+  function handleSuspend(id) {
+    axios
+      .delete(`http://localhost:8080/suspenduseraccount/${id}`, {
+        suspended: true,
+      })
+      .then(() => {
+        setId (() =>
+          data.map ( (user) =>
+            user.id === id ? { ...user, suspended: true } : user
+          )
+        );
+      })
+      
+  } */
+  
+
+
   const rows = data.map((item, index) => (
     <tr key={index}>
       <td>
         <div style={{ textAlign: "left" }}>
           <Text>{item.name}</Text>
+
         </div>
       </td>
 
@@ -41,7 +63,7 @@ export function UsersRolesTable({ data }) {
               Active
             </Button>
           ) : (
-            <Button
+            <Button 
               variant="outline"
               radius="xl"
               size="xs"
