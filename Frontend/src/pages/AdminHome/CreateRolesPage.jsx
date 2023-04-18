@@ -38,13 +38,11 @@ function CreateRolesPage() {
       .catch((error) => console.log(error));
   };
 
-  
-
   return (
     <div>
       <h1>Admin Create Profile</h1>
       <CreateRolesForm onAddUser={handleAddUser} data={users} />
-      <DisplayRoles data={users} permissions={[]} />
+      <DisplayRoles data={users} setData={setUsers} permissions={[]} />
     </div>
   );
 }

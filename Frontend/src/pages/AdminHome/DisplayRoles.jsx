@@ -1,29 +1,26 @@
 import {
-  Avatar,
-  Badge,
   Table,
   Group,
   Text,
   ActionIcon,
-  Anchor,
   ScrollArea,
-  useMantineTheme,
 } from "@mantine/core";
 import {
   IconPencil,
-  IconTrash,
   IconCheck,
   IconX,
   IconCircleMinus,
+  IconArrowBack,
 } from "@tabler/icons-react";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 // data=[] means if data is not provided, default to an empty array instead
-function DisplayRoles({ data = [], permissions = [] }) {
+function DisplayRoles({ data = [], setData = null, permissions = [] }) {
   const [editProfileName, setEditProfileName] = useState("");
   const [editingId, setEditingId] = useState(null);
+
 
   const handleEdit = (id, profileName) => {
     setEditingId(id);
@@ -45,7 +42,16 @@ function DisplayRoles({ data = [], permissions = [] }) {
 
         axios
           .get("http://localhost:8080/createuserprofile/all")
-          .then((response) => setUsers(response.data))
+          .then((response) => {
+            setData((prevUsers) =>
+              prevUsers.map((user) =>
+                user.id === id
+                  ? { ...user, profileName: editProfileName }
+                  : user
+              )
+            );
+            setEditingId(response.data);
+          }) // call setUsers instead of setData
           .catch((error) => console.log(error));
       })
       .catch((error) => console.log(error));
@@ -58,13 +64,15 @@ function DisplayRoles({ data = [], permissions = [] }) {
     setEditProfileName("");
   };
   const handleSuspend = (id) => {
+    const updatedUser = {
+      suspended: true,
+    };
     axios
-      .delete(`http://localhost:8080/createuserprofile/${id}`, {
-        suspended: true,
-      })
+      .delete(`http://localhost:8080/createuserprofile/${id}`, updatedUser)
+
       .then(() => {
         // Update the state to add the strikethrough and gray out
-        setUsers((prevUsers) =>
+        setData((prevUsers) =>
           prevUsers.map((user) =>
             user.id === id ? { ...user, suspended: true } : user
           )
@@ -73,20 +81,23 @@ function DisplayRoles({ data = [], permissions = [] }) {
       .catch((error) => console.log(error));
   };
 
-  /*   const handleUnsuspend = (id) => {
+  const handleUnsuspend = (id) => {
+    const updatedUser = {
+      suspended: false,
+    };
     axios
       .put(`http://localhost:8080/createuserprofile/unsuspend/${id}`, {
-        suspended: false,
+        updatedUser,
       })
       .then(() => {
-        setUsers((prevUsers) =>
+        setData((prevUsers) =>
           prevUsers.map((user) =>
             user.id === id ? { ...user, suspended: false } : user
           )
         );
       })
       .catch((error) => console.log(error));
-  }; */
+  }; 
 
   const rows = data.map((item) => {
     const isEditing = item.id === editingId;
@@ -121,9 +132,14 @@ function DisplayRoles({ data = [], permissions = [] }) {
         <td>{item.permission}</td>
         <td>
           {isSuspended ? (
+            <Group spacing={0} position="right">
             <Text size="sm" color="gray">
               Suspended
             </Text>
+            <ActionIcon onClick={() => handleUnsuspend(item.id)}>
+                <IconArrowBack CircleMinus size="1rem" stroke={1.5} />
+              </ActionIcon>
+            </Group>
           ) : isEditing ? (
             <Group spacing={0} position="right">
               <ActionIcon onClick={() => handleUpdate(item.id)}>
@@ -174,6 +190,7 @@ DisplayRoles.propTypes = {
       permissionId: PropTypes.number.isRequired,
     })
   ),
+  permissions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
 export default DisplayRoles;

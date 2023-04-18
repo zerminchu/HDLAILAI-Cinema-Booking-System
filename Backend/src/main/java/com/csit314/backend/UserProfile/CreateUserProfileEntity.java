@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class CreateUserProfileEntity {
 
-    @Autowired
-    private UserProfileRepository repo;
+    @Autowired UserProfileRepository repo;
 
     // Create
-    public void save(UserProfile product) {
-        repo.save(product);
+    public void save(UserProfile profile) {
+        UserProfile existingProfile = repo.findByProfileName(profile.getProfileName());
+        if(existingProfile != null) {
+            throw new IllegalArgumentException("Profile name already exists");
+        }
+        repo.save(profile);
     }
 
     // Read all
@@ -28,10 +31,11 @@ public class CreateUserProfileEntity {
     }
 
     // Update
-    public Boolean update(UserProfile userAccount, Integer id) {
+    public Boolean update(UserProfile userProfile, Integer id) {
         try {
             UserProfile existUser = this.get(id);
-            repo.save(userAccount);
+            existUser.setProfileName(userProfile.getProfileName());
+            repo.save(existUser);
             return true;
         } catch (NoSuchElementException e) {
             return false;
@@ -60,5 +64,9 @@ public class CreateUserProfileEntity {
         } catch (NoSuchElementException e) {
             return false;
         }
+    }
+
+    public UserProfile getUserByProfileName(String profileName) {
+        return null;
     }
 }

@@ -28,7 +28,7 @@ function CreateRolesForm(props) {
 
   const rolesData = [
     { label: "Customer", value: "Customer" },
-    { label: "Cinema Manager", value: "Cinema Manage" },
+    { label: "Cinema Manager", value: "Cinema Manager" },
     { label: "Cinema Owner", value: "Cinema Owner" },
     { label: "User Admin", value: "User Admin" },
   ];
