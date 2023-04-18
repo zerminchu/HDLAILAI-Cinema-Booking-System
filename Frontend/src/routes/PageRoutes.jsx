@@ -4,7 +4,7 @@ import CustomerHome from "../pages/CustomerHome";
 import ManagerHome from "../pages/ManagerHome";
 import ViewUserAccount from "../pages/AdminHome/ViewUserAccount";
 import OwnerHome from "../pages/OwnerHome";
-import LoginModal from "../pages/LoginTest/LoginModal";
+import LoginModal from "../pages/Login/LoginModal";
 import CreateUserAccount from "../pages/CreateUserAccount";
 import CreateRolesPage from "../pages/AdminHome/CreateRolesPage";
 import DisplayRoles from "../pages/AdminHome/DisplayRoles";
