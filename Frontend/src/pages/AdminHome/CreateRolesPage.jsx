@@ -37,10 +37,16 @@ function CreateRolesPage() {
           .catch((error) => console.log(error));
       })
       .catch((error) => {
-        console.log(error.message);
+        let errorMessage;
+        if (error.message == "Request failed with status code 400") {
+          errorMessage = "Please fill in all the fields";
+        } else {
+          errorMessage = "Profile name already exists";
+        }
+        setError(errorMessage);
         notifications.show({
           title: `Error creating User Profile`,
-          message: `${error.message}`,
+          message: errorMessage,
           autoClose: 3000,
         });
       });

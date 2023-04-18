@@ -8,6 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 // Change name of repository and ClassType
 public interface UserProfileRepository extends CrudRepository<UserProfile, Integer> {
 
-    UserProfile findByProfileName(String profileName);
+    Boolean findByProfileName(String profileName);
 
 }
