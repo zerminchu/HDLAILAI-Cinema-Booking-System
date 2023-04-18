@@ -13,10 +13,6 @@ public class CreateUserProfileEntity {
 
     // Create
     public void save(UserProfile profile) {
-        UserProfile existingProfile = repo.findByProfileName(profile.getProfileName());
-        if(existingProfile != null) {
-            throw new IllegalArgumentException("Profile name already exists");
-        }
         repo.save(profile);
     }
 
@@ -66,7 +62,11 @@ public class CreateUserProfileEntity {
         }
     }
 
-    public UserProfile getUserByProfileName(String profileName) {
-        return null;
+    // Finds unique profile name for form validation
+    public Boolean findByProfileName(String profileName) {
+        return repo.findByProfileName(profileName);
     }
+    
+
+
 }

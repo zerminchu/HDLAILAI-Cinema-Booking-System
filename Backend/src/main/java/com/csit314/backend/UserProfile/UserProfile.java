@@ -14,9 +14,9 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String profileName;
+    private String profileName = "";
 
-    private String permission;
+    private String permission = "";
 
     private Boolean suspended = false;
 
