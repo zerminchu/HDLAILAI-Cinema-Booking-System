@@ -30,7 +30,7 @@ function EditUserAccount() {
     event.preventDefault();
     console.log(userProfile);
     axios
-      .post("http://localhost:8080/createuseraccount/add", {
+      .put("http://localhost:8080/updateuseraccount/update/${id}", {
         name: name,
         password: password,
         email: email,
@@ -53,7 +53,7 @@ function EditUserAccount() {
 
   return (
     <div>
-      <h1>UserAdmin Create Account</h1>
+      <h1>UserAdmin Update Account</h1>
       <Box maw={300} mx="auto">
         <form>
           <TextInput
