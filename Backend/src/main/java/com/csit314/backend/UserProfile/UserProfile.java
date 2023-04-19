@@ -14,7 +14,11 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+<<<<<<< Updated upstream
     private String profileName = "";
+=======
+    private String profileName;
+>>>>>>> Stashed changes
 
     private String permission = "";
 
@@ -35,8 +39,8 @@ public class UserProfile {
         return profileName;
     }
 
-    public void setProfileName(String profile_name) {
-        this.profileName = profile_name;
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
     }
 
     public String getPermission() {
@@ -54,4 +58,8 @@ public class UserProfile {
     public Boolean getSuspended() {
         return suspended;
     }
+
+/*     public boolean isPresent() {
+        return false;
+    } */
 }
