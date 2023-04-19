@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "@mantine/form";
 import { TextInput, Select, Button, Group, Box } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+
 function CreateUserAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -10,6 +12,7 @@ function CreateUserAccount() {
   const [profileOptions, setProfileOptions] = useState([
     { value: "", label: "" },
   ]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     axios
@@ -44,7 +47,19 @@ function CreateUserAccount() {
       })
       .catch((error) => {
         console.log(error);
-        alert(error.response.data);
+        //errorMessage = Name cannot be empty/Password cannot be empty/Email cannot be empty/User Profile cannot be empty
+        let errorMessage = `${error.response.data}`;
+
+        //If Name is empty display the general text "Please fill in all the fields"
+        //Else, display the individual fields error messages
+        if (errorMessage === "Name cannot be empty") {
+          errorMessage = "Please fill in all the fields"; }
+        setError(errorMessage);
+        notifications.show({
+          title: `Error creating User Account`,
+          message: errorMessage,
+          autoClose: 3000,
+        });
       });
   }
   function handleReturn(event) {
