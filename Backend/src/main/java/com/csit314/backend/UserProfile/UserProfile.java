@@ -14,7 +14,11 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+<<<<<<< Updated upstream
     private String profileName = "";
+=======
+    private String profileName;
+>>>>>>> Stashed changes
 
     private String permission = "";
 
