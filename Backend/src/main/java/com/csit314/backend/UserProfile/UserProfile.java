@@ -35,8 +35,8 @@ public class UserProfile {
         return profileName;
     }
 
-    public void setProfileName(String profile_name) {
-        this.profileName = profile_name;
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
     }
 
     public String getPermission() {
@@ -54,4 +54,8 @@ public class UserProfile {
     public Boolean getSuspended() {
         return suspended;
     }
+
+/*     public boolean isPresent() {
+        return false;
+    } */
 }

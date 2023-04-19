@@ -62,11 +62,11 @@ public class CreateUserProfileEntity {
         }
     }
 
-    // Finds unique profile name for form validation
-    public Boolean findByProfileName(String profileName) {
+  /*   // Finds unique profile name for form validation
+    public UserProfile findByProfileName(String profileName) {
         return repo.findByProfileName(profileName);
-    }
-    
+    } 
+     */
 
 
 }
