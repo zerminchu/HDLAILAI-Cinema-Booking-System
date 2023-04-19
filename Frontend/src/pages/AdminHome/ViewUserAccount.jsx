@@ -24,7 +24,7 @@ function AdminHome() {
     <div>
       <h1>Admin Home</h1>
       <ButtonMenu />
-      <UsersRolesTable data={users} />
+      <UsersRolesTable data={users} setData = {setUsers} />
     </div>
   );
 }

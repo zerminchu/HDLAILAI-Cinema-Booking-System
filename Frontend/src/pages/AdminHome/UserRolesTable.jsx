@@ -15,10 +15,7 @@ import {
   Anchor,
 } from "@mantine/core";
 
-export function UsersRolesTable({ data }) {
-
-  /*const [id, setId] = useState("");
-  // for button onClick= {handleSuspend (item.id)}
+export function UsersRolesTable({ data, setData }) {
 
   function handleSuspend(id) {
     axios
@@ -26,14 +23,29 @@ export function UsersRolesTable({ data }) {
         suspended: true,
       })
       .then(() => {
-        setId (() =>
+        setData (
           data.map ( (user) =>
             user.id === id ? { ...user, suspended: true } : user
           )
         );
+      })  
+      .catch((error) => console.log(error));
+  }
+
+  function handleUnsuspend(id) {
+    axios
+      .put(`http://localhost:8080/suspenduseraccount/unsuspend/${id}`, {
+        suspended: false,
       })
-      
-  } */
+      .then(() => {
+        setData (
+          data.map ( (user) =>
+            user.id === id ? { ...user, suspended: false } : user
+          )
+        );
+      })
+      .catch((error) => console.log(error));
+  }
   
 
 
@@ -58,8 +70,8 @@ export function UsersRolesTable({ data }) {
       </td>
       <td>
         {
-          (item.suspended = true ? (
-            <Button variant="outline" radius="xl" size="xs" uppercase>
+          (item.suspended === false ? (
+            <Button variant="outline" radius="xl" size="xs" uppercase  onClick= {() => {handleSuspend (item.id)}}>
               Active
             </Button>
           ) : (
@@ -69,6 +81,7 @@ export function UsersRolesTable({ data }) {
               size="xs"
               color="gray"
               uppercase
+              onClick= {() => {handleUnsuspend (item.id)}}
             >
               Suspended
             </Button>
