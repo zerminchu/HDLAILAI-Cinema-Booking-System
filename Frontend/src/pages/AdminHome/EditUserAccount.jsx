@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "@mantine/form";
 import { TextInput, Select, Button, Group, Box } from "@mantine/core";
-function CreateUserAccount() {
+function EditUserAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -98,4 +98,4 @@ function CreateUserAccount() {
   );
 }
 
-export default CreateUserAccount;
+export default EditUserAccount;
