@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "@mantine/form";
 import { TextInput, Select, Button, Group, Box } from "@mantine/core";
-function EditUserAccount() {
+
+function EditUserAccount({ data, setData }) {
+  console.log(data);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,8 +28,7 @@ function EditUserAccount() {
   }, []);
 
   // Not yet make changes
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(id) {
     console.log(userProfile);
     axios
       .put("http://localhost:8080/updateuseraccount/update/${id}", {
@@ -41,14 +42,25 @@ function EditUserAccount() {
       .then((res) => {
         console.log(res);
         alert(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        alert(error.response.data);
       });
-  }
-  function handleReturn(event) {
-    event.preventDefault();
+
+      axios
+      .get("http://localhost:8080/updateuseraccount/all")
+      .then(() => {
+        setData (
+          data.map ( (user) =>
+            user.id === id ? { ...user,  
+              name: name,
+              password: password,
+              email: email,
+              userProfile: {
+                id: userProfile,
+              } 
+            } : user
+          )
+        );
+      })  
+      .catch((error) => console.log(error));
   }
 
   return (

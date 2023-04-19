@@ -90,7 +90,7 @@ export function UsersRolesTable({ data, setData }) {
       </td>
 
       <td>
-        <UAHomeButton />
+        <UAHomeButton user={data} setUser = {setData} />
       </td>
     </tr>
   ));
