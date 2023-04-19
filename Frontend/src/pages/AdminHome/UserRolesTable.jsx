@@ -16,19 +16,18 @@ import {
 } from "@mantine/core";
 
 export function UsersRolesTable({ data, setData }) {
-
   function handleSuspend(id) {
     axios
       .delete(`http://localhost:8080/suspenduseraccount/${id}`, {
         suspended: true,
       })
       .then(() => {
-        setData (
-          data.map ( (user) =>
+        setData(
+          data.map((user) =>
             user.id === id ? { ...user, suspended: true } : user
           )
         );
-      })  
+      })
       .catch((error) => console.log(error));
   }
 
@@ -38,62 +37,70 @@ export function UsersRolesTable({ data, setData }) {
         suspended: false,
       })
       .then(() => {
-        setData (
-          data.map ( (user) =>
+        setData(
+          data.map((user) =>
             user.id === id ? { ...user, suspended: false } : user
           )
         );
       })
       .catch((error) => console.log(error));
   }
-  
 
+  const rows = data.map(
+    (item, index) =>
+      item && (
+        <tr key={index}>
+          <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.name}</Text>
+            </div>
+          </td>
 
-  const rows = data.map((item, index) => (
-    <tr key={index}>
-      <td>
-        <div style={{ textAlign: "left" }}>
-          <Text>{item.name}</Text>
+          <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.email}</Text>
+            </div>
+          </td>
 
-        </div>
-      </td>
+          <td>
+            {/*  <Select data={rolesData} defaultValue={item.role} variant="unstyled" /> */}
+            <Text>{item.userProfile.profileName}</Text>
+          </td>
+          <td>
+            {item.suspended === false ? (
+              <Button
+                variant="outline"
+                radius="xl"
+                size="xs"
+                uppercase
+                onClick={() => {
+                  handleSuspend(item.id);
+                }}
+              >
+                Active
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                radius="xl"
+                size="xs"
+                color="gray"
+                uppercase
+                onClick={() => {
+                  handleUnsuspend(item.id);
+                }}
+              >
+                Suspended
+              </Button>
+            )}
+          </td>
 
-      <td>
-        <div style={{ textAlign: "left" }}>
-          <Text>{item.email}</Text>
-        </div>
-      </td>
-
-      <td>
-        {/*  <Select data={rolesData} defaultValue={item.role} variant="unstyled" /> */}
-        <Text>{item.userProfile.profileName}</Text>
-      </td>
-      <td>
-        {
-          (item.suspended === false ? (
-            <Button variant="outline" radius="xl" size="xs" uppercase  onClick= {() => {handleSuspend (item.id)}}>
-              Active
-            </Button>
-          ) : (
-            <Button 
-              variant="outline"
-              radius="xl"
-              size="xs"
-              color="gray"
-              uppercase
-              onClick= {() => {handleUnsuspend (item.id)}}
-            >
-              Suspended
-            </Button>
-          ))
-        }
-      </td>
-
-      <td>
-        <UAHomeButton user={data} setUser = {setData} />
-      </td>
-    </tr>
-  ));
+          <td>
+            <UAHomeButton id={item.id} data={item} />
+          </td>
+        </tr>
+      )
+  );
 
   return (
     <ScrollArea>

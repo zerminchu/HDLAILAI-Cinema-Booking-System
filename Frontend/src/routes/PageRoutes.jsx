@@ -9,7 +9,6 @@ import CreateRolesPage from "../pages/AdminHome/CreateRolesPage";
 import DisplayRoles from "../pages/AdminHome/DisplayRoles";
 import EditUserAccount from "../pages/AdminHome/EditUserAccount";
 
-
 function PageRoutes() {
   return (
     <Router>
@@ -22,8 +21,7 @@ function PageRoutes() {
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
         <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
-        <Route path="/EditUserAccount" element={<EditUserAccount />} />
-        
+        <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
       </Routes>
     </Router>
   );

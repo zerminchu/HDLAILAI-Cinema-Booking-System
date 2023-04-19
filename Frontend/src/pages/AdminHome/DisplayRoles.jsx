@@ -1,10 +1,4 @@
-import {
-  Table,
-  Group,
-  Text,
-  ActionIcon,
-  ScrollArea,
-} from "@mantine/core";
+import { Table, Group, Text, ActionIcon, ScrollArea } from "@mantine/core";
 import {
   IconPencil,
   IconCheck,
@@ -17,10 +11,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 // data=[] means if data is not provided, default to an empty array instead
-function DisplayRoles({ data = [], setData = null, permissions = [] }) {
+function DisplayRoles({ data = [], setData = null }) {
   const [editProfileName, setEditProfileName] = useState("");
   const [editingId, setEditingId] = useState(null);
-
 
   const handleEdit = (id, profileName) => {
     setEditingId(id);
@@ -97,7 +90,7 @@ function DisplayRoles({ data = [], setData = null, permissions = [] }) {
         );
       })
       .catch((error) => console.log(error));
-  }; 
+  };
 
   const rows = data.map((item) => {
     const isEditing = item.id === editingId;
@@ -133,10 +126,10 @@ function DisplayRoles({ data = [], setData = null, permissions = [] }) {
         <td>
           {isSuspended ? (
             <Group spacing={0} position="right">
-            <Text size="sm" color="gray">
-              Suspended
-            </Text>
-            <ActionIcon onClick={() => handleUnsuspend(item.id)}>
+              <Text size="sm" color="gray">
+                Suspended
+              </Text>
+              <ActionIcon onClick={() => handleUnsuspend(item.id)}>
                 <IconArrowBack CircleMinus size="1rem" stroke={1.5} />
               </ActionIcon>
             </Group>
@@ -181,16 +174,5 @@ function DisplayRoles({ data = [], setData = null, permissions = [] }) {
     </ScrollArea>
   );
 }
-
-DisplayRoles.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      permissionId: PropTypes.number.isRequired,
-    })
-  ),
-  permissions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-};
 
 export default DisplayRoles;
