@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.csit314.backend.UserAccount.UserAccount;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class UserAccountEntity {
 
     // Read all
     public ArrayList<UserAccount> listAll() {
-        return repo.findAll();
+        return (ArrayList<UserAccount>) repo.findAll();
     }
 
     // Read One

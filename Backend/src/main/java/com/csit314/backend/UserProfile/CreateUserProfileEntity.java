@@ -1,6 +1,8 @@
 package com.csit314.backend.UserProfile;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ public class CreateUserProfileEntity {
 
     // Read all
     public ArrayList<UserProfile> listAll() {
-        return repo.findAll();
+        return (ArrayList<UserProfile>) repo.findAll();
     }
 
     // Read One
@@ -31,6 +33,9 @@ public class CreateUserProfileEntity {
     public Boolean update(UserProfile userProfile, Integer id) {
         try {
             UserProfile existUser = this.get(id);
+            existUser.setName(userProfile.getName());
+            existUser.setPassword(userProfile.getPassword());
+            existUser.setEmail(userProfile.getEmail());
             existUser.setProfileName(userProfile.getProfileName());
             repo.save(existUser);
             return true;
