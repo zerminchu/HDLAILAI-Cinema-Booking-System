@@ -1,8 +1,10 @@
 package com.csit314.backend.UserAccount;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,24 +22,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/useraccount") // This means URL's start with /useraccount (after Application path)
 public class ViewUserAccountController {
-    @Autowired
-    private UserAccountEntity UAEntity;
+
+    private UserAccount ua = new UserAccount();
 
     @PostMapping(path = "/add") // Map ONLY POST Requests
-    public @ResponseBody ResponseEntity<String> addNewUser(@RequestBody UserAccount user) {
+    public ResponseEntity<String> addNewUser(@RequestBody UserAccount user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestBody means it is the message sent in the GET or POST request
-        UAEntity.save(user);
+        ua.save(user);
         return ResponseEntity.ok("Saved");
     }
 
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<UserAccount>> getAllUsers() {
         // This returns a JSON or XML with the users
-        ArrayList<UserAccount> userAccounts = UAEntity.listAll();
-        if (userAccounts.size() == 0) {
-            return new ResponseEntity<ArrayList<UserAccount>>(userAccounts, HttpStatus.OK);
+        ArrayList<UserAccount> userAccounts;
+        try {
+            userAccounts = UserAccount.listAll();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+        return new ResponseEntity<ArrayList<UserAccount>>(userAccounts, HttpStatus.OK);
 
     }
 
