@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/createuseraccount") // This means URL's start with /useraccount (after Application path)
 public class CreateUserAccountController {
-    @Autowired
-    private UserAccountEntity UAEntity;
 
     @PostMapping(path = "/add") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity<?> addNewUser(@RequestBody UserAccount user) {
@@ -35,10 +33,11 @@ public class CreateUserAccountController {
         if (user.getPassword() == null || user.getPassword().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password cannot be empty");
         }
-        if (user.getUserProfile().getId() == null) {
+        // Default value for userAccount is -1, so it represents no role selected.
+        if (user.getUserProfile() == -1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User Profile cannot be empty");
         }
         UAEntity.save(user);
         return ResponseEntity.ok("Saved");
-    } 
+    }
 }

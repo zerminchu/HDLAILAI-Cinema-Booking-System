@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class CreateUserProfileEntity {
 
-    @Autowired UserProfileRepository repo;
+    @Autowired
+    UserProfileRepository repo;
 
     // Create
     public void save(UserProfile profile) {
@@ -17,7 +18,7 @@ public class CreateUserProfileEntity {
     }
 
     // Read all
-    public Iterable<UserProfile> listAll() {
+    public ArrayList<UserProfile> listAll() {
         return repo.findAll();
     }
 
@@ -66,7 +67,5 @@ public class CreateUserProfileEntity {
     public Boolean findByProfileName(String profileName) {
         return repo.findByProfileName(profileName);
     }
-    
-
 
 }

@@ -30,10 +30,10 @@ public class CreateUserProfileController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role cannot be empty");
         }
 
-           // Check for duplicated profile name
+        // Check for duplicated profile name
         if (UPEntity.findByProfileName(user.getProfileName()) != null) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name already exists");
-    }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name already exists");
+        }
 
         try {
             UPEntity.save(user);
@@ -44,7 +44,7 @@ public class CreateUserProfileController {
     }
 
     @GetMapping(path = "/all")
-    public @ResponseBody Iterable<UserProfile> getAllUserProfiles() {
+    public @ResponseBody ArrayList<UserProfile> getAllUserProfiles() {
         // This returns a JSON or XML with the users
         return UPEntity.listAll();
     }

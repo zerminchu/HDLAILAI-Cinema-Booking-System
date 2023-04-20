@@ -1,5 +1,6 @@
 package com.csit314.backend.UserAccount;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,13 @@ public class UpdateUserAccountController {
     private UserAccountEntity UAEntity;
 
     @GetMapping(path = "/all")
-    public @ResponseBody Iterable<UserAccount> getAllUsers() {
+    public ResponseEntity<ArrayList<UserAccount>> getAllUsers() {
         // This returns a JSON or XML with the users
         return UAEntity.listAll();
     }
 
     @GetMapping(path = "/{id}")
-    public @ResponseBody UserAccount getUserById(@PathVariable Integer id) {
+    public ResponseEntity<UserAccount> getUserById(@PathVariable Integer id) {
         return UAEntity.get(id);
     }
 

@@ -21,7 +21,7 @@ public class UserAccountEntity {
     }
 
     // Read all
-    public Iterable<UserAccount> listAll() {
+    public ArrayList<UserAccount> listAll() {
         return repo.findAll();
     }
 
