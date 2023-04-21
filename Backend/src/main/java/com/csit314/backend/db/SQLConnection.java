@@ -19,7 +19,7 @@ public class SQLConnection {
 
     public void createTablesIfNotExists() throws SQLException {
         String profileQuery = "CREATE TABLE IF NOT EXISTS UserProfiles ("
-                + "profileId INT AUTO_INCREMENT PRIMARY KEY,"
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
                 + "profileName VARCHAR(255),"
                 + "permission VARCHAR(255),"
                 + "suspended BOOLEAN"
@@ -30,10 +30,10 @@ public class SQLConnection {
                 + "password VARCHAR(255),"
                 + "name VARCHAR(255),"
                 + "suspended BOOLEAN,"
-                + "profileId INT,"
+                + "id INT,"
                 + "PRIMARY KEY (accountId),"
-                + "CONSTRAINT FK_accountProfile FOREIGN KEY (profileId)"
-                + "REFERENCES UserProfiles(profileId)"
+                + "CONSTRAINT FK_accountProfile FOREIGN KEY (id)"
+                + "REFERENCES UserProfiles(id)"
                 + ")";
 
         PreparedStatement accountStatement = con.prepareStatement(accountQuery);

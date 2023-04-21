@@ -166,7 +166,7 @@ public class UserAccount {
             connection = sqlConnection.getConnection();
             String query = "SELECT FROM users WHERE accountId = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(4, accountId);
+            statement.setInt(1, accountId);
             statement.setMaxRows(1);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
