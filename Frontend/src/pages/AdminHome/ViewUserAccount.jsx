@@ -11,7 +11,7 @@ function AdminHome() {
   useEffect(function loadData() {
     // Load data from backend API
     axios
-      .get("http://localhost:8080/useraccount/all")
+      .get("http://localhost:8080/viewuseraccount/all")
       .then(function (response) {
         // Store data into react state
         console.log(response);
@@ -24,7 +24,7 @@ function AdminHome() {
     <div>
       <h1>Admin Home</h1>
       <ButtonMenu />
-      <UsersRolesTable data={users} setData = {setUsers} />
+      <UsersRolesTable data={users} setData={setUsers} />
     </div>
   );
 }

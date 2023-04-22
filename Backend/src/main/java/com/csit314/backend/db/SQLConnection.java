@@ -25,21 +25,21 @@ public class SQLConnection {
                 + "suspended BOOLEAN"
                 + ")";
         String accountQuery = "CREATE TABLE IF NOT EXISTS UserAccounts ("
-                + "accountId INT AUTO_INCREMENT PRIMARY KEY,"
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
                 + "email VARCHAR(255),"
                 + "password VARCHAR(255),"
                 + "name VARCHAR(255),"
                 + "suspended BOOLEAN,"
-                + "id INT,"
-                + "PRIMARY KEY (accountId),"
-                + "CONSTRAINT FK_accountProfile FOREIGN KEY (id)"
+                + "profileId INT,"
+                + "CONSTRAINT FK_accountProfile FOREIGN KEY (profileId)"
                 + "REFERENCES UserProfiles(id)"
                 + ")";
-
-        PreparedStatement accountStatement = con.prepareStatement(accountQuery);
-        accountStatement.executeUpdate();
         PreparedStatement profileStatement = con.prepareStatement(profileQuery);
         profileStatement.executeUpdate();
+        PreparedStatement accountStatement = con.prepareStatement(accountQuery);
+        accountStatement.executeUpdate();
+        tablesCreated = true;
+        System.out.println("tables created");
     };
 
     public Connection getConnection() {

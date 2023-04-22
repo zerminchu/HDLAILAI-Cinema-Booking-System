@@ -5,57 +5,60 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.csit314.backend.UserProfile.UserProfile;
 import com.csit314.backend.db.SQLConnection;
 
 public class UserAccount {
     // Checks if table has been created
-    private Integer accountId = -1;
+    private Integer id = -1;
     private String name = "";
     private String email = "";
     private String password = "";
     private Boolean suspended = false;
     // Foreign Key to UserProfile table
-    private Integer profileId = -1;
+    private UserProfile profile = null;
 
     public UserAccount() {
         name = "";
         email = "";
         password = "";
         suspended = false;
-        profileId = -1;
+        profile = null;
     }
 
     // For new users, suspended will always default to false
-    public UserAccount(String name, String email, String password, Integer profileId) {
+    public UserAccount(String name, String email, String password, UserProfile profile) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.profileId = profileId;
+        this.profile = profile;
         this.suspended = false;
     }
 
     // To map the results from the database
-    public UserAccount(String name, String email, String password, Boolean suspended, Integer profileId) {
+    public UserAccount(Integer id, String name, String email, String password, Boolean suspended, UserProfile profile) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.suspended = suspended;
-        this.profileId = profileId;
+        this.profile = profile;
     }
 
     // To hold login details
-    public UserAccount(String email, String password, Integer userProfileId) throws SQLException {
+    public UserAccount(String email, String password, UserProfile profile) throws SQLException {
         this.email = email;
         this.password = password;
-        this.profileId = userProfileId;
+        this.profile = profile;
     }
 
-    public Integer getAccountidId() {
-        return accountId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setAccountId(Integer id) {
-        this.accountId = id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -90,29 +93,29 @@ public class UserAccount {
         this.password = password;
     }
 
-    public Integer getUserProfile() {
-        return profileId;
+    public UserProfile getUserProfile() {
+        return profile;
     }
 
-    public void setUserProfile(Integer profileId) {
-        this.profileId = profileId;
+    public void setUserProfile(UserProfile profile) {
+        this.profile = profile;
     }
 
-    public static String createUser(UserAccount user) throws SQLException {
+    public static String save(UserAccount user) throws SQLException {
         // Return failure early incase of incomplete fields
-        if (user.email == "" || user.password == "" || user.name == "" || user.profileId == -1) {
+        if (user.email == "" || user.password == "" || user.name == "" || user.profile == null) {
             return "Failure";
         }
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "INSERT INTO users (email, password, name, profileId, suspended) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO UserAccounts (email, password, name, profileId, suspended) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, user.email);
             statement.setString(2, user.password);
             statement.setString(3, user.name);
-            statement.setInt(4, user.profileId);
+            statement.setInt(4, user.profile.getId());
             statement.setBoolean(5, user.suspended);
             statement.executeUpdate();
             return "Success";
@@ -132,19 +135,32 @@ public class UserAccount {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM users";
+            String query = "SELECT *,"
+                    + " ua.id AS ua_id, up.id AS up_id,"
+                    + " ua.name AS name, ua.email as email,"
+                    + " ua.password AS password,"
+                    + " up.permission AS permission, up.profileName AS profileName,"
+                    + " ua.suspended AS ua_suspended, up.suspended AS up_suspended"
+                    + " FROM UserAccounts ua"
+                    + " INNER JOIN UserProfiles up"
+                    + " ON ua.profileId = up.id";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             ArrayList<UserAccount> results = new ArrayList<>();
             while (resultSet.next()) {
                 // Get the data from the current row
+                Integer accountId = resultSet.getInt("ua_id");
                 String email = resultSet.getString("email");
                 String name = resultSet.getString("name");
                 String password = resultSet.getString("password");
-                Boolean suspended = resultSet.getBoolean("suspended");
-                Integer profileId = resultSet.getInt("userProfileId");
+                Boolean accountSuspended = resultSet.getBoolean("ua_suspended");
+                Integer profileId = resultSet.getInt("up_id");
+                String profileName = resultSet.getString("profileName");
+                String permission = resultSet.getString("permission");
+                Boolean profileSuspended = resultSet.getBoolean("up_suspended");
+                UserProfile userProfile = new UserProfile(profileId, profileName, permission, profileSuspended);
                 // Convert the data into an object that can be sent back to boundary
-                UserAccount result = new UserAccount(email, name, password, suspended, profileId);
+                UserAccount result = new UserAccount(accountId, email, name, password, accountSuspended, userProfile);
                 results.add(result);
             }
             return results;
@@ -159,14 +175,23 @@ public class UserAccount {
     }
 
     // Read One
-    public static UserAccount get(Integer accountId) throws SQLException {
+    public static UserAccount get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT FROM users WHERE accountId = ?";
+            String query = "SELECT *,"
+                    + " ua.id AS ua_id, up.id AS up_id,"
+                    + " ua.name AS name, ua.email as email,"
+                    + " ua.password AS password,"
+                    + " up.permission AS permission, up.profileName AS profileName,"
+                    + " ua.suspended AS ua_suspended, up.suspended AS up_suspended"
+                    + " FROM UserAccounts ua"
+                    + " INNER JOIN UserProfiles up"
+                    + " ON ua.profileId = up.id"
+                    + " WHERE ua.id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, accountId);
+            statement.setInt(1, id);
             statement.setMaxRows(1);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
@@ -175,9 +200,13 @@ public class UserAccount {
             String email = resultSet.getString("email");
             String name = resultSet.getString("name");
             String password = resultSet.getString("password");
-            Boolean suspended = resultSet.getBoolean("suspended");
-            Integer profileId = resultSet.getInt("userProfileId");
-            UserAccount result = new UserAccount(email, name, password, suspended, profileId);
+            Boolean ua_suspended = resultSet.getBoolean("ua_suspended");
+            Integer profileId = resultSet.getInt("profileId");
+            String permission = resultSet.getString("permission");
+            String profileName = resultSet.getString("profileName");
+            Boolean up_suspended = resultSet.getBoolean("up_suspended");
+            UserProfile userProfile = new UserProfile(profileId, profileName, permission, up_suspended);
+            UserAccount result = new UserAccount(id, email, name, password, ua_suspended, userProfile);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -195,13 +224,13 @@ public class UserAccount {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE users SET name= ?, email= ?, password= ?, profileId= ? WHERE accountId = ?";
+            String query = "UPDATE UserAccounts SET name= ?, email= ?, password= ?, profileId= ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, user.name);
             statement.setString(2, user.email);
             statement.setString(3, user.password);
-            statement.setInt(4, user.profileId);
-            statement.setInt(4, user.accountId);
+            statement.setInt(4, user.profile.getId());
+            statement.setInt(5, user.id);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -214,14 +243,15 @@ public class UserAccount {
         }
     }
 
-    public static Boolean suspend(Integer accountId) throws SQLException {
+    public static Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE users SET suspended = ? WHERE accountId = ?";
+            String query = "UPDATE UserAccounts SET suspended = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setBoolean(1, true);
+            statement.setInt(2, id);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -234,14 +264,15 @@ public class UserAccount {
         }
     }
 
-    public static Boolean unsuspend(Integer accountId) throws SQLException {
+    public static Boolean unsuspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE users SET suspended = ? WHERE accountId = ?";
+            String query = "UPDATE UserAccounts SET suspended = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setBoolean(1, false);
+            statement.setInt(2, id);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
