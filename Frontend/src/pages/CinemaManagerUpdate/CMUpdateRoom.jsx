@@ -10,16 +10,18 @@ function CMUpdateRoom() {
 //axios
 useEffect(() => {
   axios
-  .get("http://localhost:8080/createuserprofile/all")
-  .then(({ data }) => {
-    if (data) {
-      const options = data.map((profile) => {
-        return { value: profile.id, label: profile.profileName };
-      });
-      setProfileOptions(options);
-    }
-  })
-  .catch((error) => console.log(error));
+    .get(`http://localhost:8080/createuserprofile/all`)
+    .then(({ data }) => {
+      if (data) {
+        const options = data.map((profile) => {
+          // Convert value and label to string to avoid bugs when using value inside mantine Select
+          // Refer to https://mantine.dev/core/select/#controlled
+          return { value: `${profile.id}`, label: `${profile.profileName}` };
+        });
+        setProfileOptions([...options]);
+      }
+    })
+    .catch((error) => console.log(error));
 }, []);
 
   function handleSubmit(event) {
