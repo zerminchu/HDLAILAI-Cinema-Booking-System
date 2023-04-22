@@ -1,8 +1,15 @@
-import { Button } from '@mantine/core';
+import { Button } from "@mantine/core";
+import { Link } from "react-router-dom";
 
-function UAHomeButton() {
+function UAHomeButton({ id, data }) {
   return (
-    <Button variant="outline">
+    <Button
+      variant="outline"
+      component={Link}
+      to={`/EditUserAccount/${id}`}
+      // Store the data in the location's state
+      state={data}
+    >
       Edit
     </Button>
   );

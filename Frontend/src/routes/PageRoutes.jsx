@@ -4,12 +4,10 @@ import CustomerHome from "../pages/CustomerHome";
 import ManagerHome from "../pages/ManagerHome";
 import ViewUserAccount from "../pages/AdminHome/ViewUserAccount";
 import OwnerHome from "../pages/OwnerHome";
-import LoginModal from "../pages/Login/LoginModal";
 import CreateUserAccount from "../pages/CreateUserAccount";
 import CreateRolesPage from "../pages/AdminHome/CreateRolesPage";
 import DisplayRoles from "../pages/AdminHome/DisplayRoles";
-import CMCreateRoomModel from "../pages/CinemaManagerCreate/CMCreateRoomModel";
-import CMUpdateRoomModel from "../pages/CinemaManagerUpdate/CMUpdateRoomModel";
+import EditUserAccount from "../pages/AdminHome/EditUserAccount";
 
 function PageRoutes() {
   return (
@@ -19,13 +17,11 @@ function PageRoutes() {
         <Route path="/CustomerHome" element={<CustomerHome />} />
         <Route path="/ManagerHome" element={<ManagerHome />} />
         <Route path="/OwnerHome" element={<OwnerHome />} />
-        <Route path="/Login" element={<LoginModal />} />
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
         <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
-        <Route path="/CinemaManagerCreate" element={<CMCreateRoomModel />} />
-        <Route path="/CinemaManagerUpdate" element={<CMUpdateRoomModel />} />
+        <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
       </Routes>
     </Router>
   );

@@ -1,27 +1,17 @@
-import {
-  Avatar,
-  Badge,
-  Table,
-  Group,
-  Text,
-  ActionIcon,
-  Anchor,
-  ScrollArea,
-  useMantineTheme,
-} from "@mantine/core";
+import { Table, Group, Text, ActionIcon, ScrollArea } from "@mantine/core";
 import {
   IconPencil,
-  IconTrash,
   IconCheck,
   IconX,
   IconCircleMinus,
+  IconArrowBack,
 } from "@tabler/icons-react";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 // data=[] means if data is not provided, default to an empty array instead
-function DisplayRoles({ data = [], permissions = [] }) {
+function DisplayRoles({ data = [], setData = null }) {
   const [editProfileName, setEditProfileName] = useState("");
   const [editingId, setEditingId] = useState(null);
 
@@ -32,6 +22,7 @@ function DisplayRoles({ data = [], permissions = [] }) {
 
   const handleUpdate = (id) => {
     const updatedProfile = {
+      id,
       profileName: editProfileName,
     };
 
@@ -45,7 +36,16 @@ function DisplayRoles({ data = [], permissions = [] }) {
 
         axios
           .get("http://localhost:8080/createuserprofile/all")
-          .then((response) => setUsers(response.data))
+          .then((response) => {
+            setData((prevUsers) =>
+              prevUsers.map((user) =>
+                user.id === id
+                  ? { ...user, profileName: editProfileName }
+                  : user
+              )
+            );
+            setEditingId(response.data);
+          }) // call setUsers instead of setData
           .catch((error) => console.log(error));
       })
       .catch((error) => console.log(error));
@@ -58,13 +58,15 @@ function DisplayRoles({ data = [], permissions = [] }) {
     setEditProfileName("");
   };
   const handleSuspend = (id) => {
+    const updatedUser = {
+      suspended: true,
+    };
     axios
-      .delete(`http://localhost:8080/createuserprofile/${id}`, {
-        suspended: true,
-      })
+      .delete(`http://localhost:8080/createuserprofile/${id}`, updatedUser)
+
       .then(() => {
         // Update the state to add the strikethrough and gray out
-        setUsers((prevUsers) =>
+        setData((prevUsers) =>
           prevUsers.map((user) =>
             user.id === id ? { ...user, suspended: true } : user
           )
@@ -73,80 +75,94 @@ function DisplayRoles({ data = [], permissions = [] }) {
       .catch((error) => console.log(error));
   };
 
-  /*   const handleUnsuspend = (id) => {
+  const handleUnsuspend = (id) => {
+    const updatedUser = {
+      suspended: false,
+    };
     axios
       .put(`http://localhost:8080/createuserprofile/unsuspend/${id}`, {
-        suspended: false,
+        updatedUser,
       })
       .then(() => {
-        setUsers((prevUsers) =>
+        setData((prevUsers) =>
           prevUsers.map((user) =>
             user.id === id ? { ...user, suspended: false } : user
           )
         );
       })
       .catch((error) => console.log(error));
-  }; */
+  };
 
-  const rows = data.map((item) => {
-    const isEditing = item.id === editingId;
+  const rows = !data ? (
+    <></>
+  ) : (
+    data.map((item) => {
+      const isEditing = item.id === editingId;
 
-    const isSuspended = item.suspended;
+      const isSuspended = item.suspended;
 
-    const rowStyles = isSuspended
-      ? { textDecoration: "line-through", color: "gray" }
-      : {};
+      const rowStyles = isSuspended
+        ? { textDecoration: "line-through", color: "gray" }
+        : {};
 
-    return (
-      <tr key={item.id} style={rowStyles}>
-        <td>
-          <span
-            style={
-              isSuspended
-                ? { textDecoration: "line-through", color: "grey" }
-                : null
-            }
-          >
-            {isEditing ? (
-              <input
-                type="text"
-                value={editProfileName}
-                onChange={(e) => setEditProfileName(e.target.value)}
-              />
+      return (
+        <tr key={item.id} style={rowStyles}>
+          <td>
+            <span
+              style={
+                isSuspended
+                  ? { textDecoration: "line-through", color: "grey" }
+                  : null
+              }
+            >
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editProfileName}
+                  onChange={(e) => setEditProfileName(e.target.value)}
+                />
+              ) : (
+                item.profileName
+              )}
+            </span>
+          </td>
+          <td>{item.permission}</td>
+          <td>
+            {isSuspended ? (
+              <Group spacing={0} position="right">
+                <Text size="sm" color="gray">
+                  Suspended
+                </Text>
+                <ActionIcon onClick={() => handleUnsuspend(item.id)}>
+                  <IconArrowBack CircleMinus size="1rem" stroke={1.5} />
+                </ActionIcon>
+              </Group>
+            ) : isEditing ? (
+              <Group spacing={0} position="right">
+                <ActionIcon onClick={() => handleUpdate(item.id)}>
+                  <IconCheck size="1rem" stroke={1.5} />
+                </ActionIcon>
+                <ActionIcon onClick={handleCancelEdit}>
+                  <IconX size="1rem" stroke={1.5} />
+                </ActionIcon>
+              </Group>
             ) : (
-              item.profileName
+              <Group spacing={0} position="right">
+                <ActionIcon
+                  onClick={() => handleEdit(item.id, item.profileName)}
+                >
+                  <IconPencil size="1rem" stroke={1.5} />
+                </ActionIcon>
+                <ActionIcon onClick={() => handleSuspend(item.id)}>
+                  <IconCircleMinus size="1rem" stroke={1.5} />
+                </ActionIcon>
+              </Group>
             )}
-          </span>
-        </td>
-        <td>{item.permission}</td>
-        <td>
-          {isSuspended ? (
-            <Text size="sm" color="gray">
-              Suspended
-            </Text>
-          ) : isEditing ? (
-            <Group spacing={0} position="right">
-              <ActionIcon onClick={() => handleUpdate(item.id)}>
-                <IconCheck size="1rem" stroke={1.5} />
-              </ActionIcon>
-              <ActionIcon onClick={handleCancelEdit}>
-                <IconX size="1rem" stroke={1.5} />
-              </ActionIcon>
-            </Group>
-          ) : (
-            <Group spacing={0} position="right">
-              <ActionIcon onClick={() => handleEdit(item.id, item.profileName)}>
-                <IconPencil size="1rem" stroke={1.5} />
-              </ActionIcon>
-              <ActionIcon onClick={() => handleSuspend(item.id)}>
-                <IconCircleMinus size="1rem" stroke={1.5} />
-              </ActionIcon>
-            </Group>
-          )}
-        </td>
-      </tr>
-    );
-  });
+          </td>
+        </tr>
+      );
+    })
+  );
 
   return (
     <ScrollArea>
@@ -165,15 +181,5 @@ function DisplayRoles({ data = [], permissions = [] }) {
     </ScrollArea>
   );
 }
-
-DisplayRoles.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      permissionId: PropTypes.number.isRequired,
-    })
-  ),
-};
 
 export default DisplayRoles;

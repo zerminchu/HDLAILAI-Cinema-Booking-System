@@ -1,33 +1,57 @@
 package com.csit314.backend.UserAccount;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import com.csit314.backend.UserProfile.UserProfile;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.Table;
+import com.csit314.backend.db.SQLConnection;
 
-@Entity // This tells Hibernate to make a table out of this class
-@Table(name = "useraccount")
 public class UserAccount {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
+    // Checks if table has been created
+    private Integer id = -1;
     private String name = "";
-
     private String email = "";
-
-    private String password = "password";
-
+    private String password = "";
     private Boolean suspended = false;
+    // Foreign Key to UserProfile table
+    private UserProfile profile = null;
 
-    @ManyToOne
-    @JoinColumn(name = "userProfile_id", nullable = false)
-    private UserProfile userProfile;
+    public UserAccount() {
+        name = "";
+        email = "";
+        password = "";
+        suspended = false;
+        profile = null;
+    }
+
+    // For new users, suspended will always default to false
+    public UserAccount(String name, String email, String password, UserProfile profile) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.profile = profile;
+        this.suspended = false;
+    }
+
+    // To map the results from the database
+    public UserAccount(Integer id, String name, String email, String password, Boolean suspended, UserProfile profile) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.suspended = suspended;
+        this.profile = profile;
+    }
+
+    // To hold login details
+    public UserAccount(String email, String password, UserProfile profile) throws SQLException {
+        this.email = email;
+        this.password = password;
+        this.profile = profile;
+    }
 
     public Integer getId() {
         return id;
@@ -70,10 +94,194 @@ public class UserAccount {
     }
 
     public UserProfile getUserProfile() {
-        return userProfile;
+        return profile;
     }
 
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
+    public void setUserProfile(UserProfile profile) {
+        this.profile = profile;
+    }
+
+    public static String save(UserAccount user) throws SQLException {
+        // Return failure early incase of incomplete fields
+        if (user.email == "" || user.password == "" || user.name == "" || user.profile == null) {
+            return "Failure";
+        }
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "INSERT INTO UserAccounts (email, password, name, profileId, suspended) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, user.email);
+            statement.setString(2, user.password);
+            statement.setString(3, user.name);
+            statement.setInt(4, user.profile.getId());
+            statement.setBoolean(5, user.suspended);
+            statement.executeUpdate();
+            return "Success";
+        } catch (SQLException e) {
+            System.out.println(e);
+            return "Failure";
+        } finally {
+            // Close SQL connection when not in use
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public static ArrayList<UserAccount> listAll() throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT *,"
+                    + " ua.id AS ua_id, up.id AS up_id,"
+                    + " ua.name AS name, ua.email as email,"
+                    + " ua.password AS password,"
+                    + " up.permission AS permission, up.profileName AS profileName,"
+                    + " ua.suspended AS ua_suspended, up.suspended AS up_suspended"
+                    + " FROM UserAccounts ua"
+                    + " INNER JOIN UserProfiles up"
+                    + " ON ua.profileId = up.id";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<UserAccount> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer accountId = resultSet.getInt("ua_id");
+                String email = resultSet.getString("email");
+                String name = resultSet.getString("name");
+                String password = resultSet.getString("password");
+                Boolean accountSuspended = resultSet.getBoolean("ua_suspended");
+                Integer profileId = resultSet.getInt("up_id");
+                String profileName = resultSet.getString("profileName");
+                String permission = resultSet.getString("permission");
+                Boolean profileSuspended = resultSet.getBoolean("up_suspended");
+                UserProfile userProfile = new UserProfile(profileId, profileName, permission, profileSuspended);
+                // Convert the data into an object that can be sent back to boundary
+                UserAccount result = new UserAccount(accountId, email, name, password, accountSuspended, userProfile);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    // Read One
+    public static UserAccount get(Integer id) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT *,"
+                    + " ua.id AS ua_id, up.id AS up_id,"
+                    + " ua.name AS name, ua.email as email,"
+                    + " ua.password AS password,"
+                    + " up.permission AS permission, up.profileName AS profileName,"
+                    + " ua.suspended AS ua_suspended, up.suspended AS up_suspended"
+                    + " FROM UserAccounts ua"
+                    + " INNER JOIN UserProfiles up"
+                    + " ON ua.profileId = up.id"
+                    + " WHERE ua.id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.setMaxRows(1);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return null;
+            }
+            String email = resultSet.getString("email");
+            String name = resultSet.getString("name");
+            String password = resultSet.getString("password");
+            Boolean ua_suspended = resultSet.getBoolean("ua_suspended");
+            Integer profileId = resultSet.getInt("profileId");
+            String permission = resultSet.getString("permission");
+            String profileName = resultSet.getString("profileName");
+            Boolean up_suspended = resultSet.getBoolean("up_suspended");
+            UserProfile userProfile = new UserProfile(profileId, profileName, permission, up_suspended);
+            UserAccount result = new UserAccount(id, email, name, password, ua_suspended, userProfile);
+            return result;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public static Boolean update(UserAccount user)
+            throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "UPDATE UserAccounts SET name= ?, email= ?, password= ?, profileId= ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, user.name);
+            statement.setString(2, user.email);
+            statement.setString(3, user.password);
+            statement.setInt(4, user.profile.getId());
+            statement.setInt(5, user.id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public static Boolean suspend(Integer id) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "UPDATE UserAccounts SET suspended = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setBoolean(1, true);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public static Boolean unsuspend(Integer id) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "UPDATE UserAccounts SET suspended = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setBoolean(1, false);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
 }

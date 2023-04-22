@@ -1,3 +1,4 @@
+import { Notifications } from "@mantine/notifications";
 import "./App.css";
 import PageRoutes from "./routes/PageRoutes";
 
