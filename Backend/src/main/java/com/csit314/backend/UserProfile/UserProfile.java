@@ -226,7 +226,7 @@ public class UserProfile {
         }
     }
 
-    public static Object findByProfileName(String name) throws SQLException {
+    public static UserProfile findByProfileName(String name) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
