@@ -8,6 +8,7 @@ import CreateUserAccount from "../pages/CreateUserAccount";
 import CreateRolesPage from "../pages/AdminHome/CreateRolesPage";
 import DisplayRoles from "../pages/AdminHome/DisplayRoles";
 import EditUserAccount from "../pages/AdminHome/EditUserAccount";
+import ViewHall from "../pages/ViewSeats/ViewHall";
 
 function PageRoutes() {
   return (
@@ -22,6 +23,7 @@ function PageRoutes() {
         <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
+        <Route path="/ViewHall" element={<ViewHall />} />
       </Routes>
     </Router>
   );
