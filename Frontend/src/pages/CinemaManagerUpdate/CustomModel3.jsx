@@ -10,7 +10,7 @@ function CustomModel3({ children }) {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <div>
-      <Button onClick={open}>Update Account</Button>
+      <Button onClick={open}>Update Room</Button>
       {/* <Modal
         className="myModal"
         isOpen={modalIsOpen}
