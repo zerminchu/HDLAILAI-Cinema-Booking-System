@@ -50,6 +50,12 @@ function Demo() {
           <List.Item>
             <Link to="/Login">Login</Link>
           </List.Item>
+          <List.Item>
+            <Link to="/CinemaManagerCreate">Create Room</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/CinemaManagerUpdate">Update Room</Link>
+          </List.Item>
         </List>
       </div>
     </div>

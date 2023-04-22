@@ -8,6 +8,8 @@ import LoginModal from "../pages/Login/LoginModal";
 import CreateUserAccount from "../pages/CreateUserAccount";
 import CreateRolesPage from "../pages/AdminHome/CreateRolesPage";
 import DisplayRoles from "../pages/AdminHome/DisplayRoles";
+import CMCreateRoomModel from "../pages/CinemaManagerCreate/CMCreateRoomModel";
+import CMUpdateRoomModel from "../pages/CinemaManagerUpdate/CMUpdateRoomModel";
 
 function PageRoutes() {
   return (
@@ -22,6 +24,8 @@ function PageRoutes() {
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
         <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
+        <Route path="/CinemaManagerCreate" element={<CMCreateRoomModel />} />
+        <Route path="/CinemaManagerUpdate" element={<CMUpdateRoomModel />} />
       </Routes>
     </Router>
   );
