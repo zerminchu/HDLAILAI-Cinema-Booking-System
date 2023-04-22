@@ -25,7 +25,6 @@ public class SQLConnection {
                 + "suspended BOOLEAN"
                 + ")";
         
-        
         String seatQuery = "CREATE TABLE IF NOT EXISTS Seat ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                 + "rowId VARCHAR(1),"
@@ -33,6 +32,16 @@ public class SQLConnection {
                 + "blocked BOOLEAN,"
                 + ")";
 
+        
+        String hallQuery = "CREATE TABLE IF NOT EXISTS Hall ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "name VARCHAR(255),"
+                + "status VARCHAR(255),"
+                + "totalRow INT,"
+                + "totalColumn INT,"
+                + ")";
+
+        
         String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                 + "startTime INT,"
@@ -68,6 +77,9 @@ public class SQLConnection {
 
         PreparedStatement seatStatement = con.prepareStatement(seatQuery);
         seatStatement.executeUpdate();
+
+        PreparedStatement hallStatement = con.prepareStatement(hallQuery);
+        hallStatement.executeUpdate();
          
         PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
         movieSessionStatement.executeUpdate();
