@@ -1,7 +1,7 @@
 import { createStyles, rem, Group, Box } from "@mantine/core";
 import { useState } from "react";
 import { TextInput, Select, Button } from "@mantine/core";
-import { toast } from "react-toastify";
+import { notifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -33,10 +33,6 @@ function CreateRolesForm({ onAddUser }) {
   ];
 
   const handleAddClick = () => {
-    /* if (!profileName || !selectedRole) {
-      toast.error("Please fill out all fields");
-      return;
-    } */
     try {
       const newProfile = { name: profileName, role: selectedRole };
       setProfiles([...profiles, newProfile]);
@@ -45,7 +41,6 @@ function CreateRolesForm({ onAddUser }) {
       setSelectedRole("");
       onAddUser(profileName, selectedRole); // Pass profileName and selectedRole to onAddUser prop
     } catch (error) {
-      console.log("hi");
       console.log(error);
     }
   };

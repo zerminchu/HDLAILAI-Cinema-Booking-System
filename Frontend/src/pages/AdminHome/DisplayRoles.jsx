@@ -28,14 +28,14 @@ function DisplayRoles({ data = [], setData = null }) {
 
     axios
       .put(
-        `http://localhost:8080/createuserprofile/update/${id}`,
+        `http://localhost:8080/updateuserprofile/update/${id}`,
         updatedProfile
       )
       .then((response) => {
         console.log(response.data);
 
         axios
-          .get("http://localhost:8080/createuserprofile/all")
+          .get("http://localhost:8080/viewuserprofile/all")
           .then((response) => {
             setData((prevUsers) =>
               prevUsers.map((user) =>
@@ -62,7 +62,7 @@ function DisplayRoles({ data = [], setData = null }) {
       suspended: true,
     };
     axios
-      .delete(`http://localhost:8080/createuserprofile/${id}`, updatedUser)
+      .delete(`http://localhost:8080/suspenduserprofile/${id}`, updatedUser)
 
       .then(() => {
         // Update the state to add the strikethrough and gray out
@@ -80,7 +80,7 @@ function DisplayRoles({ data = [], setData = null }) {
       suspended: false,
     };
     axios
-      .put(`http://localhost:8080/createuserprofile/unsuspend/${id}`, {
+      .put(`http://localhost:8080/updateuserprofile/unsuspend/${id}`, {
         updatedUser,
       })
       .then(() => {
