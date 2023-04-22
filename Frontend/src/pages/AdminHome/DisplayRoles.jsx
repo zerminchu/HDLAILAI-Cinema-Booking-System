@@ -22,6 +22,7 @@ function DisplayRoles({ data = [], setData = null }) {
 
   const handleUpdate = (id) => {
     const updatedProfile = {
+      id,
       profileName: editProfileName,
     };
 
@@ -92,70 +93,76 @@ function DisplayRoles({ data = [], setData = null }) {
       .catch((error) => console.log(error));
   };
 
-  const rows = data.map((item) => {
-    const isEditing = item.id === editingId;
+  const rows = !data ? (
+    <></>
+  ) : (
+    data.map((item) => {
+      const isEditing = item.id === editingId;
 
-    const isSuspended = item.suspended;
+      const isSuspended = item.suspended;
 
-    const rowStyles = isSuspended
-      ? { textDecoration: "line-through", color: "gray" }
-      : {};
+      const rowStyles = isSuspended
+        ? { textDecoration: "line-through", color: "gray" }
+        : {};
 
-    return (
-      <tr key={item.id} style={rowStyles}>
-        <td>
-          <span
-            style={
-              isSuspended
-                ? { textDecoration: "line-through", color: "grey" }
-                : null
-            }
-          >
-            {isEditing ? (
-              <input
-                type="text"
-                value={editProfileName}
-                onChange={(e) => setEditProfileName(e.target.value)}
-              />
+      return (
+        <tr key={item.id} style={rowStyles}>
+          <td>
+            <span
+              style={
+                isSuspended
+                  ? { textDecoration: "line-through", color: "grey" }
+                  : null
+              }
+            >
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editProfileName}
+                  onChange={(e) => setEditProfileName(e.target.value)}
+                />
+              ) : (
+                item.profileName
+              )}
+            </span>
+          </td>
+          <td>{item.permission}</td>
+          <td>
+            {isSuspended ? (
+              <Group spacing={0} position="right">
+                <Text size="sm" color="gray">
+                  Suspended
+                </Text>
+                <ActionIcon onClick={() => handleUnsuspend(item.id)}>
+                  <IconArrowBack CircleMinus size="1rem" stroke={1.5} />
+                </ActionIcon>
+              </Group>
+            ) : isEditing ? (
+              <Group spacing={0} position="right">
+                <ActionIcon onClick={() => handleUpdate(item.id)}>
+                  <IconCheck size="1rem" stroke={1.5} />
+                </ActionIcon>
+                <ActionIcon onClick={handleCancelEdit}>
+                  <IconX size="1rem" stroke={1.5} />
+                </ActionIcon>
+              </Group>
             ) : (
-              item.profileName
+              <Group spacing={0} position="right">
+                <ActionIcon
+                  onClick={() => handleEdit(item.id, item.profileName)}
+                >
+                  <IconPencil size="1rem" stroke={1.5} />
+                </ActionIcon>
+                <ActionIcon onClick={() => handleSuspend(item.id)}>
+                  <IconCircleMinus size="1rem" stroke={1.5} />
+                </ActionIcon>
+              </Group>
             )}
-          </span>
-        </td>
-        <td>{item.permission}</td>
-        <td>
-          {isSuspended ? (
-            <Group spacing={0} position="right">
-              <Text size="sm" color="gray">
-                Suspended
-              </Text>
-              <ActionIcon onClick={() => handleUnsuspend(item.id)}>
-                <IconArrowBack CircleMinus size="1rem" stroke={1.5} />
-              </ActionIcon>
-            </Group>
-          ) : isEditing ? (
-            <Group spacing={0} position="right">
-              <ActionIcon onClick={() => handleUpdate(item.id)}>
-                <IconCheck size="1rem" stroke={1.5} />
-              </ActionIcon>
-              <ActionIcon onClick={handleCancelEdit}>
-                <IconX size="1rem" stroke={1.5} />
-              </ActionIcon>
-            </Group>
-          ) : (
-            <Group spacing={0} position="right">
-              <ActionIcon onClick={() => handleEdit(item.id, item.profileName)}>
-                <IconPencil size="1rem" stroke={1.5} />
-              </ActionIcon>
-              <ActionIcon onClick={() => handleSuspend(item.id)}>
-                <IconCircleMinus size="1rem" stroke={1.5} />
-              </ActionIcon>
-            </Group>
-          )}
-        </td>
-      </tr>
-    );
-  });
+          </td>
+        </tr>
+      );
+    })
+  );
 
   return (
     <ScrollArea>

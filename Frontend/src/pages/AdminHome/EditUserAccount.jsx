@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "@mantine/form";
 import { TextInput, Select, Button, Group, Box } from "@mantine/core";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 function EditUserAccount() {
   // Take the user account object passed in from the link
+  const { id } = useParams();
   const location = useLocation();
   const data = location.state;
   // Use the data from the link to set up the states in this page
@@ -13,7 +14,7 @@ function EditUserAccount() {
   const [email, setEmail] = useState(data.email);
   const [password, setPassword] = useState(data.password);
   console.log(data.userProfile);
-  const [userProfile, setUserProfile] = useState(`${data.userProfile.id}`);
+  const [userProfileId, setUserProfileId] = useState(`${data.userProfile.id}`);
   const [profileOptions, setProfileOptions] = useState([
     { value: "", label: "" },
   ]);
@@ -35,15 +36,15 @@ function EditUserAccount() {
   }, []);
 
   // Not yet make changes
-  function handleSubmit(id) {
-    console.log(userProfile);
+  function handleSubmit() {
     axios
       .put(`http://localhost:8080/updateuseraccount/update/${id}`, {
+        id: id,
         name: name,
         password: password,
         email: email,
         userProfile: {
-          id: userProfile,
+          id: userProfileId,
         },
       })
       .then((res) => {
@@ -80,13 +81,13 @@ function EditUserAccount() {
             onChange={(event) => setPassword(event.target.value)}
             withAsterisk
           />
-          {console.log(userProfile)}
+          {console.log(userProfileId)}
           <Select
             label="User Profile"
             placeholder={"Select a profile"}
             data={profileOptions}
-            value={userProfile}
-            onChange={setUserProfile}
+            value={userProfileId}
+            onChange={setUserProfileId}
             withAsterisk
           />
           <Group position="right" mt="md">
