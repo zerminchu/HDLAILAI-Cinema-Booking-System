@@ -28,27 +28,39 @@ function Demo() {
         <List>
           <List.Item>
             <Link to="/DisplayRoles">Display Roles</Link>
-          </List.Item>{" "}
-          <List.Item>
-            <Link to="/CustomerHome">Customer Home</Link>
-          </List.Item>{" "}
-          <List.Item>
-            <Link to="/ManagerHome">Manager Home</Link>{" "}
-          </List.Item>{" "}
-          <List.Item>
-            <Link to="/OwnerHome">Owner Home</Link>{" "}
-          </List.Item>{" "}
-          <List.Item>
-            <Link to="/ViewUserAccount">View User Account</Link>{" "}
-          </List.Item>{" "}
-          <List.Item>
-            <Link to="/CreateUserAccount">Create User Account</Link>{" "}
-          </List.Item>{" "}
-          <List.Item>
-            <Link to="/CreateRolesPage">Create Role</Link>{" "}
           </List.Item>
           <List.Item>
-            <Link to="/EditUserAccount">Edit User Account</Link>{" "}
+            <Link to="/CustomerHome">Customer Home</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/ManagerHome">Manager Home</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/OwnerHome">Owner Home</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/ViewUserAccount">View User Account</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/CreateUserAccount">Create User Account</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/CreateRolesPage">Create Role</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/Login">Login</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/CinemaManagerCreate">Create Room</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/CinemaManagerUpdate">Update Room</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/CreateRoom">Create Cinema Room</Link>{" "}
+          </List.Item>
+          <List.Item>
+            <Link to="/UpdateRoom">Update Cinema Room</Link>{" "}
           </List.Item>
         </List>
       </div>
