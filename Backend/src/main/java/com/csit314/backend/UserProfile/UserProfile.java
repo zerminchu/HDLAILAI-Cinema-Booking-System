@@ -139,7 +139,7 @@ public class UserProfile {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT FROM UserProfiles WHERE id = ?";
+            String query = "SELECT * FROM UserProfiles WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             statement.setMaxRows(1);
@@ -231,7 +231,7 @@ public class UserProfile {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT FROM UserProfiles WHERE profileName = ?";
+            String query = "SELECT * FROM UserProfiles WHERE profileName = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setMaxRows(1);

@@ -17,8 +17,8 @@ public class ViewHallController {
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<Hall>> getAllHalls() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<Hall> Halls = Hall.listAll();
-        return new ResponseEntity<ArrayList<Hall>>(Halls, HttpStatus.OK);
+        ArrayList<Hall> viewHalls = Hall.listAll();
+        return new ResponseEntity<ArrayList<Hall>>(viewHalls, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")

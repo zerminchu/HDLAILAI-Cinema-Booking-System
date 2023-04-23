@@ -17,6 +17,8 @@ function CreateRolesPage() {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  
   const handleAddUser = (profileName, selectedRole) => {
     console.log(profileName, selectedRole); // Check that profileName and selectedRole are received correctly
 
@@ -41,18 +43,11 @@ function CreateRolesPage() {
         });
       })
       .catch((error) => {
-        console.log(error);
-        let errorMessage;
-        if (error.message == "Request failed with status code 400") {
-          errorMessage = "Please fill in all the fields";
-
-          setError(errorMessage);
-          notifications.show({
-            title: `Error creating User Profile`,
-            message: errorMessage,
-            autoClose: 3000,
-          });
-        }
+        notifications.show({
+          title: "Error creating User Profile",
+          message: error.response.data,
+          autoClose: 3000,
+      });
       });
   };
 

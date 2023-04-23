@@ -58,7 +58,7 @@ public class Hall {
         this.id = id;
     }
 
-    public String getname() {
+    public String getName() {
         return name;
     }
 
@@ -66,7 +66,7 @@ public class Hall {
         this.name = name;
     }
 
-    public String getstatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -90,38 +90,37 @@ public class Hall {
         this.totalColumn = totalColumn;
     }
 
-    public static String save(Hall Hall) throws SQLException {
+    public static String save(Hall createHall) throws SQLException {
         // Return failure early incase of incomplete fields
-        if (Hall.name == "" || Hall.status == "") {
+        if (createHall.name == "") {
             return "Failure";
         }
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "INSERT INTO Halls (name, status) VALUES (?, ?)";
+            String query = "INSERT INTO Hall (name) VALUES (?)";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, Hall.name);
-            statement.setString(2, Hall.status);
+            statement.setString(1, createHall.name);
             statement.executeUpdate();
             return "Success";
         } catch (SQLException e) {
             System.out.println(e);
             return "Failure";
         } finally {
-            // Close SQL connection when not in use
             if (connection != null) {
                 connection.close();
             }
         }
     }
+    
 
     public static ArrayList<Hall> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM Halls";
+            String query = "SELECT * FROM Hall";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             ArrayList<Hall> results = new ArrayList<>();
@@ -153,7 +152,7 @@ public class Hall {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT FROM Halls WHERE id = ?";
+            String query = "SELECT * FROM Hall WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             statement.setMaxRows(1);
@@ -248,7 +247,7 @@ public class Hall {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT FROM Halls WHERE name = ?";
+            String query = "SELECT * FROM Hall WHERE name = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, hallName);
             statement.setMaxRows(1);

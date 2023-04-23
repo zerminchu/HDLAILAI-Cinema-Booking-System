@@ -1,7 +1,6 @@
 import { createStyles, rem, Group, Box } from "@mantine/core";
 import { useState } from "react";
 import { TextInput, Select, Button } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -36,7 +35,6 @@ function CreateRolesForm({ onAddUser }) {
     try {
       const newProfile = { name: profileName, role: selectedRole };
       setProfiles([...profiles, newProfile]);
-      // Resets the form fields
       setProfileName("");
       setSelectedRole("");
       onAddUser(profileName, selectedRole); // Pass profileName and selectedRole to onAddUser prop
@@ -56,7 +54,12 @@ function CreateRolesForm({ onAddUser }) {
         placeholder="Experience Manager"
         classNames={classes.input}
         value={profileName}
-        onChange={(event) => setProfileName(event.target.value)}
+        onChange={(event) => {
+          const value = event.target.value;
+          if (value.indexOf(" ") === -1) {
+            setProfileName(value);
+          }
+        }}
       />
 
       <Select

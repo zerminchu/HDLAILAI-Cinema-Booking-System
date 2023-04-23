@@ -29,7 +29,7 @@ public class SQLConnection {
                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                 + "rowId VARCHAR(1),"
                 + "columnId INT,"
-                + "blocked BOOLEAN,"
+                + "blocked BOOLEAN"
                 + ")";
 
         
@@ -38,11 +38,11 @@ public class SQLConnection {
                 + "name VARCHAR(255),"
                 + "status VARCHAR(255),"
                 + "totalRow INT,"
-                + "totalColumn INT,"
+                + "totalColumn INT"
                 + ")";
 
         
-        String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
+ /*        String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                 + "startTime INT,"
                 + "endTime INT,"
@@ -70,7 +70,7 @@ public class SQLConnection {
                 + "CONSTRAINT FK_movieSession FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
                 + "CONSTRAINT FK_seat FOREIGN KEY (seatId) REFERENCES Seat(id)"
                 + "CONSTRAINT FK_userAccounts FOREIGN KEY (userAccountId) REFERENCES UserAccounts(id)"
-                + ")";
+                + ")"; */
 
         PreparedStatement profileStatement = con.prepareStatement(profileQuery);
         profileStatement.executeUpdate();
@@ -81,14 +81,14 @@ public class SQLConnection {
         PreparedStatement hallStatement = con.prepareStatement(hallQuery);
         hallStatement.executeUpdate();
          
-        PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
+ /*        PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
         movieSessionStatement.executeUpdate();
 
         PreparedStatement accountStatement = con.prepareStatement(accountQuery);
         accountStatement.executeUpdate();
 
         PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-        ticketStatement.executeUpdate();
+        ticketStatement.executeUpdate(); */
         
         tablesCreated = true;
         System.out.println("tables created");
