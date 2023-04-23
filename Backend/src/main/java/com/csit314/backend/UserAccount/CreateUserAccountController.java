@@ -32,6 +32,6 @@ public class CreateUserAccountController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User Profile cannot be empty");
         }
         UserAccount.save(user);
-        return ResponseEntity.ok("Saved");
+        return ResponseEntity.ok("Account has been created successfully");
     }
 }
