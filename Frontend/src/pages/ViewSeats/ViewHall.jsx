@@ -1,8 +1,9 @@
 // import { useEffect, useState } from "react";
-import { TextInput, PasswordInput, Button, Select, Container, Grid, Input } from "@mantine/core";
+import { TextInput, Button, Select, Container, Grid, Input } from "@mantine/core";
 // import axios from "axios";
 import "./ViewHallStyle.css";
 // import "react-dropdown/style.css";
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 function ViewHall() {
   // const [email, setEmail] = useState("");
@@ -108,6 +109,11 @@ function ViewHall() {
             <Button className="updateBtn">
               Update
             </Button>
+            </Grid.Col>
+            <Grid.Col xs={12}>
+              <li className="seatLegend">
+              <FontAwesomeIcon icon="fa-solid fa-loveseat" />
+              </li>
             </Grid.Col>
           </Grid>
         </Container>
