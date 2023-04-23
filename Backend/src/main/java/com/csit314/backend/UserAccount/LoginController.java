@@ -22,10 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/login") // This means URL's start with /useraccount (after Application path)
 public class LoginController {
-    @Autowired
-    private UserAccountEntity UAEntity;
 
-    @PostMapping
+    /* @PostMapping
     public ResponseEntity<String> validateLogin(@RequestBody UserAccount user) {
         try {
             if (user.getUserProfile().getId() == -1) {
@@ -38,7 +36,7 @@ public class LoginController {
             if (user.getPassword() == "") {
                 return new ResponseEntity<String>("Empty password", HttpStatus.BAD_REQUEST);
             }
-            String loginResult = UAEntity.login(user);
+            String loginResult = user.login(user);
             if (loginResult != "success") {
                 return new ResponseEntity<String>(loginResult, HttpStatus.BAD_REQUEST);
             }
@@ -47,7 +45,7 @@ public class LoginController {
             System.out.println(e);
             return new ResponseEntity<String>("Invalid submission", HttpStatus.BAD_REQUEST);
         }
-    }
+    } */
 
     /*
      * @PostMapping("/logout")
