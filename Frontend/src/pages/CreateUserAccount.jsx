@@ -31,7 +31,6 @@ function CreateUserAccount() {
       .catch((error) => console.log(error));
   }, []);
 
-  // Not yet make changes
   function handleSubmit(event) {
     event.preventDefault();
     console.log(userProfile);

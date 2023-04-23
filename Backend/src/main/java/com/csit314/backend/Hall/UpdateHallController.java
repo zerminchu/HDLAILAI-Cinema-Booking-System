@@ -16,10 +16,21 @@ public class UpdateHallController {
 
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<?> update(@RequestBody Hall user, @PathVariable Integer id) throws SQLException {
-        if (Hall.update(user)) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        if (user.getName() == null || user.getName().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hall name cannot be empty");
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        Hall existingHall = Hall.findByHall(user.getName());
+        if (existingHall != null && existingHall.getId() != user.getId()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hall name already exists");
+        }
+
+        try {
+            Hall.update(user);
+            return ResponseEntity.ok("Saved");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
     
 }

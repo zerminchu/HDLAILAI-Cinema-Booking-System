@@ -14,7 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class CreateHallController {
     @PostMapping(path = "/add") // Map ONLY POST Requests
     public ResponseEntity<?> addNewUser(@RequestBody Hall user) throws SQLException {
-        
+        if (user.getName() == null || user.getName().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hall name cannot be empty");
+        }
+
+           // Check for duplicated profile name
+           if (Hall.findByHall(user.getName()) != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hall name already exists");
+        }
         try {
             Hall.save(user);
             return ResponseEntity.ok("Saved");
