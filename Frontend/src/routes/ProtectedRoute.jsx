@@ -8,7 +8,7 @@ import { useContext } from "react";
 import React from "react";
 import { useAuth } from "../AuthContext";
 
-const Auth = ({ allowedRoles }) => {
+const ProtectedRoute = ({ allowedRoles }) => {
   const location = useLocation();
   const { currentUser } = useAuth();
   if (!currentUser) {
@@ -25,4 +25,4 @@ const Auth = ({ allowedRoles }) => {
   return <Navigate to="/" state={{ from: location }} replace />;
 };
 
-export default Auth;
+export default ProtectedRoute;
