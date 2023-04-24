@@ -11,7 +11,7 @@ import EditUserAccount from "../pages/AdminHome/EditUserAccount";
 import CMUpdateRoomModel from "../pages/CinemaManagerUpdate/CMUpdateRoomModel";
 import CMCreateRoomModel from "../pages/CinemaManagerCreate/CMCreateRoomModel";
 import LoginForm from "../pages/Login/LoginForm";
-import Auth from "./protectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 import NotFoundTitle from "../pages/UnauthorizedPage";
 
 function PageRoutes() {
