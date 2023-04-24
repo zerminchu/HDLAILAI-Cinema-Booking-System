@@ -29,7 +29,7 @@ public class LoginController {
             }
             String loginResult = UserAccount.login(user);
             switch (loginResult) {
-                case "User/Role is invalid":
+                case "User/Profile is invalid":
                 case "User has been suspended.":
                 case "Incorrect Password":
                 case "Error":
