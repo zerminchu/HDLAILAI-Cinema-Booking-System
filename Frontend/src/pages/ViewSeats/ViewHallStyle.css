@@ -1,33 +1,47 @@
-/* .myModal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    line-height: 1.4;
-    background: #ffffff;
-    padding: 100px 150px;
-    border-radius: 10px;
-    max-width: 600px;
-    min-width: 300px;
-} */
-
-.emailField {
-    padding-top: 20px;
+.showcase {
+    background-color: aliceblue;
+    pad: 5px 10px;
+    border-radius: 5px;
+    color: #777;
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
 }
 
-.passwordField {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.loginBtn {
-    align-self: center;
-}
-
-.loginButton {
+.showcase li {
+    display: flex;
     align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    font-size: 1.5rem;
 }
 
-.formFields {
-    padding: 20px 0px;
+.showcase li small {
+    margin-left: 2px;
+}
+
+.seatSelected {
+    display: flex;
+}
+
+.seatOccupied {
+    display: flex;
+}
+
+.seatAvailable {
+    display: flex;
+}
+
+.seatUnavailable {
+    display: flex;
+}
+
+.screen {
+    background-color: #7ee1ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 100%;
+    margin: 15px 0;
 }

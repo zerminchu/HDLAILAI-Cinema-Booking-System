@@ -1,9 +1,8 @@
 // import { useEffect, useState } from "react";
-import { TextInput, Button, Select, Container, Grid, Input } from "@mantine/core";
+import { TextInput, NumberInput, Button, Container, Grid } from "@mantine/core";
 // import axios from "axios";
 import "./ViewHallStyle.css";
-// import "react-dropdown/style.css";
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { MdChair } from "react-icons/md";
 
 function ViewHall() {
   // const [email, setEmail] = useState("");
@@ -91,15 +90,17 @@ function ViewHall() {
               </Button>
             </Grid.Col>
             <Grid.Col xs={12}></Grid.Col>
-            <Grid.Col xs={5}>
-              <TextInput
+            <Grid.Col xs={6}>
+              <NumberInput
+              defaultValue={0}
               className="rowsField"
               label="No. of Rows"
               disabled
               />
             </Grid.Col>
-            <Grid.Col xs={5}>
-              <TextInput
+            <Grid.Col xs={6}>
+              <NumberInput
+              defaultValue={0}
               label="No. of Columns"  
               placeholder=""
               disabled
@@ -111,10 +112,30 @@ function ViewHall() {
             </Button>
             </Grid.Col>
             <Grid.Col xs={12}>
-              <li className="seatLegend">
-              <FontAwesomeIcon icon="fa-solid fa-loveseat" />
-              </li>
+              <ul className="showcase">
+                <li>
+                  <div className="seatSelected"><MdChair style={{color: '228BE6'}} /></div>
+                  <small>Selected</small>
+                </li>
+                <li>
+                  <div className="seatAvailable"><MdChair style={{color: '868E96'}} /></div>
+                  <small>Available</small>
+                </li>
+                <li>
+                  <div className="seatOccupied"><MdChair style={{color: 'F03E3E'}} /></div>
+                  <small>Occupied</small>
+                </li>
+                <li>
+                  <div className="seatUnavailable"><MdChair style={{color: '2C2E33'}} /></div>
+                  <small>Unavailable</small>
+                </li>
+              </ul>
             </Grid.Col>
+            <Grid.Col xs={4}></Grid.Col>
+            <Grid.Col xs={4}>
+              <div className="screen">Screen</div>
+            </Grid.Col>
+            <Grid.Col xs={4}></Grid.Col>
           </Grid>
         </Container>
       </div>
