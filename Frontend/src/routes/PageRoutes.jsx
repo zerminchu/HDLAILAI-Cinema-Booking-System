@@ -10,6 +10,7 @@ import DisplayRoles from "../pages/AdminHome/DisplayRoles";
 import EditUserAccount from "../pages/AdminHome/EditUserAccount";
 import CMUpdateRoomModel from "../pages/CinemaManagerUpdate/CMUpdateRoomModel";
 import CMCreateRoomModel from "../pages/CinemaManagerCreate/CMCreateRoomModel";
+import CinemaManagerHome from "../pages/CinemaManagerHallPages/CinemaManagerHome";
 
 function PageRoutes() {
   return (
@@ -26,6 +27,7 @@ function PageRoutes() {
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/UpdateRoom" element={<CMUpdateRoomModel />} />
         <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
+        <Route path="/CinemaManagerHome" element={<CinemaManagerHome />} />
       </Routes>
     </Router>
   );

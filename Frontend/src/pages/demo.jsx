@@ -62,6 +62,9 @@ function Demo() {
           <List.Item>
             <Link to="/UpdateRoom">Update Cinema Room</Link>{" "}
           </List.Item>
+          <List.Item>
+            <Link to="/CinemaManagerHome">Cinema Manager Home</Link>{" "}
+          </List.Item>
         </List>
       </div>
     </div>
