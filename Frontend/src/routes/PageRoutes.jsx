@@ -10,6 +10,9 @@ import DisplayRoles from "../pages/AdminHome/DisplayRoles";
 import EditUserAccount from "../pages/AdminHome/EditUserAccount";
 import CMUpdateRoomModel from "../pages/CinemaManagerUpdate/CMUpdateRoomModel";
 import CMCreateRoomModel from "../pages/CinemaManagerCreate/CMCreateRoomModel";
+import LoginForm from "../pages/Login/LoginForm";
+import Auth from "./protectedRoute";
+import NotFoundTitle from "../pages/UnauthorizedPage";
 
 function PageRoutes() {
   return (
@@ -20,12 +23,16 @@ function PageRoutes() {
         <Route path="/ManagerHome" element={<ManagerHome />} />
         <Route path="/OwnerHome" element={<OwnerHome />} />
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
-        <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
-        <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
-        <Route path="/DisplayRoles" element={<DisplayRoles />} />
-        <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
+        <Route element={<Auth allowedRoles={["User Admin"]} />}>
+          <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
+          <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
+          <Route path="/DisplayRoles" element={<DisplayRoles />} />
+          <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
+        </Route>
         <Route path="/UpdateRoom" element={<CMUpdateRoomModel />} />
         <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
+        <Route path="/Login" element={<LoginForm />} />
+        <Route path="/Unauthorized" element={<NotFoundTitle />} />
       </Routes>
     </Router>
   );

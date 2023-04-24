@@ -53,12 +53,14 @@ function CreateUserAccount() {
         //If Name is empty display the general text "Please fill in all the fields"
         //Else, display the individual fields error messages
         if (errorMessage === "Name cannot be empty") {
-          errorMessage = "Please fill in all the fields"; }
+          errorMessage = "Please fill in all the fields";
+        }
         setError(errorMessage);
         notifications.show({
           title: `Error creating User Account`,
           message: errorMessage,
-          autoClose: 3000,
+          autoClose: 1500,
+          color: "red",
         });
       });
   }
@@ -72,44 +74,43 @@ function CreateUserAccount() {
       <Box maw={300} mx="auto">
         <form>
           <TextInput
-          label="Name"
-          placeholder="Name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          withAsterisk
-        />
+            label="Name"
+            placeholder="Name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            withAsterisk
+          />
 
-        <TextInput
-          label="Email"
-          placeholder="Email@gmail.com"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          withAsterisk
-        />
+          <TextInput
+            label="Email"
+            placeholder="Email@gmail.com"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            withAsterisk
+          />
 
-        <TextInput
-          label="Password"
-          placeholder="Password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          withAsterisk
-        />
+          <TextInput
+            label="Password"
+            placeholder="Password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            withAsterisk
+          />
 
-        <Select
-          label="User Profile"
-          placeholder={userProfile}
-          data={profileOptions}
-          value={userProfile}
-          onChange={setUserProfile}
-          withAsterisk
-        />
+          <Select
+            label="User Profile"
+            placeholder={userProfile}
+            data={profileOptions}
+            value={userProfile}
+            onChange={setUserProfile}
+            withAsterisk
+          />
           <Group position="right" mt="md">
             <Button onClick={handleSubmit}>Submit</Button>
           </Group>
-
         </form>
-        </Box>
-      </div>
+      </Box>
+    </div>
   );
 }
 
