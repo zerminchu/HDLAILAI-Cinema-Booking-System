@@ -5,7 +5,7 @@ import ManagerHome from "../pages/ManagerHome";
 import ViewUserAccount from "../pages/AdminHome/ViewUserAccount";
 import OwnerHome from "../pages/OwnerHome";
 import CreateUserAccount from "../pages/CreateUserAccount";
-import CreateRolesPage from "../pages/AdminHome/CreateRolesPage";
+import ProfilePage from "../pages/AdminHome/ProfilePage";
 import DisplayRoles from "../pages/AdminHome/DisplayRoles";
 import EditUserAccount from "../pages/AdminHome/EditUserAccount";
 import LoginModal from "../pages/Login/LoginModal";
@@ -24,7 +24,7 @@ function PageRoutes() {
         <Route path="/OwnerHome" element={<OwnerHome />} />
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
-        <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
+        <Route path="/ProfilePage" element={<ProfilePage />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/Login" element={<LoginModal />} />
