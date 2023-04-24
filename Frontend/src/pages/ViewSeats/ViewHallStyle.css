@@ -22,18 +22,26 @@
 
 .seatSelected {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .seatOccupied {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .seatAvailable {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .seatUnavailable {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .screen {
