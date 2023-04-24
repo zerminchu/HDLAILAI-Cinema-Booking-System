@@ -255,28 +255,27 @@ public class Seat {
         }
     }
 
-    public static Seat findBySeat(String rowId, Integer columnId) throws SQLException {
+    public static Seat findBySeat(Boolean status) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT FROM Seat s INNER JOIN Halls h ON s.hallId = h.id WHERE rowId = ? AND columnId = ?";
+            String query = "SELECT FROM Seat s INNER JOIN Halls h ON s.hallId = h.id WHERE status = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, rowId);
-            statement.setInt(1, columnId);
+            statement.setBoolean(1, status);
             statement.setMaxRows(1);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
                 return null;
             }
             Integer seatId = resultSet.getInt("id");
-            String rId = resultSet.getString("rowId");
-            Integer cId = resultSet.getInt("columnId");
-            Boolean status = resultSet.getBoolean("status");
+            String rowId = resultSet.getString("rowId");
+            Integer columnId = resultSet.getInt("columnId");
+            Boolean stats = resultSet.getBoolean("status");
             Integer hallId = resultSet.getInt("hallId");
 
             Hall hall = new Hall (hallId);
-            Seat result = new Seat (seatId, rId, cId, status, hall);
+            Seat result = new Seat (seatId, rowId, columnId, stats, hall);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
