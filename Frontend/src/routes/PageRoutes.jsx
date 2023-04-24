@@ -22,10 +22,11 @@ function PageRoutes() {
         <Route path="/CustomerHome" element={<CustomerHome />} />
         <Route path="/ManagerHome" element={<ManagerHome />} />
         <Route path="/OwnerHome" element={<OwnerHome />} />
-        <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
+
+        <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
+        <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
         <Route element={<Auth allowedRoles={["User Admin"]} />}>
-          <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
-          <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
+          <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
           <Route path="/DisplayRoles" element={<DisplayRoles />} />
           <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         </Route>
