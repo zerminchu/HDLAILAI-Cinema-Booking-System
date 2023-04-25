@@ -182,7 +182,7 @@ public class Hall {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE Halls SET name= ? WHERE id = ? WHERE totalRow = ? WHERE totalColumn = ?";
+            String query = "UPDATE Hall SET name= ? WHERE id = ? WHERE totalRow = ? WHERE totalColumn = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, Hall.name);
             statement.setInt(2, Hall.id);
@@ -205,7 +205,7 @@ public class Hall {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE Halls SET status = ? WHERE id = ?";
+            String query = "UPDATE Hall SET status = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, "Occupied");
             statement.setInt(2, id);
@@ -226,7 +226,7 @@ public class Hall {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE Halls SET status = ? WHERE id = ?";
+            String query = "UPDATE Hall SET status = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, "Available");
             statement.setInt(2, id);

@@ -10,7 +10,7 @@ function CMCreateSeat() {
   const [columnId, setCols] = useState(0);
   const [seats, setSeats] = useState([]);
   const [halls, setHalls] = useState([]);
-  const [currentHallId, setCurrentHallId] = useState(null);
+  const [currentHallId, setCurrentHallId] = useState(1);
   const theme = useMantineTheme();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function CMCreateSeat() {
         }
       })
       .catch((error) => console.log(error));
-  }, []); 
+  }, []);
 
   const handleRowsChange = (event) => {
     setRows(event.target.value);
@@ -37,34 +37,34 @@ function CMCreateSeat() {
     for (let i = 0; i < rowId; i++) {
       const row = [];
       for (let j = 0; j < columnId; j++) {
-        row.push({ row: i + 1, col: j + 1, isBooked: false });
+        row.push({ rowId: i + 1, columnId: j + 1, isBlocked: false });
       }
       newSeats.push(row);
-      console.log(newSeats)
+      console.log(newSeats);
     }
     setSeats(newSeats);
     handleSaveSeats(JSON.parse(JSON.stringify(newSeats)));
-
   };
 
-  /*  const handleSaveSeats = () => {
+  const handleSaveSeats = (seats) => {
     const seatsToSave = [];
-  
+
     seats.forEach((rowId) => {
       rowId.forEach((seat) => {
-        const { rowId: rowNumber, columnId: colNumber, isBooked } = seat;
+        const { rowId, columnId, isBlocked } = seat;
         const newSeat = {
-          rowId: String(rowNumber),
-          columnId: colNumber,
-          status: isBooked,
+          rowId,
+          columnId,
+          blocked: isBlocked,
           hallId: currentHallId,
         };
         seatsToSave.push(newSeat);
       });
     });
-  
+    console.log(seatsToSave);
+
     axios
-      .post("http://localhost:8080/createseat/add", seatsToSave)
+      .post("http://localhost:8080/createseat/addAll", seatsToSave)
       .then(() => {
         notifications.show({
           title: "Seats saved",
@@ -78,9 +78,9 @@ function CMCreateSeat() {
           autoClose: 3000,
         });
       });
-  };  */
+  };
 
-  const handleSaveSeats = (seats) => {
+  /*  const handleSaveSeats = (seats) => {
     axios
       .post("http://localhost:8080/createseat/add", {
         rowId: rowId,
@@ -105,8 +105,7 @@ function CMCreateSeat() {
         });
         console.log(error);
       });
-  };
-  
+  }; */
 
   return (
     <div>
@@ -130,28 +129,30 @@ function CMCreateSeat() {
           <Group position="right" mt={theme.spacing.md}>
             <Button onClick={handlePopulateSeats}>Populate Seats</Button>
           </Group>
-         {<Group position="right" mt={theme.spacing.md}>
-            <Button onClick={handleSaveSeats}>Save Seats</Button>
-          </Group>}
+          {
+            <Group position="right" mt={theme.spacing.md}>
+              <Button onClick={handleSaveSeats}>Save Seats</Button>
+            </Group>
+          }
         </form>
         <Box mt={theme.spacing.md}>
-        {seats.map((row, rowIndex) => (
+          {seats.map((row, rowIndex) => (
             <div key={rowIndex}>
               {row.map((seat, colIndex) => (
                 <FontAwesomeIcon
-                  icon={seat.isBooked ? faCheckSquare : faCouch}
+                  icon={seat.isBlocked ? faCheckSquare : faCouch}
                   key={`${rowIndex}-${colIndex}`}
                   style={{
                     display: "inline-block",
                     width: 20,
                     height: 20,
                     margin: 2,
-                    //backgroundColor: seat.isBooked ? "gray" : "green",
+                    //backgroundColor: seat.isBlocked ? "gray" : "green",
                   }}
                   onClick={() => {
                     const newSeats = [...seats];
-                    newSeats[rowIndex][colIndex].isBooked =
-                      !newSeats[rowIndex][colIndex].isBooked;
+                    newSeats[rowIndex][colIndex].isBlocked =
+                      !newSeats[rowIndex][colIndex].isBlocked;
                     setSeats(newSeats);
                   }}
                 />
