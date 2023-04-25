@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UpdateSeatController {
 
     @PutMapping(path = "/update/{id}")
-    public ResponseEntity<?> update(@RequestBody Seat user, @PathVariable Integer id) throws SQLException {
-        if (Seat.update(user)) {
+    public ResponseEntity<?> update(@RequestBody Seat seat, @PathVariable Integer id) throws SQLException {
+        if (Seat.update(seat)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

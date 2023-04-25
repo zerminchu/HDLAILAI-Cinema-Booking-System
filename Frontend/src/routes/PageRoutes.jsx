@@ -33,7 +33,7 @@ function PageRoutes() {
         <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
         <Route path="/CreateSeat" element={<CinemaManagerCreateSeat />} />
         <Route path="/UpdateSeat" element={<CinemaManagerUpdateSeat />} />
-        <Route path="/ViewHall" element={<ViewHall />} />
+        <Route path="/ViewHall/:id" element={<ViewHall />} />
       </Routes>
     </Router>
   );

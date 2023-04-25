@@ -4,16 +4,23 @@ import { TextInput, Button, Group, Box, useMantineTheme } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { faCouch, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import SeatMap from "./SeatMap";
 function CMCreateSeat() {
-  const [rowId, setRows] = useState(0);
-  const [columnId, setCols] = useState(0);
-  const [seats, setSeats] = useState([]);
+  const [totalRow, setTotalRow] = useState(0);
+  const [totalColumn, setTotalColumn] = useState(0);
+  const [seats, setSeats] = useState([[]]);
   const [halls, setHalls] = useState([]);
-  const [currentHallId, setCurrentHallId] = useState(1);
+  const [currentHallId, setCurrentHallId] = useState(2);
   const theme = useMantineTheme();
 
-  useEffect(() => {
+  function updateSeats(rowId, colId) {
+      const newSeats = [...seats];
+      newSeats[rowId][colId].isBlocked =
+        !newSeats[rowId][colId].isBlocked;
+      setSeats(newSeats);
+  }
+
+  /* useEffect(() => {
     axios
       .get("http://localhost:8080/viewseat/all")
       .then(({ data }) => {
@@ -22,21 +29,21 @@ function CMCreateSeat() {
         }
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, []); */
 
   const handleRowsChange = (event) => {
-    setRows(event.target.value);
+    setTotalRow(event.target.value);
   };
 
   const handleColsChange = (event) => {
-    setCols(event.target.value);
+    setTotalColumn(event.target.value);
   };
 
   const handlePopulateSeats = () => {
     const newSeats = [];
-    for (let i = 0; i < rowId; i++) {
+    for (let i = 0; i < totalRow; i++) {
       const row = [];
-      for (let j = 0; j < columnId; j++) {
+      for (let j = 0; j < totalColumn; j++) {
         row.push({ rowId: i + 1, columnId: j + 1, isBlocked: false });
       }
       newSeats.push(row);
@@ -62,9 +69,16 @@ function CMCreateSeat() {
       });
     });
     console.log(seatsToSave);
-
+    const hall = {
+          id: currentHallId,
+          totalRow,
+          totalColumn
+        };
     axios
-      .post("http://localhost:8080/createseat/addAll", seatsToSave)
+      .post("http://localhost:8080/createseat/addAll", 
+      { seats: seatsToSave,
+        hall
+      })
       .then(() => {
         notifications.show({
           title: "Seats saved",
@@ -114,14 +128,14 @@ function CMCreateSeat() {
         <form>
           <TextInput
             label="Rows"
-            value={rowId}
+            value={totalRow}
             onChange={handleRowsChange}
             type="number"
             min={0}
           />
           <TextInput
             label="Columns"
-            value={columnId}
+            value={totalColumn}
             onChange={handleColsChange}
             type="number"
             min={0}
@@ -135,31 +149,7 @@ function CMCreateSeat() {
             </Group>
           }
         </form>
-        <Box mt={theme.spacing.md}>
-          {seats.map((row, rowIndex) => (
-            <div key={rowIndex}>
-              {row.map((seat, colIndex) => (
-                <FontAwesomeIcon
-                  icon={seat.isBlocked ? faCheckSquare : faCouch}
-                  key={`${rowIndex}-${colIndex}`}
-                  style={{
-                    display: "inline-block",
-                    width: 20,
-                    height: 20,
-                    margin: 2,
-                    //backgroundColor: seat.isBlocked ? "gray" : "green",
-                  }}
-                  onClick={() => {
-                    const newSeats = [...seats];
-                    newSeats[rowIndex][colIndex].isBlocked =
-                      !newSeats[rowIndex][colIndex].isBlocked;
-                    setSeats(newSeats);
-                  }}
-                />
-              ))}
-            </div>
-          ))}
-        </Box>
+        <SeatMap seats={seats} updateSeats={updateSeats}/>
       </Box>
     </div>
   );

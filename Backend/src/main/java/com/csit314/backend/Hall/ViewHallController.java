@@ -22,8 +22,9 @@ public class ViewHallController {
     }
 
     @GetMapping(path = "/{id}")
-    public Hall getUserById(@PathVariable Integer id) throws SQLException {
-        return Hall.get(id);
+    public ResponseEntity<Hall> getHallById(@PathVariable Integer id) throws SQLException {
+        Hall result = Hall.get(id);
+        return new ResponseEntity<Hall>(result, HttpStatus.OK);
     }
     
 }

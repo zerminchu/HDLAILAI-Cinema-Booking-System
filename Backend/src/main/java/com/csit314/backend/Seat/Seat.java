@@ -125,9 +125,9 @@ public class Seat {
         }
     }
 
-    public static String saveAll(Seat[] seats) throws SQLException {
+    public static String saveAll(ArrayList<Seat> seats) throws SQLException {
         // Return failure early incase of incomplete fields
-        if (seats.length == 0) {
+        if (seats.size() == 0) {
             return "Failure";
         }
         Connection connection = null;
@@ -135,7 +135,7 @@ public class Seat {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
             String query = "INSERT INTO Seat (rowId, columnId, blocked, hallId) VALUES"; 
-            for (int i = 1; i <= seats.length; i++) {
+            for (int i = 0; i < seats.size(); i++) {
                 query += " (?, ?, ?, ?),";
             }
             // Remove the trailing comma from the query string

@@ -50,6 +50,7 @@ public class SQLConnection {
                                 + "columnId INT,"
                                 + "blocked BOOLEAN,"
                                 + "hallId INT,"
+                                + "UNIQUE KEY unique_row_col_hall (rowId, columnId, hallId),"  
                                 + "CONSTRAINT FK_hall FOREIGN KEY (hallId)"
                                 + "REFERENCES Hall(id)"
                                 + ")";

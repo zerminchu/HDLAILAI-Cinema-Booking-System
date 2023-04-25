@@ -32,5 +32,4 @@ public class UpdateHallController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-    
 }

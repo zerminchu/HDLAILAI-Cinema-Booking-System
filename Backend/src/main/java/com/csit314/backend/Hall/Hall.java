@@ -29,7 +29,8 @@ public class Hall {
         this.id = id;
     }
 
-    // For updating Hall names, only id and name are required
+
+    // To map the results from the database
     public Hall(Integer id, String name, String status, Integer totalRow, Integer totalColumn) {
         this.id = id;
         this.name = name;
@@ -38,16 +39,24 @@ public class Hall {
         this.totalColumn = totalColumn;
     }
 
-    // For new profiles, suspended will always default to false
-    public Hall(String name) {
-        this.name = name;
-    }
-
-    // To map the results from the database
+    // To map new halls from database without defined seats
     public Hall(Integer id, String name, String status) {
         this.id = id;
         this.name = name;
         this.status = status;
+    }
+
+    // To be used when creating seats to track total number of rows and columns
+    public Hall(Integer id, Integer totalRow, Integer totalColumn) {
+        this.id = id;
+        this.totalRow = totalRow;
+        this.totalColumn = totalColumn;
+    }
+
+
+    // For new profiles, suspended will always default to false
+    public Hall(String name) {
+        this.name = name;
     }
 
     public Integer getId() {
@@ -74,7 +83,7 @@ public class Hall {
         this.status = status;
     }
 
-    public Integer getTotalRow(Integer totalRow) {
+    public Integer getTotalRow() {
         return totalRow;
     }
 
@@ -82,7 +91,7 @@ public class Hall {
         this.totalRow = totalRow;
     }
 
-    public Integer getTotalColumn(Integer totalColumn) {
+    public Integer getTotalColumn() {
         return totalColumn;
     }
 
@@ -182,12 +191,10 @@ public class Hall {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE Hall SET name= ? WHERE id = ? WHERE totalRow = ? WHERE totalColumn = ?";
+            String query = "UPDATE Hall SET name= ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, Hall.name);
             statement.setInt(2, Hall.id);
-            statement.setInt(3, Hall.totalRow);
-            statement.setInt(4, Hall.totalColumn);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -199,6 +206,31 @@ public class Hall {
             }
         }
     }
+
+        public static Boolean updateNumberOfSeats(Hall hall)
+            throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "UPDATE Hall SET totalRow = ?, totalColumn = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+       
+            statement.setInt(1, hall.totalRow);
+            statement.setInt(2, hall.totalColumn);
+                 statement.setInt(3, hall.id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
 
     public static Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
