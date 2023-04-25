@@ -127,6 +127,7 @@ public class Seat {
 
     public static String saveAll(ArrayList<Seat> seats) throws SQLException {
         // Return failure early incase of incomplete fields
+        System.out.println ("hello");
         if (seats.size() == 0) {
             return "Failure";
         }
@@ -134,7 +135,7 @@ public class Seat {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "INSERT INTO Seat (rowId, columnId, blocked, hallId) VALUES"; 
+            String query = "INSERT IGNORE INTO Seat (rowId, columnId, blocked, hallId) VALUES"; 
             for (int i = 0; i < seats.size(); i++) {
                 query += " (?, ?, ?, ?),";
             }

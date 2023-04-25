@@ -218,7 +218,7 @@ public class Hall {
        
             statement.setInt(1, hall.totalRow);
             statement.setInt(2, hall.totalColumn);
-                 statement.setInt(3, hall.id);
+            statement.setInt(3, hall.id);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

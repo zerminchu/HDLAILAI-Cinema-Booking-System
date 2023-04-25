@@ -5,104 +5,149 @@ import "./ViewHallStyle.css";
 import { MdChair } from "react-icons/md";
 import SeatMap from "../SeatMap";
 import { useEffect, useState } from "react";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
+import { notifications } from "@mantine/notifications";
 function ViewHall() {
 
   const { id } = useParams();
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [userProfileId, setUserProfileId] = useState(-1);
-  // const [profileOptions, setProfileOptions] = useState([]);
   const [hall, setHall] = useState(null);
   const [totalRow, setTotalRow] = useState(0);
   const [totalCol, setTotalCol] = useState(0);
-  
-  const [seats, setSeats] = useState(0);
-
-  //const [seats, setSeats] = useState([]);
-  // // Load user profiles
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/createuserprofile/all")
-  //     .then(({ data }) => {
-  //       if (data) {
-  //         const options = data.map((profile) => {
-  //           return { value: profile.id, label: profile.profileName };
-  //         });
-  //         setProfileOptions([...options]);
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
-
-  // function handleSubmit(event) {
-  //   // Prevent submit from refreshing the page
-  //   event.preventDefault();
-  //   console.log(userProfileId);
-  //   // handle submit here
-  //   axios
-  //     .post("http://localhost:8080/login", {
-  //       userProfile: { id: userProfileId },
-  //       email: email,
-  //       password: password,
-  //     })
-  //     .then((response) => {
-  //       alert(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       alert(error.response.data);
-  //     });
-  // }
-
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [seats2D, setSeats2D] = useState([]);
 
   useEffect(() => {
     async function getHallAndSeats(id) {
       try {
         const hallResponse = await axios.get(`http://localhost:8080/viewhall/${id}`);
         const loadedHall = hallResponse.data;
-        console.log(loadedHall);
         const seatResponse = await axios.get(`http://localhost:8080/viewseat/all/${id}`);
         const loadedSeats = seatResponse.data;
         let newSeats = [];
         while (loadedSeats.length)
-          newSeats.push(loadedSeats.splice(0, loadedHall.totalRow));
+          newSeats.push(loadedSeats.splice(0, loadedHall.totalColumn));
         setHall(loadedHall);
-        setSeats(newSeats);
+        setTotalCol(loadedHall.totalColumn);
+        setTotalRow(loadedHall.totalRow);
+        setSeats2D(newSeats);
       } catch (error) {
         console.log(error);
       }
     }
 
     getHallAndSeats(id);
-  }, []); 
-/*     axios
-      .get("http://localhost:8080/viewhall/1")
-      .then((response) => {
-        console.log(response.data);
-        loadedHall = response.data;
-        setHall(loadedHall);
-        axios
-          .get("http://localhost:8080/viewseat/all/1")
-          .then((response) => {
-            loadedSeats = response.data;
-            console.log(response.data);
-            newSeats = [];
-            while (arr.length) newSeats.push(loadedSeats.splice(0, loadedHall.totalRow));
+  }, []);
 
-          })
+  function handleSuspend(id) {
+    axios
+      .delete(`http://localhost:8080/suspendseat/${id}`, {
+        blocked: true,
       })
-      .catch((error) => console.log(error));*/
- 
+      .then(() => {
+        setSeats2D(
+          seats2D.map((seats1D) => {
+            return seats1D.map((seat) =>
+              (seat.id === id) ?
+                { ...seat, blocked: true } : seat)
+          }
+          ))
+      }
+      ).catch((error) => console.log(error));
+  };
 
-  return (
+  function handleUnsuspend(id) {
+    axios
+      .put(`http://localhost:8080/suspendseat/unsuspend/${id}`, {
+        blocked: false,
+      })
+      .then(() => {
+        setSeats2D(
+          seats2D.map((seats1D) => {
+            return seats1D.map((seat) =>
+              (seat.id === id) ?
+                { ...seat, blocked: false } : seat)
+          }
+          ))
+      }
+      ).catch((error) => console.log(error));
+  }
+
+  /* function handleUpdateSeats () {
+    const seatsToSave = [];
+    seats2D.forEach((rowId) => {
+      rowId.forEach((seat) => {
+        const { rowId, columnId, isBlocked } = seat;
+        const newSeat = {
+          rowId,
+          columnId,
+          blocked: isBlocked,
+          hallId: id,
+        };
+        seatsToSave.push(newSeat);
+      });
+    });
+
+    let newSeats = [];
+    // Create an empty array to hold the new seats
+    const totalSeats = [...Array(totalRow * totalCol).fill(null).map((_, index) => {
+      const rowId = Math.floor(index / totalCol) + 1;
+      const columnId = index % totalCol + 1;
+      console.log(rowId, columnId);
+      if (index < seatsToSave.length) {
+        return seatsToSave[index];
+      }
+      newSeats.push({ rowId, columnId, blocked: false, hallId: id });
+      return { rowId, columnId, blocked: false, hallId: id };
+    })];
+    console.log (totalSeats);
+    const updatedHall = {
+          id,
+          totalRow,
+          totalColumn: totalCol
+        };
+
+    console.log(newSeats);
+    axios
+      .post(`http://localhost:8080/createseat/addAll`, 
+        {
+          seats: newSeats,
+        hall: updatedHall
+      })
+      .then(() => {
+        const newSeats2D = [];
+        while (totalSeats.length)
+          newSeats2D.push(totalSeats.splice(0, updatedHall.totalColumn));
+        setSeats2D(newSeats2D);
+        setHall((prevHall) => ({ prevHall, ...updatedHall }));
+        setTotalCol(updatedHall.totalColumn);
+        setTotalRow(updatedHall.totalRow);
+        notifications.show({
+          title: "Seats saved",
+          message: "Seat data saved successfully",
+          autoClose: 3000,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        notifications.show({
+          title: "Error saving seats",
+          autoClose: 3000,
+        });
+      });
+  }; */
+
+  return (hall &&
     <form className="loginForm">
       <div>
         <Container my="md">
           <Grid>
             <Grid.Col xs={6}>
-              <TextInput className="hallNameField" label="Hall Name" disabled />
+              <TextInput
+                className="hallNameField"
+                label="Hall Name"
+                value={hall.name}
+                disabled />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
             <Grid.Col xs={8}>
@@ -113,20 +158,28 @@ function ViewHall() {
               <NumberInput
                 defaultValue={0}
                 className="rowsField"
+                min={hall.totalRow}
+                value={totalRow}
+                onChange={setTotalRow}
                 label="No. of Rows"
-                disabled
+                disabled={!isUpdating}
               />
             </Grid.Col>
             <Grid.Col xs={6}>
               <NumberInput
                 defaultValue={0}
+                min={hall.totalColumn}
+                value={totalCol}
+                onChange={setTotalCol}
                 label="No. of Columns"
                 placeholder=""
-                disabled
+                disabled={!isUpdating}
               />
             </Grid.Col>
-            <Grid.Col xs={12}>
-              <Button className="updateBtn">Update</Button>
+            <Grid.Col xs={12}> 
+              {isUpdating ? 
+              <Button className="submitBtn" onClick={() => handleUpdateSeats()}>Submit</Button> : 
+              <Button className="updateBtn" onClick={() => setIsUpdating(!isUpdating)}>Update</Button>}
             </Grid.Col>
             <Grid.Col xs={12}>
               <ul className="showcase">
@@ -164,7 +217,7 @@ function ViewHall() {
           </Grid>
         </Container>
       </div>
-      <SeatMap seats={seats} />
+      <SeatMap seats={seats2D} unsuspend={handleUnsuspend} updateSeats={handleSuspend} />
     </form>
   );
 }
