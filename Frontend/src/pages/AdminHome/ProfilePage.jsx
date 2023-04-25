@@ -4,7 +4,7 @@ import CreateRolesForm from "./CreateRolesForm";
 import DisplayRoles from "./DisplayRoles";
 import { notifications } from "@mantine/notifications";
 
-function CreateRolesPage() {
+function ProfilePage() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
 
@@ -60,4 +60,4 @@ function CreateRolesPage() {
   );
 }
 
-export default CreateRolesPage;
+export default ProfilePage;

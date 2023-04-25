@@ -1,90 +1,167 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { TextInput, Button, Group, Box } from "@mantine/core";
+import { TextInput, Button, Group, Box, useMantineTheme } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { faCouch, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function CMCreateSeat() {
-  const [Rows, setRows] = useState("");
-  const [Columns, setColumns] = useState("");
-  const [error, setError] = useState("");
+  const [rowId, setRows] = useState(0);
+  const [columnId, setCols] = useState(0);
+  const [seats, setSeats] = useState([]);
+  const [halls, setHalls] = useState([]);
+  const [currentHallId, setCurrentHallId] = useState(1);
+  const theme = useMantineTheme();
 
-  //AXIOS NOT YET CHANGED
   useEffect(() => {
     axios
-      .get("http://localhost:8080/createuserprofile/all")
+      .get("http://localhost:8080/viewseat/all")
       .then(({ data }) => {
         if (data) {
-          const options = data.map((profile) => {
-            return { value: profile.id, label: profile.profileName };
-          });
-          setProfileOptions(options);
+          setSeats(data);
         }
       })
       .catch((error) => console.log(error));
   }, []);
 
-  // Not yet make changes
-  function handleSubmit(event) {
-    event.preventDefault();
-    console.log(userProfile);
+  const handleRowsChange = (event) => {
+    setRows(event.target.value);
+  };
+
+  const handleColsChange = (event) => {
+    setCols(event.target.value);
+  };
+
+  const handlePopulateSeats = () => {
+    const newSeats = [];
+    for (let i = 0; i < rowId; i++) {
+      const row = [];
+      for (let j = 0; j < columnId; j++) {
+        row.push({ rowId: i + 1, columnId: j + 1, isBlocked: false });
+      }
+      newSeats.push(row);
+      console.log(newSeats);
+    }
+    setSeats(newSeats);
+    handleSaveSeats(JSON.parse(JSON.stringify(newSeats)));
+  };
+
+  const handleSaveSeats = (seats) => {
+    const seatsToSave = [];
+
+    seats.forEach((rowId) => {
+      rowId.forEach((seat) => {
+        const { rowId, columnId, isBlocked } = seat;
+        const newSeat = {
+          rowId,
+          columnId,
+          blocked: isBlocked,
+          hallId: currentHallId,
+        };
+        seatsToSave.push(newSeat);
+      });
+    });
+    console.log(seatsToSave);
+
     axios
-      .post("http://localhost:8080/createuseraccount/add", {
-        Rows: Rows,
-        Columns: Columns,
-        userProfile: {
-          id: userProfile,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        alert(res.data);
+      .post("http://localhost:8080/createseat/addAll", seatsToSave)
+      .then(() => {
+        notifications.show({
+          title: "Seats saved",
+          message: "Seat data saved successfully",
+          autoClose: 3000,
+        });
       })
       .catch((error) => {
-        console.log(error);
-        //errorMessage = Rows cannot be empty/Password cannot be empty/Email cannot be empty/User Profile cannot be empty
-        let errorMessage = `${error.response.data}`;
-
-        //If Name is empty display the general text "Please fill in all the fields"
-        //Else, display the individual fields error messages
-        if (errorMessage === "Rows cannot be empty") {
-          errorMessage = "Please fill in all the fields"; }
-        setError(errorMessage);
         notifications.show({
-          title: `Error creating Seats`,
-          message: errorMessage,
+          title: "Error saving seats",
           autoClose: 3000,
         });
       });
-  }
-  function handleReturn(event) {
-    event.preventDefault();
-  }
+  };
+
+  /*  const handleSaveSeats = (seats) => {
+    axios
+      .post("http://localhost:8080/createseat/add", {
+        rowId: rowId,
+        columnId: columnId,
+        seats: seats,
+        hallId: currentHallId,
+      })
+      .then((response) => {
+        notifications.show({
+          title: "Seats added",
+          message: `New seats added to hall ${currentHallId}`,
+          color: theme.colors.green[6],
+          icon: <FontAwesomeIcon icon={faCheckSquare} />,
+        });
+      })
+      .catch((error) => {
+        notifications.show({
+          title: "Error",
+          message: "Failed to add seats",
+          color: theme.colors.red[6],
+          icon: <FontAwesomeIcon icon={faCouch} />,
+        });
+        console.log(error);
+      });
+  }; */
 
   return (
     <div>
-      <h1>Create Seats</h1>
-      <Box maw={300} mx="auto">
+      <Box m={theme.spacing.xl}>
+        <h1>Seat Map</h1>
         <form>
           <TextInput
-          label="No.of.Rows"
-          value={Rows}
-          onChange={(event) => setRows(event.target.value)}
-          withAsterisk
-        />
-
-        <TextInput
-          label="No.of.Columns"
-          value={Columns}
-          onChange={(event) => setColumns(event.target.value)}
-          withAsterisk
-        />
-          <Group position="right" mt="md">
-            <Button onClick={handleSubmit}>Create</Button>
+            label="Rows"
+            value={rowId}
+            onChange={handleRowsChange}
+            type="number"
+            min={0}
+          />
+          <TextInput
+            label="Columns"
+            value={columnId}
+            onChange={handleColsChange}
+            type="number"
+            min={0}
+          />
+          <Group position="right" mt={theme.spacing.md}>
+            <Button onClick={handlePopulateSeats}>Populate Seats</Button>
           </Group>
-
+          {
+            <Group position="right" mt={theme.spacing.md}>
+              <Button onClick={handleSaveSeats}>Save Seats</Button>
+            </Group>
+          }
         </form>
+        <Box mt={theme.spacing.md}>
+          {seats.map((row, rowIndex) => (
+            <div key={rowIndex}>
+              {row.map((seat, colIndex) => (
+                <FontAwesomeIcon
+                  icon={seat.isBlocked ? faCheckSquare : faCouch}
+                  key={`${rowIndex}-${colIndex}`}
+                  style={{
+                    display: "inline-block",
+                    width: 20,
+                    height: 20,
+                    margin: 2,
+                    //backgroundColor: seat.isBlocked ? "gray" : "green",
+                  }}
+                  onClick={() => {
+                    const newSeats = [...seats];
+                    newSeats[rowIndex][colIndex].isBlocked =
+                      !newSeats[rowIndex][colIndex].isBlocked;
+                    setSeats(newSeats);
+                  }}
+                />
+              ))}
+            </div>
+          ))}
         </Box>
-      </div>
+      </Box>
+    </div>
   );
 }
 

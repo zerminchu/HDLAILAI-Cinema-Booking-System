@@ -6,7 +6,7 @@ import {
   IconCircleMinus,
   IconArrowBack,
 } from "@tabler/icons-react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
 
@@ -93,7 +93,7 @@ function DisplayRoles({ data = [], setData = null }) {
       suspended: false,
     };
     axios
-      .put(`http://localhost:8080/updateuserprofile/unsuspend/${id}`, {
+      .put(`http://localhost:8080/suspenduserprofile/unsuspend/${id}`, {
         updatedUser,
       })
       .then(() => {

@@ -22,7 +22,7 @@ public class SuspendUserProfileController {
     }
 
     @PutMapping("/unsuspend/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id) throws SQLException {
+    public ResponseEntity<?> unsuspend(@PathVariable Integer id) throws SQLException {
         if (UserProfile.unsuspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping(path = "/createhall") // This means URL's start with /useraccount (after Application path)
 public class CreateHallController {
     @PostMapping(path = "/add") // Map ONLY POST Requests
-    public ResponseEntity<?> addNewUser(@RequestBody Hall user) throws SQLException {
+    public ResponseEntity<?> addNewHall(@RequestBody Hall user) throws SQLException {
         if (user.getName() == null || user.getName().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hall name cannot be empty");
         }
