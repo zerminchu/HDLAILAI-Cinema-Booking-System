@@ -13,6 +13,7 @@ import CMUpdateRoomModel from "../pages/CinemaManagerUpdateRoom/CMUpdateRoomMode
 import CMCreateRoomModel from "../pages/CinemaManagerCreateRoom/CMCreateRoomModel";
 import CinemaManagerCreateSeat from "../pages/CinemaManagerCreateSeat";
 import CinemaManagerUpdateSeat from "../pages/CinemaManagerUpdateSeat";
+import ViewHall from "../pages/ViewSeats/ViewHall";
 
 function PageRoutes() {
   return (
@@ -32,6 +33,7 @@ function PageRoutes() {
         <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
         <Route path="/CreateSeat" element={<CinemaManagerCreateSeat />} />
         <Route path="/UpdateSeat" element={<CinemaManagerUpdateSeat />} />
+        <Route path="/ViewHall" element={<ViewHall />} />
       </Routes>
     </Router>
   );
