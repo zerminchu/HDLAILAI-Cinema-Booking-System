@@ -4,13 +4,16 @@ import App from "./App";
 import "./index.css";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+import { AuthProvider } from "./AuthContext";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <MantineProvider withGlobalStyles withNormalizeCSS>
-      <App />
-      <Notifications position="bottom-center" />
-    </MantineProvider>
+    <AuthProvider>
+      <MantineProvider withGlobalStyles withNormalizeCSS>
+        <App />
+        <Notifications position="bottom-center" />
+      </MantineProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
