@@ -52,12 +52,6 @@ function Demo() {
             <Link to="/ProfilePage  ">Create Role</Link>
           </List.Item>
           <List.Item>
-            <Link to="/CinemaManagerCreate">Create Room</Link>
-          </List.Item>
-          <List.Item>
-            <Link to="/CinemaManagerUpdate">Update Room</Link>
-          </List.Item>
-          <List.Item>
             <Link to="/CreateRoom">Create Cinema Room</Link>{" "}
           </List.Item>
           <List.Item>
