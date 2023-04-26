@@ -41,7 +41,6 @@ function PageRoutes() {
           <Route path="/DisplayRoles" element={<DisplayRoles />} />
           <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         </Route>
-         <Route path="/UpdateRoom" element={<CMUpdateRoomModel />} />
         <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
         <Route path="/Login" element={<LoginForm />} />
         <Route path="/Unauthorized" element={<NotFoundTitle />} /> 
