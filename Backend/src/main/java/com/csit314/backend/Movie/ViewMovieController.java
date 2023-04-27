@@ -1,4 +1,4 @@
-package com.csit314.backend.Hall;
+package com.csit314.backend.Movie;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,20 +11,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = "/viewhall")
-public class ViewHallController {
+@RequestMapping(path = "/viewmovie")
+public class ViewMovieController {
 
     @GetMapping(path = "/all")
-    public ResponseEntity<ArrayList<Hall>> getAllHalls() throws SQLException {
+    public ResponseEntity<ArrayList<Movie>> getAllMovies() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<Hall> viewHalls = Hall.listAll();
-        return new ResponseEntity<ArrayList<Hall>>(viewHalls, HttpStatus.OK);
+        ArrayList<Movie> viewMovies = Movie.listAll();
+        return new ResponseEntity<ArrayList<Movie>>(viewMovies, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Hall> getHallById(@PathVariable Integer id) throws SQLException {
-        Hall result = Hall.get(id);
-        return new ResponseEntity<Hall>(result, HttpStatus.OK);
+    public Movie getMovieById(@PathVariable Integer id) throws SQLException {
+        return Movie.get(id);
     }
     
 }

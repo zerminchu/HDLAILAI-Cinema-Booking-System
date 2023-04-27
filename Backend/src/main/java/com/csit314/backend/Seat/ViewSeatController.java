@@ -22,8 +22,15 @@ public class ViewSeatController {
     }
 
     @GetMapping(path = "/{id}")
-    public Seat getUserById(@PathVariable Integer id) throws SQLException {
+    public Seat getSeatById(@PathVariable Integer id) throws SQLException {
         return Seat.get(id);
+    }
+
+    @GetMapping(path = "/all/{hallId}")
+    public ResponseEntity<ArrayList<Seat>> getAllSeatsByHallId(@PathVariable Integer hallId) throws SQLException {
+        // This returns a JSON with the users
+        ArrayList<Seat> Seats = Seat.listAllByHallId(hallId);
+        return new ResponseEntity<ArrayList<Seat>>(Seats, HttpStatus.OK);
     }
     
 }

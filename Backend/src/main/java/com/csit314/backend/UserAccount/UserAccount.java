@@ -5,10 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import org.springframework.stereotype.Service;
 import com.csit314.backend.UserProfile.UserProfile;
 import com.csit314.backend.db.SQLConnection;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpSession;
 
+@Service
 public class UserAccount {
     // Checks if table has been created
     private Integer id = -1;
@@ -218,6 +223,65 @@ public class UserAccount {
         }
     }
 
+    // Read One
+    public static String login(UserAccount user) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT *,"
+                    + " ua.id AS ua_id, up.id AS up_id,"
+                    + " ua.name AS name, ua.email as email,"
+                    + " ua.password AS password,"
+                    + " up.permission AS permission, up.profileName AS profileName,"
+                    + " ua.suspended AS ua_suspended, up.suspended AS up_suspended"
+                    + " FROM UserAccounts ua"
+                    + " INNER JOIN UserProfiles up"
+                    + " ON ua.profileId = up.id"
+                    + " WHERE ua.email = ? AND up.id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, user.email);
+            statement.setInt(2, user.profile.getId());
+            statement.setMaxRows(1);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return "User/Role is invalid";
+            }
+            Integer accountId = resultSet.getInt("ua_id");
+            String email = resultSet.getString("email");
+            String name = resultSet.getString("name");
+            String password = resultSet.getString("password");
+            Boolean ua_suspended = resultSet.getBoolean("ua_suspended");
+            Integer profileId = resultSet.getInt("profileId");
+            String permission = resultSet.getString("permission");
+            String profileName = resultSet.getString("profileName");
+            Boolean up_suspended = resultSet.getBoolean("up_suspended");
+            if (!user.password.equals(password)) {
+                return "Incorrect Password";
+            }
+            if (ua_suspended) {
+                return "User has been suspended.";
+            }
+            JwtBuilder builder = Jwts.builder();
+            builder.claim("name", name)
+                    .claim("role", permission)
+                    .claim("profileName", profileName);
+            builder.setIssuer("csit314-project")
+                    .setSubject(email);
+            String secretKey = "csit314-software-development-methodologies";
+            builder.signWith(Keys.hmacShaKeyFor(secretKey.getBytes()));
+            String jwt = builder.compact();
+            return jwt;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return "Error";
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
     public static Boolean update(UserAccount user)
             throws SQLException {
         Connection connection = null;
@@ -284,4 +348,5 @@ public class UserAccount {
             }
         }
     }
+
 }

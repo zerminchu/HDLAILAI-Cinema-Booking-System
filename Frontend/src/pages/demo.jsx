@@ -1,9 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { List } from "@mantine/core";
+import { Button, List } from "@mantine/core";
+import LogoutButton from "./Login/LogoutButton";
+import { useAuth } from "../AuthContext";
+import LoginModal from "./Login/LoginModal";
 
 function Demo() {
+  const { currentUser } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
@@ -45,16 +49,7 @@ function Demo() {
             <Link to="/CreateUserAccount">Create User Account</Link>
           </List.Item>
           <List.Item>
-            <Link to="/CreateRolesPage">Create Role</Link>
-          </List.Item>
-          <List.Item>
-            <Link to="/Login">Login</Link>
-          </List.Item>
-          <List.Item>
-            <Link to="/CinemaManagerCreate">Create Room</Link>
-          </List.Item>
-          <List.Item>
-            <Link to="/CinemaManagerUpdate">Update Room</Link>
+            <Link to="/ProfilePage  ">Create Role</Link>
           </List.Item>
           <List.Item>
             <Link to="/CreateRoom">Create Cinema Room</Link>{" "}
@@ -65,6 +60,24 @@ function Demo() {
           <List.Item>
             <Link to="/CinemaManagerHome">Cinema Manager Home</Link>{" "}
           </List.Item>
+          <List.Item>
+            <Link to="/CreateSeat">Create Cinema Seats</Link>{" "}
+          </List.Item>
+          <List.Item>
+            <Link to="/UpdateSeat">Update Cinema Seats</Link>{" "}
+          </List.Item>
+          <List.Item>
+            <Link to="/ViewHall">View Cinema Seats</Link>{" "}
+          </List.Item>
+          {currentUser ? (
+            <List.Item>
+              <LogoutButton />
+            </List.Item>
+          ) : (
+            <List.Item>
+              <LoginModal />
+            </List.Item>
+          )}
         </List>
       </div>
     </div>

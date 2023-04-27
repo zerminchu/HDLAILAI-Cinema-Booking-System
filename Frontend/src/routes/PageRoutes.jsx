@@ -5,11 +5,18 @@ import ManagerHome from "../pages/ManagerHome";
 import ViewUserAccount from "../pages/AdminHome/ViewUserAccount";
 import OwnerHome from "../pages/OwnerHome";
 import CreateUserAccount from "../pages/CreateUserAccount";
-import CreateRolesPage from "../pages/AdminHome/CreateRolesPage";
+import ProfilePage from "../pages/AdminHome/ProfilePage";
 import DisplayRoles from "../pages/AdminHome/DisplayRoles";
 import EditUserAccount from "../pages/AdminHome/EditUserAccount";
-import CMUpdateRoomModel from "../pages/CinemaManagerUpdate/CMUpdateRoomModel";
-import CMCreateRoomModel from "../pages/CinemaManagerCreate/CMCreateRoomModel";
+import LoginModal from "../pages/Login/LoginModal";
+import CinemaManagerCreateSeat from "../pages/CinemaManagerCreateSeat";
+import CinemaManagerUpdateSeat from "../pages/CinemaManagerUpdateSeat";
+import ViewHall from "../pages/ViewSeats/ViewHall";
+import CMUpdateRoomModel from "../pages/CinemaManagerUpdateRoom/CMUpdateRoomModel";
+import CMCreateRoomModel from "../pages/CinemaManagerCreateRoom/CMCreateRoomModel";
+import LoginForm from "../pages/Login/LoginForm";
+import ProtectedRoute from "./ProtectedRoute";
+import NotFoundTitle from "../pages/UnauthorizedPage";
 import CinemaManagerHome from "../pages/CinemaManagerHallPages/CinemaManagerHome";
 
 function PageRoutes() {
@@ -20,14 +27,24 @@ function PageRoutes() {
         <Route path="/CustomerHome" element={<CustomerHome />} />
         <Route path="/ManagerHome" element={<ManagerHome />} />
         <Route path="/OwnerHome" element={<OwnerHome />} />
-        <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
-        <Route path="/CreateRolesPage" element={<CreateRolesPage />} />
+        <Route path="/ProfilePage" element={<ProfilePage />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
-        <Route path="/UpdateRoom" element={<CMUpdateRoomModel />} />
-        <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
+        <Route path="/Login" element={<LoginModal />} />
+       <Route path="/UpdateRoom" element={<CMUpdateRoomModel />} />
+        <Route path="/CreateRoom" element={<CMCreateRoomModel />} /> 
+        <Route path="/CreateSeat" element={<CinemaManagerCreateSeat />} />
+        <Route path="/UpdateSeat" element={<CinemaManagerUpdateSeat />} />
+        <Route path="/ViewHall/:id" element={<ViewHall />} />
+        <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}>
+          <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
+          <Route path="/DisplayRoles" element={<DisplayRoles />} />
+          <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
+        </Route>
         <Route path="/CinemaManagerHome" element={<CinemaManagerHome />} />
+        <Route path="/Login" element={<LoginForm />} />
+        <Route path="/Unauthorized" element={<NotFoundTitle />} /> 
       </Routes>
     </Router>
   );
