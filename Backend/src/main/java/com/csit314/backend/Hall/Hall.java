@@ -1,4 +1,4 @@
-package com.csit314.backend.UserProfile;
+package com.csit314.backend.Hall;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,44 +7,47 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import com.csit314.backend.db.SQLConnection;
 
-public class UserProfile {
+public class Hall {
     // Checks if table has been created
     private Integer id = -1;
-    private String profileName = "";
-    private String permission = "";
-    private Boolean suspended = false;
+    private String name = "";
+    private String status = "";
+    private Integer totalRow = -1;
+    private Integer totalColumn = -1;
 
-    public UserProfile() {
+    public Hall() {
         id = -1;
-        profileName = "";
-        permission = "";
-        suspended = false;
+        name = "";
+        status = "";
+        totalRow = 1;
+        totalColumn = 1;
+
     }
 
     // To accept existing profile ids
-    public UserProfile(Integer id) {
+    public Hall(Integer id) {
         this.id = id;
     }
 
-    // For updating userProfile names, only id and profileName are required
-    public UserProfile(Integer id, String profileName) {
+    // For updating Hall names, only id and name are required
+    public Hall(Integer id, String name, String status, Integer totalRow, Integer totalColumn) {
         this.id = id;
-        this.profileName = profileName;
+        this.name = name;
+        this.status = status;
+        this.totalRow = totalRow;
+        this.totalColumn = totalColumn;
     }
 
     // For new profiles, suspended will always default to false
-    public UserProfile(String profileName, String permission) {
-        this.profileName = profileName;
-        this.permission = permission;
-        this.suspended = false;
+    public Hall(String name) {
+        this.name = name;
     }
 
     // To map the results from the database
-    public UserProfile(Integer id, String profileName, String permission, Boolean suspended) {
+    public Hall(Integer id, String name, String status) {
         this.id = id;
-        this.profileName = profileName;
-        this.permission = permission;
-        this.suspended = suspended;
+        this.name = name;
+        this.status = status;
     }
 
     public Integer getId() {
@@ -55,71 +58,81 @@ public class UserProfile {
         this.id = id;
     }
 
-    public String getProfileName() {
-        return profileName;
+    public String getName() {
+        return name;
     }
 
-    public void setProfileName(String profileName) {
-        this.profileName = profileName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setSuspended(Boolean suspended) {
-        this.suspended = suspended;
+    public String getStatus() {
+        return status;
     }
 
-    public String getPermission() {
-        return permission;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public Boolean getSuspended() {
-        return suspended;
+    public Integer getTotalRow(Integer totalRow) {
+        return totalRow;
     }
 
-    public static String save(UserProfile userProfile) throws SQLException {
+    public void setTotalRow(Integer totalRow) {
+        this.totalRow = totalRow;
+    }
+
+    public Integer getTotalColumn(Integer totalColumn) {
+        return totalColumn;
+    }
+
+    public void setTotalColumn(Integer totalColumn) {
+        this.totalColumn = totalColumn;
+    }
+
+    public static String save(Hall createHall) throws SQLException {
         // Return failure early incase of incomplete fields
-        if (userProfile.profileName == "" || userProfile.permission == "") {
+        if (createHall.name == "") {
             return "Failure";
         }
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "INSERT INTO UserProfiles (profileName, permission, suspended) VALUES (?, ?, ?)";
+            String query = "INSERT INTO Hall (name) VALUES (?)";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, userProfile.profileName);
-            statement.setString(2, userProfile.permission);
-            // statement.setInt(3, userProfile.id);
-            statement.setBoolean(3, userProfile.suspended);
+            statement.setString(1, createHall.name);
             statement.executeUpdate();
             return "Success";
         } catch (SQLException e) {
             System.out.println(e);
             return "Failure";
         } finally {
-            // Close SQL connection when not in use
             if (connection != null) {
                 connection.close();
             }
         }
     }
+    
 
-    public static ArrayList<UserProfile> listAll() throws SQLException {
+    public static ArrayList<Hall> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM UserProfiles";
+            String query = "SELECT * FROM Hall";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-            ArrayList<UserProfile> results = new ArrayList<>();
+            ArrayList<Hall> results = new ArrayList<>();
             while (resultSet.next()) {
                 // Get the data from the current row
                 Integer id = resultSet.getInt("id");
-                String profileName = resultSet.getString("profileName");
-                String permission = resultSet.getString("permission");
-                Boolean suspended = resultSet.getBoolean("suspended");
+                String name = resultSet.getString("name");
+                String status = resultSet.getString("status");
+                Integer totalRow = resultSet.getInt("totalRow");
+                Integer totalColumn = resultSet.getInt("totalColumn");
                 // Convert the data into an object that can be sent back to boundary
-                UserProfile result = new UserProfile(id, profileName, permission, suspended);
+                Hall result = new Hall(id, name, status, totalRow, totalColumn);
                 results.add(result);
             }
             return results;
@@ -134,12 +147,12 @@ public class UserProfile {
     }
 
     // Read One
-    public static UserProfile get(Integer id) throws SQLException {
+    public static Hall get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM UserProfiles WHERE id = ?";
+            String query = "SELECT * FROM Hall WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             statement.setMaxRows(1);
@@ -147,10 +160,11 @@ public class UserProfile {
             if (!resultSet.next()) {
                 return null;
             }
-            String profileName = resultSet.getString("profileName");
-            String permission = resultSet.getString("permission");
-            Boolean suspended = resultSet.getBoolean("suspended");
-            UserProfile result = new UserProfile(id, profileName, permission, suspended);
+            String name = resultSet.getString("name");
+            String status = resultSet.getString("status");
+            Integer totalRow = resultSet.getInt("totalRow");
+            Integer totalColumn = resultSet.getInt("totalColumn");
+            Hall result = new Hall(id, name, status, totalRow, totalColumn);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -162,16 +176,18 @@ public class UserProfile {
         }
     }
 
-    public static Boolean update(UserProfile userProfile)
+    public static Boolean update(Hall Hall)
             throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE UserProfiles SET profileName= ? WHERE id = ?";
+            String query = "UPDATE Halls SET name= ? WHERE id = ? WHERE totalRow = ? WHERE totalColumn = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, userProfile.profileName);
-            statement.setInt(2, userProfile.id);
+            statement.setString(1, Hall.name);
+            statement.setInt(2, Hall.id);
+            statement.setInt(3, Hall.totalRow);
+            statement.setInt(4, Hall.totalColumn);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -189,9 +205,9 @@ public class UserProfile {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE UserProfiles SET suspended = ? WHERE id = ?";
+            String query = "UPDATE Halls SET status = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setBoolean(1, true);
+            statement.setString(1, "Occupied");
             statement.setInt(2, id);
             statement.executeUpdate();
             return true;
@@ -210,9 +226,9 @@ public class UserProfile {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE UserProfiles SET suspended = ? WHERE id = ?";
+            String query = "UPDATE Halls SET status = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setBoolean(1, false);
+            statement.setString(1, "Available");
             statement.setInt(2, id);
             statement.executeUpdate();
             return true;
@@ -226,24 +242,25 @@ public class UserProfile {
         }
     }
 
-    public static UserProfile findByProfileName(String name) throws SQLException {
+    public static Hall findByHall(String hallName) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM UserProfiles WHERE profileName = ?";
+            String query = "SELECT * FROM Hall WHERE name = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, name);
+            statement.setString(1, hallName);
             statement.setMaxRows(1);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
                 return null;
             }
-            Integer id = resultSet.getInt("id");
-            String profileName = resultSet.getString("profileName");
-            String permission = resultSet.getString("permission");
-            Boolean suspended = resultSet.getBoolean("suspended");
-            UserProfile result = new UserProfile(id, profileName, permission, suspended);
+                Integer id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String status = resultSet.getString("status");
+                Integer totalRow = resultSet.getInt("totalRow");
+                Integer totalColumn = resultSet.getInt("totalColumn");
+                Hall result = new Hall(id, name, status, totalRow, totalColumn);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -254,4 +271,5 @@ public class UserProfile {
             }
         }
     }
+    
 }

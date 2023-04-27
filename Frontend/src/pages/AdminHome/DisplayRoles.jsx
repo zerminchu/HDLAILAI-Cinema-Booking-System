@@ -6,9 +6,10 @@ import {
   IconCircleMinus,
   IconArrowBack,
 } from "@tabler/icons-react";
-import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { notifications } from "@mantine/notifications";
+
 
 // data=[] means if data is not provided, default to an empty array instead
 function DisplayRoles({ data = [], setData = null }) {
@@ -28,14 +29,14 @@ function DisplayRoles({ data = [], setData = null }) {
 
     axios
       .put(
-        `http://localhost:8080/createuserprofile/update/${id}`,
+        `http://localhost:8080/updateuserprofile/update/${id}`,
         updatedProfile
       )
       .then((response) => {
         console.log(response.data);
 
         axios
-          .get("http://localhost:8080/createuserprofile/all")
+          .get("http://localhost:8080/viewuserprofile/all")
           .then((response) => {
             setData((prevUsers) =>
               prevUsers.map((user) =>
@@ -47,8 +48,20 @@ function DisplayRoles({ data = [], setData = null }) {
             setEditingId(response.data);
           }) // call setUsers instead of setData
           .catch((error) => console.log(error));
+
+        notifications.show({
+          title: `User Profile`,
+          message: "Profile updated successfully",
+          autoClose: 3000,
+        });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        notifications.show({
+          title: "Error updating profile name",
+          message: error.response.data,
+          autoClose: 3000,
+        });
+      });
 
     setEditingId(null);
   };
@@ -62,7 +75,7 @@ function DisplayRoles({ data = [], setData = null }) {
       suspended: true,
     };
     axios
-      .delete(`http://localhost:8080/createuserprofile/${id}`, updatedUser)
+      .delete(`http://localhost:8080/suspenduserprofile/${id}`, updatedUser)
 
       .then(() => {
         // Update the state to add the strikethrough and gray out
@@ -80,7 +93,7 @@ function DisplayRoles({ data = [], setData = null }) {
       suspended: false,
     };
     axios
-      .put(`http://localhost:8080/createuserprofile/unsuspend/${id}`, {
+      .put(`http://localhost:8080/updateuserprofile/unsuspend/${id}`, {
         updatedUser,
       })
       .then(() => {
@@ -119,7 +132,12 @@ function DisplayRoles({ data = [], setData = null }) {
                 <input
                   type="text"
                   value={editProfileName}
-                  onChange={(e) => setEditProfileName(e.target.value)}
+                  onChange={(e) => {
+                    // Prevent spacebar input
+                    if (e.target.value.indexOf(" ") === -1) {
+                      setEditProfileName(e.target.value);
+                    }
+                  }}
                 />
               ) : (
                 item.profileName

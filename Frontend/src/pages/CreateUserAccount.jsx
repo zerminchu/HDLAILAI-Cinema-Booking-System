@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "@mantine/form";
 import { TextInput, Select, Button, Group, Box } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { useNavigate } from 'react-router-dom';
+
 
 function CreateUserAccount() {
   const [name, setName] = useState("");
@@ -13,10 +14,12 @@ function CreateUserAccount() {
     { value: "", label: "" },
   ]);
   const [error, setError] = useState("");
+  const navigateTo = useNavigate();
+
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/createuserprofile/all")
+      .get("http://localhost:8080/viewuserprofile/all")
       .then(({ data }) => {
         if (data) {
           const options = data.map((profile) => {
@@ -28,7 +31,6 @@ function CreateUserAccount() {
       .catch((error) => console.log(error));
   }, []);
 
-  // Not yet make changes
   function handleSubmit(event) {
     event.preventDefault();
     console.log(userProfile);
@@ -41,9 +43,13 @@ function CreateUserAccount() {
           id: userProfile,
         },
       })
-      .then((res) => {
-        console.log(res);
-        alert(res.data);
+      .then(() => {
+        notifications.show({
+          title: `User Account`,
+          message: "Account created successfully",
+          autoClose: 3000,
+        });
+        navigateTo('/ViewUserAccount');
       })
       .catch((error) => {
         console.log(error);
@@ -68,7 +74,7 @@ function CreateUserAccount() {
 
   return (
     <div>
-      <h1>UserAdmin Create Account</h1>
+      <h1>User Admin Create Account</h1>
       <Box maw={300} mx="auto">
         <form>
           <TextInput

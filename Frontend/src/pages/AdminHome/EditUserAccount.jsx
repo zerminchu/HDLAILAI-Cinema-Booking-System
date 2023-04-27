@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import { TextInput, Select, Button, Group, Box } from "@mantine/core";
 import { useLocation, useParams } from "react-router-dom";
 
@@ -21,7 +21,7 @@ function EditUserAccount() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/createuserprofile/all`)
+      .get(`http://localhost:8080/viewuserprofile/all`)
       .then(({ data }) => {
         if (data) {
           const options = data.map((profile) => {
@@ -47,15 +47,18 @@ function EditUserAccount() {
           id: userProfileId,
         },
       })
-      .then((res) => {
-        console.log(res);
-        alert(res.data);
+      .then(() => {
+        notifications.show({
+          title: `User Account`,
+          message: "Profile updated successfully",
+          autoClose: 3000,
+        });
       });
   }
 
   return (
     <div>
-      <h1>UserAdmin Update Account</h1>
+      <h1>User Admin Update Account</h1>
       <Box maw={300} mx="auto">
         <form>
           <TextInput

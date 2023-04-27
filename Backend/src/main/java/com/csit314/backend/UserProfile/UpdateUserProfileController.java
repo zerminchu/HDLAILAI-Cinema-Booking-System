@@ -4,32 +4,32 @@ import java.sql.SQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Controller // This means that this class is a Controller
-@RequestMapping(path = "/createuserprofile") // This means URL's start with /useraccount (after Application path)
-public class CreateUserProfileController {
-    @PostMapping(path = "/add") // Map ONLY POST Requests
-    public ResponseEntity<?> addNewUser(@RequestBody UserProfile user) throws SQLException {
+@Controller
+@RequestMapping(path = "/updateuserprofile")
+public class UpdateUserProfileController {
+
+    @PutMapping(path = "/update/{id}")
+    public ResponseEntity<?> update(@RequestBody UserProfile user, @PathVariable Integer id) throws SQLException {
         if (user.getProfileName() == null || user.getProfileName().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name cannot be empty");
         }
-        if (user.getPermission() == null || user.getPermission().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role cannot be empty");
-        }
 
-        // Check for duplicated profile name
-        if (UserProfile.findByProfileName(user.getProfileName()) != null) {
+        UserProfile existingUser = UserProfile.findByProfileName(user.getProfileName());
+        if (existingUser != null && existingUser.getId() != user.getId()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name already exists");
         }
 
         try {
-            UserProfile.save(user);
+            UserProfile.update(user);
             return ResponseEntity.ok("Saved");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
 }

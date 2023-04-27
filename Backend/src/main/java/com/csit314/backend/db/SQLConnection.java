@@ -24,6 +24,31 @@ public class SQLConnection {
                 + "permission VARCHAR(255),"
                 + "suspended BOOLEAN"
                 + ")";
+        
+        String seatQuery = "CREATE TABLE IF NOT EXISTS Seat ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "rowId VARCHAR(1),"
+                + "columnId INT,"
+                + "blocked BOOLEAN"
+                + ")";
+
+        
+        String hallQuery = "CREATE TABLE IF NOT EXISTS Hall ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "name VARCHAR(255),"
+                + "status VARCHAR(255),"
+                + "totalRow INT,"
+                + "totalColumn INT"
+                + ")";
+
+        
+ /*        String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "startTime INT,"
+                + "endTime INT,"
+                + "date DATE"
+                + ")";
+            
         String accountQuery = "CREATE TABLE IF NOT EXISTS UserAccounts ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                 + "email VARCHAR(255),"
@@ -34,10 +59,37 @@ public class SQLConnection {
                 + "CONSTRAINT FK_accountProfile FOREIGN KEY (profileId)"
                 + "REFERENCES UserProfiles(id)"
                 + ")";
+
+        String ticketQuery = "CREATE TABLE IF NOT EXISTS Tickets ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "bookingId VARCHAR(255),"
+                + "ticketType VARCHAR(255),"
+                + "price INT,"
+                + "movieSessionId INT,"
+                + "seatId INT,"
+                + "CONSTRAINT FK_movieSession FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
+                + "CONSTRAINT FK_seat FOREIGN KEY (seatId) REFERENCES Seat(id)"
+                + "CONSTRAINT FK_userAccounts FOREIGN KEY (userAccountId) REFERENCES UserAccounts(id)"
+                + ")"; */
+
         PreparedStatement profileStatement = con.prepareStatement(profileQuery);
         profileStatement.executeUpdate();
+
+        PreparedStatement seatStatement = con.prepareStatement(seatQuery);
+        seatStatement.executeUpdate();
+
+        PreparedStatement hallStatement = con.prepareStatement(hallQuery);
+        hallStatement.executeUpdate();
+         
+ /*        PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
+        movieSessionStatement.executeUpdate();
+
         PreparedStatement accountStatement = con.prepareStatement(accountQuery);
         accountStatement.executeUpdate();
+
+        PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+        ticketStatement.executeUpdate(); */
+        
         tablesCreated = true;
         System.out.println("tables created");
     };

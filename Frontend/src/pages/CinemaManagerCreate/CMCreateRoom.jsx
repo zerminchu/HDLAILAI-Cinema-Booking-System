@@ -1,62 +1,61 @@
 import { useEffect, useState } from "react";
-import { TextInput, Button} from "@mantine/core";
+import { TextInput, Button } from "@mantine/core";
 import axios from "axios";
+import { notifications } from "@mantine/notifications";
 
+function CMCreateRoom(onAddHall) {
+  const [name, setHallName] = useState("");
+  const [error, setError] = useState("");
 
-function CMCreateRoom() {
-    const [roomName, setroomName] = useState("");
-    
-
-//axios
-useEffect(() => {
-  axios
-  .get("http://localhost:8080/createuserprofile/all")
-  .then(({ data }) => {
-    if (data) {
-      const options = data.map((profile) => {
-        return { value: profile.id, label: profile.profileName };
-      });
-      setProfileOptions(options);
-    }
-  })
-  .catch((error) => console.log(error));
-}, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/viewhall/all")
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setHallName();
+        }
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   function handleSubmit(event) {
-    // Prevent submit from refreshing the page
     event.preventDefault();
-    console.log(userProfileId);
-    // handle submit here
     axios
-    //need change
-      .post("http://localhost:8080/login", {
-        roomName: roomName,
+      .post("http://localhost:8080/createhall/add", {
+        name: name,
       })
-      .then((response) => {
-        alert(response.data);
+      .then(() => {
+        notifications.show({
+          title: `User Account`,
+          message: "Account created successfully",
+          autoClose: 3000,
+        });
+        setHallName("");
+        //navigateTo("/");
       })
       .catch((error) => {
-        console.log(error);
-        alert(error.response.data);
+        notifications.show({
+          title: "Error creating Hall",
+          message: error.response.data,
+          autoClose: 3000,
+        });
+        setHallName("");
       });
-    }
+  }
 
-   return (
-    <form className="CMCreateRoom" onSubmit={handleSubmit}>
-      <div className="formFields">
-
-      <TextInput
-          className="roomNameField"
-          label="Room Name:"
-          value={roomName}
-          onChange={(event) => setroomName(event.currentTarget.value)}
+  return (
+    <form className="CMCreateRoom">
+      <div>
+        <TextInput
+          placeholder="Hall 1"
+          label="Hall Name:"
+          value={name}
+          onChange={(event) => setHallName(event.target.value)}
         />
-        </div>
-        <Button className="submitBtn" type="submit">
-          Submit
-        </Button>
+      </div>
+      <Button onClick={handleSubmit}>Submit</Button>
     </form>
-   );
+  );
 }
 
 export default CMCreateRoom;
