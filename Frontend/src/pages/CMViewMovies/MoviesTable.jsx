@@ -15,7 +15,7 @@ import {
   Anchor,
 } from "@mantine/core";
 
-export function UsersRolesTable({ data, setData }) {
+export function MoviesTable({ data, setData }) {
   function handleSuspend(id) {
     axios
       .delete(`http://localhost:8080/suspenduseraccount/${id}`, {
@@ -52,20 +52,14 @@ export function UsersRolesTable({ data, setData }) {
         <tr key={index}>
           <td>
             <div style={{ textAlign: "left" }}>
-              <Text>{item.name}</Text>
+              <Text>{item.movieName}</Text>
             </div>
           </td>
 
           <td>
-            <div style={{ textAlign: "left" }}>
-              <Text>{item.email}</Text>
-            </div>
+            <UAHomeButton id={item.id} data={item} />
           </td>
 
-          <td>
-            {/*  <Select data={rolesData} defaultValue={item.role} variant="unstyled" /> */}
-            <Text>{item.userProfile.profileName}</Text>
-          </td>
           <td>
             {item.suspended === false ? (
               <Button
@@ -94,10 +88,6 @@ export function UsersRolesTable({ data, setData }) {
               </Button>
             )}
           </td>
-
-          <td>
-            <UAHomeButton id={item.id} data={item} />
-          </td>
         </tr>
       )
   );
@@ -107,11 +97,9 @@ export function UsersRolesTable({ data, setData }) {
       <Table miw={1200} verticalSpacing="sm">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Update</th>
+            <th>Movie</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
@@ -120,4 +108,4 @@ export function UsersRolesTable({ data, setData }) {
   );
 }
 
-export default UsersRolesTable;
+export default MoviesTable;

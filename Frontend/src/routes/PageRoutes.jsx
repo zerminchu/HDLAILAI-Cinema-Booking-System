@@ -13,7 +13,9 @@ import CMCreateRoomModel from "../pages/CinemaManagerCreate/CMCreateRoomModel";
 import LoginForm from "../pages/Login/LoginForm";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundTitle from "../pages/UnauthorizedPage";
-import CMViewMovies from "../pages/CinemaManagerView/CMViewMovies";
+import ViewMovies from "../pages/CMViewMovies/ViewMovies";
+import AddMovie from "../pages/CMAddMovie/AddMovie";
+import UpdateMovie from "../pages/CMUpdateMovie/UpdateMovie";
 
 function PageRoutes() {
   return (
@@ -34,7 +36,9 @@ function PageRoutes() {
         <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
         <Route path="/Login" element={<LoginForm />} />
         <Route path="/Unauthorized" element={<NotFoundTitle />} />
-        <Route path="/ViewMovies" element={<CMViewMovies />} />
+        <Route path="/ViewMovies" element={<ViewMovies />} />
+        <Route path="/AddMovie" element={<AddMovie />} />
+        <Route path="/UpdateMovie" element={<UpdateMovie />} />
       </Routes>
     </Router>
   );

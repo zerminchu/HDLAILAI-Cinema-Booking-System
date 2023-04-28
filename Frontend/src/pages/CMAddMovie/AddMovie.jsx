@@ -1,10 +1,9 @@
 // import { useEffect, useState } from "react";
 import { TextInput, NumberInput, Button, Container, Grid, Textarea } from "@mantine/core";
 // import axios from "axios";
-import "./ViewHallStyle.css";
-import { MdChair } from "react-icons/md";
+import "F:/UOW/Y3/SEM 2/CSIT314/csit314_project/Frontend/src/pages/CMViewMovies/MovieStyle.css";
 
-function CreateMovie() {
+function AddMovie() {
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
   // const [userProfileId, setUserProfileId] = useState(-1);
@@ -47,38 +46,54 @@ function CreateMovie() {
 
   return (
     <form className="CreateMovieForm">
+      <h1>Add New Movie</h1>
       <div>
         <Container my="md">
           <Grid>
-            <Grid.Col xs={6}>
+            <Grid.Col xs={2}></Grid.Col>
+            <Grid.Col xs={8}>
               <TextInput
-              className="movieNameField"
-              label="Movie Name"
+              className="movieTitleField"
+              placeholder="Title of the movie"
+              label="Movie Title"
               />
             </Grid.Col>
-            <Grid.Col xs={6}>
+            <Grid.Col xs={2}></Grid.Col>
+
+            <Grid.Col xs={2}></Grid.Col>
+            <Grid.Col xs={8}>
               <NumberInput
               className="runtimeField"
+              placeholder="Runtime in minutes"
               label="Runtime"
               />
             </Grid.Col>
-            <Grid.Col xs={6}>
+            <Grid.Col xs={2}></Grid.Col>
+
+            <Grid.Col xs={2}></Grid.Col>
+            <Grid.Col xs={8}>
               <TextInput
               className="genreField"
+              placeholder="Genre of the movie"
               label="Genre"
               />
             </Grid.Col>
-            <Grid.Col xs={6}>
+            <Grid.Col xs={2}></Grid.Col>
+
+            <Grid.Col xs={2}></Grid.Col>
+            <Grid.Col xs={8}>
               <Textarea
-              placeholder="Movie synopsis here"
+              className="synopsisField"
+              placeholder="Synopsis of the movie"
               label="Synopsis"
               />
             </Grid.Col>
-            <Grid.Col xs={4}></Grid.Col>
-            <Grid.Col xs={4}>
-              <Button className="createMovieButton" color="blue">Create</Button>
+            <Grid.Col xs={2}></Grid.Col>
+
+            <Grid.Col xs={2}></Grid.Col>
+            <Grid.Col xs={1}>
+              <Button className="createMovieButton" color="blue">Add</Button>
             </Grid.Col>
-            <Grid.Col xs={4}></Grid.Col>
           </Grid>
         </Container>
       </div>
@@ -86,4 +101,4 @@ function CreateMovie() {
   );
 }
 
-export default CreateMovie;
+export default AddMovie;
