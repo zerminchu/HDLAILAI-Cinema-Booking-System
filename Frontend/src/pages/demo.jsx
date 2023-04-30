@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Button, List } from "@mantine/core";
+import { Button, Image, List } from "@mantine/core";
 import LogoutButton from "./Login/LogoutButton";
 import { useAuth } from "../AuthContext";
 import LoginModal from "./Login/LoginModal";
@@ -76,6 +76,11 @@ function Demo() {
             </List.Item>
           )}
         </List>
+        <Image
+          width={200}
+          height={400}
+          src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81rvqkDIVseCWKxu7UfkjzFLj7dbQBnBiiRRkI_UgmHJDX57ePJRveri1i_dYx5Qe7u_vHMC9sgbNqjsW9X-sC-zqhSqag=s1600"
+        />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { createStyles, rem, Group, Box } from "@mantine/core";
 import { useState } from "react";
 import { TextInput, Select, Button } from "@mantine/core";
-
+import { useForm } from "@mantine/form";
 const useStyles = createStyles((theme) => ({
   root: {
     position: "relative",
@@ -19,47 +19,49 @@ const useStyles = createStyles((theme) => ({
 
 function CreateRolesForm({ onAddUser }) {
   const classes = useStyles();
-  //const [user, setUser] = useState({});
-  const [profiles, setProfiles] = useState([]);
-  const [profileName, setProfileName] = useState("");
-  const [selectedRole, setSelectedRole] = useState("");
-
   const rolesData = [
     { label: "Customer", value: "Customer" },
     { label: "Cinema Manager", value: "Cinema Manager" },
     { label: "Cinema Owner", value: "Cinema Owner" },
     { label: "User Admin", value: "User Admin" },
   ];
+  const form = useForm({
+    initialValues: {
+      profileName: "",
+      selectedRole: "",
+    },
 
-  const handleAddClick = () => {
+    validate: {
+      profileName: (value) => {
+        if (value.length === 0) return "Profile name is empty.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Profile name contains trailing/leading whitespaces";
+        return null;
+      },
+      selectedRole: (value) => {
+        if (rolesData.find((role) => role.value === value) === undefined)
+          return "Invalid Permissions selected.";
+        return null;
+      },
+    },
+  });
+
+  function handleSubmit(values) {
     try {
-      const newProfile = { name: profileName, role: selectedRole };
-      setProfiles([...profiles, newProfile]);
-      setProfileName("");
-      setSelectedRole("");
+      const { profileName, selectedRole } = values;
       onAddUser(profileName, selectedRole); // Pass profileName and selectedRole to onAddUser prop
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleRoleSelect = (value) => {
-    setSelectedRole(value);
-  };
+  }
 
   return (
-    <div>
+    <form onSubmit={form.onSubmit(handleSubmit)}>
       <TextInput
         label="Profile Name"
         placeholder="Experience Manager"
         classNames={classes.input}
-        value={profileName}
-        onChange={(event) => {
-          const value = event.target.value;
-          if (value.indexOf(" ") === -1) {
-            setProfileName(value);
-          }
-        }}
+        {...form.getInputProps("profileName")}
       />
 
       <Select
@@ -69,16 +71,15 @@ function CreateRolesForm({ onAddUser }) {
         placeholder="Roles"
         label="Select Permission"
         className={classes.value}
-        value={selectedRole}
-        onChange={handleRoleSelect}
+        {...form.getInputProps("selectedRole")}
       />
 
       <Group position="right" mt="md">
-        <Button className={classes.button} onClick={handleAddClick}>
+        <Button className={classes.button} type="submit">
           Add
         </Button>
       </Group>
-    </div>
+    </form>
   );
 }
 
