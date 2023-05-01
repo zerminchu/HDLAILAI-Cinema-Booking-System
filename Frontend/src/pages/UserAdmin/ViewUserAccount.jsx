@@ -1,8 +1,8 @@
-import UsersRolesTable from "./UserRolesTable";
+import UsersRolesTable from "./components/UserRolesTable";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import ButtonMenu from "./ButtonMenu";
+import ButtonMenu from "./components/ButtonMenu";
 
 function AdminHome() {
   // State to store data
