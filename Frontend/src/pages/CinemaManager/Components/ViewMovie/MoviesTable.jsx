@@ -1,4 +1,4 @@
-import UAHomeButton from "./UAHomeButton";
+import MovieHomeButton from "./MovieHomeButton";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
@@ -57,7 +57,7 @@ export function MoviesTable({ data, setData }) {
           </td>
 
           <td>
-            <UAHomeButton id={item.id} data={item} />
+            <MovieHomeButton id={item.id} data={item} />
           </td>
 
           <td>
