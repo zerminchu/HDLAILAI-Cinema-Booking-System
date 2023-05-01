@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Group, Select, MultiSelect} from '@mantine/core';
 import HallTable from "./HallTable";
 import axios from "axios";
-
+import CMCreateRoomModel from "../CinemaManagerCreateRoom/CMCreateRoomModel";
 
 const CinemaManagerHome = () => {
 
@@ -12,16 +12,12 @@ const CinemaManagerHome = () => {
   const [halls, setHalls] = useState ([]);
 
   useEffect(() => {
-      fetch("http://localhost:8000/halls")
+      axios
+      .get(`http://localhost:8080/viewhall/all`)
       .then(response => {
-        if (!response.ok){
-          throw Error ('could not fetch the data for the resource')
-        }
-        return response.json();
-      })
-      .then ((data) => {
-        setHalls(data);
-        setIsAllHall(true);
+          setHalls(response.data);
+          setIsAllHall(true);
+          console.log(response.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -32,9 +28,9 @@ const CinemaManagerHome = () => {
         <CinemaManagerHeader />
       </Group>
       <Group>
-        <Button>Create Hall</Button>
+      <CMCreateRoomModel />
         <Select
-          data={['All Hall', ...halls.map(hall => hall.hallName)]}
+          data={['All Hall', ...halls.map(hall => hall.name)]}
           placeholder="Select Hall"
           onChange={(e) => {
             if (e !== 'All Hall') {
@@ -47,7 +43,7 @@ const CinemaManagerHome = () => {
        
       </Group>
       {console.log(filterValue)}
-      {halls && !isAllHall && <HallTable halls={halls.filter((hall) => hall.hallName === filterValue)}/>}
+      {halls && !isAllHall && <HallTable halls={halls.filter((hall) => hall.name === filterValue)}/>}
       {console.log("Ran")}
       {halls && isAllHall && <HallTable halls={halls}/>}
     </div>
@@ -55,6 +51,24 @@ const CinemaManagerHome = () => {
 }
 
 export default CinemaManagerHome;
+
+
+
+/* useEffect(() => {
+  fetch("http://localhost:8000/halls")
+  .then(response => {
+    if (!response.ok){
+      throw Error ('could not fetch the data for the resource')
+    }
+    return response.json();
+  })
+  .then ((data) => {
+    setHalls(data);
+    setIsAllHall(true);
+  })
+  .catch((error) => console.log(error));
+}, []); */
+
 
 {/* <MultiSelect 
 value={["All Hall", ...halls.map(hall => hall.hallName)]} 

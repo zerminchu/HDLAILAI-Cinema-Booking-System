@@ -2,6 +2,7 @@ import { Table, Group, Button, Text, Switch, useMantineTheme} from '@mantine/cor
 import { IconCheck, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import {Link} from "react-router-dom";
 
 const HallTable = (props) => {
 
@@ -18,26 +19,26 @@ const HallTable = (props) => {
       setIsChanged(!isChanged) 
       console.log(isChanged)
 
-        //const updateHall = {status: checkOrNot};
+        const updateHall = {status: checkOrNot};
 
-        /*axios.
-          post(`http://localhost:8080/updatehallstatus/${id}`, updateHall)
+        axios.
+          post(`http://localhost:8080/suspendhall/${id}`, updateHall)
           .then ((response) => {
-            console.log(response.data);
-
-            axios.
+                console.log(response.data);
+          
+              /*axios.
                 get(`http://localhost:8080/halls/all`)
                 .then ((response) => setHalls(response.data))
-                .catch((error) => console.log(error));
-          }) */
+                .catch((error) => console.log(error)); */
+          }).catch(err => console.log(err))
       
 
-       for (const h of halls){
+        for (const h of halls){
         if (h.id === id){
            h.status = checkOrNot;
           console.log (h.id, h.status);
         }
-      } 
+      }  
     }
 
     const rows = halls.map(
@@ -46,7 +47,7 @@ const HallTable = (props) => {
             <tr key={hall.id}>
               <td>
                 <div style={{ textAlign: "left" }}>
-                  <Text>{hall.hallName}</Text>
+                  <Text>{hall.name}</Text>
                 </div>
               </td>
     
@@ -73,7 +74,7 @@ const HallTable = (props) => {
               </td>
     
               <td>
-                <Button>View</Button>
+                <Button component={Link} to={`/ViewHall/${hall.id}`}>View</Button>
               </td>
             </tr>
           )
