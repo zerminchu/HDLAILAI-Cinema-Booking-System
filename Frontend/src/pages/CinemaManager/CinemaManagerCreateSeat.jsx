@@ -14,10 +14,9 @@ function CMCreateSeat() {
   const theme = useMantineTheme();
 
   function updateSeats(rowId, colId) {
-      const newSeats = [...seats];
-      newSeats[rowId][colId].isBlocked =
-        !newSeats[rowId][colId].isBlocked;
-      setSeats(newSeats);
+    const newSeats = [...seats];
+    newSeats[rowId][colId].isBlocked = !newSeats[rowId][colId].isBlocked;
+    setSeats(newSeats);
   }
 
   /* useEffect(() => {
@@ -70,14 +69,14 @@ function CMCreateSeat() {
     });
     console.log(seatsToSave);
     const hall = {
-          id: currentHallId,
-          totalRow,
-          totalColumn
-        };
+      id: currentHallId,
+      totalRow,
+      totalColumn,
+    };
     axios
-      .post("http://localhost:8080/createseat/addAll", 
-      { seats: seatsToSave,
-        hall
+      .post("http://localhost:8080/createseat/addAll", {
+        seats: seatsToSave,
+        hall,
       })
       .then(() => {
         notifications.show({
@@ -149,7 +148,7 @@ function CMCreateSeat() {
             </Group>
           }
         </form>
-        <SeatMap seats={seats} updateSeats={updateSeats}/>
+        <SeatMap seats={seats} updateSeats={updateSeats} />
       </Box>
     </div>
   );

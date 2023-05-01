@@ -1,7 +1,7 @@
 import { Button } from "@mantine/core";
 import { Link } from "react-router-dom";
 
-function MovieHomeButton({ id, data }) {
+function UAHomeButton({ id, data }) {
   return (
     <Button
       variant="outline"
@@ -15,4 +15,4 @@ function MovieHomeButton({ id, data }) {
   );
 }
 
-export default MovieHomeButton;
+export default UAHomeButton;

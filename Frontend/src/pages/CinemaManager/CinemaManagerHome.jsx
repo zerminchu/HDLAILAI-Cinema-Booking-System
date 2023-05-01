@@ -1,23 +1,22 @@
 import CinemaManagerHeader from "./Components/ViewHalls/CinemaManagerHeader";
 import { useEffect, useState } from "react";
-import { Button, Group, Select, MultiSelect} from '@mantine/core';
+import { Button, Group, Select, MultiSelect } from "@mantine/core";
 import HallTable from "./Components/ViewHalls/HallTable";
 import axios from "axios";
 import CMCreateRoomModel from "./CMCreateRoomModel";
 
 const CinemaManagerHome = () => {
-
-  const [filterValue, setFilterValue] = useState (null);
-  const [isAllHall, setIsAllHall] = useState (null);
-  const [halls, setHalls] = useState ([]);
+  const [filterValue, setFilterValue] = useState(null);
+  const [isAllHall, setIsAllHall] = useState(null);
+  const [halls, setHalls] = useState([]);
 
   useEffect(() => {
-      axios
+    axios
       .get(`http://localhost:8080/viewhall/all`)
-      .then(response => {
-          setHalls(response.data);
-          setIsAllHall(true);
-          console.log(response.data);
+      .then((response) => {
+        setHalls(response.data);
+        setIsAllHall(true);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -28,31 +27,31 @@ const CinemaManagerHome = () => {
         <CinemaManagerHeader />
       </Group>
       <Group>
-      <CMCreateRoomModel />
+        <CMCreateRoomModel />
         <Select
-          data={['All Hall', ...halls.map(hall => hall.name)]}
+          data={["All Hall", ...halls.map((hall) => hall.name)]}
           placeholder="Select Hall"
           onChange={(e) => {
-            if (e !== 'All Hall') {
+            if (e !== "All Hall") {
               setFilterValue(e);
               setIsAllHall(false);
             } else {
-              setIsAllHall(true)
-            }}}
-          />
-       
+              setIsAllHall(true);
+            }
+          }}
+        />
       </Group>
       {console.log(filterValue)}
-      {halls && !isAllHall && <HallTable halls={halls.filter((hall) => hall.name === filterValue)}/>}
+      {halls && !isAllHall && (
+        <HallTable halls={halls.filter((hall) => hall.name === filterValue)} />
+      )}
       {console.log("Ran")}
-      {halls && isAllHall && <HallTable halls={halls}/>}
+      {halls && isAllHall && <HallTable halls={halls} />}
     </div>
-  )
-}
+  );
+};
 
 export default CinemaManagerHome;
-
-
 
 /* useEffect(() => {
   fetch("http://localhost:8000/halls")
@@ -69,8 +68,8 @@ export default CinemaManagerHome;
   .catch((error) => console.log(error));
 }, []); */
 
-
-{/* <MultiSelect 
+{
+  /* <MultiSelect 
 value={["All Hall", ...halls.map(hall => hall.hallName)]} 
 onChange={(e) => {
   if (e !== 'All Hall') {
@@ -79,5 +78,8 @@ onChange={(e) => {
   } else {
     setIsAllHall(true)
   }}} 
-data={[]} /> */}
-{/*  */}
+data={[]} /> */
+}
+{
+  /*  */
+}

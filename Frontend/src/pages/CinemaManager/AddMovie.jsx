@@ -1,4 +1,6 @@
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { notifications } from "@mantine/notifications";
+import { useNavigate } from 'react-router-dom';
 import {
   TextInput,
   NumberInput,
@@ -7,51 +9,53 @@ import {
   Grid,
   Textarea,
 } from "@mantine/core";
-// import axios from "axios";
+import axios from "axios";
 import "../CinemaManager/Components/ViewMovie/MovieStyle.css";
 function AddMovie() {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [userProfileId, setUserProfileId] = useState(-1);
-  // const [profileOptions, setProfileOptions] = useState([]);
+  const [title, setTitle] = useState("");
+  const [runTime, setRuntime] = useState(0);
+  const [genre, setGenre] = useState("");
+  const [sypnosis, setSypnosis] = useState("");
+  const [imageURL, setImageURL] = useState("");
+  const [error, setError] = useState("");
 
-  // // Load user profiles
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/createuserprofile/all")
-  //     .then(({ data }) => {
-  //       if (data) {
-  //         const options = data.map((profile) => {
-  //           return { value: profile.id, label: profile.profileName };
-  //         });
-  //         setProfileOptions([...options]);
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
+  const navigateTo = useNavigate();
 
-  // function handleSubmit(event) {
-  //   // Prevent submit from refreshing the page
-  //   event.preventDefault();
-  //   console.log(userProfileId);
-  //   // handle submit here
-  //   axios
-  //     .post("http://localhost:8080/login", {
-  //       userProfile: { id: userProfileId },
-  //       email: email,
-  //       password: password,
-  //     })
-  //     .then((response) => {
-  //       alert(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       alert(error.response.data);
-  //     });
-  // }
+  function handleSubmit(event) {
+    event.preventDefault();
+    axios
+      .post("http://localhost:8080/createmovie/add", {
+        title: title,
+        runTime: runTime,
+        genre: genre,
+        sypnosis: sypnosis,
+        imageURL: imageURL,
+      })
+      .then(() => {
+        notifications.show({
+          title: `Movie`,
+          message: "Movie created successfully",
+          autoClose: 3000,
+        });
+        navigateTo('/ViewMovies');
+      })
+      .catch((error) => {
+        console.log(error);
+        //errorMessage = Name cannot be empty/Password cannot be empty/Email cannot be empty/User Profile cannot be empty
+        let errorMessage = `${error.response.data}`;
+
+        setError(errorMessage);
+        notifications.show({
+          title: `Error creating Movie`,
+          message: errorMessage,
+          autoClose: 1500,
+          color: "red",
+        });
+      });
+  }
 
   return (
-    <form className="CreateMovieForm">
+    <form className="CreateMovieForm" onSubmit={handleSubmit}>
       <h1>Add New Movie</h1>
       <div>
         <Container my="md">
@@ -62,6 +66,7 @@ function AddMovie() {
                 className="movieTitleField"
                 placeholder="Title of the movie"
                 label="Movie Title"
+                onChange={(event) => setTitle(event.target.value)}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -72,6 +77,8 @@ function AddMovie() {
                 className="runtimeField"
                 placeholder="Runtime in minutes"
                 label="Runtime"
+                min = {0}
+                onChange={setRuntime}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -82,6 +89,7 @@ function AddMovie() {
                 className="genreField"
                 placeholder="Genre of the movie"
                 label="Genre"
+                onChange={(event) => setGenre(event.target.value)}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -92,13 +100,25 @@ function AddMovie() {
                 className="synopsisField"
                 placeholder="Synopsis of the movie"
                 label="Synopsis"
+                onChange={(event) => setSypnosis(event.target.value)}
+              />
+            </Grid.Col>
+            <Grid.Col xs={2}></Grid.Col>
+
+            <Grid.Col xs={2}></Grid.Col>
+            <Grid.Col xs={8}>
+              <TextInput
+                className="movieImageField"
+                placeholder="Movie image URL"
+                label="Movie Image"
+                onChange={(event) => setImageURL(event.target.value)}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
 
             <Grid.Col xs={2}></Grid.Col>
             <Grid.Col xs={1}>
-              <Button className="createMovieButton" color="blue">
+              <Button type="submit" className="createMovieButton" color="blue">
                 Add
               </Button>
             </Grid.Col>
