@@ -8,7 +8,7 @@ function ViewMovies() {
   // State to store data
   const [movies, setMovies] = useState([]);
 
-  /*useEffect(function loadData() {
+  useEffect(function loadData() {
     // Load data from backend API
     axios
       .get("http://localhost:8080/viewmovie/all")
@@ -18,7 +18,7 @@ function ViewMovies() {
         setMovies(response.data);
       });
     // [] means the loadData function only runs once when the page first loads
-  }, []); */
+  }, []);
 
   return (
     <div>
