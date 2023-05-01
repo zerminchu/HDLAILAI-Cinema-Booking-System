@@ -29,7 +29,7 @@ export function ButtonMenu() {
           rightIcon={<IconChevronDown size="1.05rem" stroke={1.5} />}
           pr={12}
         >
-          Add New
+          Create New
         </Button>
       </Menu.Target>
       <Menu.Dropdown>

@@ -4,7 +4,7 @@ import { TextInput, Button, Group, Box, useMantineTheme } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { faCouch, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SeatMap from "./Components/ViewSeats/SeatMap";
+import SeatMap from "../SeatMap";
 function CMCreateSeat() {
   const [totalRow, setTotalRow] = useState(0);
   const [totalColumn, setTotalColumn] = useState(0);

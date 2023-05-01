@@ -1,4 +1,4 @@
-import MovieHomeButton from "./MovieHomeButton";
+import UAHomeButton from "./UAHomeButton";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
@@ -24,7 +24,7 @@ export function MoviesTable({ data, setData }) {
       .then(() => {
         setData(
           data.map((movie) =>
-          movie.id === id ? { ...movie, suspended: true } : movie
+            movie.id === id ? { ...movie, suspended: true } : movie
           )
         );
       })
@@ -39,7 +39,7 @@ export function MoviesTable({ data, setData }) {
       .then(() => {
         setData(
           data.map((movie) =>
-          movie.id === id ? { ...movie, suspended: false } : movie
+            movie.id === id ? { ...movie, suspended: false } : movie
           )
         );
       })
@@ -80,7 +80,7 @@ export function MoviesTable({ data, setData }) {
                 size="xs"
                 uppercase
                 onClick={() => {
-                handleSuspend(item.id);
+                  handleSuspend(item.id);
                 }}
               >
                 Active
@@ -93,7 +93,7 @@ export function MoviesTable({ data, setData }) {
                 color="gray"
                 uppercase
                 onClick={() => {
-                handleUnsuspend(item.id);
+                  handleUnsuspend(item.id);
                 }}
               >
                 Suspended
