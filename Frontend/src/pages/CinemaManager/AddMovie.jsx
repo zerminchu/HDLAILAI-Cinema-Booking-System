@@ -8,8 +8,7 @@ import {
   Textarea,
 } from "@mantine/core";
 // import axios from "axios";
-import "../CMViewMovies/MovieStyle.css";
-
+import "../CinemaManager/Components/ViewMovie/MovieStyle.css";
 function AddMovie() {
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");

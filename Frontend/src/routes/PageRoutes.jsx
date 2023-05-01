@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Demo from "../pages/demo";
-import CustomerHome from "../pages/CustomerHome";
-import ManagerHome from "../pages/ManagerHome";
+import CustomerHome from "../pages/Customer/CustomerHome";
+// import ManagerHome from "../pages/ManagerHome";
 import ViewUserAccount from "../pages/UserAdmin/ViewUserAccount";
-import OwnerHome from "../pages/OwnerHome";
-import CreateUserAccount from "../pages/CreateUserAccount";
+import OwnerHome from "../pages/Owner/OwnerHome";
+import CreateUserAccount from "../pages/UserAdmin/CreateUserAccount";
 import ProfilePage from "../pages/UserAdmin/ProfilePage";
 import DisplayRoles from "../pages/UserAdmin/DisplayRoles";
 import EditUserAccount from "../pages/UserAdmin/EditUserAccount";
@@ -17,18 +17,17 @@ import CMCreateRoomModel from "../pages/CinemaManager/CMCreateRoomModel";
 import LoginForm from "../pages/Login/LoginForm";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundTitle from "../pages/UnauthorizedPage";
-import CinemaManagerHome from "../pages/CinemaManagerHallPages/CinemaManagerHome";
+import CinemaManagerHome from "../pages/CinemaManager/CinemaManagerHome";
 import ViewMovies from "../pages/CinemaManager/ViewMovies";
 import AddMovie from "../pages/CinemaManager/AddMovie";
 import UpdateMovie from "../pages/CinemaManager/UpdateMovie";
-
 function PageRoutes() {
   return (
     <Router>
       <Routes>
         <Route path="/" exact element={<Demo />} />
-        <Route path="/CustomerHome" element={<CustomerHome />} />
-        <Route path="/ManagerHome" element={<ManagerHome />} />
+        <Route path="/CustomerHome" element={<CustomerHome />} /> 
+        {/* <Route path="/ManagerHome" element={<ManagerHome />} /> */}
         <Route path="/OwnerHome" element={<OwnerHome />} />
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
         <Route path="/ProfilePage" element={<ProfilePage />} />
