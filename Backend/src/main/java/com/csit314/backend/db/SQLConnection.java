@@ -50,7 +50,7 @@ public class SQLConnection {
                                 + "columnId INT,"
                                 + "blocked BOOLEAN,"
                                 + "hallId INT,"
-                                + "UNIQUE KEY unique_row_col_hall (rowId, columnId, hallId),"  
+                                + "UNIQUE KEY unique_row_col_hall (rowId, columnId, hallId),"
                                 + "CONSTRAINT FK_hall FOREIGN KEY (hallId)"
                                 + "REFERENCES Hall(id)"
                                 + ")";
@@ -65,14 +65,21 @@ public class SQLConnection {
                 + "suspended BOOLEAN"
                 + ")";
 
+                String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "hallId INT,"
+                                + "movieId INT,"
+                                + "startTime TIME,"
+                                + "endTime TIME,"
+                                + "suspended BOOLEAN,"
+                                + "date DATE,"
+                                + "UNIQUE KEY unique_hall_date_startTime (hallId, date, startTime),"
+                                + "CONSTRAINT FK_hall FOREIGN KEY (hallId)"
+                                + "REFERENCES Hall(id),"
+                                + "CONSTRAINT FK_movie FOREIGN KEY (movieId)"
+                                + "REFERENCES Movie(id)"
+                                + ")";
                 /*
-                 * String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
-                 * + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                 * + "startTime INT,"
-                 * + "endTime INT,"
-                 * + "date DATE"
-                 * + ")";
-                 * 
                  * String ticketQuery = "CREATE TABLE IF NOT EXISTS Tickets ("
                  * + "id INT AUTO_INCREMENT PRIMARY KEY,"
                  * + "bookingId VARCHAR(255),"
@@ -103,12 +110,9 @@ public class SQLConnection {
                 PreparedStatement movieStatement = con.prepareStatement(movieQuery);
                 movieStatement.executeUpdate();
 
-            
+                PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
+                movieSessionStatement.executeUpdate();
                 /*
-                 * PreparedStatement movieSessionStatement =
-                 * con.prepareStatement(movieSessionQuery);
-                 * movieSessionStatement.executeUpdate();
-                 * 
                  * PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
                  * ticketStatement.executeUpdate();
                  */
