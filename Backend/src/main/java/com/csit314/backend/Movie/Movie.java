@@ -14,6 +14,7 @@ public class Movie {
     private String sypnosis = "";
     private String genre = "";
     private Integer runtime = -1;
+    private String imageURL = "";
 
     public Movie() {
         id = -1;
@@ -21,7 +22,7 @@ public class Movie {
         sypnosis = "";
         genre = "";
         runtime = -1;
-
+        imageURL = "";
     }
 
     // To accept existing Movie ids
@@ -30,12 +31,13 @@ public class Movie {
     }
 
     // For updating movie names, only id and name are required
-    public Movie (Integer id, String title, String sypnosis, String genre, Integer runtime) {
+    public Movie (Integer id, String title, String sypnosis, String genre, Integer runtime, String imageURL) {
         this.id = id;
         this.title = title;
         this.sypnosis = sypnosis;
         this.genre = genre;
         this.runtime = runtime;
+        this.imageURL = imageURL;
     }
 
     // For new profiles, suspended will always default to false
@@ -44,10 +46,11 @@ public class Movie {
     }
 
     // To map the results from the database
-    public Movie (Integer id, String title, Integer runtime) {
+    public Movie (Integer id, String title, Integer runtime, String imageURL) {
         this.id = id;
         this.title = title;
         this.runtime = runtime;
+        this.imageURL = imageURL;
     }
 
     public Integer getId() {
@@ -90,6 +93,14 @@ public class Movie {
         this.runtime = runtime;
     }
 
+    public String getImageURL(String imageURL) {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
     public static String save(Movie createMovie) throws SQLException {
         // Return failure early incase of incomplete fields
         if (createMovie.title == "" || createMovie.runtime == null) {
@@ -99,12 +110,13 @@ public class Movie {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "INSERT INTO Movie (title, sypnosis, genre, runtime) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO Movie (title, sypnosis, genre, runtime, imageURL) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, createMovie.title);
             statement.setString(2, createMovie.sypnosis);
             statement.setString(3, createMovie.genre);
             statement.setInt(4, createMovie.runtime);
+            statement.setString(5, createMovie.imageURL);
             statement.executeUpdate();
             return "Success";
         } catch (SQLException e) {
@@ -134,8 +146,9 @@ public class Movie {
                 String sypnosis = resultSet.getString("sypnosis");
                 String genre = resultSet.getString("genre");
                 Integer runtime = resultSet.getInt("runtime");
+                String imageURL = resultSet.getString("imageURL");
                 // Convert the data into an object that can be sent back to boundary
-                Movie result = new Movie(id, title, sypnosis, genre, runtime);
+                Movie result = new Movie(id, title, sypnosis, genre, runtime, imageURL);
                 results.add(result);
             }
             return results;
@@ -167,7 +180,8 @@ public class Movie {
             String sypnosis = resultSet.getString("sypnosis");
             String genre = resultSet.getString("genre");
             Integer runtime = resultSet.getInt("runtime");
-            Movie result = new Movie(id, title, sypnosis, genre, runtime);
+            String imageURL = resultSet.getString("imageURL");
+            Movie result = new Movie(id, title, sypnosis, genre, runtime, imageURL);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -185,13 +199,14 @@ public class Movie {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE Movie SET title = ?, sypnosis = ?, genre = ?, runtime = ? WHERE id = ?";
+            String query = "UPDATE Movie SET title = ?, sypnosis = ?, genre = ?, runtime = ?, imageURL = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, Movie.title);
             statement.setString(2, Movie.sypnosis);
             statement.setString(3, Movie.genre);
             statement.setInt(4, Movie.runtime);
             statement.setInt(5, Movie.id);
+            statement.setString(6, Movie.imageURL);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -222,7 +237,8 @@ public class Movie {
                 String sypnosis = resultSet.getString("sypnosis");
                 String genre = resultSet.getString("genre");
                 Integer runtime = resultSet.getInt("runtime");
-                Movie result = new Movie(id, title, sypnosis, genre, runtime);
+                String imageURL = resultSet.getString("imageURL");
+                Movie result = new Movie(id, title, sypnosis, genre, runtime, imageURL);
             return result;
         } catch (SQLException e) {
             System.out.println(e);

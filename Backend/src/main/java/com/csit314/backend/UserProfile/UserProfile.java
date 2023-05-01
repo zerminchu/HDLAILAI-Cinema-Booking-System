@@ -254,4 +254,36 @@ public class UserProfile {
             }
         }
     }
+
+    public static ArrayList<UserProfile> search(String q) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT * FROM UserProfiles WHERE profileName LIKE ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            System.out.println(q);
+            statement.setString(1, "%" + q + "%");
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<UserProfile> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer id = resultSet.getInt("id");
+                String profileName = resultSet.getString("profileName");
+                String permission = resultSet.getString("permission");
+                Boolean suspended = resultSet.getBoolean("suspended");
+                // Convert the data into an object that can be sent back to boundary
+                UserProfile result = new UserProfile(id, profileName, permission, suspended);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }

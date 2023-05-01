@@ -38,14 +38,13 @@ public class Seat {
         this.hallId = hallId;
     }
 
-        // For updating seat names
-        public Seat(Integer rowId, Integer columnId, Boolean blocked, Integer hallId) {
-            this.rowId = rowId;
-            this.columnId = columnId;
-            this.blocked = blocked;
-            this.hallId = hallId;
-        }
-    
+    // For updating seat names
+    public Seat(Integer rowId, Integer columnId, Boolean blocked, Integer hallId) {
+        this.rowId = rowId;
+        this.columnId = columnId;
+        this.blocked = blocked;
+        this.hallId = hallId;
+    }
 
     // To map the results from the database
     public Seat(Integer id, Integer rowId, Integer columnId, Boolean blocked, Integer hallId) {
@@ -127,6 +126,7 @@ public class Seat {
 
     public static String saveAll(ArrayList<Seat> seats) throws SQLException {
         // Return failure early incase of incomplete fields
+        System.out.println("hello");
         if (seats.size() == 0) {
             return "Failure";
         }
@@ -134,7 +134,7 @@ public class Seat {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "INSERT INTO Seat (rowId, columnId, blocked, hallId) VALUES"; 
+            String query = "INSERT INTO Seat (rowId, columnId, blocked, hallId) VALUES";
             for (int i = 0; i < seats.size(); i++) {
                 query += " (?, ?, ?, ?),";
             }
@@ -147,7 +147,7 @@ public class Seat {
                 statement.setInt(parameterIndex++, seat.columnId);
                 statement.setBoolean(parameterIndex++, seat.blocked);
                 statement.setInt(parameterIndex++, seat.hallId);
-                System.out.println(seat.rowId);
+                System.out.println(seat.rowId + "-" + seat.columnId);
             }
             statement.executeUpdate();
             return "Success";
@@ -180,7 +180,7 @@ public class Seat {
                 Integer hallId = resultSet.getInt("hallId");
 
                 // Convert the data into an object that can be sent back to boundary
-                Seat result = new Seat (seatId, rowId, columnId, blocked, hallId);
+                Seat result = new Seat(seatId, rowId, columnId, blocked, hallId);
                 results.add(result);
             }
             return results;
@@ -194,16 +194,16 @@ public class Seat {
         }
     }
 
-        public static ArrayList<Seat> listAllByHallId(Integer hallId) throws SQLException {
+    public static ArrayList<Seat> listAllByHallId(Integer hallId) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
             String query = "SELECT * FROM"
-                + " Seat s INNER JOIN Hall h"
-                + " ON s.hallId = h.id"
-                + " WHERE s.hallId = ?"
-                + " ORDER BY s.rowId, s.columnId ASC";
+                    + " Seat s INNER JOIN Hall h"
+                    + " ON s.hallId = h.id"
+                    + " WHERE s.hallId = ?"
+                    + " ORDER BY s.rowId, s.columnId ASC";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, hallId);
             ResultSet resultSet = statement.executeQuery();
@@ -216,7 +216,7 @@ public class Seat {
                 Boolean blocked = resultSet.getBoolean("blocked");
 
                 // Convert the data into an object that can be sent back to boundary
-                Seat result = new Seat (seatId, rowId, columnId, blocked, hallId);
+                Seat result = new Seat(seatId, rowId, columnId, blocked, hallId);
                 results.add(result);
             }
             return results;
@@ -252,7 +252,7 @@ public class Seat {
             Boolean blocked = resultSet.getBoolean("blocked");
             Integer hallId = resultSet.getInt("hallId");
 
-            Seat result = new Seat (seatId, rowId, columnId, blocked, hallId);
+            Seat result = new Seat(seatId, rowId, columnId, blocked, hallId);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -346,7 +346,7 @@ public class Seat {
             Integer columnId = resultSet.getInt("columnId");
             Boolean stats = resultSet.getBoolean("blocked");
             Integer hallId = resultSet.getInt("hallId");
-            Seat result = new Seat (seatId, rowId, columnId, stats, hallId);
+            Seat result = new Seat(seatId, rowId, columnId, stats, hallId);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -357,5 +357,5 @@ public class Seat {
             }
         }
     }
-    
+
 }

@@ -34,7 +34,7 @@ public class CreateSeatController {
     }
     @PostMapping(path = "/addAll")
     public ResponseEntity<String> addNewSeat(@RequestBody Map<String, Object> json) throws SQLException {
-    
+        System.out.println("hi");
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Hall hallToUpdate = objectMapper.convertValue(json.get("hall"), Hall.class);
@@ -44,6 +44,7 @@ public class CreateSeatController {
             
             return new ResponseEntity<String>("Saved", HttpStatus.OK);
         } catch (IllegalArgumentException e) {
+            System.out.println(e);
             return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
