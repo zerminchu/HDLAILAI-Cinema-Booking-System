@@ -1,7 +1,7 @@
 import React from "react";
-import CustomModel2 from "./CinemaManagerCreateRoom/CustomModel2";
-import CMCreateRoom from "./CinemaManagerCreateRoom/CMCreateRoom";
-import logo from './logo-no-background.png';
+import  "../CinemaManager/Components/CreateRoom/CustomModel2";
+import  "../CinemaManager/Components/CreateRoom/CMCreateRoom";
+import '../CinemaManager/Components/ViewSeats/logo-no-background.png';
 
 function CMCreateRoomModel() {
   return (
