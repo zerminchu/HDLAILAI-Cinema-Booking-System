@@ -1,4 +1,4 @@
-package com.csit314.backend.Hall;
+package com.csit314.backend.Fnb;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = "/viewhall")
-public class ViewHallController {
+@RequestMapping(path = "/viewfnb")
+public class ViewFnbController {
 
     @GetMapping(path = "/all")
-    public ResponseEntity<ArrayList<Hall>> getAllHalls() throws SQLException {
+    public ResponseEntity<ArrayList<Fnb>> getAllHalls() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<Hall> viewHalls = Hall.listAll();
-        return new ResponseEntity<ArrayList<Hall>>(viewHalls, HttpStatus.OK);
+        ArrayList<Fnb> viewHalls = Fnb.listAll();
+        return new ResponseEntity<ArrayList<Fnb>>(viewHalls, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Hall> getHallById(@PathVariable Integer id) throws SQLException {
-        Hall result = Hall.get(id);
-        return new ResponseEntity<Hall>(result, HttpStatus.OK);
+    public ResponseEntity<Fnb> getHallById(@PathVariable Integer id) throws SQLException {
+        Fnb result = Fnb.get(id);
+        return new ResponseEntity<Fnb>(result, HttpStatus.OK);
     }
     
 }

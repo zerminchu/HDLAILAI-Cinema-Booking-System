@@ -50,9 +50,18 @@ public class SQLConnection {
                                 + "columnId INT,"
                                 + "blocked BOOLEAN,"
                                 + "hallId INT,"
-                                + "UNIQUE KEY unique_row_col_hall (rowId, columnId, hallId),"  
+                                + "UNIQUE KEY unique_row_col_hall (rowId, columnId, hallId),"
                                 + "CONSTRAINT FK_hall FOREIGN KEY (hallId)"
                                 + "REFERENCES Hall(id)"
+                                + ")";
+
+                String fnbQuery = "CREATE TABLE IF NOT EXISTS Fnb ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "currentPrice INT,"
+                                + "imageURL VARCHAR(255),"
+                                + "name VARCHAR(255),"
+                                + "type VARCHAR(255),"
+                                + "suspended BOOLEAN"
                                 + ")";
 
                 /*
@@ -90,7 +99,9 @@ public class SQLConnection {
                 PreparedStatement seatStatement = con.prepareStatement(seatQuery);
                 seatStatement.executeUpdate();
 
-            
+                PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
+                fnbStatement.executeUpdate();
+
                 /*
                  * PreparedStatement movieSessionStatement =
                  * con.prepareStatement(movieSessionQuery);

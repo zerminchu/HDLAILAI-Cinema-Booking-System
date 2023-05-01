@@ -1,4 +1,4 @@
-package com.csit314.backend.Hall;
+package com.csit314.backend.Fnb;
 
 import java.sql.SQLException;
 import org.springframework.http.HttpStatus;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller // This means that this class is a Controller
-@RequestMapping(path = "/suspendhall") // This means URL's start with /useraccount (after Application path)
-public class SuspendHallController {
+@RequestMapping(path = "/suspendfnb") // This means URL's start with /useraccount (after Application path)
+public class SuspendFnbController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> suspend(@PathVariable Integer id) throws SQLException {
-        if (Hall.suspend(id)) {
+        if (Fnb.suspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -22,7 +22,7 @@ public class SuspendHallController {
 
     @PutMapping("/unsuspend/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id) throws SQLException {
-        if (Hall.unsuspend(id)) {
+        if (Fnb.unsuspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping(path = "/createfnb") // This means URL's start with /useraccount (after Application path)
 public class CreateFnbController {
     @PostMapping(path = "/add") // Map ONLY POST Requests
-    public ResponseEntity<?> addNewHall(@RequestBody Fnb user) throws SQLException {
+    public ResponseEntity<?> addNewFnb(@RequestBody Fnb user) throws SQLException {
         if (user.getName() == null || user.getName().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hall name cannot be empty");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fnb name cannot be empty");
         }
 
            // Check for duplicated profile name
-           if (Fnb.findByHall(user.getName()) != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hall name already exists");
+           if (Fnb.findByFnb(user.getName()) != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fnb name already exists");
         }
         try {
             Fnb.save(user);
