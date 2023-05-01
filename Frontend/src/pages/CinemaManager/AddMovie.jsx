@@ -13,7 +13,7 @@ import axios from "axios";
 import "../CinemaManager/Components/ViewMovie/MovieStyle.css";
 function AddMovie() {
   const [title, setTitle] = useState("");
-  const [runtime, setRuntime] = useState(0);
+  const [runTime, setRuntime] = useState(0);
   const [genre, setGenre] = useState("");
   const [sypnosis, setSypnosis] = useState("");
   const [imageURL, setImageURL] = useState("");
@@ -26,7 +26,7 @@ function AddMovie() {
     axios
       .post("http://localhost:8080/createmovie/add", {
         title: title,
-        runtime: runtime,
+        runTime: runTime,
         genre: genre,
         sypnosis: sypnosis,
         imageURL: imageURL,

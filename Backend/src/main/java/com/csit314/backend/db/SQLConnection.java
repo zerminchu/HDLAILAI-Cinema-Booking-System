@@ -60,7 +60,7 @@ public class SQLConnection {
                 + "title VARCHAR(255),"
                 + "sypnosis VARCHAR(255),"
                 + "genre VARCHAR(255),"
-                + "runtime INT,"
+                + "runTime INT,"
                 + "imageURL VARCHAR(255),"
                 + "suspended BOOLEAN"
                 + ")";

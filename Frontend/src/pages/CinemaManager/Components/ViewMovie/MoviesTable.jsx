@@ -57,6 +57,18 @@ export function MoviesTable({ data, setData }) {
           </td>
 
           <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.genre}</Text>
+            </div>
+          </td>
+
+          <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.runTime}</Text>
+            </div>
+          </td>
+
+          <td>
             <MovieHomeButton id={item.id} data={item} />
           </td>
 
@@ -98,8 +110,10 @@ export function MoviesTable({ data, setData }) {
         <thead>
           <tr>
             <th>Movie</th>
-            <th></th>
-            <th></th>
+            <th>Genre</th>
+            <th>Runtime</th>
+            <th>Edit</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
