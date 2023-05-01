@@ -57,14 +57,14 @@ public class SQLConnection {
                                 + ")";
 
                 String movieQuery = "CREATE TABLE IF NOT EXISTS Movie ("
-                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                + "title VARCHAR(255),"
-                + "sypnosis VARCHAR(255),"
-                + "genre VARCHAR(255),"
-                + "runTime INT,"
-                + "imageURL VARCHAR(255),"
-                + "suspended BOOLEAN"
-                + ")";
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "title VARCHAR(255),"
+                                + "sypnosis VARCHAR(255),"
+                                + "genre VARCHAR(255),"
+                                + "runTime INT,"
+                                + "imageURL VARCHAR(255),"
+                                + "suspended BOOLEAN"
+                                + ")";
 
                 String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
@@ -122,6 +122,7 @@ public class SQLConnection {
 
                 PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
                 movieSessionStatement.executeUpdate();
+                
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
