@@ -37,9 +37,6 @@ function Demo() {
             <Link to="/CustomerHome">Customer Home</Link>
           </List.Item>
           <List.Item>
-            <Link to="/ManagerHome">Manager Home</Link>
-          </List.Item>
-          <List.Item>
             <Link to="/OwnerHome">Owner Home</Link>
           </List.Item>
           <List.Item>
@@ -65,9 +62,6 @@ function Demo() {
           </List.Item>
           <List.Item>
             <Link to="/UpdateSeat">Update Cinema Seats</Link>{" "}
-          </List.Item>
-          <List.Item>
-            <Link to="/ViewHall">View Cinema Seats</Link>{" "}
           </List.Item>
           {currentUser ? (
             <List.Item>

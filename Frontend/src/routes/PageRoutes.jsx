@@ -26,8 +26,7 @@ function PageRoutes() {
     <Router>
       <Routes>
         <Route path="/" exact element={<Demo />} />
-        <Route path="/CustomerHome" element={<CustomerHome />} /> 
-        {/* <Route path="/ManagerHome" element={<ManagerHome />} /> */}
+        <Route path="/CustomerHome" element={<CustomerHome />} />
         <Route path="/OwnerHome" element={<OwnerHome />} />
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
         <Route path="/ProfilePage" element={<ProfilePage />} />
@@ -39,11 +38,11 @@ function PageRoutes() {
         <Route path="/CreateSeat" element={<CinemaManagerCreateSeat />} />
         <Route path="/UpdateSeat" element={<CinemaManagerUpdateSeat />} />
         <Route path="/ViewHall/:id" element={<ViewHall />} />
-        <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}>
-          <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
-          <Route path="/DisplayRoles" element={<DisplayRoles />} />
-          <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
-        </Route>
+        {/*  <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}> */}
+        <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
+        <Route path="/DisplayRoles" element={<DisplayRoles />} />
+        <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
+        {/*  </Route> */}
         <Route path="/CinemaManagerHome" element={<CinemaManagerHome />} />
         <Route path="/Login" element={<LoginForm />} />
         <Route path="/Unauthorized" element={<NotFoundTitle />} />
