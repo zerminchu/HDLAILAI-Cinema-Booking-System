@@ -1,6 +1,6 @@
 import React from "react";
-import CustomModel3 from "./CustomModel3";
-import CMUpdateRoom from "./CMUpdateRoom";
+import CustomModel3 from "./CinemaManagerUpdateRoom/CustomModel3";
+import CMUpdateRoom from "./CinemaManagerUpdateRoom/CMUpdateRoom";
 import logo from './logo-no-background.png';
 
 function CMUpdateRoomModel() {

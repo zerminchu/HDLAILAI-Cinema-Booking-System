@@ -1,9 +1,9 @@
-import MoviesTable from "./MoviesTable";
+import MoviesTable from "./CMViewMovies/MoviesTable";
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 
-import ButtonMenu from "./ButtonMenu";
+import ButtonMenu from "./CMViewMovies/ButtonMenu";
 import { Button } from "@mantine/core";
 
 function AdminHome() {
