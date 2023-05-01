@@ -18,13 +18,13 @@ import {
 export function MoviesTable({ data, setData }) {
   function handleSuspend(id) {
     axios
-      .delete(`http://localhost:8080/suspenduseraccount/${id}`, {
+      .delete(`http://localhost:8080/suspendmovie/${id}`, {
         suspended: true,
       })
       .then(() => {
         setData(
-          data.map((user) =>
-            user.id === id ? { ...user, suspended: true } : user
+          data.map((movie) =>
+          movie.id === id ? { ...movie, suspended: true } : movie
           )
         );
       })
@@ -33,13 +33,13 @@ export function MoviesTable({ data, setData }) {
 
   function handleUnsuspend(id) {
     axios
-      .put(`http://localhost:8080/suspenduseraccount/unsuspend/${id}`, {
+      .put(`http://localhost:8080/suspendmovie/unsuspend/${id}`, {
         suspended: false,
       })
       .then(() => {
         setData(
-          data.map((user) =>
-            user.id === id ? { ...user, suspended: false } : user
+          data.map((movie) =>
+          movie.id === id ? { ...movie, suspended: false } : movie
           )
         );
       })
@@ -52,7 +52,7 @@ export function MoviesTable({ data, setData }) {
         <tr key={index}>
           <td>
             <div style={{ textAlign: "left" }}>
-              <Text>{item.movieName}</Text>
+              <Text>{item.title}</Text>
             </div>
           </td>
 
@@ -68,7 +68,7 @@ export function MoviesTable({ data, setData }) {
                 size="xs"
                 uppercase
                 onClick={() => {
-                  handleSuspend(item.id);
+                handleSuspend(item.id);
                 }}
               >
                 Active
@@ -81,7 +81,7 @@ export function MoviesTable({ data, setData }) {
                 color="gray"
                 uppercase
                 onClick={() => {
-                  handleUnsuspend(item.id);
+                handleUnsuspend(item.id);
                 }}
               >
                 Suspended

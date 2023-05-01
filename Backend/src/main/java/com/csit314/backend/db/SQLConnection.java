@@ -55,6 +55,16 @@ public class SQLConnection {
                                 + "REFERENCES Hall(id)"
                                 + ")";
 
+                String movieQuery = "CREATE TABLE IF NOT EXISTS Movie ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "title VARCHAR(255),"
+                + "sypnosis VARCHAR(255),"
+                + "genre VARCHAR(255),"
+                + "runtime INT,"
+                + "imageURL VARCHAR(255),"
+                + "suspended BOOLEAN"
+                + ")";
+
                 /*
                  * String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
                  * + "id INT AUTO_INCREMENT PRIMARY KEY,"
@@ -89,6 +99,9 @@ public class SQLConnection {
 
                 PreparedStatement seatStatement = con.prepareStatement(seatQuery);
                 seatStatement.executeUpdate();
+
+                PreparedStatement movieStatement = con.prepareStatement(movieQuery);
+                movieStatement.executeUpdate();
 
             
                 /*

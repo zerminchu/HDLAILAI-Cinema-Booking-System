@@ -1,21 +1,21 @@
-import "../CinemaManager/Components/ViewMovie/MoviesTable.jsx";
+import MoviesTable from "../CinemaManager/Components/ViewMovie/MoviesTable.jsx";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mantine/core";
 
-function AdminHome() {
+function ViewMovies() {
   // State to store data
-  const [users, setUsers] = useState([]);
+  const [movies, setMovies] = useState([]);
 
   useEffect(function loadData() {
     // Load data from backend API
     axios
-      .get("http://localhost:8080/viewuseraccount/all")
+      .get("http://localhost:8080/viewmovie/all")
       .then(function (response) {
         // Store data into react state
         console.log(response);
-        setUsers(response.data);
+        setMovies(response.data);
       });
     // [] means the loadData function only runs once when the page first loads
   }, []);
@@ -27,9 +27,9 @@ function AdminHome() {
       <Button component={Link} to="/AddMovie">
         Add New
       </Button>
-      <MoviesTable data={users} setData={setUsers} />
+      <MoviesTable data={movies} setData={setMovies} />
     </div>
   );
 }
 
-export default AdminHome;
+export default ViewMovies;
