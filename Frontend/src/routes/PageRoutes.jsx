@@ -2,12 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Demo from "../pages/demo";
 import CustomerHome from "../pages/CustomerHome";
 import ManagerHome from "../pages/ManagerHome";
-import ViewUserAccount from "../pages/AdminHome/ViewUserAccount";
+import ViewUserAccount from "../pages/UserAdmin/ViewUserAccount";
 import OwnerHome from "../pages/OwnerHome";
 import CreateUserAccount from "../pages/CreateUserAccount";
-import ProfilePage from "../pages/AdminHome/ProfilePage";
-import DisplayRoles from "../pages/AdminHome/DisplayRoles";
-import EditUserAccount from "../pages/AdminHome/EditUserAccount";
+import ProfilePage from "../pages/UserAdmin/ProfilePage";
+import DisplayRoles from "../pages/UserAdmin/DisplayRoles";
+import EditUserAccount from "../pages/UserAdmin/EditUserAccount";
 import LoginModal from "../pages/Login/LoginModal";
 import CinemaManagerCreateSeat from "../pages/CinemaManagerCreateSeat";
 import CinemaManagerUpdateSeat from "../pages/CinemaManagerUpdateSeat";
@@ -17,6 +17,10 @@ import CMCreateRoomModel from "../pages/CinemaManagerCreateRoom/CMCreateRoomMode
 import LoginForm from "../pages/Login/LoginForm";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundTitle from "../pages/UnauthorizedPage";
+import CinemaManagerHome from "../pages/CinemaManagerHallPages/CinemaManagerHome";
+import ViewMovies from "../pages/CMViewMovies/ViewMovies";
+import AddMovie from "../pages/CMAddMovie/AddMovie";
+import UpdateMovie from "../pages/CMUpdateMovie/UpdateMovie";
 
 function PageRoutes() {
   return (
@@ -31,8 +35,8 @@ function PageRoutes() {
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/Login" element={<LoginModal />} />
-       <Route path="/UpdateRoom" element={<CMUpdateRoomModel />} />
-        <Route path="/CreateRoom" element={<CMCreateRoomModel />} /> 
+        <Route path="/UpdateRoom" element={<CMUpdateRoomModel />} />
+        <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
         <Route path="/CreateSeat" element={<CinemaManagerCreateSeat />} />
         <Route path="/UpdateSeat" element={<CinemaManagerUpdateSeat />} />
         <Route path="/ViewHall/:id" element={<ViewHall />} />
@@ -41,9 +45,12 @@ function PageRoutes() {
           <Route path="/DisplayRoles" element={<DisplayRoles />} />
           <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         </Route>
-        <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
+        <Route path="/CinemaManagerHome" element={<CinemaManagerHome />} />
         <Route path="/Login" element={<LoginForm />} />
-        <Route path="/Unauthorized" element={<NotFoundTitle />} /> 
+        <Route path="/Unauthorized" element={<NotFoundTitle />} />
+        <Route path="/ViewMovies" element={<ViewMovies />} />
+        <Route path="/AddMovie" element={<AddMovie />} />
+        <Route path="/UpdateMovie" element={<UpdateMovie />} />
       </Routes>
     </Router>
   );

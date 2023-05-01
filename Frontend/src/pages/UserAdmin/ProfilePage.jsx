@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import CreateRolesForm from "./CreateRolesForm";
+import CreateRolesForm from "./components/CreateRolesForm";
 import DisplayRoles from "./DisplayRoles";
 import { notifications } from "@mantine/notifications";
 

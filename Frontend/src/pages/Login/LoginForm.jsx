@@ -18,7 +18,7 @@ function LoginForm() {
   // Load user profiles
   useEffect(() => {
     axios
-      .get("http://localhost:8080/createuserprofile/all")
+      .get("http://localhost:8080/viewuserprofile/all")
       .then(({ data }) => {
         if (data) {
           const options = data.map((profile) => {

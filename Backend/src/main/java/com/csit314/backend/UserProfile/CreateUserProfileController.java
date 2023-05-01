@@ -13,12 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class CreateUserProfileController {
     @PostMapping(path = "/add") // Map ONLY POST Requests
     public ResponseEntity<?> addNewUser(@RequestBody UserProfile user) throws SQLException {
-        if (user.getProfileName() == null || user.getProfileName().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name cannot be empty");
-        }
-        if (user.getPermission() == null || user.getPermission().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role cannot be empty");
-        }
 
         // Check for duplicated profile name
         if (UserProfile.findByProfileName(user.getProfileName()) != null) {

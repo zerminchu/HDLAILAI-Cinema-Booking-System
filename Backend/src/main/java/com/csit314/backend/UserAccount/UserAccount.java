@@ -245,7 +245,7 @@ public class UserAccount {
             statement.setMaxRows(1);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
-                return "User/Role is invalid";
+                return "User/Profile is invalid";
             }
             Integer accountId = resultSet.getInt("ua_id");
             String email = resultSet.getString("email");

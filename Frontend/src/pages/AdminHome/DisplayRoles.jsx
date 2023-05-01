@@ -97,13 +97,13 @@ function DisplayRoles({ data = [], setData = null }) {
     setEditingId(null);
     setEditProfileName("");
   };
+
   const handleSuspend = (id) => {
     const updatedUser = {
       suspended: true,
     };
     axios
       .delete(`http://localhost:8080/suspenduserprofile/${id}`, updatedUser)
-
       .then(() => {
         // Update the state to add the strikethrough and gray out
         setData((prevUsers) =>
@@ -111,9 +111,22 @@ function DisplayRoles({ data = [], setData = null }) {
             user.id === id ? { ...user, suspended: true } : user
           )
         );
+  
+        notifications.show({
+          title: `User Profile`,
+          message: "User suspended successfully",
+          autoClose: 3000,
+        });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        notifications.show({
+          title: "Error suspending user",
+          message: error.response.data,
+          autoClose: 3000,
+        });
+      });
   };
+  
 
   const handleUnsuspend = (id) => {
     const updatedUser = {
@@ -129,8 +142,19 @@ function DisplayRoles({ data = [], setData = null }) {
             user.id === id ? { ...user, suspended: false } : user
           )
         );
+        notifications.show({
+          title: `User Profile`,
+          message: "User un-suspended successfully",
+          autoClose: 3000,
+        });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        notifications.show({
+          title: "Error un-suspending user",
+          message: error.response.data,
+          autoClose: 3000,
+        });
+      });
   };
 
   const rows = data.map((item) => {
