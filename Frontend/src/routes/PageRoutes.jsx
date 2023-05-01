@@ -18,6 +18,9 @@ import LoginForm from "../pages/Login/LoginForm";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundTitle from "../pages/UnauthorizedPage";
 import CinemaManagerHome from "../pages/CinemaManagerHallPages/CinemaManagerHome";
+import ViewMovies from "../pages/CMViewMovies/ViewMovies";
+import AddMovie from "../pages/CMAddMovie/AddMovie";
+import UpdateMovie from "../pages/CMUpdateMovie/UpdateMovie";
 
 function PageRoutes() {
   return (
@@ -32,8 +35,8 @@ function PageRoutes() {
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/Login" element={<LoginModal />} />
-       <Route path="/UpdateRoom" element={<CMUpdateRoomModel />} />
-        <Route path="/CreateRoom" element={<CMCreateRoomModel />} /> 
+        <Route path="/UpdateRoom" element={<CMUpdateRoomModel />} />
+        <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
         <Route path="/CreateSeat" element={<CinemaManagerCreateSeat />} />
         <Route path="/UpdateSeat" element={<CinemaManagerUpdateSeat />} />
         <Route path="/ViewHall/:id" element={<ViewHall />} />
@@ -44,7 +47,10 @@ function PageRoutes() {
         </Route>
         <Route path="/CinemaManagerHome" element={<CinemaManagerHome />} />
         <Route path="/Login" element={<LoginForm />} />
-        <Route path="/Unauthorized" element={<NotFoundTitle />} /> 
+        <Route path="/Unauthorized" element={<NotFoundTitle />} />
+        <Route path="/ViewMovies" element={<ViewMovies />} />
+        <Route path="/AddMovie" element={<AddMovie />} />
+        <Route path="/UpdateMovie" element={<UpdateMovie />} />
       </Routes>
     </Router>
   );
