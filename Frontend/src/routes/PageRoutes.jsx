@@ -9,18 +9,18 @@ import ProfilePage from "../pages/UserAdmin/ProfilePage";
 import DisplayRoles from "../pages/UserAdmin/DisplayRoles";
 import EditUserAccount from "../pages/UserAdmin/EditUserAccount";
 import LoginModal from "../pages/Login/LoginModal";
-import CinemaManagerCreateSeat from "../pages/CinemaManagerCreateSeat";
-import CinemaManagerUpdateSeat from "../pages/CinemaManagerUpdateSeat";
-import ViewHall from "../pages/ViewSeats/ViewHall";
-import CMUpdateRoomModel from "../pages/CinemaManagerUpdateRoom/CMUpdateRoomModel";
-import CMCreateRoomModel from "../pages/CinemaManagerCreateRoom/CMCreateRoomModel";
+import CinemaManagerCreateSeat from "../pages/CinemaManager/CinemaManagerCreateSeat";
+import CinemaManagerUpdateSeat from "../pages/CinemaManager/CinemaManagerUpdateSeat";
+import ViewHall from "../pages/CinemaManager/ViewSeats";
+import CMUpdateRoomModel from "../pages/CinemaManager/CMUpdateRoomModel";
+import CMCreateRoomModel from "../pages/CinemaManager/CMCreateRoomModel";
 import LoginForm from "../pages/Login/LoginForm";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundTitle from "../pages/UnauthorizedPage";
 import CinemaManagerHome from "../pages/CinemaManagerHallPages/CinemaManagerHome";
-import ViewMovies from "../pages/CMViewMovies/ViewMovies";
-import AddMovie from "../pages/CMAddMovie/AddMovie";
-import UpdateMovie from "../pages/CMUpdateMovie/UpdateMovie";
+import ViewMovies from "../pages/CinemaManager/ViewMovies";
+import AddMovie from "../pages/CinemaManager/AddMovie";
+import UpdateMovie from "../pages/CinemaManager/UpdateMovie";
 
 function PageRoutes() {
   return (

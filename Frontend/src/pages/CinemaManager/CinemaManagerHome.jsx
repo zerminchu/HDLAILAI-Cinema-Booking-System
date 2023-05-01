@@ -1,9 +1,9 @@
-import CinemaManagerHeader from "./CinemaManagerHeader";
+import CinemaManagerHeader from "./Components/ViewHalls/CinemaManagerHeader";
 import { useEffect, useState } from "react";
 import { Button, Group, Select, MultiSelect} from '@mantine/core';
-import HallTable from "./HallTable";
+import HallTable from "./Components/ViewHalls/HallTable";
 import axios from "axios";
-import CMCreateRoomModel from "../CinemaManagerCreateRoom/CMCreateRoomModel";
+import CMCreateRoomModel from "./CMCreateRoomModel";
 
 const CinemaManagerHome = () => {
 
