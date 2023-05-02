@@ -2,11 +2,28 @@ import { useEffect, useState } from "react";
 import { TextInput, Button } from "@mantine/core";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
-import "./CMCreateHall.css"
+import "./CMCreateHall.css";
+import { useForm } from "@mantine/form";
+import { useNavigate } from "react-router-dom"; // add this import
 
 function CMCreateHall(onAddHall) {
   const [name, setHallName] = useState("");
   const [error, setError] = useState("");
+
+  const form = useForm({
+    initialValues: {
+      name: "",
+    },
+
+    validate: {
+      name: (value) => {
+        if (value.length === 0) return "Hall name is empty.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Hall name contains trailing/leading whitespaces";
+        return null;
+      },
+    },
+  });
 
   useEffect(() => {
     axios
@@ -19,20 +36,20 @@ function CMCreateHall(onAddHall) {
       .catch((error) => console.log(error));
   }, []);
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit() {
+    const createHall = {
+      name: form.values.name,
+    };
+
     axios
-      .post("http://localhost:8080/createhall/add", {
-        name: name,
-      })
+      .post("http://localhost:8080/createhall/add", createHall)
       .then(() => {
         notifications.show({
           title: `Hall`,
           message: "Hall created successfully",
           autoClose: 3000,
         });
-        setHallName("");
-        //navigateTo("/");
+
       })
       .catch((error) => {
         notifications.show({
@@ -45,18 +62,19 @@ function CMCreateHall(onAddHall) {
   }
 
   return (
-    <form className="CMCreateRoom" onSumbit={handleSubmit}>
+    <form onSubmit={form.onSubmit(handleSubmit)}>
       <div>
         <TextInput
           placeholder="Hall 1"
           label="Hall Name:"
-          value={name}
-          onChange={(event) => setHallName(event.target.value)}
+          value={form.values.name}
+          onChange={(e) => setHallName(e.target.value)}
+          {...form.getInputProps("name")}
         />
       </div>
-
-      <Button type="submit">Submit</Button>
-
+      <div className="CMCreateHall-button-container">
+        <Button type="submit">Submit</Button>
+      </div>
     </form>
   );
 }

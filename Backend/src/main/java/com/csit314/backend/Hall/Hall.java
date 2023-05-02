@@ -29,7 +29,6 @@ public class Hall {
         this.id = id;
     }
 
-
     // To map the results from the database
     public Hall(Integer id, String name, String status, Integer totalRow, Integer totalColumn) {
         this.id = id;
@@ -39,25 +38,27 @@ public class Hall {
         this.totalColumn = totalColumn;
     }
 
- /*    // To map new halls from database without defined seats
-    public Hall(Integer id, String name, String status) {
-        this.id = id;
-        this.name = name;
-        this.status = status;
-    }
-
-    // To be used when creating seats to track total number of rows and columns
-    public Hall(Integer id, Integer totalRow, Integer totalColumn) {
-        this.id = id;
-        this.totalRow = totalRow;
-        this.totalColumn = totalColumn;
-    }
-
-
-    // For new profiles, suspended will always default to false
-    public Hall(String name) {
-        this.name = name;
-    } */
+    /*
+     * // To map new halls from database without defined seats
+     * public Hall(Integer id, String name, String status) {
+     * this.id = id;
+     * this.name = name;
+     * this.status = status;
+     * }
+     * 
+     * // To be used when creating seats to track total number of rows and columns
+     * public Hall(Integer id, Integer totalRow, Integer totalColumn) {
+     * this.id = id;
+     * this.totalRow = totalRow;
+     * this.totalColumn = totalColumn;
+     * }
+     * 
+     * 
+     * // For new profiles, suspended will always default to false
+     * public Hall(String name) {
+     * this.name = name;
+     * }
+     */
 
     public Integer getId() {
         return id;
@@ -122,7 +123,6 @@ public class Hall {
             }
         }
     }
-    
 
     public static ArrayList<Hall> listAll() throws SQLException {
         Connection connection = null;
@@ -207,7 +207,7 @@ public class Hall {
         }
     }
 
-        public static Boolean updateNumberOfSeats(Hall hall)
+    public static Boolean updateNumberOfSeats(Hall hall)
             throws SQLException {
         Connection connection = null;
         try {
@@ -215,7 +215,7 @@ public class Hall {
             connection = sqlConnection.getConnection();
             String query = "UPDATE Hall SET totalRow = ?, totalColumn = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-       
+
             statement.setInt(1, hall.totalRow);
             statement.setInt(2, hall.totalColumn);
             statement.setInt(3, hall.id);
@@ -230,7 +230,6 @@ public class Hall {
             }
         }
     }
-
 
     public static Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
@@ -287,12 +286,12 @@ public class Hall {
             if (!resultSet.next()) {
                 return null;
             }
-                Integer id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String status = resultSet.getString("status");
-                Integer totalRow = resultSet.getInt("totalRow");
-                Integer totalColumn = resultSet.getInt("totalColumn");
-                Hall result = new Hall(id, name, status, totalRow, totalColumn);
+            Integer id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            String status = resultSet.getString("status");
+            Integer totalRow = resultSet.getInt("totalRow");
+            Integer totalColumn = resultSet.getInt("totalColumn");
+            Hall result = new Hall(id, name, status, totalRow, totalColumn);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -303,5 +302,37 @@ public class Hall {
             }
         }
     }
-    
+
+    public static ArrayList<Hall> search(String q) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT * FROM Hall WHERE name LIKE ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            System.out.println(q);
+            statement.setString(1, "%" + q + "%");
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Hall> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String status = resultSet.getString("status");
+                Integer totalRow = resultSet.getInt("totalRow");
+                Integer totalColumn = resultSet.getInt("totalColumn");
+                Hall result = new Hall(id, name, status, totalRow, totalColumn);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
 }
