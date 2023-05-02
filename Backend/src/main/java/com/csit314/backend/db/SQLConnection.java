@@ -75,7 +75,7 @@ public class SQLConnection {
                                 + "suspended BOOLEAN,"
                                 + "date DATE,"
                                 + "UNIQUE KEY unique_hall_date_startTime (hallId, date, startTime),"
-                                + "CONSTRAINT FK_hall FOREIGN KEY (hallId)"
+                                + "CONSTRAINT FK_hall_moviesession FOREIGN KEY (hallId)"
                                 + "REFERENCES Hall(id),"
                                 + "CONSTRAINT FK_movie FOREIGN KEY (movieId)"
                                 + "REFERENCES Movie(id)"
