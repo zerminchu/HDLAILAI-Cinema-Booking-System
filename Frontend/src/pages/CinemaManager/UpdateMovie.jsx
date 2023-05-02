@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { notifications } from "@mantine/notifications";
 import { useLocation, useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 import {
   TextInput,
   NumberInput,
@@ -9,7 +11,6 @@ import {
   Grid,
   Textarea,
 } from "@mantine/core";
-// import axios from "axios";
 import "../CinemaManager/Components/ViewMovie/MovieStyle.css";
 
 function UpdateMovie() {
@@ -18,15 +19,20 @@ function UpdateMovie() {
   const data = location.state;
 
   const [title, setTitle] = useState(data.title);
-  const [runTime, setRuntime] = useState(0);
-  const [genre, setGenre] = useState("");
-  const [sypnosis, setSypnosis] = useState("");
-  const [imageURL, setImageURL] = useState("");
+  const [runTime, setRuntime] = useState(data.runTime);
+  const [genre, setGenre] = useState(data.genre);
+  const [sypnosis, setSypnosis] = useState(data.sypnosis);
+  const [imageURL, setImageURL] = useState(data.imageURL);
   const [error, setError] = useState("");
 
-  function handleSubmit() {
+  const navigateTo = useNavigate();
+
+  function handleSubmit(event) {
+    console.log (runTime);
+    event.preventDefault();
     axios
       .put(`http://localhost:8080/updatemovie/update/${id}`, {
+        id: id,
         title: title,
         runTime: runTime,
         genre: genre,
@@ -39,10 +45,11 @@ function UpdateMovie() {
           message: "Movie updated successfully",
           autoClose: 3000,
         });
+        navigateTo('/ViewMovies');
       })
       .catch((error) => {
         console.log(error);
-        //errorMessage = Name cannot be empty/Password cannot be empty/Email cannot be empty/User Profile cannot be empty
+
         let errorMessage = `${error.response.data}`;
 
         setError(errorMessage);
@@ -80,6 +87,7 @@ function UpdateMovie() {
                 placeholder="Runtime in minutes"
                 label="Runtime"
                 min = {0}
+                value={runTime}
                 onChange={setRuntime}
               />
             </Grid.Col>
@@ -91,6 +99,7 @@ function UpdateMovie() {
                 className="genreField"
                 placeholder="Genre of the movie"
                 label="Genre"
+                value={genre}
                 onChange={(event) => setGenre(event.target.value)}
               />
             </Grid.Col>
@@ -102,6 +111,7 @@ function UpdateMovie() {
                 className="synopsisField"
                 placeholder="Synopsis of the movie"
                 label="Synopsis"
+                value={sypnosis}
                 onChange={(event) => setSypnosis(event.target.value)}
               />
             </Grid.Col>
@@ -113,6 +123,7 @@ function UpdateMovie() {
                 className="movieImageField"
                 placeholder="Movie image URL"
                 label="Movie Image"
+                value={imageURL}
                 onChange={(event) => setImageURL(event.target.value)}
               />
             </Grid.Col>

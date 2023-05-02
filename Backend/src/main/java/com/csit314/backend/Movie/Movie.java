@@ -232,8 +232,8 @@ public class Movie {
             statement.setString(2, Movie.sypnosis);
             statement.setString(3, Movie.genre);
             statement.setInt(4, Movie.runTime);
-            statement.setInt(5, Movie.id);
-            statement.setString(6, Movie.imageURL);
+            statement.setString(5, Movie.imageURL);
+            statement.setInt(6, Movie.id);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

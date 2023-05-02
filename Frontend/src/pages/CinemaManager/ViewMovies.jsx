@@ -23,7 +23,6 @@ function ViewMovies() {
   return (
     <div>
       <h1>View Movies</h1>
-      {/* <ButtonMenu /> */}
       <Button component={Link} to="/AddMovie">
         Add New
       </Button>

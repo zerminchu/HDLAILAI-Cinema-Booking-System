@@ -30,6 +30,7 @@ function PageRoutes() {
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/Login" element={<LoginModal />} />
         <Route path="/ViewHall/:id" element={<ViewHall />} />
+        <Route path="/UpdateMovie/:id" element={<UpdateMovie />} />
         {/*  <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}> */}
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
@@ -40,7 +41,6 @@ function PageRoutes() {
         <Route path="/Unauthorized" element={<NotFoundTitle />} />
         <Route path="/ViewMovies" element={<ViewMovies />} />
         <Route path="/AddMovie" element={<AddMovie />} />
-        <Route path="/UpdateMovie" element={<UpdateMovie />} />
       </Routes>
     </Router>
   );

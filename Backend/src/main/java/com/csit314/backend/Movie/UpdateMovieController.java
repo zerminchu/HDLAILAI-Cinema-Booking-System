@@ -16,10 +16,7 @@ public class UpdateMovieController {
 
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<?> update(@RequestBody Movie movie, @PathVariable Integer id) throws SQLException {
-        if (movie.getTitle() == null || movie.getTitle().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Movie Title cannot be empty");
-        }
-
+        
         Movie existingMovie = Movie.findByMovie(movie.getTitle());
         if (existingMovie != null && existingMovie.getId() != existingMovie.getId()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Movie Title already exists");
@@ -27,9 +24,9 @@ public class UpdateMovieController {
 
         try {
             Movie.update(movie);
-            return ResponseEntity.ok("Saved");
+            return new ResponseEntity<String>("Saved", HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return new ResponseEntity<String>("Not saved", HttpStatus.NOT_FOUND);
         }
     }
     
