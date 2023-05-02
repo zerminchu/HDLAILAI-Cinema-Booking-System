@@ -31,7 +31,7 @@ function Demo() {
       <div className="card">
         <List>
           <List.Item>
-            <Link to="/DisplayRoles">Display Roles</Link>
+            <Link to="/DisplayRoles">Display User Profile</Link>
           </List.Item>
           <List.Item>
             <Link to="/CustomerHome">Customer Home</Link>
@@ -46,7 +46,7 @@ function Demo() {
             <Link to="/CreateUserAccount">Create User Account</Link>
           </List.Item>
           <List.Item>
-            <Link to="/ProfilePage  ">Create Role</Link>
+            <Link to="/ProfilePage  ">Create User Profile</Link>
           </List.Item>
           <List.Item>
             <Link to="/CinemaManagerHome">Cinema Manager Home</Link>{" "}
