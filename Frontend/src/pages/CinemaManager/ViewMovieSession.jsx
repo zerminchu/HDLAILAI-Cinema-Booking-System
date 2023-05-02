@@ -1,4 +1,4 @@
-import MoviesTable from "../CinemaManager/Components/ViewMovie/MoviesTable.jsx";
+import MovieSessionTable from "../CinemaManager/Components/ViewMovieSession/MovieSessionTable.jsx";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -6,7 +6,7 @@ import { Button } from "@mantine/core";
 
 function ViewMovieSession() {
   // State to store data
-  const [movies, setMovies] = useState([]);
+  const [movieSession, setMovieSession] = useState([]);
 
   /*useEffect(function loadData() {
     // Load data from backend API
@@ -22,12 +22,12 @@ function ViewMovieSession() {
 
   return (
     <div>
-      <h1>View Movies</h1>
+      <h1>View Movie Session</h1>
       {/* <ButtonMenu /> */}
       <Button component={Link} to="/CreateMS">
         Add New
       </Button>
-      <MoviesTable data={movies} setData={setMovies} />
+      <MovieSessionTable data={movieSession} setData={setMovieSession} />
     </div>
   );
 }
