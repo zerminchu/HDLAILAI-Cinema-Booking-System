@@ -1,4 +1,4 @@
-import MovieHomeButton from "./MovieHomeButton";
+import MSHomeButton from "./MSHomeButton";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
@@ -18,13 +18,13 @@ import {
 export function MoviesSessionTable({ data, setData }) {
   function handleSuspend(id) {
     axios
-      .delete(`http://localhost:8080/suspendmovie/${id}`, {
+      .delete(`http://localhost:8080/suspendmovieSession/${id}`, {
         suspended: true,
       })
       .then(() => {
         setData(
-          data.map((movie) =>
-          movie.id === id ? { ...movie, suspended: true } : movie
+          data.map((movieSession) =>
+          movieSession.id === id ? { ...movieSession, suspended: true } : movieSession
           )
         );
       })
@@ -33,13 +33,13 @@ export function MoviesSessionTable({ data, setData }) {
 
   function handleUnsuspend(id) {
     axios
-      .put(`http://localhost:8080/suspendmovie/unsuspend/${id}`, {
+      .put(`http://localhost:8080/suspendmovieSession/unsuspend/${id}`, {
         suspended: false,
       })
       .then(() => {
         setData(
-          data.map((movie) =>
-          movie.id === id ? { ...movie, suspended: false } : movie
+          data.map((movieSession) =>
+          movieSession.id === id ? { ...movieSession, suspended: false } : movieSession
           )
         );
       })
@@ -57,7 +57,7 @@ export function MoviesSessionTable({ data, setData }) {
           </td>
 
           <td>
-            <MovieHomeButton id={item.id} data={item} />
+            <MSHomeButton id={item.id} data={item} />
           </td>
 
           <td>
@@ -97,9 +97,10 @@ export function MoviesSessionTable({ data, setData }) {
       <Table miw={1200} verticalSpacing="sm">
         <thead>
           <tr>
-            <th>Movie Session</th>
-            <th></th>
-            <th></th>
+            <th>Date</th>
+            <th>Movie Name</th>
+            <th>Start</th>
+            <th>End</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
