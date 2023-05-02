@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { notifications } from "@mantine/notifications";
+import { useLocation, useParams } from "react-router-dom";
 import {
   TextInput,
   NumberInput,
@@ -12,7 +13,11 @@ import {
 import "../CinemaManager/Components/ViewMovie/MovieStyle.css";
 
 function UpdateMovie() {
-  const [title, setTitle] = useState("");
+  const { id } = useParams();
+  const location = useLocation();
+  const data = location.state;
+
+  const [title, setTitle] = useState(data.title);
   const [runTime, setRuntime] = useState(0);
   const [genre, setGenre] = useState("");
   const [sypnosis, setSypnosis] = useState("");
