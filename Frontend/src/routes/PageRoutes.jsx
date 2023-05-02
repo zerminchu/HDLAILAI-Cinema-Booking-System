@@ -38,6 +38,7 @@ function PageRoutes() {
         <Route path="/CreateSeat" element={<CinemaManagerCreateSeat />} />
         <Route path="/UpdateSeat" element={<CinemaManagerUpdateSeat />} />
         <Route path="/ViewHall/:id" element={<ViewHall />} />
+        <Route path="/UpdateMovie/:id" element={<UpdateMovie />} />
         {/*  <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}> */}
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
@@ -48,7 +49,6 @@ function PageRoutes() {
         <Route path="/Unauthorized" element={<NotFoundTitle />} />
         <Route path="/ViewMovies" element={<ViewMovies />} />
         <Route path="/AddMovie" element={<AddMovie />} />
-        <Route path="/UpdateMovie" element={<UpdateMovie />} />
       </Routes>
     </Router>
   );
