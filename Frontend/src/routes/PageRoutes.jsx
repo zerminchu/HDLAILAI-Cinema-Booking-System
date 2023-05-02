@@ -22,6 +22,8 @@ import ViewMovies from "../pages/CinemaManager/ViewMovies";
 import AddMovie from "../pages/CinemaManager/AddMovie";
 import UpdateMovie from "../pages/CinemaManager/UpdateMovie";
 import CreateMSModal from "../pages/CinemaManager/CreateMSModal";
+import ViewMovieSession from "../pages/CinemaManager/ViewMovieSession";
+
 
 function PageRoutes() {
   return (
@@ -53,6 +55,8 @@ function PageRoutes() {
         <Route path="/AddMovie" element={<AddMovie />} />
         <Route path="/UpdateMovie" element={<UpdateMovie />} />
         <Route path="/CreateMS" element={<CreateMSModal />} />
+        <Route path="/ViewMovieSession"  element={<ViewMovieSession />} />
+  
       </Routes>
     </Router>
   );

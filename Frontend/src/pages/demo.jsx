@@ -69,6 +69,10 @@ function Demo() {
           <List.Item>
             <Link to="/CreateMS">Create Movie Session</Link>{" "}
           </List.Item>
+          <List.Item>
+            <Link to="/ViewMovieSession">View Movie Session</Link>{" "}
+          </List.Item>
+
           {currentUser ? (
             <List.Item>
               <LogoutButton />
