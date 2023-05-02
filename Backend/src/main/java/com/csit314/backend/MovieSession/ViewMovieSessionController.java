@@ -17,16 +17,16 @@ public class ViewMovieSessionController {
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<MovieSession>> getAllMovies() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<MovieSession> viewMovies = MovieSession.listAll();
-        return new ResponseEntity<ArrayList<MovieSession>>(viewMovies, HttpStatus.OK);
+        ArrayList<MovieSession> movieSession = MovieSession.listAll();
+        return new ResponseEntity<ArrayList<MovieSession>>(movieSession, HttpStatus.OK);
     }
 
     @GetMapping(path = "/hall/{hallId}")
     public ResponseEntity<ArrayList<MovieSession>> getAllMovieSessionsByHall(@PathVariable Integer hallId)
             throws SQLException {
         // This returns a JSON or XML with the MovieSessions associated with a hall
-        ArrayList<MovieSession> viewMovies = MovieSession.listAllByHall(hallId);
-        return new ResponseEntity<ArrayList<MovieSession>>(viewMovies, HttpStatus.OK);
+        ArrayList<MovieSession> movieSessions = MovieSession.listAllByHall(hallId);
+        return new ResponseEntity<ArrayList<MovieSession>>(movieSessions, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")

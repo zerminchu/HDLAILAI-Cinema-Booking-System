@@ -60,6 +60,10 @@ public class MovieSession {
         return hallId;
     }
 
+    public Boolean getSuspended() {
+        return suspended;
+    }
+
     public Timestamp getStartDateTime() {
         return startDateTime;
     }
