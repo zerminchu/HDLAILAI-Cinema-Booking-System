@@ -15,7 +15,7 @@ import {
   Anchor,
 } from "@mantine/core";
 
-export function MovieSessionTable({ data, setData }) {
+function MovieSessionTable({ data, setData }) {
   function handleSuspend(id) {
     axios
       .delete(`http://localhost:8080/suspendmovieSession/${id}`, {
