@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Group, Select, MultiSelect } from "@mantine/core";
 import HallTable from "./Components/ViewHalls/HallTable";
 import axios from "axios";
-import CMCreateRoomModel from "./CMCreateRoomModel";
+import CMCreateHallModel from "./CMCreateHallModel";
 
 const CinemaManagerHome = () => {
   const [filterValue, setFilterValue] = useState(null);
@@ -27,7 +27,7 @@ const CinemaManagerHome = () => {
         <CinemaManagerHeader />
       </Group>
       <Group>
-        <CMCreateRoomModel />
+        <CMCreateHallModel />
         <Select
           data={["All Hall", ...halls.map((hall) => hall.name)]}
           placeholder="Select Hall"
@@ -45,7 +45,6 @@ const CinemaManagerHome = () => {
       {halls && !isAllHall && (
         <HallTable halls={halls.filter((hall) => hall.name === filterValue)} />
       )}
-      {console.log("Ran")}
       {halls && isAllHall && <HallTable halls={halls} />}
     </div>
   );

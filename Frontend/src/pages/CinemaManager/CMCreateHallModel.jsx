@@ -1,6 +1,6 @@
 import React from "react";
-import CustomModel2 from "./Components/UpdateRoom/CustomModel3";
-import CMCreateRoom from "./Components/UpdateRoom/CMUpdateRoom";
+import CustomModel2 from "./Components/CreateHall/CustomModel2";
+import CMCreateHall from "./Components/CreateHall/CMCreateHall";
 import logo from './Components/logo-no-background.png';
 
 function CMCreateRoomModel() {
@@ -8,7 +8,7 @@ function CMCreateRoomModel() {
     
     <CustomModel2>
       <img src={logo} alt="Logo" width={400} height={140}/>
-      <CMCreateRoom />
+      <CMCreateHall />
     </CustomModel2>
   );
 }

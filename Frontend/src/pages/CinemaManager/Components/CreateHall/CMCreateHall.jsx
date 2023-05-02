@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { TextInput, Button } from "@mantine/core";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
+import "./CMCreateHall.css"
 
-function CMCreateRoom(onAddHall) {
+function CMCreateHall(onAddHall) {
   const [name, setHallName] = useState("");
   const [error, setError] = useState("");
 
@@ -26,8 +27,8 @@ function CMCreateRoom(onAddHall) {
       })
       .then(() => {
         notifications.show({
-          title: `User Account`,
-          message: "Account created successfully",
+          title: `Hall`,
+          message: "Hall created successfully",
           autoClose: 3000,
         });
         setHallName("");
@@ -44,7 +45,7 @@ function CMCreateRoom(onAddHall) {
   }
 
   return (
-    <form className="CMCreateRoom">
+    <form className="CMCreateRoom" onSumbit={handleSubmit}>
       <div>
         <TextInput
           placeholder="Hall 1"
@@ -53,9 +54,11 @@ function CMCreateRoom(onAddHall) {
           onChange={(event) => setHallName(event.target.value)}
         />
       </div>
-      <Button onClick={handleSubmit}>Submit</Button>
+
+      <Button type="submit">Submit</Button>
+
     </form>
   );
 }
 
-export default CMCreateRoom;
+export default CMCreateHall;

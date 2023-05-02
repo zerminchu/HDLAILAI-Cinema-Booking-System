@@ -39,7 +39,7 @@ public class Hall {
         this.totalColumn = totalColumn;
     }
 
-    // To map new halls from database without defined seats
+ /*    // To map new halls from database without defined seats
     public Hall(Integer id, String name, String status) {
         this.id = id;
         this.name = name;
@@ -57,7 +57,7 @@ public class Hall {
     // For new profiles, suspended will always default to false
     public Hall(String name) {
         this.name = name;
-    }
+    } */
 
     public Integer getId() {
         return id;
@@ -185,16 +185,16 @@ public class Hall {
         }
     }
 
-    public static Boolean update(Hall Hall)
+    public static Boolean update(Hall hallUpdate)
             throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE Hall SET name= ? WHERE id = ?";
+            String query = "UPDATE Hall SET name = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, Hall.name);
-            statement.setInt(2, Hall.id);
+            statement.setString(1, hallUpdate.name);
+            statement.setInt(2, hallUpdate.id);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

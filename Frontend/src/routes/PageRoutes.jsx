@@ -9,11 +9,7 @@ import ProfilePage from "../pages/UserAdmin/ProfilePage";
 import DisplayRoles from "../pages/UserAdmin/DisplayRoles";
 import EditUserAccount from "../pages/UserAdmin/EditUserAccount";
 import LoginModal from "../pages/Login/LoginModal";
-import CinemaManagerCreateSeat from "../pages/CinemaManager/CinemaManagerCreateSeat";
-import CinemaManagerUpdateSeat from "../pages/CinemaManager/CinemaManagerUpdateSeat";
 import ViewHall from "../pages/CinemaManager/ViewSeats";
-import CMUpdateRoomModel from "../pages/CinemaManager/CMUpdateRoomModel";
-import CMCreateRoomModel from "../pages/CinemaManager/CMCreateRoomModel";
 import LoginForm from "../pages/Login/LoginForm";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundTitle from "../pages/UnauthorizedPage";
@@ -33,10 +29,6 @@ function PageRoutes() {
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/Login" element={<LoginModal />} />
-        <Route path="/UpdateRoom" element={<CMUpdateRoomModel />} />
-        <Route path="/CreateRoom" element={<CMCreateRoomModel />} />
-        <Route path="/CreateSeat" element={<CinemaManagerCreateSeat />} />
-        <Route path="/UpdateSeat" element={<CinemaManagerUpdateSeat />} />
         <Route path="/ViewHall/:id" element={<ViewHall />} />
         {/*  <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}> */}
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
