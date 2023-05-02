@@ -55,6 +55,12 @@ public class SQLConnection {
                                 + "REFERENCES Hall(id)"
                                 + ")";
 
+                String TicketTypeQuery = "CREATE TABLE IF NOT EXISTS TicketType ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "typeName VARCHAR(255),"
+                                + "price INT"
+                                + ")";
+
                 /*
                  * String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
                  * + "id INT AUTO_INCREMENT PRIMARY KEY,"
@@ -89,6 +95,9 @@ public class SQLConnection {
 
                 PreparedStatement seatStatement = con.prepareStatement(seatQuery);
                 seatStatement.executeUpdate();
+
+                PreparedStatement TicketTypeStatement = con.prepareStatement(TicketTypeQuery);
+                TicketTypeStatement.executeUpdate();
 
             
                 /*
