@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/createmovie") // This means URL's start with /useraccount (after Application path)
 public class CreateMovieController {
@@ -18,8 +17,8 @@ public class CreateMovieController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Movie title cannot be empty");
         }
 
-           // Check for duplicated profile name
-           if (Movie.findByMovie(movie.getTitle()) != null) {
+        // Check for duplicated profile name
+        if (Movie.findByMovie(movie.getTitle()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Movie title already exists");
         }
         try {
@@ -29,5 +28,5 @@ public class CreateMovieController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-    
+
 }

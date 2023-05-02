@@ -51,7 +51,6 @@ public class SQLConnection {
                                 + "blocked BOOLEAN,"
                                 + "hallId INT,"
                                 + "UNIQUE KEY unique_row_col_hall (rowId, columnId, hallId),"
-                                + "UNIQUE KEY unique_row_col_hall (rowId, columnId, hallId),"
                                 + "CONSTRAINT FK_hall FOREIGN KEY (hallId)"
                                 + "REFERENCES Hall(id)"
                                 + ")";
@@ -70,16 +69,15 @@ public class SQLConnection {
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "hallId INT,"
                                 + "movieId INT,"
-                                + "startTime TIME,"
-                                + "endTime TIME,"
+                                + "startDateTime DATETIME,"
+                                + "endDateTime DATETIME,"
                                 + "suspended BOOLEAN,"
-                                + "date DATE,"
-                                + "UNIQUE KEY unique_hall_date_startTime (hallId, date, startTime),"
                                 + "CONSTRAINT FK_hall_moviesession FOREIGN KEY (hallId)"
                                 + "REFERENCES Hall(id),"
-                                + "CONSTRAINT FK_movie FOREIGN KEY (movieId)"
+                                + "CONSTRAINT FK_movie_moviesession FOREIGN KEY (movieId)"
                                 + "REFERENCES Movie(id)"
                                 + ")";
+
                 String fnbQuery = "CREATE TABLE IF NOT EXISTS Fnb ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "currentPrice INT,"
@@ -90,14 +88,14 @@ public class SQLConnection {
                                 + ")";
 
                 /*
-                 * String ticketQuery = "CREATE TABLE IF NOT EXISTS Tickets ("
+                 * String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
                  * + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                 * + "bookingId VARCHAR(255),"
-                 * + "ticketType VARCHAR(255),"
+                 * 
                  * + "price INT,"
                  * + "movieSessionId INT,"
                  * + "seatId INT,"
-                 * +
+                 * + "bookingId VARCHAR(255),"
+                 * + "ticketType VARCHAR(255),"
                  * "CONSTRAINT FK_movieSession FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
                  * + "CONSTRAINT FK_seat FOREIGN KEY (seatId) REFERENCES Seat(id)"
                  * +
@@ -122,7 +120,7 @@ public class SQLConnection {
 
                 PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
                 movieSessionStatement.executeUpdate();
-                
+
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
