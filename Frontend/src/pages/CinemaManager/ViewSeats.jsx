@@ -1,9 +1,7 @@
-// import { useEffect, useState } from "react";
 import { TextInput, NumberInput, Button, Container, Grid } from "@mantine/core";
-// import axios from "axios";
-import "./ViewHallStyle.css";
+import "./Components/ViewSeats/ViewHallStyle.css";
 import { MdChair } from "react-icons/md";
-import SeatMap from "../SeatMap";
+import SeatMap from "./Components/ViewSeats/SeatMap";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -14,8 +12,10 @@ function ViewHall() {
   const [hall, setHall] = useState(null);
   const [totalRow, setTotalRow] = useState(0);
   const [totalCol, setTotalCol] = useState(0);
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [hallIsUpdating, setHallIsUpdating] = useState(false);
+  const [seatIsUpdating, setSeatIsUpdating] = useState(false);
   const [seats2D, setSeats2D] = useState([]);
+  const [hallName, setHallName] = useState("");
 
   async function getHallAndSeats(id) {
     try {
@@ -34,6 +34,7 @@ function ViewHall() {
       setTotalCol(loadedHall.totalColumn);
       setTotalRow(loadedHall.totalRow);
       setSeats2D(newSeats);
+      setHallName(loadedHall.name);
     } catch (error) {
       console.log(error);
     }
@@ -135,6 +136,7 @@ function ViewHall() {
         setTotalCol(updatedHall.totalColumn);
         setTotalRow(updatedHall.totalRow); */
         // Ask teacher
+        setSeatIsUpdating();
         getHallAndSeats(id);
         notifications.show({
           title: "Seats saved",
@@ -151,6 +153,30 @@ function ViewHall() {
       });
   }
 
+  const handleHallUpdate = (id) => {
+    const updatedHallName = {
+      id: id,
+      name: hallName,
+    };
+    axios
+      .put(`http://localhost:8080/updatehall/update/${id}`, updatedHallName)
+      .then(() => {
+        setHallIsUpdating(!hallIsUpdating);
+        notifications.show({
+          title: "Hall updated",
+          message: "Hall data saved successfully",
+          autoClose: 3000,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        notifications.show({
+          title: "Error updating hall",
+          autoClose: 3000,
+        });
+      });
+  };
+
   return (
     hall && (
       <form className="loginForm">
@@ -159,15 +185,31 @@ function ViewHall() {
             <Grid>
               <Grid.Col xs={6}>
                 <TextInput
+                  type="text"
                   className="hallNameField"
                   label="Hall Name"
-                  value={hall.name}
-                  disabled
+                  value={hallName}
+                  onChange={(e) => setHallName(e.target.value)}
+                  disabled={!hallIsUpdating}
                 />
               </Grid.Col>
               <Grid.Col xs={2}></Grid.Col>
               <Grid.Col xs={8}>
-                <Button className="editBtn">Edit</Button>
+                {hallIsUpdating ? (
+                  <Button
+                    className="submitBtn"
+                    onClick={() => handleHallUpdate(id)}
+                  >
+                    Submit
+                  </Button>
+                ) : (
+                  <Button
+                    className="updateBtn"
+                    onClick={() => setHallIsUpdating(!hallIsUpdating)}
+                  >
+                    Update Hall's Name
+                  </Button>
+                )}
               </Grid.Col>
               <Grid.Col xs={12}></Grid.Col>
               <Grid.Col xs={6}>
@@ -178,7 +220,7 @@ function ViewHall() {
                   value={totalRow}
                   onChange={setTotalRow}
                   label="No. of Rows"
-                  disabled={!isUpdating}
+                  disabled={!seatIsUpdating}
                 />
               </Grid.Col>
               <Grid.Col xs={6}>
@@ -189,11 +231,11 @@ function ViewHall() {
                   onChange={setTotalCol}
                   label="No. of Columns"
                   placeholder=""
-                  disabled={!isUpdating}
+                  disabled={!seatIsUpdating}
                 />
               </Grid.Col>
               <Grid.Col xs={12}>
-                {isUpdating ? (
+                {seatIsUpdating ? (
                   <Button
                     className="submitBtn"
                     onClick={() => handleUpdateSeats()}
@@ -203,9 +245,9 @@ function ViewHall() {
                 ) : (
                   <Button
                     className="updateBtn"
-                    onClick={() => setIsUpdating(!isUpdating)}
+                    onClick={() => setSeatIsUpdating(!seatIsUpdating)}
                   >
-                    Update
+                    Update Seats
                   </Button>
                 )}
               </Grid.Col>

@@ -1,6 +1,6 @@
-import UAHomeButton from "./UAHomeButton";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import MovieHomeButton from "./MovieHomeButton";
 
 import {
   Avatar,
@@ -18,13 +18,13 @@ import {
 export function MoviesTable({ data, setData }) {
   function handleSuspend(id) {
     axios
-      .delete(`http://localhost:8080/suspenduseraccount/${id}`, {
+      .delete(`http://localhost:8080/suspendmovie/${id}`, {
         suspended: true,
       })
       .then(() => {
         setData(
-          data.map((user) =>
-            user.id === id ? { ...user, suspended: true } : user
+          data.map((movie) =>
+            movie.id === id ? { ...movie, suspended: true } : movie
           )
         );
       })
@@ -33,13 +33,13 @@ export function MoviesTable({ data, setData }) {
 
   function handleUnsuspend(id) {
     axios
-      .put(`http://localhost:8080/suspenduseraccount/unsuspend/${id}`, {
+      .put(`http://localhost:8080/suspendmovie/unsuspend/${id}`, {
         suspended: false,
       })
       .then(() => {
         setData(
-          data.map((user) =>
-            user.id === id ? { ...user, suspended: false } : user
+          data.map((movie) =>
+            movie.id === id ? { ...movie, suspended: false } : movie
           )
         );
       })
@@ -52,12 +52,24 @@ export function MoviesTable({ data, setData }) {
         <tr key={index}>
           <td>
             <div style={{ textAlign: "left" }}>
-              <Text>{item.movieName}</Text>
+              <Text>{item.title}</Text>
             </div>
           </td>
 
           <td>
-            <UAHomeButton id={item.id} data={item} />
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.genre}</Text>
+            </div>
+          </td>
+
+          <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.runTime}</Text>
+            </div>
+          </td>
+
+          <td>
+            <MovieHomeButton id={item.id} data={item} />
           </td>
 
           <td>
@@ -98,8 +110,10 @@ export function MoviesTable({ data, setData }) {
         <thead>
           <tr>
             <th>Movie</th>
-            <th></th>
-            <th></th>
+            <th>Genre</th>
+            <th>Runtime</th>
+            <th>Edit</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

@@ -1,12 +1,12 @@
 import { Button } from "@mantine/core";
 import { Link } from "react-router-dom";
 
-function UAHomeButton({ id, data }) {
+function MovieHomeButton({ id, data }) {
   return (
     <Button
       variant="outline"
       component={Link}
-      to={`/EditUserAccount/${id}`}
+      to={`../UpdateMovie/${id}`}
       // Store the data in the location's state
       state={data}
     >
@@ -15,4 +15,4 @@ function UAHomeButton({ id, data }) {
   );
 }
 
-export default UAHomeButton;
+export default MovieHomeButton;

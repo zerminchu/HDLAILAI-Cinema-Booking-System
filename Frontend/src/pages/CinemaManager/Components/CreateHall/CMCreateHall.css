@@ -1,0 +1,11 @@
+.CMCreateHall-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .CMCreateHall-button {
+    width: 100%;
+    max-width: 200px;
+  }
+  
