@@ -39,7 +39,7 @@ public class SQLConnection {
                 String hallQuery = "CREATE TABLE IF NOT EXISTS Hall ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "name VARCHAR(255),"
-                                + "status VARCHAR(255),"
+                                + "status BOOLEAN,"
                                 + "totalRow INT,"
                                 + "totalColumn INT"
                                 + ")";
