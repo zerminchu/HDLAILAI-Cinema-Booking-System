@@ -50,37 +50,52 @@ public class SQLConnection {
                                 + "columnId INT,"
                                 + "blocked BOOLEAN,"
                                 + "hallId INT,"
-                                + "UNIQUE KEY unique_row_col_hall (rowId, columnId, hallId),"  
+                                + "UNIQUE KEY unique_row_col_hall (rowId, columnId, hallId),"
                                 + "CONSTRAINT FK_hall FOREIGN KEY (hallId)"
                                 + "REFERENCES Hall(id)"
                                 + ")";
 
                 String movieQuery = "CREATE TABLE IF NOT EXISTS Movie ("
-                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                + "title VARCHAR(255),"
-                + "sypnosis VARCHAR(255),"
-                + "genre VARCHAR(255),"
-                + "runtime INT,"
-                + "imageURL VARCHAR(255),"
-                + "suspended BOOLEAN"
-                + ")";
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "title VARCHAR(255),"
+                                + "sypnosis VARCHAR(255),"
+                                + "genre VARCHAR(255),"
+                                + "runTime INT,"
+                                + "imageURL VARCHAR(255),"
+                                + "suspended BOOLEAN"
+                                + ")";
+
+                String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "hallId INT,"
+                                + "movieId INT,"
+                                + "startDateTime DATETIME,"
+                                + "endDateTime DATETIME,"
+                                + "suspended BOOLEAN,"
+                                + "CONSTRAINT FK_hall_moviesession FOREIGN KEY (hallId)"
+                                + "REFERENCES Hall(id),"
+                                + "CONSTRAINT FK_movie_moviesession FOREIGN KEY (movieId)"
+                                + "REFERENCES Movie(id)"
+                                + ")";
+
+                String fnbQuery = "CREATE TABLE IF NOT EXISTS Fnb ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "currentPrice INT,"
+                                + "imageURL VARCHAR(255),"
+                                + "name VARCHAR(255),"
+                                + "type VARCHAR(255),"
+                                + "suspended BOOLEAN"
+                                + ")";
 
                 /*
-                 * String movieSessionQuery = "CREATE TABLE IF NOT EXISTS MovieSession ("
+                 * String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
                  * + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                 * + "startTime INT,"
-                 * + "endTime INT,"
-                 * + "date DATE"
-                 * + ")";
                  * 
-                 * String ticketQuery = "CREATE TABLE IF NOT EXISTS Tickets ("
-                 * + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                 * + "bookingId VARCHAR(255),"
-                 * + "ticketType VARCHAR(255),"
                  * + "price INT,"
                  * + "movieSessionId INT,"
                  * + "seatId INT,"
-                 * +
+                 * + "bookingId VARCHAR(255),"
+                 * + "ticketType VARCHAR(255),"
                  * "CONSTRAINT FK_movieSession FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
                  * + "CONSTRAINT FK_seat FOREIGN KEY (seatId) REFERENCES Seat(id)"
                  * +
@@ -103,12 +118,13 @@ public class SQLConnection {
                 PreparedStatement movieStatement = con.prepareStatement(movieQuery);
                 movieStatement.executeUpdate();
 
-            
+                PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
+                movieSessionStatement.executeUpdate();
+
+                PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
+                fnbStatement.executeUpdate();
+
                 /*
-                 * PreparedStatement movieSessionStatement =
-                 * con.prepareStatement(movieSessionQuery);
-                 * movieSessionStatement.executeUpdate();
-                 * 
                  * PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
                  * ticketStatement.executeUpdate();
                  */

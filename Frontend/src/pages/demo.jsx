@@ -31,7 +31,7 @@ function Demo() {
       <div className="card">
         <List>
           <List.Item>
-            <Link to="/DisplayRoles">Display Roles</Link>
+            <Link to="/DisplayRoles">Display User Profile</Link>
           </List.Item>
           <List.Item>
             <Link to="/CustomerHome">Customer Home</Link>
@@ -46,25 +46,10 @@ function Demo() {
             <Link to="/CreateUserAccount">Create User Account</Link>
           </List.Item>
           <List.Item>
-            <Link to="/ProfilePage  ">Create Role</Link>
-          </List.Item>
-          <List.Item>
-            <Link to="/CreateRoom">Create Cinema Room</Link>{" "}
-          </List.Item>
-          <List.Item>
-            <Link to="/UpdateRoom">Update Cinema Room</Link>{" "}
+            <Link to="/ProfilePage  ">Create User Profile</Link>
           </List.Item>
           <List.Item>
             <Link to="/CinemaManagerHome">Cinema Manager Home</Link>{" "}
-          </List.Item>
-          <List.Item>
-            <Link to="/CreateSeat">Create Cinema Seats</Link>{" "}
-          </List.Item>
-          <List.Item>
-            <Link to="/UpdateSeat">Update Cinema Seats</Link>{" "}
-          </List.Item>
-          <List.Item>
-            <Link to="/ViewHall/:id">View Cinema Seats</Link>{" "}
           </List.Item>
           <List.Item>
             <Link to="/CreateMS">Create Movie Session</Link>{" "}
@@ -72,7 +57,6 @@ function Demo() {
           <List.Item>
             <Link to="/ViewMovieSession">View Movie Session</Link>{" "}
           </List.Item>
-
           {currentUser ? (
             <List.Item>
               <LogoutButton />

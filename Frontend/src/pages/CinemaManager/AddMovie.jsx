@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { notifications } from "@mantine/notifications";
+import { useNavigate } from 'react-router-dom';
 import {
   TextInput,
   NumberInput,
@@ -7,24 +9,27 @@ import {
   Grid,
   Textarea,
 } from "@mantine/core";
-// import axios from "axios";
+import axios from "axios";
 import "../CinemaManager/Components/ViewMovie/MovieStyle.css";
 function AddMovie() {
   const [title, setTitle] = useState("");
-  const [runtime, setRuntime] = useState(0);
+  const [runTime, setRuntime] = useState(0);
   const [genre, setGenre] = useState("");
   const [sypnosis, setSypnosis] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const [error, setError] = useState("");
+
+  const navigateTo = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(event.target.value);
     axios
       .post("http://localhost:8080/createmovie/add", {
         title: title,
-        runtime: runtime,
+        runTime: runTime,
         genre: genre,
         sypnosis: sypnosis,
+        imageURL: imageURL,
       })
       .then(() => {
         notifications.show({
@@ -50,7 +55,7 @@ function AddMovie() {
   }
 
   return (
-    <form className="CreateMovieForm">
+    <form className="CreateMovieForm" onSubmit={handleSubmit}>
       <h1>Add New Movie</h1>
       <div>
         <Container my="md">
@@ -101,8 +106,19 @@ function AddMovie() {
             <Grid.Col xs={2}></Grid.Col>
 
             <Grid.Col xs={2}></Grid.Col>
+            <Grid.Col xs={8}>
+              <TextInput
+                className="movieImageField"
+                placeholder="Movie image URL"
+                label="Movie Image"
+                onChange={(event) => setImageURL(event.target.value)}
+              />
+            </Grid.Col>
+            <Grid.Col xs={2}></Grid.Col>
+
+            <Grid.Col xs={2}></Grid.Col>
             <Grid.Col xs={1}>
-              <Button className="createMovieButton" onSubmit={handleSubmit} color="blue">
+              <Button type="submit" className="createMovieButton" color="blue">
                 Add
               </Button>
             </Grid.Col>

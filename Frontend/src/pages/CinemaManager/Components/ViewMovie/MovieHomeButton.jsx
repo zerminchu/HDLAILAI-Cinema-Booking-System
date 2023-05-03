@@ -6,7 +6,7 @@ function MovieHomeButton({ id, data }) {
     <Button
       variant="outline"
       component={Link}
-      to={`/EditUserAccount/${id}`}
+      to={`../UpdateMovie/${id}`}
       // Store the data in the location's state
       state={data}
     >

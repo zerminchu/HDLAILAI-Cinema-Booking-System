@@ -10,15 +10,7 @@ function CustomModel2({ children }) {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <div>
-      <Button onClick={open}>Create Room</Button>
-      {/* <Modal
-        className="myModal"
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-      >
-        {children}
-        <Button onClick={() => setModalIsOpen(false)}>Close</Button>
-      </Modal> */}
+      <Button onClick={open}>Create Hall</Button>
       <Modal opened={opened} onClose={close}>
         {children}
       </Modal>

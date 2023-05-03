@@ -1,6 +1,6 @@
-import MovieHomeButton from "./MovieHomeButton";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import MovieHomeButton from "./MovieHomeButton";
 
 import {
   Avatar,
@@ -24,7 +24,7 @@ export function MoviesTable({ data, setData }) {
       .then(() => {
         setData(
           data.map((movie) =>
-          movie.id === id ? { ...movie, suspended: true } : movie
+            movie.id === id ? { ...movie, suspended: true } : movie
           )
         );
       })
@@ -39,7 +39,7 @@ export function MoviesTable({ data, setData }) {
       .then(() => {
         setData(
           data.map((movie) =>
-          movie.id === id ? { ...movie, suspended: false } : movie
+            movie.id === id ? { ...movie, suspended: false } : movie
           )
         );
       })
@@ -57,6 +57,18 @@ export function MoviesTable({ data, setData }) {
           </td>
 
           <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.genre}</Text>
+            </div>
+          </td>
+
+          <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.runTime}</Text>
+            </div>
+          </td>
+
+          <td>
             <MovieHomeButton id={item.id} data={item} />
           </td>
 
@@ -68,7 +80,7 @@ export function MoviesTable({ data, setData }) {
                 size="xs"
                 uppercase
                 onClick={() => {
-                handleSuspend(item.id);
+                  handleSuspend(item.id);
                 }}
               >
                 Active
@@ -81,7 +93,7 @@ export function MoviesTable({ data, setData }) {
                 color="gray"
                 uppercase
                 onClick={() => {
-                handleUnsuspend(item.id);
+                  handleUnsuspend(item.id);
                 }}
               >
                 Suspended
@@ -98,8 +110,10 @@ export function MoviesTable({ data, setData }) {
         <thead>
           <tr>
             <th>Movie</th>
-            <th></th>
-            <th></th>
+            <th>Genre</th>
+            <th>Runtime</th>
+            <th>Edit</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

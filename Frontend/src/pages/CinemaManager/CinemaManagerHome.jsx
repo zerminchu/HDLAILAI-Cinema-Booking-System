@@ -1,23 +1,33 @@
 import CinemaManagerHeader from "./Components/ViewHalls/CinemaManagerHeader";
 import { useEffect, useState } from "react";
-import { Button, Group, Select, MultiSelect} from '@mantine/core';
+import { Button, Group, Text, TextInput } from "@mantine/core";
 import HallTable from "./Components/ViewHalls/HallTable";
 import axios from "axios";
-import CMCreateRoomModel from "./CMCreateRoomModel";
+import CMCreateHallModel from "./CMCreateHallModel";
+import "./Components/ViewHalls/SearchHall.css";
 
 const CinemaManagerHome = () => {
-
-  const [filterValue, setFilterValue] = useState (null);
-  const [isAllHall, setIsAllHall] = useState (null);
-  const [halls, setHalls] = useState ([]);
+  const [isAllHall, setIsAllHall] = useState(true);
+  const [halls, setHalls] = useState([]);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
-      axios
+    axios
+      .get(`http://localhost:8080/searchhall?q=${query}`)
+      .then((response) => {
+        console.log(response.data);
+        setHalls(response.data);
+        setIsAllHall(true);
+      })
+      .catch((error) => console.log(error));
+  }, [query]);
+
+  useEffect(() => {
+    axios
       .get(`http://localhost:8080/viewhall/all`)
-      .then(response => {
-          setHalls(response.data);
-          setIsAllHall(true);
-          console.log(response.data);
+      .then((response) => {
+        setHalls(response.data);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -28,56 +38,42 @@ const CinemaManagerHome = () => {
         <CinemaManagerHeader />
       </Group>
       <Group>
-      <CMCreateRoomModel />
-        <Select
-          data={['All Hall', ...halls.map(hall => hall.name)]}
-          placeholder="Select Hall"
-          onChange={(e) => {
-            if (e !== 'All Hall') {
-              setFilterValue(e);
-              setIsAllHall(false);
-            } else {
-              setIsAllHall(true)
-            }}}
-          />
-       
+        <CMCreateHallModel />
+        <TextInput
+          value={query}
+          name={"query"}
+          placeholder="Search for halls"
+          onChange={(event) => setQuery(event.currentTarget.value)}
+          className="search-bar"
+        />
       </Group>
-      {console.log(filterValue)}
-      {halls && !isAllHall && <HallTable halls={halls.filter((hall) => hall.name === filterValue)}/>}
-      {console.log("Ran")}
-      {halls && isAllHall && <HallTable halls={halls}/>}
+      {halls.length === 0 ? (
+        <Text fw={400} style={{ textAlign: "center" }}>
+          No halls found
+        </Text>
+      ) : (
+        <HallTable
+          halls={
+            isAllHall
+              ? halls
+              : halls.filter((hall) => hall.name === filterValue)
+          }
+        />
+      )}
+      {/*   <Select
+        data={["All Hall", ...halls.map((hall) => hall.name)]}
+        placeholder="Select Hall"
+        onChange={(e) => {
+          if (e !== "All Hall") {
+            setFilterValue(e);
+            setIsAllHall(false);
+          } else {
+            setIsAllHall(true);
+          }
+        }}
+      /> */}
     </div>
-  )
-}
+  );
+};
 
 export default CinemaManagerHome;
-
-
-
-/* useEffect(() => {
-  fetch("http://localhost:8000/halls")
-  .then(response => {
-    if (!response.ok){
-      throw Error ('could not fetch the data for the resource')
-    }
-    return response.json();
-  })
-  .then ((data) => {
-    setHalls(data);
-    setIsAllHall(true);
-  })
-  .catch((error) => console.log(error));
-}, []); */
-
-
-{/* <MultiSelect 
-value={["All Hall", ...halls.map(hall => hall.hallName)]} 
-onChange={(e) => {
-  if (e !== 'All Hall') {
-    setFilterValue(e);
-    setIsAllHall(false);
-  } else {
-    setIsAllHall(true)
-  }}} 
-data={[]} /> */}
-{/*  */}

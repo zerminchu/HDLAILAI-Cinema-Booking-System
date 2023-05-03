@@ -8,7 +8,13 @@ const HallTable = (props) => {
 
     const theme = useMantineTheme();
     const [halls, setHalls] = useState (props.halls);
-    const [isChanged, setIsChanged] = useState (true);
+    const [isChanged, setIsChanged] = useState (true);{
+
+      console.log('halls prop:', props.halls);
+  
+      // rest of the component code
+  }
+  
 
     useEffect(() => {
       setHalls(props.halls);

@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
-import { TextInput, Button} from "@mantine/core";
+import { TextInput, Button } from "@mantine/core";
 import axios from "axios";
 
+function CMUpdateHall() {
+  const [roomName, setHallName] = useState("");
 
-function CMUpdateRoom() {
-    const [roomName, setroomName] = useState("");
-    
-
-//axios
+  //axios
   function handleSubmit(event) {
     // Prevent submit from refreshing the page
     event.preventDefault();
     // handle submit here
     const id = 1;
     axios
-    //need change
+      //need change
       //.post("http://localhost:8080/login", {
       .put(`http://localhost:8080/updatehall/update/${id}`, {
         name: roomName,
@@ -26,24 +24,23 @@ function CMUpdateRoom() {
         console.log(error);
         alert(error.response.data);
       });
-    }
+  }
 
-   return (
-    <form className="CMUpdateRoom" onSubmit={handleSubmit}>
+  return (
+    <form className="CMUpdateHall" onSubmit={handleSubmit}>
       <div className="formFields">
-
-      <TextInput
+        <TextInput
           className="roomNameField"
-          label="Room Name:"
+          label="Hall Name:"
           value={roomName}
-          onChange={(event) => setroomName(event.currentTarget.value)}
+          onChange={(event) => setHallName(event.currentTarget.value)}
         />
-        </div>
-        <Button className="submitBtn" type="submit">
-          Submit
-        </Button>
+      </div>
+      <Button className="submitBtn" type="submit">
+        Update Hall
+      </Button>
     </form>
-   );
+  );
 }
 
-export default CMUpdateRoom;
+export default CMUpdateHall;
