@@ -43,7 +43,7 @@ const HallTable = (props) => {
   const handleSuspend = (id) => {
     axios
       .delete(`http://localhost:8080/suspendhall/${id}`)
-      .then((response) => {
+      .then(() => {
         const updatedHalls = halls.map((hall) => {
           if (hall.id === id) {
             return { ...hall, status: "Not Available" };
@@ -51,7 +51,6 @@ const HallTable = (props) => {
           return hall;
         });
         setHalls(updatedHalls);
-        console.log(response.data);
       })
       .catch((err) => console.log(err));
   };
