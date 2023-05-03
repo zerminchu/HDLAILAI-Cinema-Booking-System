@@ -23,34 +23,39 @@ const HallTable = (props) => {
     const updatedHalls = halls.map((hall) => {
       if (hall.id === id) {
         hall.status = checkOrNot ? "Available" : "Not Available";
-        axios
-          .put(`http://localhost:8080/suspendhall/unsuspend/${id}`)
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((err) => console.log(err));
+        if (hall.status === "Not Available") {
+          handleSuspend(id);
+        } else {
+          axios
+            .put(`http://localhost:8080/suspendhall/unsuspend/${id}`)
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((err) => console.log(err));
+        }
       }
       return hall;
     });
     setHalls(updatedHalls);
   };
+  
 
   const handleSuspend = (id) => {
-    const updatedHalls = halls.map((hall) => {
-      if (hall.id === id) {
-        hall.status = "Not Available";
-        axios
-          .delete(`http://localhost:8080/suspendhall/${id}`)
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((err) => console.log(err));
-      }
-      return hall;
-    });
-    setHalls(updatedHalls);
+    axios
+      .delete(`http://localhost:8080/suspendhall/${id}`)
+      .then((response) => {
+        const updatedHalls = halls.map((hall) => {
+          if (hall.id === id) {
+            return { ...hall, status: "Not Available" };
+          }
+          return hall;
+        });
+        setHalls(updatedHalls);
+        console.log(response.data);
+      })
+      .catch((err) => console.log(err));
   };
-
+  
   const rows = halls.map(
     (hall) =>
       hall && (

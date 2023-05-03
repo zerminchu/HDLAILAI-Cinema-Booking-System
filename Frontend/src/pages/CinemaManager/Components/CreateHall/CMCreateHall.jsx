@@ -50,6 +50,9 @@ function CMCreateHall(onAddHall) {
           autoClose: 3000,
         });
 
+        setTimeout(() => {
+          window.location.reload();
+        }, 500); 
       })
       .catch((error) => {
         notifications.show({
@@ -57,7 +60,7 @@ function CMCreateHall(onAddHall) {
           message: error.response.data,
           autoClose: 3000,
         });
-        setHallName("");
+        form.reset();
       });
   }
 
