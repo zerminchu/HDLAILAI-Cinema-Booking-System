@@ -6,7 +6,7 @@ function MSHomeButton({ id, data }) {
     <Button
       variant="outline"
       component={Link}
-      to={`/EditUserAccount/${id}`}
+      to={`/EditMovieSession/${id}`}
       // Store the data in the location's state
       state={data}
     >

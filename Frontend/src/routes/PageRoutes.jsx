@@ -47,6 +47,7 @@ function PageRoutes() {
         <Route path="/UpdateMovie" element={<UpdateMovie />} />
         <Route path="/CreateMS" element={<CreateMSModal />} />
         <Route path="/ViewMovieSession" element={<ViewMovieSession />} />
+        <Route path="/EditMovieSession/:id" element={<ViewMovieSession />} />
       </Routes>
     </Router>
   );

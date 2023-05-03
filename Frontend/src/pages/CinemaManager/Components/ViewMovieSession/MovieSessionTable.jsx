@@ -18,13 +18,13 @@ import {
 function MovieSessionTable({ data, setData }) {
   function handleSuspend(id) {
     axios
-      .delete(`http://localhost:8080/suspendmovieSession/${id}`, {
-        suspended: true,
-      })
+      .delete(`http://localhost:8080/suspendmoviesession/${id}`)
       .then(() => {
         setData(
           data.map((movieSession) =>
-          movieSession.id === id ? { ...movieSession, suspended: true } : movieSession
+            movieSession.id === id
+              ? { ...movieSession, suspended: true }
+              : movieSession
           )
         );
       })
@@ -33,13 +33,13 @@ function MovieSessionTable({ data, setData }) {
 
   function handleUnsuspend(id) {
     axios
-      .put(`http://localhost:8080/suspendmovieSession/unsuspend/${id}`, {
-        suspended: false,
-      })
+      .put(`http://localhost:8080/suspendmoviesession/unsuspend/${id}`)
       .then(() => {
         setData(
           data.map((movieSession) =>
-          movieSession.id === id ? { ...movieSession, suspended: false } : movieSession
+            movieSession.id === id
+              ? { ...movieSession, suspended: false }
+              : movieSession
           )
         );
       })
@@ -52,12 +52,19 @@ function MovieSessionTable({ data, setData }) {
         <tr key={index}>
           <td>
             <div style={{ textAlign: "left" }}>
-              <Text>{item.title}</Text>
+              <Text>
+                {new Date(item.startDateTime).toLocaleDateString("en-SG", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </Text>
             </div>
           </td>
-
           <td>
-            <MSHomeButton id={item.id} data={item} />
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.movieName}</Text>
+            </div>
           </td>
 
           <td>
@@ -68,7 +75,7 @@ function MovieSessionTable({ data, setData }) {
                 size="xs"
                 uppercase
                 onClick={() => {
-                handleSuspend(item.id);
+                  handleSuspend(item.id);
                 }}
               >
                 Active
@@ -81,12 +88,37 @@ function MovieSessionTable({ data, setData }) {
                 color="gray"
                 uppercase
                 onClick={() => {
-                handleUnsuspend(item.id);
+                  handleUnsuspend(item.id);
                 }}
               >
                 Suspended
               </Button>
             )}
+          </td>
+          <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>
+                {new Date(item.startDateTime).toLocaleTimeString("en-SG", {
+                  hour12: true,
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
+            </div>
+          </td>
+          <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>
+                {new Date(item.endDateTime).toLocaleTimeString("en-SG", {
+                  hour12: true,
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
+            </div>
+          </td>
+          <td>
+            <MSHomeButton id={item.id} data={item} />
           </td>
         </tr>
       )
@@ -99,8 +131,10 @@ function MovieSessionTable({ data, setData }) {
           <tr>
             <th>Date</th>
             <th>Movie Name</th>
-            <th>Start</th>
-            <th>End</th>
+            <th>Status</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
