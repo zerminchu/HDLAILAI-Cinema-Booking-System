@@ -59,6 +59,8 @@ public class SQLConnection {
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "typeName VARCHAR(255),"
                                 + "price INT"
+                                + ")";
+
                 String movieQuery = "CREATE TABLE IF NOT EXISTS Movie ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "title VARCHAR(255),"
