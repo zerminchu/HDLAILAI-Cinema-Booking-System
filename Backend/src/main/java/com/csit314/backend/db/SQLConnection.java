@@ -134,10 +134,10 @@ public class SQLConnection {
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
-                /*
-                 * PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-                 * ticketStatement.executeUpdate();
-                 */
+                
+                PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                ticketStatement.executeUpdate();
+                 
 
                 tablesCreated = true;
                 System.out.println("tables created");
