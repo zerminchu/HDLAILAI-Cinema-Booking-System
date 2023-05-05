@@ -4,9 +4,8 @@ import axios from "axios";
 import { notifications } from "@mantine/notifications";
 import "./CMCreateHall.css";
 import { useForm } from "@mantine/form";
-import { useNavigate } from "react-router-dom"; // add this import
 
-function CMCreateHall(onAddHall) {
+function CMCreateHall() {
   const [name, setHallName] = useState("");
   const [error, setError] = useState("");
 

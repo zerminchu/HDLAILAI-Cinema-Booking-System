@@ -3,9 +3,10 @@ import "./Components/ViewSeats/ViewHallStyle.css";
 import { MdChair } from "react-icons/md";
 import SeatMap from "./Components/ViewSeats/SeatMap";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
+import { useForm } from "@mantine/form";
 
 function ViewHall() {
   const { id } = useParams();
@@ -15,7 +16,9 @@ function ViewHall() {
   const [hallIsUpdating, setHallIsUpdating] = useState(false);
   const [seatIsUpdating, setSeatIsUpdating] = useState(false);
   const [seats2D, setSeats2D] = useState([]);
-  const [hallName, setHallName] = useState("");
+  const [hallNaming, setHallName] = useState("");
+
+
 
   async function getHallAndSeats(id) {
     try {
@@ -35,14 +38,35 @@ function ViewHall() {
       setTotalRow(loadedHall.totalRow);
       setSeats2D(newSeats);
       setHallName(loadedHall.name);
+      console.log(id);
     } catch (error) {
       console.log(error);
     }
   }
 
+  const form = useForm({
+    initialValues: {
+      name: hallNaming
+    },
+  
+    validate: {
+      name: (value) => {
+        if (value.length === 0) return "Profile name is empty.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Profile name contains trailing/leading whitespaces";
+        return null;
+      },
+    },
+  });
+
+
   useEffect(() => {
     getHallAndSeats(id);
   }, []);
+
+  useEffect(() => {
+    form.setValues({ name: hallNaming });
+  }, [hallNaming]);
 
   function handleSuspend(id) {
     axios
@@ -126,16 +150,6 @@ function ViewHall() {
         hall: updatedHall,
       })
       .then(() => {
-        /* const newSeats2D = [];
-        console.log(newSeats);
-        console.log(updatedHall);
-        while (totalSeats.length)
-          newSeats2D.push(totalSeats.splice(0, updatedHall.totalColumn));
-        setSeats2D(newSeats2D);
-        setHall((prevHall) => ({ ...prevHall, ...updatedHall }));
-        setTotalCol(updatedHall.totalColumn);
-        setTotalRow(updatedHall.totalRow); */
-        // Ask teacher
         setSeatIsUpdating();
         getHallAndSeats(id);
         notifications.show({
@@ -153,11 +167,12 @@ function ViewHall() {
       });
   }
 
-  const handleHallUpdate = (id) => {
+  const handleHallUpdate = () => {
     const updatedHallName = {
       id: id,
-      name: hallName,
+      name: form.values.name,
     };
+    console.log(updatedHallName);
     axios
       .put(`http://localhost:8080/updatehall/update/${id}`, updatedHallName)
       .then(() => {
@@ -179,124 +194,121 @@ function ViewHall() {
 
   return (
     hall && (
-      <form className="loginForm">
-        <div>
-          <Container my="md">
-            <Grid>
-              <Grid.Col xs={6}>
-                <TextInput
-                  type="text"
-                  className="hallNameField"
-                  label="Hall Name"
-                  value={hallName}
-                  onChange={(e) => setHallName(e.target.value)}
-                  disabled={!hallIsUpdating}
-                />
-              </Grid.Col>
-              <Grid.Col xs={2}></Grid.Col>
-              <Grid.Col xs={8}>
-                {hallIsUpdating ? (
-                  <Button
-                    className="submitBtn"
-                    onClick={() => handleHallUpdate(id)}
-                  >
+      <div>
+        <Container my="md">
+          <Grid>
+            <Grid.Col xs={6}>
+              <TextInput
+                type="text"
+                className="hallNameField"
+                label="Hall Name"
+                {...form.getInputProps("name")}
+
+                disabled={!hallIsUpdating}
+              />
+            </Grid.Col>
+            <Grid.Col xs={2}></Grid.Col>
+            <Grid.Col xs={8}>
+              {hallIsUpdating ? (
+                <form onSubmit={form.onSubmit(handleHallUpdate)}>
+                  <Button className="submitBtn" type="submit">
                     Submit
                   </Button>
-                ) : (
-                  <Button
-                    className="updateBtn"
-                    onClick={() => setHallIsUpdating(!hallIsUpdating)}
-                  >
-                    Update Hall's Name
-                  </Button>
-                )}
-              </Grid.Col>
-              <Grid.Col xs={12}></Grid.Col>
-              <Grid.Col xs={6}>
-                <NumberInput
-                  defaultValue={0}
-                  className="rowsField"
-                  min={hall.totalRow}
-                  value={totalRow}
-                  onChange={setTotalRow}
-                  label="No. of Rows"
-                  disabled={!seatIsUpdating}
-                />
-              </Grid.Col>
-              <Grid.Col xs={6}>
-                <NumberInput
-                  defaultValue={0}
-                  min={hall.totalColumn}
-                  value={totalCol}
-                  onChange={setTotalCol}
-                  label="No. of Columns"
-                  placeholder=""
-                  disabled={!seatIsUpdating}
-                />
-              </Grid.Col>
-              <Grid.Col xs={12}>
-                {seatIsUpdating ? (
-                  <Button
-                    className="submitBtn"
-                    onClick={() => handleUpdateSeats()}
-                  >
-                    Submit
-                  </Button>
-                ) : (
-                  <Button
-                    className="updateBtn"
-                    onClick={() => setSeatIsUpdating(!seatIsUpdating)}
-                  >
-                    Update Seats
-                  </Button>
-                )}
-              </Grid.Col>
-              <Grid.Col xs={12}>
-                <ul className="showcase">
-                  <li>
-                    <div className="seatSelected">
-                      <MdChair style={{ color: "228BE6" }} />
-                    </div>
-                    <small>Selected</small>
-                  </li>
-                  <li>
-                    <div className="seatAvailable">
-                      <MdChair style={{ color: "868E96" }} />
-                    </div>
-                    <small>Available</small>
-                  </li>
-                  <li>
-                    <div className="seatOccupied">
-                      <MdChair style={{ color: "F03E3E" }} />
-                    </div>
-                    <small>Occupied</small>
-                  </li>
-                  <li>
-                    <div className="seatUnavailable">
-                      <MdChair style={{ color: "2C2E33" }} />
-                    </div>
-                    <small>Unavailable</small>
-                  </li>
-                </ul>
-              </Grid.Col>
-              {/* <Grid.Col xs={4}></Grid.Col> */}
-              <Grid.Col xs={12}>
-                <div className="screen">
-                  <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-                    Screen
-                  </span>
-                </div>
-              </Grid.Col>
-              {/*  <Grid.Col xs={4}></Grid.Col> */}
-            </Grid>
-          </Container>
-        </div>
+                </form>
+              ) : (
+                <Button
+                  className="updateBtn"
+                  onClick={() => setHallIsUpdating(!hallIsUpdating)}
+                >
+                  Update Hall's Name
+                </Button>
+              )}
+            </Grid.Col>
+            <Grid.Col xs={12}></Grid.Col>
+            <Grid.Col xs={6}>
+              <NumberInput
+                defaultValue={0}
+                className="rowsField"
+                min={hall.totalRow}
+                value={totalRow}
+                onChange={setTotalRow}
+                label="No. of Rows"
+                disabled={!seatIsUpdating}
+              />
+            </Grid.Col>
+            <Grid.Col xs={6}>
+              <NumberInput
+                defaultValue={0}
+                min={hall.totalColumn}
+                value={totalCol}
+                onChange={setTotalCol}
+                label="No. of Columns"
+                placeholder=""
+                disabled={!seatIsUpdating}
+              />
+            </Grid.Col>
+            <Grid.Col xs={12}>
+              {seatIsUpdating ? (
+                <Button
+                  className="submitBtn"
+                  onClick={() => handleUpdateSeats()}
+                >
+                  Submit
+                </Button>
+              ) : (
+                <Button
+                  className="updateBtn"
+                  onClick={() => setSeatIsUpdating(!seatIsUpdating)}
+                >
+                  Update Seats
+                </Button>
+              )}
+            </Grid.Col>
+            <Grid.Col xs={12}>
+              <ul className="showcase">
+                <li>
+                  <div className="seatSelected">
+                    <MdChair style={{ color: "228BE6" }} />
+                  </div>
+                  <small>Selected</small>
+                </li>
+                <li>
+                  <div className="seatAvailable">
+                    <MdChair style={{ color: "868E96" }} />
+                  </div>
+                  <small>Available</small>
+                </li>
+                <li>
+                  <div className="seatOccupied">
+                    <MdChair style={{ color: "F03E3E" }} />
+                  </div>
+                  <small>Occupied</small>
+                </li>
+                <li>
+                  <div className="seatUnavailable">
+                    <MdChair style={{ color: "2C2E33" }} />
+                  </div>
+                  <small>Unavailable</small>
+                </li>
+              </ul>
+            </Grid.Col>
+            {/* <Grid.Col xs={4}></Grid.Col> */}
+            <Grid.Col xs={12}>
+              <div className="screen">
+                <span style={{ fontSize: "20px", fontWeight: "bold" }}>
+                  Screen
+                </span>
+              </div>
+            </Grid.Col>
+            {/*  <Grid.Col xs={4}></Grid.Col> */}
+          </Grid>
+        </Container>
         <SeatMap
           seats={seats2D}
           unsuspend={handleUnsuspend}
           updateSeats={handleSuspend}
         />
-      </form>
+      </div>
     )
   );
 }
