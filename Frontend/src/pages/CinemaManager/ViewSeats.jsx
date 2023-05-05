@@ -38,6 +38,7 @@ function ViewHall() {
       setTotalRow(loadedHall.totalRow);
       setSeats2D(newSeats);
       setHallName(loadedHall.name);
+      console.log(id);
     } catch (error) {
       console.log(error);
     }
@@ -166,11 +167,12 @@ function ViewHall() {
       });
   }
 
-  const handleHallUpdate = (id) => {
+  const handleHallUpdate = () => {
     const updatedHallName = {
       id: id,
       name: form.values.name,
     };
+    console.log(updatedHallName);
     axios
       .put(`http://localhost:8080/updatehall/update/${id}`, updatedHallName)
       .then(() => {
