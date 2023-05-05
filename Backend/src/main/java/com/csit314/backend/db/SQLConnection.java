@@ -135,8 +135,8 @@ public class SQLConnection {
                 fnbStatement.executeUpdate();
 
                 
-                PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-                ticketStatement.executeUpdate();
+                //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                //ticketStatement.executeUpdate();
                  
 
                 tablesCreated = true;
