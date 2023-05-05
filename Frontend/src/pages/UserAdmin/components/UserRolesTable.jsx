@@ -3,16 +3,10 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 import {
-  Avatar,
-  Badge,
   Table,
-  Group,
   Text,
-  Select,
   ScrollArea,
-  TextInput,
   Button,
-  Anchor,
 } from "@mantine/core";
 
 export function UsersRolesTable({ data, setData }) {

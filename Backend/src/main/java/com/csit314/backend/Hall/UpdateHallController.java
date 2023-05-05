@@ -16,9 +16,7 @@ public class UpdateHallController {
 
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<?> update(@RequestBody Hall user, @PathVariable Integer id) throws SQLException {
-         if (user.getName() == null || user.getName().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hall name cannot be empty");
-        }
+      
 
         Hall existingHall = Hall.findByHall(user.getName());
         if (existingHall != null && existingHall.getId() != user.getId()) {
