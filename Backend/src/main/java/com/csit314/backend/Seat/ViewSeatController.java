@@ -32,5 +32,12 @@ public class ViewSeatController {
         ArrayList<Seat> Seats = Seat.listAllByHallId(hallId);
         return new ResponseEntity<ArrayList<Seat>>(Seats, HttpStatus.OK);
     }
-    
+
+    @GetMapping(path = "/all/{movieSessionId}")
+    public ResponseEntity<ArrayList<Seat>> getAllSeatsByMovieSession(@PathVariable Integer movieSessionId)
+            throws SQLException {
+        Seat seat = new Seat();
+        ArrayList<Seat> seats = seat.listAllByMovieSession(movieSessionId);
+        return new ResponseEntity<ArrayList<Seat>>(seats, HttpStatus.OK);
+    }
 }
