@@ -143,6 +143,11 @@ public class SQLConnection {
                 System.out.println("tables created");
         };
 
+        public void addTestData() {
+                // TODO - Add 100 test data for each table
+
+        }
+
         public Connection getConnection() {
                 return con;
         }
