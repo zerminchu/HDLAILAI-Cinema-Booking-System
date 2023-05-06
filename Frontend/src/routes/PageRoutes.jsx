@@ -8,6 +8,7 @@ import CreateUserAccount from "../pages/UserAdmin/CreateUserAccount";
 import ProfilePage from "../pages/UserAdmin/ProfilePage";
 import DisplayRoles from "../pages/UserAdmin/DisplayRoles";
 import EditUserAccount from "../pages/UserAdmin/EditUserAccount";
+import EditUserProfile from "../pages/UserAdmin/EditUserProfile";
 import LoginModal from "../pages/Login/LoginModal";
 import ViewHall from "../pages/CinemaManager/ViewSeats";
 import LoginForm from "../pages/Login/LoginForm";
@@ -31,6 +32,7 @@ function PageRoutes() {
         <Route path="/ProfilePage" element={<ProfilePage />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
+        <Route path="/EditUserProfile/:id" element={<EditUserProfile />} />
         <Route path="/Login" element={<LoginModal />} />
         <Route path="/ViewHall/:id" element={<ViewHall />} />
         <Route path="/UpdateMovie/:id" element={<UpdateMovie />} />

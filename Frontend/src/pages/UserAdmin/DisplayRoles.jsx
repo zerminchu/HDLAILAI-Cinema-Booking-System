@@ -2,26 +2,19 @@ import {
   Table,
   Group,
   Text,
-  ActionIcon,
   ScrollArea,
   TextInput,
+  Button,
 } from "@mantine/core";
-import {
-  IconPencil,
-  IconCheck,
-  IconX,
-  IconCircleMinus,
-  IconArrowBack,
-} from "@tabler/icons-react";
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
+import UPEditButton from "./components/UPEditButton";
 
 // data=[] means if data is not provided, default to an empty array instead
 function DisplayRoles({ data = [], setData = null }) {
-  const [editProfileName, setEditProfileName] = useState("");
   const [query, setQuery] = useState("");
-  const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
     axios
@@ -42,61 +35,6 @@ function DisplayRoles({ data = [], setData = null }) {
       })
       .catch((error) => console.log(error));
   }, [query]);
-
-  const handleEdit = (id, profileName) => {
-    setEditingId(id);
-    setEditProfileName(profileName);
-  };
-
-  const handleUpdate = (id) => {
-    const updatedProfile = {
-      id,
-      profileName: editProfileName,
-    };
-
-    axios
-      .put(
-        `http://localhost:8080/updateuserprofile/update/${id}`,
-        updatedProfile
-      )
-      .then((response) => {
-        console.log(response.data);
-
-        axios
-          .get("http://localhost:8080/viewuserprofile/all")
-          .then((response) => {
-            setData((prevUsers) =>
-              prevUsers.map((user) =>
-                user.id === id
-                  ? { ...user, profileName: editProfileName }
-                  : user
-              )
-            );
-            setEditingId(response.data);
-          }) // call setUsers instead of setData
-          .catch((error) => console.log(error));
-
-        notifications.show({
-          title: `User Profile`,
-          message: "Profile updated successfully",
-          autoClose: 3000,
-        });
-      })
-      .catch((error) => {
-        notifications.show({
-          title: "Error updating profile name",
-          message: error.response.data,
-          autoClose: 3000,
-        });
-      });
-
-    setEditingId(null);
-  };
-
-  const handleCancelEdit = () => {
-    setEditingId(null);
-    setEditProfileName("");
-  };
 
   const handleSuspend = (id) => {
     const updatedUser = {
@@ -156,75 +94,56 @@ function DisplayRoles({ data = [], setData = null }) {
       });
   };
 
-  const rows = data.map((item) => {
-    const isEditing = item.id === editingId;
+  const rows = data.map(
+    (item, index) =>
+      item && (
+        <tr key={index}>
+          <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.profileName}</Text>
+            </div>
+          </td>
 
-    const isSuspended = item.suspended;
-
-    const rowStyles = isSuspended
-      ? { textDecoration: "line-through", color: "gray" }
-      : {};
-
-    return (
-      <tr key={item.id} style={rowStyles}>
-        <td>
-          <span
-            style={
-              isSuspended
-                ? { textDecoration: "line-through", color: "grey" }
-                : null
-            }
-          >
-            {isEditing ? (
-              <input
-                type="text"
-                value={editProfileName}
-                onChange={(e) => {
-                  // Prevent spacebar input
-                  if (e.target.value.indexOf(" ") === -1) {
-                    setEditProfileName(e.target.value);
-                  }
+          <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>{item.permission}</Text>
+            </div>
+          </td>
+          <td>
+            {item.suspended === false ? (
+              <Button
+                variant="outline"
+                radius="xl"
+                size="xs"
+                uppercase
+                onClick={() => {
+                  handleSuspend(item.id);
                 }}
-              />
+              >
+                Active
+              </Button>
             ) : (
-              item.profileName
-            )}
-          </span>
-        </td>
-        <td>{item.permission}</td>
-        <td>
-          {isSuspended ? (
-            <Group spacing={0} position="right">
-              <Text size="sm" color="gray">
+              <Button
+                variant="outline"
+                radius="xl"
+                size="xs"
+                color="gray"
+                uppercase
+                onClick={() => {
+                  handleUnsuspend(item.id);
+                }}
+              >
                 Suspended
-              </Text>
-              <ActionIcon onClick={() => handleUnsuspend(item.id)}>
-                <IconArrowBack CircleMinus size="1rem" stroke={1.5} />
-              </ActionIcon>
-            </Group>
-          ) : isEditing ? (
-            <Group spacing={0} position="right">
-              <ActionIcon onClick={() => handleUpdate(item.id)}>
-                <IconCheck size="1rem" stroke={1.5} />
-              </ActionIcon>
-              <ActionIcon onClick={handleCancelEdit}>
-                <IconX size="1rem" stroke={1.5} />
-              </ActionIcon>
-            </Group>
-          ) : (
-            <Group spacing={0} position="right">
-              <ActionIcon onClick={() => handleEdit(item.id, item.profileName)}>
-                <IconPencil size="1rem" stroke={1.5} />
-              </ActionIcon>
-              <ActionIcon onClick={() => handleSuspend(item.id)}>
-                <IconCircleMinus size="1rem" stroke={1.5} />
-              </ActionIcon>
-            </Group>
-          )}
-        </td>
-      </tr>
-    );
-  });
+              </Button>
+            )}
+          </td>
+
+          <td>
+            <UPEditButton id={item.id} data={item} />
+          </td>
+        </tr>
+      )
+  );
 
   return (
     <ScrollArea>
@@ -232,6 +151,7 @@ function DisplayRoles({ data = [], setData = null }) {
         <h3>Existing Profiles:</h3>
       </Group>
       <TextInput
+        placeholder={"Search by profile name"}
         value={query}
         name={"query"}
         onChange={(event) => setQuery(event.currentTarget.value)}
@@ -245,7 +165,9 @@ function DisplayRoles({ data = [], setData = null }) {
           <thead>
             <tr>
               <th>Profile Name</th>
-              <th>Permission</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Update</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>

@@ -55,6 +55,12 @@ public class SQLConnection {
                                 + "REFERENCES Hall(id)"
                                 + ")";
 
+                String TicketTypeQuery = "CREATE TABLE IF NOT EXISTS TicketType ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "typeName VARCHAR(255),"
+                                + "price INT"
+                                + ")";
+
                 String movieQuery = "CREATE TABLE IF NOT EXISTS Movie ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "title VARCHAR(255),"
@@ -115,6 +121,10 @@ public class SQLConnection {
                 PreparedStatement seatStatement = con.prepareStatement(seatQuery);
                 seatStatement.executeUpdate();
 
+                PreparedStatement TicketTypeStatement = con.prepareStatement(TicketTypeQuery);
+                TicketTypeStatement.executeUpdate();
+
+            
                 PreparedStatement movieStatement = con.prepareStatement(movieQuery);
                 movieStatement.executeUpdate();
 
@@ -124,14 +134,19 @@ public class SQLConnection {
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
-                /*
-                 * PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-                 * ticketStatement.executeUpdate();
-                 */
+                
+                //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                //ticketStatement.executeUpdate();
+                 
 
                 tablesCreated = true;
                 System.out.println("tables created");
         };
+
+        public void addTestData() {
+                // TODO - Add 100 test data for each table
+
+        }
 
         public Connection getConnection() {
                 return con;

@@ -38,28 +38,6 @@ public class Hall {
         this.totalColumn = totalColumn;
     }
 
-    /*
-     * // To map new halls from database without defined seats
-     * public Hall(Integer id, String name, String status) {
-     * this.id = id;
-     * this.name = name;
-     * this.status = status;
-     * }
-     * 
-     * // To be used when creating seats to track total number of rows and columns
-     * public Hall(Integer id, Integer totalRow, Integer totalColumn) {
-     * this.id = id;
-     * this.totalRow = totalRow;
-     * this.totalColumn = totalColumn;
-     * }
-     * 
-     * 
-     * // For new profiles, suspended will always default to false
-     * public Hall(String name) {
-     * this.name = name;
-     * }
-     */
-
     public Integer getId() {
         return id;
     }
@@ -238,7 +216,7 @@ public class Hall {
             connection = sqlConnection.getConnection();
             String query = "UPDATE Hall SET status = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, "Occupied");
+            statement.setString(1, "Not Available");
             statement.setInt(2, id);
             statement.executeUpdate();
             return true;
