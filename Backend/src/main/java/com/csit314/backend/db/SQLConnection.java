@@ -93,13 +93,6 @@ public class SQLConnection {
                                 + "suspended BOOLEAN"
                                 + ")";
                 
-                String customerInfoQuery = "CREATE TABLE IF NOT EXISTS CustomerInfo ("
-                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                                + "dob VARCHAR(255),"
-                                + "address VARCHAR(255),"
-                                + "gender VARCHAR(255)"
-                                + ")";
-
                 String transactionQuery = "CREATE TABLE IF NOT EXISTS Transaction  ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "totalGrossPrice DOUBLE,"
@@ -112,6 +105,13 @@ public class SQLConnection {
                                 + "UNIQUE KEY unique_id_useraccount (userAccountId),"
                                 + "CONSTRAINT FK_useraccounts_transaction FOREIGN KEY (userAccountId)"
                                 + "REFERENCES UserAccounts(id)"
+                                + ")";
+
+                String customerInfoQuery = "CREATE TABLE IF NOT EXISTS CustomerInfo ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "dob VARCHAR(255),"
+                                + "address VARCHAR(255),"
+                                + "gender VARCHAR(255)"
                                 + ")";
 
                 /*
@@ -145,6 +145,7 @@ public class SQLConnection {
                 PreparedStatement TicketTypeStatement = con.prepareStatement(TicketTypeQuery);
                 TicketTypeStatement.executeUpdate();
 
+            
                 PreparedStatement movieStatement = con.prepareStatement(movieQuery);
                 movieStatement.executeUpdate();
 
@@ -154,21 +155,16 @@ public class SQLConnection {
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
-<<<<<<< HEAD
-                
-                //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-                //ticketStatement.executeUpdate();
-                 
-                PreparedStatement customerInfoStatement = con.prepareStatement(customerInfoQuery);
-                customerInfoStatement.executeUpdate();
-=======
                 PreparedStatement transactionStatement = con.prepareStatement(transactionQuery);
                 transactionStatement.executeUpdate();
 
                 // PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
                 // ticketStatement.executeUpdate();
->>>>>>> b4d17140ec67d2ab8d378ef215817905f73bd5b8
 
+                PreparedStatement customerInfoStatement = con.prepareStatement(customerInfoQuery);
+                customerInfoStatement.executeUpdate();
+
+                
                 tablesCreated = true;
                 System.out.println("tables created");
         };
