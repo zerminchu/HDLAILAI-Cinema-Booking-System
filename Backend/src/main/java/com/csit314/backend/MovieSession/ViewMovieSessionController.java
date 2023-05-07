@@ -17,7 +17,8 @@ public class ViewMovieSessionController {
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<MovieSession>> getAllMovies() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<MovieSession> movieSession = MovieSession.listAll();
+        MovieSession ms = new MovieSession();
+        ArrayList<MovieSession> movieSession = ms.listAll();
         return new ResponseEntity<ArrayList<MovieSession>>(movieSession, HttpStatus.OK);
     }
 
@@ -25,13 +26,15 @@ public class ViewMovieSessionController {
     public ResponseEntity<ArrayList<MovieSession>> getAllMovieSessionsByHall(@PathVariable Integer hallId)
             throws SQLException {
         // This returns a JSON or XML with the MovieSessions associated with a hall
-        ArrayList<MovieSession> movieSessions = MovieSession.listAllByHall(hallId);
+        MovieSession ms = new MovieSession();
+        ArrayList<MovieSession> movieSessions = ms.listAllByHall(hallId);
         return new ResponseEntity<ArrayList<MovieSession>>(movieSessions, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<MovieSession> getMovieSessionById(@PathVariable Integer id) throws SQLException {
-        MovieSession movieSession = MovieSession.get(id);
+        MovieSession ms = new MovieSession();
+        MovieSession movieSession = ms.get(id);
         if (movieSession == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

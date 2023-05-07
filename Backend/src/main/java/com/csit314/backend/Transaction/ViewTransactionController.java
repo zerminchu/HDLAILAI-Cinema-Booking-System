@@ -17,20 +17,24 @@ public class ViewTransactionController {
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<Transaction>> getAllTransaction() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<Transaction> Transactions = Transaction.listAll();
+        Transaction txn = new Transaction();
+        ArrayList<Transaction> Transactions = txn.listAll();
         return new ResponseEntity<ArrayList<Transaction>>(Transactions, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public Transaction getTransactionById(@PathVariable Integer id) throws SQLException {
-        return Transaction.get(id);
+        Transaction txn = new Transaction();
+        return txn.get(id);
     }
 
     @GetMapping(path = "/all/{userAccountId}")
-    public ResponseEntity<ArrayList<Transaction>> getAllTransactionByUserAccountId (@PathVariable Integer userAccountId) throws SQLException {
+    public ResponseEntity<ArrayList<Transaction>> getAllTransactionByUserAccountId(@PathVariable Integer userAccountId)
+            throws SQLException {
+        Transaction txn = new Transaction();
         // This returns a JSON with the users
-        ArrayList<Transaction> Transactions = Transaction.listAllByUserAccountId(userAccountId);
+        ArrayList<Transaction> Transactions = txn.listAllByUserAccountId(userAccountId);
         return new ResponseEntity<ArrayList<Transaction>>(Transactions, HttpStatus.OK);
     }
-    
+
 }

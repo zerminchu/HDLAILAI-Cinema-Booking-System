@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -17,21 +16,24 @@ public class ViewTransactionItemController {
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<TransactionItem>> getAllTransactionItem() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<TransactionItem> transactionItem = TransactionItem.listAll();
+        TransactionItem ti = new TransactionItem();
+        ArrayList<TransactionItem> transactionItem = ti.listAll();
         return new ResponseEntity<ArrayList<TransactionItem>>(transactionItem, HttpStatus.OK);
     }
 
     @GetMapping(path = "/allfnb")
     public ResponseEntity<ArrayList<TransactionItem>> getAllFnbTransactionItem() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<TransactionItem> transactionItem = TransactionItem.listAllFnb();
+        TransactionItem ti = new TransactionItem();
+        ArrayList<TransactionItem> transactionItem = ti.listAllFnb();
         return new ResponseEntity<ArrayList<TransactionItem>>(transactionItem, HttpStatus.OK);
     }
 
     @GetMapping(path = "/allticket")
     public ResponseEntity<ArrayList<TransactionItem>> getAllTicketTransactionItem() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<TransactionItem> transactionItem = TransactionItem.listAllTicket();
+        TransactionItem ti = new TransactionItem();
+        ArrayList<TransactionItem> transactionItem = ti.listAllTicket();
         return new ResponseEntity<ArrayList<TransactionItem>>(transactionItem, HttpStatus.OK);
     }
 }

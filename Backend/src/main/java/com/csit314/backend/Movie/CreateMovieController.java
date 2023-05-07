@@ -13,16 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class CreateMovieController {
     @PostMapping(path = "/add") // Map ONLY POST Requests
     public ResponseEntity<?> addNewMovie(@RequestBody Movie movie) throws SQLException {
-        if (movie.getTitle() == null || movie.getTitle().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Movie title cannot be empty");
-        }
-
+        Movie mv = new Movie();
         // Check for duplicated profile name
-        if (Movie.findByMovie(movie.getTitle()) != null) {
+        if (mv.findByMovie(movie.getTitle()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Movie title already exists");
         }
         try {
-            Movie.save(movie);
+            mv.save(movie);
             return ResponseEntity.ok("Saved");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

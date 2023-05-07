@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping(path = "/createTransactionItemFnb")
 public class CreateFnbTransactionItemController {
     @PostMapping(path = "/addFnb") // Map ONLY POST Requests
-    public ResponseEntity<String> addNewTransactionItemFnb(@RequestBody TransactionItem transactionItem) throws SQLException {
+    public ResponseEntity<String> addNewTransactionItemFnb(@RequestBody TransactionItem transactionItem)
+            throws SQLException {
         try {
-            String result = TransactionItem.savefnb(transactionItem);
+            TransactionItem ti = new TransactionItem();
+            String result = ti.savefnb(transactionItem);
             if (result != "Success")
                 return new ResponseEntity<String>(result, HttpStatus.BAD_REQUEST);
             return new ResponseEntity<String>("saved", HttpStatus.OK);

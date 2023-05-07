@@ -16,7 +16,8 @@ public class SuspendUserAccountController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> suspend(@PathVariable Integer id) throws SQLException {
-        if (UserAccount.suspend(id)) {
+        UserAccount ua = new UserAccount();
+        if (ua.suspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -24,7 +25,8 @@ public class SuspendUserAccountController {
 
     @PutMapping("/unsuspend/{id}")
     public ResponseEntity<?> unsuspend(@PathVariable Integer id) throws SQLException {
-        if (UserAccount.unsuspend(id)) {
+        UserAccount ua = new UserAccount();
+        if (ua.unsuspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

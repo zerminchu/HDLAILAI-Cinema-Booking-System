@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller // This means that this class is a Controller
-@RequestMapping(path = "/suspendfnb") // This means URL's start with /useraccount (after Application path)
+@RequestMapping(path = "/suspendfnb") // This means URL's start with /suspendfnb (after Application path)
 public class SuspendFnbController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> suspend(@PathVariable Integer id) throws SQLException {
-        if (Fnb.suspend(id)) {
+        Fnb f = new Fnb();
+        if (f.suspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -22,10 +23,11 @@ public class SuspendFnbController {
 
     @PutMapping("/unsuspend/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id) throws SQLException {
-        if (Fnb.unsuspend(id)) {
+        Fnb f = new Fnb();
+        if (f.unsuspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    
+
 }

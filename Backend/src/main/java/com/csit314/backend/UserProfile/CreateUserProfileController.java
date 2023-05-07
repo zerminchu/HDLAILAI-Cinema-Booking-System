@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class CreateUserProfileController {
     @PostMapping(path = "/add") // Map ONLY POST Requests
     public ResponseEntity<?> addNewUser(@RequestBody UserProfile user) throws SQLException {
-
+        UserProfile up = new UserProfile();
         // Check for duplicated profile name
-        if (UserProfile.findByProfileName(user.getProfileName()) != null) {
+        if (up.findByProfileName(user.getProfileName()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name already exists");
         }
 
         try {
-            UserProfile.save(user);
+            up.save(user);
             return ResponseEntity.ok("Saved");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

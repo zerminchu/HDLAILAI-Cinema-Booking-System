@@ -33,7 +33,7 @@ public class Movie {
     }
 
     // For updating movie names, only id and name are required
-    public Movie (Integer id, String title, String sypnosis, String genre, Integer runTime, String imageURL) {
+    public Movie(Integer id, String title, String sypnosis, String genre, Integer runTime, String imageURL) {
         this.id = id;
         this.title = title;
         this.sypnosis = sypnosis;
@@ -44,7 +44,7 @@ public class Movie {
     }
 
     // For movie names without image
-    public Movie (Integer id, String title, String sypnosis, String genre, Integer runTime) {
+    public Movie(Integer id, String title, String sypnosis, String genre, Integer runTime) {
         this.id = id;
         this.title = title;
         this.sypnosis = sypnosis;
@@ -54,12 +54,13 @@ public class Movie {
     }
 
     // For new profiles, suspended will always default to false
-    public Movie (String title) {
+    public Movie(String title) {
         this.title = title;
     }
 
     // To map the results from the database
-    public Movie (Integer id, String title, String sypnosis, String genre, Integer runTime, String imageURL, Boolean suspended) {
+    public Movie(Integer id, String title, String sypnosis, String genre, Integer runTime, String imageURL,
+            Boolean suspended) {
         this.id = id;
         this.title = title;
         this.runTime = runTime;
@@ -125,7 +126,7 @@ public class Movie {
         this.suspended = suspended;
     }
 
-    public static String save(Movie createMovie) throws SQLException {
+    public String save(Movie createMovie) throws SQLException {
         // Return failure early incase of incomplete fields
         if (createMovie.title == "" || createMovie.runTime == null) {
             return "Failure";
@@ -153,9 +154,8 @@ public class Movie {
             }
         }
     }
-    
 
-    public static ArrayList<Movie> listAll() throws SQLException {
+    public ArrayList<Movie> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -189,7 +189,7 @@ public class Movie {
     }
 
     // Read One
-    public static Movie get(Integer id) throws SQLException {
+    public Movie get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -220,7 +220,7 @@ public class Movie {
         }
     }
 
-    public static Boolean update(Movie Movie)
+    public Boolean update(Movie Movie)
             throws SQLException {
         Connection connection = null;
         try {
@@ -246,7 +246,7 @@ public class Movie {
         }
     }
 
-    public static Boolean suspend(Integer id) throws SQLException {
+    public Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -267,7 +267,7 @@ public class Movie {
         }
     }
 
-    public static Boolean unsuspend(Integer id) throws SQLException {
+    public Boolean unsuspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -288,7 +288,7 @@ public class Movie {
         }
     }
 
-    public static Movie findByMovie(String movieName) throws SQLException {
+    public Movie findByMovie(String movieName) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -301,14 +301,14 @@ public class Movie {
             if (!resultSet.next()) {
                 return null;
             }
-                Integer id = resultSet.getInt("id");
-                String title = resultSet.getString("title");
-                String sypnosis = resultSet.getString("sypnosis");
-                String genre = resultSet.getString("genre");
-                Integer runTime = resultSet.getInt("runTime");
-                String imageURL = resultSet.getString("imageURL");
-                Boolean suspended = resultSet.getBoolean("suspended");
-                Movie result = new Movie(id, title, sypnosis, genre, runTime, imageURL, suspended);
+            Integer id = resultSet.getInt("id");
+            String title = resultSet.getString("title");
+            String sypnosis = resultSet.getString("sypnosis");
+            String genre = resultSet.getString("genre");
+            Integer runTime = resultSet.getInt("runTime");
+            String imageURL = resultSet.getString("imageURL");
+            Boolean suspended = resultSet.getBoolean("suspended");
+            Movie result = new Movie(id, title, sypnosis, genre, runTime, imageURL, suspended);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -320,7 +320,7 @@ public class Movie {
         }
     }
 
-    public static ArrayList<Movie> search(String q) throws SQLException {
+    public ArrayList<Movie> search(String q) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -354,5 +354,5 @@ public class Movie {
             }
         }
     }
-    
+
 }

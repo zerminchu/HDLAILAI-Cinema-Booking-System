@@ -16,8 +16,8 @@ public class SearchFnbController {
     @GetMapping
     public ResponseEntity<ArrayList<Fnb>> getAllFnb(@RequestParam("q") String query)
             throws SQLException {
-        // This returns a JSON or XML with the users
-        ArrayList<Fnb> searchResults = Fnb.search(query);
+        Fnb f = new Fnb();
+        ArrayList<Fnb> searchResults = f.search(query);
         return new ResponseEntity<ArrayList<Fnb>>(searchResults, HttpStatus.OK);
     }
 }

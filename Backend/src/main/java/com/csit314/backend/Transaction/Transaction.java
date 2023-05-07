@@ -121,12 +121,12 @@ public class Transaction {
         this.userAccountId = userAccountId;
     }
 
-    public static String save(Transaction createTransaction) throws SQLException {
+    public String save(Transaction createTransaction) throws SQLException {
         // Return failure early in case of incomplete fields
         if (createTransaction.userAccountId == null) {
             return "Failure";
         }
-    
+
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -151,9 +151,8 @@ public class Transaction {
             }
         }
     }
-    
 
-    public static ArrayList<Transaction> listAll() throws SQLException {
+    public ArrayList<Transaction> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -190,7 +189,7 @@ public class Transaction {
     }
 
     // Find by specific userAccountId
-    public static ArrayList<Transaction> listAllByUserAccountId(Integer userAccountId) throws SQLException {
+    public ArrayList<Transaction> listAllByUserAccountId(Integer userAccountId) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -228,7 +227,7 @@ public class Transaction {
     }
 
     // Read One
-    public static Transaction get(Integer id) throws SQLException {
+    public Transaction get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -266,7 +265,7 @@ public class Transaction {
         }
     }
 
-    public static Boolean update(Transaction updateTransaction)
+    public Boolean update(Transaction updateTransaction)
             throws SQLException {
         Connection connection = null;
         try {
@@ -291,7 +290,7 @@ public class Transaction {
         }
     }
 
-    public static Boolean cancel(Integer id) throws SQLException {
+    public Boolean cancel(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -312,7 +311,7 @@ public class Transaction {
         }
     }
 
-    public static Boolean uncancel(Integer id) throws SQLException {
+    public Boolean uncancel(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();

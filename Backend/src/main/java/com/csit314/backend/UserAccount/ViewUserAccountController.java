@@ -16,15 +16,17 @@ public class ViewUserAccountController {
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<UserAccount>> getAllUsers() throws SQLException {
         // This returns a JSON or XML with the users
+        UserAccount ua = new UserAccount();
         ArrayList<UserAccount> userAccounts;
-        userAccounts = UserAccount.listAll();
+        userAccounts = ua.listAll();
         return new ResponseEntity<ArrayList<UserAccount>>(userAccounts, HttpStatus.OK);
 
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserAccount> getUserById(@PathVariable Integer id) throws SQLException {
-        UserAccount user = UserAccount.get(id);
+        UserAccount ua = new UserAccount();
+        UserAccount user = ua.get(id);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

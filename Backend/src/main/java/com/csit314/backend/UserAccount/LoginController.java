@@ -27,7 +27,8 @@ public class LoginController {
             if (user.getPassword() == "") {
                 return new ResponseEntity<String>("Empty password", HttpStatus.BAD_REQUEST);
             }
-            String loginResult = UserAccount.login(user);
+            UserAccount ua = new UserAccount();
+            String loginResult = ua.login(user);
             switch (loginResult) {
                 case "User/Profile is invalid":
                 case "User has been suspended.":

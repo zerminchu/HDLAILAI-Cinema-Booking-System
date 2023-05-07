@@ -22,13 +22,14 @@ public class UpdateTicketTypeController {
         if (ticketType.getPrice() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Price cannot be empty");
         }
-        
+
         if (ticketType.getPrice() <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Price must be greater than 0");
         }
 
         try {
-            TicketType.update(ticketType);
+            TicketType tt = new TicketType();
+            tt.update(ticketType);
             return ResponseEntity.ok("Saved");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -36,4 +37,3 @@ public class UpdateTicketTypeController {
     }
 
 }
-

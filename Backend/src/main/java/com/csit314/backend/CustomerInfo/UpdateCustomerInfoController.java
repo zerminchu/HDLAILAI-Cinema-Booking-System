@@ -9,16 +9,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Controller 
-@RequestMapping(path = "/updatecustomerinfo") 
+@Controller
+@RequestMapping(path = "/updatecustomerinfo")
 public class UpdateCustomerInfoController {
 
     @PutMapping(path = "/update/{id}")
-    public ResponseEntity<?> update(@RequestBody CustomerInfo customerInfo, @PathVariable Integer accountId) throws SQLException {
-        if (CustomerInfo.update(customerInfo)) {
+    public ResponseEntity<?> update(@RequestBody CustomerInfo customerInfo, @PathVariable Integer accountId)
+            throws SQLException {
+        CustomerInfo ci = new CustomerInfo();
+        if (ci.update(customerInfo)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    
+
 }

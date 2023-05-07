@@ -98,7 +98,7 @@ public class MovieSession {
     }
 
     // SQL methods
-    public static String save(MovieSession movieSession) throws SQLException {
+    public  String save(MovieSession movieSession) throws SQLException {
         if (movieSession.hallId == -1 || movieSession.movieId == -1
                 || movieSession.startDateTime == null || movieSession.endDateTime == null) {
             System.out.println(movieSession.hallId);
@@ -146,7 +146,7 @@ public class MovieSession {
         }
     }
 
-    public static MovieSession get(Integer id) throws SQLException {
+    public  MovieSession get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -177,7 +177,7 @@ public class MovieSession {
         }
     }
 
-    public static ArrayList<MovieSession> listAll() throws SQLException {
+    public  ArrayList<MovieSession> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -217,7 +217,7 @@ public class MovieSession {
         }
     }
 
-    public static ArrayList<MovieSession> listAllByHall(Integer hallId) throws SQLException {
+    public  ArrayList<MovieSession> listAllByHall(Integer hallId) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -297,7 +297,7 @@ public class MovieSession {
         }
     }
 
-    public static Boolean suspend(Integer id) throws SQLException {
+    public  Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -318,7 +318,7 @@ public class MovieSession {
         }
     }
 
-    public static Boolean unsuspend(Integer id) throws SQLException {
+    public  Boolean unsuspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();

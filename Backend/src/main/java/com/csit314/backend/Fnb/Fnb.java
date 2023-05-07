@@ -90,7 +90,7 @@ public class Fnb {
         this.suspended = suspended;
     }
 
-    public static String save(Fnb fnb) throws SQLException {
+    public String save(Fnb fnb) throws SQLException {
         // Return failure early incase of incomplete fields
         if (fnb.currentPrice == 0 || fnb.imageURL == "") {
             return "Failure";
@@ -119,7 +119,7 @@ public class Fnb {
         }
     }
 
-    public static ArrayList<Fnb> listAll() throws SQLException {
+    public ArrayList<Fnb> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -152,7 +152,7 @@ public class Fnb {
     }
 
     // Read One
-    public static Fnb get(Integer id) throws SQLException {
+    public Fnb get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -182,7 +182,7 @@ public class Fnb {
         }
     }
 
-    public static Boolean update(Fnb fnb)
+    public Boolean update(Fnb fnb)
             throws SQLException {
         Connection connection = null;
         try {
@@ -207,7 +207,7 @@ public class Fnb {
         }
     }
 
-    public static Boolean suspend(Integer id) throws SQLException {
+    public Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -228,7 +228,7 @@ public class Fnb {
         }
     }
 
-    public static Boolean unsuspend(Integer id) throws SQLException {
+    public Boolean unsuspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -249,7 +249,7 @@ public class Fnb {
         }
     }
 
-    public static Fnb findByFnb(String fnbItem) throws SQLException {
+    public Fnb findByFnb(String fnbItem) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -280,7 +280,7 @@ public class Fnb {
         }
     }
 
-    public static ArrayList<Fnb> search(String q) throws SQLException {
+    public ArrayList<Fnb> search(String q) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();

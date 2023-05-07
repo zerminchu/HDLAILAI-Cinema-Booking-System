@@ -17,13 +17,15 @@ public class ViewCustomerInfoController {
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<CustomerInfo>> getAllUsers() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<CustomerInfo> customerInfo = CustomerInfo.listAll();
+        CustomerInfo ci = new CustomerInfo();
+        ArrayList<CustomerInfo> customerInfo = ci.listAll();
         return new ResponseEntity<ArrayList<CustomerInfo>>(customerInfo, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public CustomerInfo getUserById(@PathVariable Integer accountId) throws SQLException {
-        return CustomerInfo.get(accountId);
+        CustomerInfo ci = new CustomerInfo();
+        return ci.get(accountId);
     }
 
 }

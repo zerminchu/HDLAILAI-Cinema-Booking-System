@@ -15,16 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ViewFnbController {
 
     @GetMapping(path = "/all")
-    public ResponseEntity<ArrayList<Fnb>> getAllHalls() throws SQLException {
+    public ResponseEntity<ArrayList<Fnb>> getAllFnb() throws SQLException {
+        Fnb f = new Fnb();
         // This returns a JSON or XML with the users
-        ArrayList<Fnb> viewHalls = Fnb.listAll();
-        return new ResponseEntity<ArrayList<Fnb>>(viewHalls, HttpStatus.OK);
+        ArrayList<Fnb> viewFnb = f.listAll();
+        return new ResponseEntity<ArrayList<Fnb>>(viewFnb, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Fnb> getHallById(@PathVariable Integer id) throws SQLException {
-        Fnb result = Fnb.get(id);
+    public ResponseEntity<Fnb> getFnbById(@PathVariable Integer id) throws SQLException {
+        Fnb f = new Fnb();
+        Fnb result = f.get(id);
         return new ResponseEntity<Fnb>(result, HttpStatus.OK);
     }
-    
+
 }

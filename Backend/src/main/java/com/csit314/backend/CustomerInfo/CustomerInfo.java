@@ -12,7 +12,6 @@ import com.csit314.backend.Movie.Movie;
 import com.csit314.backend.Seat.Seat;
 import com.csit314.backend.UserAccount.UserAccount;
 
-
 public class CustomerInfo {
     private Integer accountId = -1;
     private String dob = "";
@@ -76,8 +75,7 @@ public class CustomerInfo {
         this.gender = gender;
     }
 
-
-    public static String save(CustomerInfo user) throws SQLException {
+    public String save(CustomerInfo user) throws SQLException {
         // Return failure early incase of incomplete fields
         if (user.dob == "" || user.address == "" || user.gender == "") {
             return "Failure";
@@ -104,7 +102,7 @@ public class CustomerInfo {
         }
     }
 
-    public static ArrayList<CustomerInfo> listAll() throws SQLException {
+    public ArrayList<CustomerInfo> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -134,7 +132,7 @@ public class CustomerInfo {
         }
     }
 
-    public static CustomerInfo get(Integer accountId) throws SQLException {
+    public CustomerInfo get(Integer accountId) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -162,7 +160,7 @@ public class CustomerInfo {
         }
     }
 
-    public static Boolean update(CustomerInfo customerInfo)
+    public Boolean update(CustomerInfo customerInfo)
             throws SQLException {
         Connection connection = null;
         try {
@@ -184,7 +182,5 @@ public class CustomerInfo {
             }
         }
     }
-
-
 
 }

@@ -78,7 +78,7 @@ public class Hall {
         this.totalColumn = totalColumn;
     }
 
-    public static String save(Hall createHall) throws SQLException {
+    public String save(Hall createHall) throws SQLException {
         // Return failure early incase of incomplete fields
         if (createHall.name == "") {
             return "Failure";
@@ -102,7 +102,7 @@ public class Hall {
         }
     }
 
-    public static ArrayList<Hall> listAll() throws SQLException {
+    public ArrayList<Hall> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -134,7 +134,7 @@ public class Hall {
     }
 
     // Read One
-    public static Hall get(Integer id) throws SQLException {
+    public Hall get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -163,7 +163,7 @@ public class Hall {
         }
     }
 
-    public static Boolean update(Hall hallUpdate)
+    public Boolean update(Hall hallUpdate)
             throws SQLException {
         Connection connection = null;
         try {
@@ -185,7 +185,7 @@ public class Hall {
         }
     }
 
-    public static Boolean updateNumberOfSeats(Hall hall)
+    public Boolean updateNumberOfSeats(Hall hall)
             throws SQLException {
         Connection connection = null;
         try {
@@ -209,7 +209,7 @@ public class Hall {
         }
     }
 
-    public static Boolean suspend(Integer id) throws SQLException {
+    public Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -230,7 +230,7 @@ public class Hall {
         }
     }
 
-    public static Boolean unsuspend(Integer id) throws SQLException {
+    public Boolean unsuspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -251,7 +251,7 @@ public class Hall {
         }
     }
 
-    public static Hall findByHall(String hallName) throws SQLException {
+    public Hall findByHall(String hallName) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -281,7 +281,7 @@ public class Hall {
         }
     }
 
-    public static ArrayList<Hall> search(String q) throws SQLException {
+    public ArrayList<Hall> search(String q) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();

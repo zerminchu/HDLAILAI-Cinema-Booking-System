@@ -1,6 +1,5 @@
 package com.csit314.backend.TransactionItem;
 
-import java.lang.reflect.Parameter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,7 +52,7 @@ public class TransactionItem {
     }
 
     // To map the results from the database for Ticket
-    public TransactionItem (Integer id, Integer paidPrice, Transaction transactionId, Ticket ticketId) {
+    public TransactionItem(Integer id, Integer paidPrice, Transaction transactionId, Ticket ticketId) {
         this.id = id;
         this.paidPrice = paidPrice;
         this.transactionId = transactionId;
@@ -61,7 +60,7 @@ public class TransactionItem {
     }
 
     // To map the results from the database for FnB
-    public TransactionItem (Integer id, Integer paidPrice, Transaction transactionId, Fnb fnbId) {
+    public TransactionItem(Integer id, Integer paidPrice, Transaction transactionId, Fnb fnbId) {
         this.id = id;
         this.paidPrice = paidPrice;
         this.transactionId = transactionId;
@@ -69,13 +68,13 @@ public class TransactionItem {
     }
 
     // To map the results from the database
-    public TransactionItem (Integer id, Integer paidPrice, Transaction transactionId, Ticket ticketId, Fnb fnbId) {
+    public TransactionItem(Integer id, Integer paidPrice, Transaction transactionId, Ticket ticketId, Fnb fnbId) {
         this.id = id;
         this.paidPrice = paidPrice;
         this.transactionId = transactionId;
         this.ticketId = ticketId;
         this.fnbId = fnbId;
-        }
+    }
 
     public Integer getId() {
         return id;
@@ -109,7 +108,6 @@ public class TransactionItem {
         this.ticketId = ticketId;
     }
 
-
     public Fnb getFnbId() {
         return fnbId;
     }
@@ -118,8 +116,8 @@ public class TransactionItem {
         this.fnbId = fnbId;
     }
 
-    //Save TransactionItem with ticket
-    public static String save(TransactionItem transactionItem) throws SQLException {
+    // Save TransactionItem with ticket
+    public String save(TransactionItem transactionItem) throws SQLException {
         // Return failure early incase of incomplete fields
         if (transactionItem.paidPrice == null) {
             return "Failure";
@@ -147,8 +145,8 @@ public class TransactionItem {
         }
     }
 
-    //Save TransactionItem with fnb
-    public static String savefnb (TransactionItem transactionItem) throws SQLException {
+    // Save TransactionItem with fnb
+    public String savefnb(TransactionItem transactionItem) throws SQLException {
         // Return failure early incase of incomplete fields
         if (transactionItem.paidPrice == null) {
             return "Failure";
@@ -176,10 +174,8 @@ public class TransactionItem {
         }
     }
 
-
-
-    //List all ticket TransactionItem
-    public static ArrayList<TransactionItem> listAllTicket() throws SQLException {
+    // List all ticket TransactionItem
+    public ArrayList<TransactionItem> listAllTicket() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -213,8 +209,8 @@ public class TransactionItem {
         }
     }
 
-    //List all fnb TransactionItem
-    public static ArrayList<TransactionItem> listAllFnb() throws SQLException {
+    // List all fnb TransactionItem
+    public ArrayList<TransactionItem> listAllFnb() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -248,8 +244,8 @@ public class TransactionItem {
         }
     }
 
-    //list all with ticket n fnb
-    public static ArrayList<TransactionItem> listAll() throws SQLException {
+    // list all with ticket n fnb
+    public ArrayList<TransactionItem> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -286,7 +282,7 @@ public class TransactionItem {
     }
 
     // Read One
-    public static TransactionItem get(Integer id) throws SQLException {
+    public TransactionItem get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();

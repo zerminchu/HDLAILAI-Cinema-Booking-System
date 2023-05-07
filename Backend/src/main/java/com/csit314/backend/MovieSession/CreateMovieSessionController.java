@@ -14,7 +14,8 @@ public class CreateMovieSessionController {
     @PostMapping(path = "/add") // Map ONLY POST Requests
     public ResponseEntity<String> addNewMovieSession(@RequestBody MovieSession movieSession) throws SQLException {
         try {
-            String result = MovieSession.save(movieSession);
+            MovieSession ms = new MovieSession();
+            String result = ms.save(movieSession);
             if (result != "Success")
                 return new ResponseEntity<String>(result, HttpStatus.BAD_REQUEST);
             return new ResponseEntity<String>("saved", HttpStatus.OK);

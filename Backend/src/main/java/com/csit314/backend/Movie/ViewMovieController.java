@@ -17,13 +17,15 @@ public class ViewMovieController {
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<Movie>> getAllMovies() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<Movie> viewMovies = Movie.listAll();
+        Movie mv = new Movie();
+        ArrayList<Movie> viewMovies = mv.listAll();
         return new ResponseEntity<ArrayList<Movie>>(viewMovies, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public Movie getMovieById(@PathVariable Integer id) throws SQLException {
-        return Movie.get(id);
+        Movie mv = new Movie();
+        return mv.get(id);
     }
-    
+
 }
