@@ -1,3 +1,4 @@
+import CinemaManagerHeader from "./Components/ViewHalls/CinemaManagerHeader";
 import MoviesTable from "../CinemaManager/Components/ViewMovie/MoviesTable.jsx";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -38,9 +39,8 @@ function ViewMovies() {
   return (
     <div>
       <Group>
-        <h1>View Movies</h1>
+        <CinemaManagerHeader />
       </Group>
-
       <Group>
         <TextInput
           value={query}
