@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller // This means that this class is a Controller
-@RequestMapping(path = "/createTransactionItemFnb")
+@RequestMapping(path = "/createtransactionitemfnb")
 public class CreateFnbTransactionItemController {
-    @PostMapping(path = "/addFnb") // Map ONLY POST Requests
+    @PostMapping(path = "/addfnb") // Map ONLY POST Requests
     public ResponseEntity<String> addNewTransactionItemFnb(@RequestBody TransactionItem transactionItem)
             throws SQLException {
         try {
