@@ -14,7 +14,7 @@ import com.csit314.backend.UserAccount.UserAccount;
 
 public class CustomerInfo {
     private Integer accountId = -1;
-    private String dob = "";
+    private Date dob = "";
     private String address = "";
     private String gender = "";
 
@@ -30,13 +30,13 @@ public class CustomerInfo {
         this.accountId = accountId;
     }
 
-    public CustomerInfo(String dob, String address, String gender) {
+    public CustomerInfo(Date dob, String address, String gender) {
         this.dob = dob;
         this.address = address;
         this.gender = gender;
     }
 
-    public CustomerInfo(Integer accountId, String dob, String address, String gender) {
+    public CustomerInfo(Integer accountId, Date dob, String address, String gender) {
         this.accountId = accountId;
         this.dob = dob;
         this.address = address;
@@ -55,7 +55,7 @@ public class CustomerInfo {
         return dob;
     }
 
-    public void setDob(String dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
@@ -86,7 +86,7 @@ public class CustomerInfo {
             connection = sqlConnection.getConnection();
             String query = "INSERT INTO CustomerInfo (dob, address, gender) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, user.dob);
+            statement.setDate(1, user.dob);
             statement.setString(2, user.address);
             statement.setString(3, user.gender);
             statement.executeUpdate();
@@ -114,7 +114,7 @@ public class CustomerInfo {
             while (resultSet.next()) {
                 // Get the data from the current row
                 Integer accountId = resultSet.getInt("accountId");
-                String dob = resultSet.getString("dob");
+                Date dob = resultSet.getDate("dob");
                 String address = resultSet.getString("address");
                 String gender = resultSet.getString("gender");
                 // Convert the data into an object that can be sent back to boundary
@@ -145,7 +145,7 @@ public class CustomerInfo {
             if (!resultSet.next()) {
                 return null;
             }
-            String dob = resultSet.getString("dob");
+            Date dob = resultSet.getDate("dob");
             String address = resultSet.getString("address");
             String gender = resultSet.getString("gender");
             CustomerInfo result = new CustomerInfo(accountId, dob, address, gender);
@@ -168,7 +168,7 @@ public class CustomerInfo {
             connection = sqlConnection.getConnection();
             String query = "UPDATE CustomerInfo SET dob = ?, address = ?, gender = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, customerInfo.dob);
+            statement.setDate(1, customerInfo.dob);
             statement.setString(2, customerInfo.address);
             statement.setString(3, customerInfo.gender);
             statement.executeUpdate();
