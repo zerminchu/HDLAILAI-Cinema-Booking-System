@@ -54,6 +54,9 @@ function Demo() {
           <List.Item>
             <Link to="/ViewMovieSession">View Movie Session</Link>{" "}
           </List.Item>
+          <List.Item>
+            <Link to="/UserAdminHome"> User Admin Home</Link>
+          </List.Item>
           {currentUser ? (
             <List.Item>
               <LogoutButton />
@@ -62,6 +65,8 @@ function Demo() {
             <List.Item>
               <LoginModal />
             </List.Item>
+
+
           )}
         </List>
         <Image

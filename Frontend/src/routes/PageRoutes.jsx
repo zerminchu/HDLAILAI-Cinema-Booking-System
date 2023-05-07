@@ -21,6 +21,7 @@ import UpdateMovie from "../pages/CinemaManager/UpdateMovie";
 import CreateMSModal from "../pages/CinemaManager/CreateMSModal";
 import ViewMovieSession from "../pages/CinemaManager/ViewMovieSession";
 import UpdateMovieSession from "../pages/CinemaManager/UpdateMovieSession";
+import UserAdminHome from "../pages/UserAdmin/UserAdminHome";
 
 function PageRoutes() {
   return (
@@ -51,6 +52,7 @@ function PageRoutes() {
         <Route path="/CreateMS" element={<CreateMSModal />} />
         <Route path="/ViewMovieSession" element={<ViewMovieSession />} />
         <Route path="/EditMovieSession/:id" element={<UpdateMovieSession />} />
+        <Route path="/UserAdminHome" element={<UserAdminHome />} />
       </Routes>
     </Router>
   );
