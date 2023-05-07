@@ -40,7 +40,7 @@ export function ButtonMenu() {
               UP
             </Avatar>
           }
-          to="/CreateRolesPage"
+          to="/ProfilePage"
         >
           User Profile
         </Menu.Item>

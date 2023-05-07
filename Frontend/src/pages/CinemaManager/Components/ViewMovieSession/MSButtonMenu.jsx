@@ -40,7 +40,7 @@ export function MSButtonMenu() {
               UP
             </Avatar>
           }
-          to="/CreateRolesPage"
+          to="/ProfilePage"
         >
           User Profile
         </Menu.Item>
