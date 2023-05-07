@@ -38,22 +38,6 @@ public class TransactionItem {
         this.id = id;
     }
 
-    // For new TransactionItem with ticket only
-    public TransactionItem(Integer id, Integer paidPrice, Transaction transactionId, Ticket ticketId) {
-        this.id = id;
-        this.paidPrice = paidPrice;
-        this.transactionId = transactionId;
-        this.ticketId = ticketId;
-    }
-
-    // For new TransactionItem with fnb only
-    public TransactionItem(Integer id, Integer paidPrice, Transaction transactionId, Fnb fnbId) {
-        this.id = id;
-        this.paidPrice = paidPrice;
-        this.transactionId = transactionId;
-        this.fnbId = fnbId;
-    }
-
     // For updating TransactionItem names with Ticket only
     public TransactionItem(Integer paidPrice, Transaction transactionId, Ticket ticketId) {
         this.paidPrice = paidPrice;
