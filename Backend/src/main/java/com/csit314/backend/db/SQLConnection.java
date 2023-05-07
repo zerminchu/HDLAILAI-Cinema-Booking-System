@@ -93,19 +93,6 @@ public class SQLConnection {
                                 + "suspended BOOLEAN"
                                 + ")";
 
-                String transactionItemQuery = "CREATE TABLE IF NOT EXISTS TransactionItem ("
-                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                + "paidPrice INT,"
-                + "ticketId INT,"
-                + "fnbId INT,"
-                + "transactionId INT,"
-                + "CONSTRAINT FK_transactionitem_ticket FOREIGN KEY (ticketId)"
-                + "REFERENCES Ticket(id),"
-                + "CONSTRAINT FK_transactionitem_fnb FOREIGN KEY (fnbId)"
-                + "REFERENCES Fnb(id),"
-                + "CONSTRAINT FK_transactionitem_transaction FOREIGN KEY (transactionId)"
-                + "REFERENCES Transaction(id)"
-                + ")";
                 String transactionQuery = "CREATE TABLE IF NOT EXISTS Transaction  ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "totalGrossPrice DOUBLE,"
@@ -119,6 +106,20 @@ public class SQLConnection {
                                 + "CONSTRAINT FK_useraccounts_transaction FOREIGN KEY (userAccountId)"
                                 + "REFERENCES UserAccounts(id)"
                                 + ")";
+
+                String transactionItemQuery = "CREATE TABLE IF NOT EXISTS TransactionItem ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "paidPrice INT,"
+                + "ticketId INT,"
+                + "fnbId INT,"
+                + "transactionId INT,"
+                + "CONSTRAINT FK_transactionitem_ticket FOREIGN KEY (ticketId)"
+                + "REFERENCES Ticket(id),"
+                + "CONSTRAINT FK_transactionitem_fnb FOREIGN KEY (fnbId)"
+                + "REFERENCES Fnb(id),"
+                + "CONSTRAINT FK_transactionitem_transaction FOREIGN KEY (transactionId)"
+                + "REFERENCES Transaction(id)"
+                + ")";
 
                 /*
                  * String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
@@ -160,9 +161,6 @@ public class SQLConnection {
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
-                PreparedStatement transactionItemStatement = con.prepareStatement(transactionItemQuery);
-                transactionItemStatement.executeUpdate();
-
                 //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
                 //ticketStatement.executeUpdate();
                  
@@ -171,6 +169,9 @@ public class SQLConnection {
 
                 // PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
                 // ticketStatement.executeUpdate();
+
+                PreparedStatement transactionItemStatement = con.prepareStatement(transactionItemQuery);
+                transactionItemStatement.executeUpdate();
 
                 tablesCreated = true;
                 System.out.println("tables created");
