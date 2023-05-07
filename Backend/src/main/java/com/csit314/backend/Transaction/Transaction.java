@@ -61,6 +61,17 @@ public class Transaction {
         this.userAccountId = userAccountId;
     }
 
+    public Transaction(Integer id, Double totalGrossPrice, Double gst, Double totalNetPrice, Timestamp dateTime,
+            String type, Boolean cancellled) {
+        this.id = id;
+        this.totalGrossPrice = totalGrossPrice;
+        this.gst = gst;
+        this.totalNetPrice = totalNetPrice;
+        this.dateTime = dateTime;
+        this.type = type;
+        this.cancelled = cancellled;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -232,28 +243,27 @@ public class Transaction {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM Transaction t INNER JOIN UserAccounts u ON t.userAccountId = u.id WHERE t.id = ? ";
-            System.out.println(query);
+            String query = "SELECT * FROM Transaction WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             statement.setMaxRows(1);
             ResultSet resultSet = statement.executeQuery();
+
             if (!resultSet.next()) {
+                System.out.println("dog1");
                 System.out.println("No Transactions found");
                 return null;
             }
-            Integer transactionId = resultSet.getInt("id");
             Double totalGrossPrice = resultSet.getDouble("totalGrossPrice");
             Double gst = resultSet.getDouble("gst");
             Double totalNetPrice = resultSet.getDouble("totalNetPrice");
             Timestamp dateTime = resultSet.getTimestamp("dateTime");
             String type = resultSet.getString("type");
             Boolean cancelled = resultSet.getBoolean("cancelled");
-            Integer userAccountId = resultSet.getInt("userAccountId");
 
             // Convert the data into an object that can be sent back to boundary
-            Transaction result = new Transaction(transactionId, totalGrossPrice, gst, totalNetPrice, dateTime, type,
-                    cancelled, userAccountId);
+            Transaction result = new Transaction(id, totalGrossPrice, gst, totalNetPrice, dateTime, type, cancelled);
+
             return result;
         } catch (SQLException e) {
             System.out.println(e);

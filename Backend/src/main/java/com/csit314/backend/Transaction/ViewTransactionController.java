@@ -23,12 +23,14 @@ public class ViewTransactionController {
     }
 
     @GetMapping(path = "/{id}")
-    public Transaction getTransactionById(@PathVariable Integer id) throws SQLException {
+    public ResponseEntity<Transaction> getTransactionById(@PathVariable Integer id) throws SQLException {
         Transaction txn = new Transaction();
-        return txn.get(id);
+        Transaction result = txn.get(id);
+        return new ResponseEntity<Transaction>(result, HttpStatus.OK);
+
     }
 
-    @GetMapping(path = "/all/{userAccountId}")
+    @GetMapping(path = "/useraccount/{userAccountId}")
     public ResponseEntity<ArrayList<Transaction>> getAllTransactionByUserAccountId(@PathVariable Integer userAccountId)
             throws SQLException {
         Transaction txn = new Transaction();
