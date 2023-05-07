@@ -18,6 +18,10 @@ import CinemaManagerHome from "../pages/CinemaManager/CinemaManagerHome";
 import ViewMovies from "../pages/CinemaManager/ViewMovies";
 import AddMovie from "../pages/CinemaManager/AddMovie";
 import UpdateMovie from "../pages/CinemaManager/UpdateMovie";
+import CreateMSModal from "../pages/CinemaManager/CreateMSModal";
+import ViewMovieSession from "../pages/CinemaManager/ViewMovieSession";
+import UpdateMovieSession from "../pages/CinemaManager/UpdateMovieSession";
+
 function PageRoutes() {
   return (
     <Router>
@@ -43,6 +47,10 @@ function PageRoutes() {
         <Route path="/Unauthorized" element={<NotFoundTitle />} />
         <Route path="/ViewMovies" element={<ViewMovies />} />
         <Route path="/AddMovie" element={<AddMovie />} />
+        <Route path="/UpdateMovie" element={<UpdateMovie />} />
+        <Route path="/CreateMS" element={<CreateMSModal />} />
+        <Route path="/ViewMovieSession" element={<ViewMovieSession />} />
+        <Route path="/EditMovieSession/:id" element={<UpdateMovieSession />} />
       </Routes>
     </Router>
   );

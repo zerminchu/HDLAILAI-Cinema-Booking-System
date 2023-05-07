@@ -15,7 +15,8 @@ public class UpdateMovieSessionController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody MovieSession movieSession, @PathVariable Integer id)
             throws SQLException {
-        if (MovieSession.update(movieSession)) {
+        MovieSession ms = new MovieSession();
+        if (ms.update(movieSession)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

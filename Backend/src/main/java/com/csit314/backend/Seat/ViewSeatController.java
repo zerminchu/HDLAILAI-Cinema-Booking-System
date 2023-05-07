@@ -26,14 +26,14 @@ public class ViewSeatController {
         return Seat.get(id);
     }
 
-    @GetMapping(path = "/all/{hallId}")
+    @GetMapping(path = "/hall/{hallId}")
     public ResponseEntity<ArrayList<Seat>> getAllSeatsByHallId(@PathVariable Integer hallId) throws SQLException {
         // This returns a JSON with the users
         ArrayList<Seat> Seats = Seat.listAllByHallId(hallId);
         return new ResponseEntity<ArrayList<Seat>>(Seats, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/all/{movieSessionId}")
+    @GetMapping(path = "/moviesession/{movieSessionId}")
     public ResponseEntity<ArrayList<Seat>> getAllSeatsByMovieSession(@PathVariable Integer movieSessionId)
             throws SQLException {
         Seat seat = new Seat();

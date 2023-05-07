@@ -92,12 +92,12 @@ public class SQLConnection {
                                 + "type VARCHAR(255),"
                                 + "suspended BOOLEAN"
                                 + ")";
-                
+
                 String transactionQuery = "CREATE TABLE IF NOT EXISTS Transaction  ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "totalGrossPrice DOUBLE,"
                                 + "gst DOUBLE,"
-                                + "totalNetPrice DOUBLE," 
+                                + "totalNetPrice DOUBLE,"
                                 + "dateTime DATETIME,"
                                 + "type VARCHAR(255),"
                                 + "cancelled BOOLEAN,"
@@ -114,34 +114,30 @@ public class SQLConnection {
                                 + "gender VARCHAR(255)"
                                 + ")";
                 String transactionItemQuery = "CREATE TABLE IF NOT EXISTS TransactionItem ("
-                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                + "paidPrice INT,"
-                + "ticketId INT,"
-                + "fnbId INT,"
-                + "transactionId INT,"
-                + "CONSTRAINT FK_transactionitem_ticket FOREIGN KEY (ticketId)"
-                + "REFERENCES Ticket(id),"
-                + "CONSTRAINT FK_transactionitem_fnb FOREIGN KEY (fnbId)"
-                + "REFERENCES Fnb(id),"
-                + "CONSTRAINT FK_transactionitem_transaction FOREIGN KEY (transactionId)"
-                + "REFERENCES Transaction(id)"
-                + ")";
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "paidPrice INT,"
+                                + "ticketId INT,"
+                                + "fnbId INT,"
+                                + "transactionId INT,"
+                                + "CONSTRAINT FK_transactionitem_ticket FOREIGN KEY (ticketId)"
+                                + "REFERENCES Ticket(id),"
+                                + "CONSTRAINT FK_transactionitem_fnb FOREIGN KEY (fnbId)"
+                                + "REFERENCES Fnb(id),"
+                                + "CONSTRAINT FK_transactionitem_transaction FOREIGN KEY (transactionId)"
+                                + "REFERENCES Transaction(id)"
+                                + ")";
 
-                /*
-                 * String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
-                 * + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                 * 
-                 * + "price INT,"
-                 * + "movieSessionId INT,"
-                 * + "seatId INT,"
-                 * + "bookingId VARCHAR(255),"
-                 * + "ticketType VARCHAR(255),"
-                 * "CONSTRAINT FK_movieSession FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
-                 * + "CONSTRAINT FK_seat FOREIGN KEY (seatId) REFERENCES Seat(id)"
-                 * +
-                 * "CONSTRAINT FK_userAccounts FOREIGN KEY (userAccountId) REFERENCES UserAccounts(id)"
-                 * + ")";
-                 */
+                String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "price INT,"
+                                + "movieSessionId INT,"
+                                + "seatId INT,"
+                                + "bookingId VARCHAR(255),"
+                                + "ticketType VARCHAR(255),"
+                                + "CONSTRAINT FK_movieSession_ticket FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
+                                + "CONSTRAINT FK_seat_ticket FOREIGN KEY (seatId) REFERENCES Seat(id)"
+                                + "CONSTRAINT FK_userAccounts_ticket FOREIGN KEY (userAccountId) REFERENCES UserAccounts(id)"
+                                + ")";
 
                 PreparedStatement profileStatement = con.prepareStatement(profileQuery);
                 profileStatement.executeUpdate();
@@ -158,7 +154,6 @@ public class SQLConnection {
                 PreparedStatement TicketTypeStatement = con.prepareStatement(TicketTypeQuery);
                 TicketTypeStatement.executeUpdate();
 
-            
                 PreparedStatement movieStatement = con.prepareStatement(movieQuery);
                 movieStatement.executeUpdate();
 
@@ -168,9 +163,9 @@ public class SQLConnection {
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
-                //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-                //ticketStatement.executeUpdate();
-                 
+                // PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                // ticketStatement.executeUpdate();
+
                 PreparedStatement transactionStatement = con.prepareStatement(transactionQuery);
                 transactionStatement.executeUpdate();
 
@@ -180,7 +175,6 @@ public class SQLConnection {
                 PreparedStatement customerInfoStatement = con.prepareStatement(customerInfoQuery);
                 customerInfoStatement.executeUpdate();
 
-                
                 PreparedStatement transactionItemStatement = con.prepareStatement(transactionItemQuery);
                 transactionItemStatement.executeUpdate();
 
