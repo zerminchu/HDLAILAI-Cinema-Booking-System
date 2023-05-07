@@ -84,6 +84,18 @@ public class SQLConnection {
                                 + "REFERENCES Movie(id)"
                                 + ")";
 
+                String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "price INT,"
+                                + "movieSessionId INT,"
+                                + "seatId INT,"
+                                + "bookingId VARCHAR(255),"
+                                + "ticketType VARCHAR(255),"
+                                + "CONSTRAINT FK_movieSession_ticket FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
+                                + "CONSTRAINT FK_seat_ticket FOREIGN KEY (seatId) REFERENCES Seat(id)"
+                                + "CONSTRAINT FK_userAccounts_ticket FOREIGN KEY (userAccountId) REFERENCES UserAccounts(id)"
+                                + ")";
+
                 String fnbQuery = "CREATE TABLE IF NOT EXISTS Fnb ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "currentPrice INT,"
@@ -127,18 +139,6 @@ public class SQLConnection {
                                 + "REFERENCES Transaction(id)"
                                 + ")";
 
-                String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
-                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                                + "price INT,"
-                                + "movieSessionId INT,"
-                                + "seatId INT,"
-                                + "bookingId VARCHAR(255),"
-                                + "ticketType VARCHAR(255),"
-                                + "CONSTRAINT FK_movieSession_ticket FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
-                                + "CONSTRAINT FK_seat_ticket FOREIGN KEY (seatId) REFERENCES Seat(id)"
-                                + "CONSTRAINT FK_userAccounts_ticket FOREIGN KEY (userAccountId) REFERENCES UserAccounts(id)"
-                                + ")";
-
                 PreparedStatement profileStatement = con.prepareStatement(profileQuery);
                 profileStatement.executeUpdate();
 
@@ -160,6 +160,9 @@ public class SQLConnection {
                 PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
                 movieSessionStatement.executeUpdate();
 
+                PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                ticketStatement.executeUpdate();
+
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
@@ -168,9 +171,6 @@ public class SQLConnection {
 
                 PreparedStatement transactionStatement = con.prepareStatement(transactionQuery);
                 transactionStatement.executeUpdate();
-
-                // PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-                // ticketStatement.executeUpdate();
 
                 PreparedStatement customerInfoStatement = con.prepareStatement(customerInfoQuery);
                 customerInfoStatement.executeUpdate();
