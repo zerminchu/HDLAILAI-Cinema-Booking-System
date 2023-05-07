@@ -93,21 +93,17 @@ public class SQLConnection {
                                 + "suspended BOOLEAN"
                                 + ")";
 
-                /*
-                 * String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
-                 * + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                 * 
-                 * + "price INT,"
-                 * + "movieSessionId INT,"
-                 * + "seatId INT,"
-                 * + "bookingId VARCHAR(255),"
-                 * + "ticketType VARCHAR(255),"
-                 * "CONSTRAINT FK_movieSession FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
-                 * + "CONSTRAINT FK_seat FOREIGN KEY (seatId) REFERENCES Seat(id)"
-                 * +
-                 * "CONSTRAINT FK_userAccounts FOREIGN KEY (userAccountId) REFERENCES UserAccounts(id)"
-                 * + ")";
-                 */
+                String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "price INT,"
+                                + "movieSessionId INT,"
+                                + "seatId INT,"
+                                + "bookingId VARCHAR(255),"
+                                + "ticketType VARCHAR(255),"
+                                + "CONSTRAINT FK_movieSession_ticket FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
+                                + "CONSTRAINT FK_seat_ticket FOREIGN KEY (seatId) REFERENCES Seat(id)"
+                                + "CONSTRAINT FK_userAccounts_ticket FOREIGN KEY (userAccountId) REFERENCES UserAccounts(id)"
+                                + ")";
 
                 PreparedStatement profileStatement = con.prepareStatement(profileQuery);
                 profileStatement.executeUpdate();
@@ -124,7 +120,6 @@ public class SQLConnection {
                 PreparedStatement TicketTypeStatement = con.prepareStatement(TicketTypeQuery);
                 TicketTypeStatement.executeUpdate();
 
-            
                 PreparedStatement movieStatement = con.prepareStatement(movieQuery);
                 movieStatement.executeUpdate();
 
@@ -134,10 +129,8 @@ public class SQLConnection {
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
-                
-                //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-                //ticketStatement.executeUpdate();
-                 
+                // PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                // ticketStatement.executeUpdate();
 
                 tablesCreated = true;
                 System.out.println("tables created");
