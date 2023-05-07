@@ -113,6 +113,19 @@ public class SQLConnection {
                                 + "address VARCHAR(255),"
                                 + "gender VARCHAR(255)"
                                 + ")";
+                String transactionItemQuery = "CREATE TABLE IF NOT EXISTS TransactionItem ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "paidPrice INT,"
+                + "ticketId INT,"
+                + "fnbId INT,"
+                + "transactionId INT,"
+                + "CONSTRAINT FK_transactionitem_ticket FOREIGN KEY (ticketId)"
+                + "REFERENCES Ticket(id),"
+                + "CONSTRAINT FK_transactionitem_fnb FOREIGN KEY (fnbId)"
+                + "REFERENCES Fnb(id),"
+                + "CONSTRAINT FK_transactionitem_transaction FOREIGN KEY (transactionId)"
+                + "REFERENCES Transaction(id)"
+                + ")";
 
                 /*
                  * String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
@@ -155,6 +168,9 @@ public class SQLConnection {
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
+                //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                //ticketStatement.executeUpdate();
+                 
                 PreparedStatement transactionStatement = con.prepareStatement(transactionQuery);
                 transactionStatement.executeUpdate();
 
@@ -165,6 +181,9 @@ public class SQLConnection {
                 customerInfoStatement.executeUpdate();
 
                 
+                PreparedStatement transactionItemStatement = con.prepareStatement(transactionItemQuery);
+                transactionItemStatement.executeUpdate();
+
                 tablesCreated = true;
                 System.out.println("tables created");
         };
