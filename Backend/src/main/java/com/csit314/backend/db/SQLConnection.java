@@ -92,8 +92,7 @@ public class SQLConnection {
                                 + "bookingId VARCHAR(255),"
                                 + "ticketType VARCHAR(255),"
                                 + "CONSTRAINT FK_movieSession_ticket FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id),"
-                                + "CONSTRAINT FK_seat_ticket FOREIGN KEY (seatId) REFERENCES Seat(id),"
-                                + "CONSTRAINT FK_userAccounts_ticket FOREIGN KEY (userAccountId) REFERENCES UserAccounts(id)"
+                                + "CONSTRAINT FK_seat_ticket FOREIGN KEY (seatId) REFERENCES Seat(id)"
                                 + ")";
 
                 String fnbQuery = "CREATE TABLE IF NOT EXISTS Fnb ("
