@@ -92,6 +92,13 @@ public class SQLConnection {
                                 + "type VARCHAR(255),"
                                 + "suspended BOOLEAN"
                                 + ")";
+                
+                String customerInfoQuery = "CREATE TABLE IF NOT EXISTS CustomerInfo ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "dob VARCHAR(255),"
+                                + "address VARCHAR(255),"
+                                + "gender VARCHAR(255)"
+                                + ")";
 
                 /*
                  * String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
@@ -138,6 +145,8 @@ public class SQLConnection {
                 //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
                 //ticketStatement.executeUpdate();
                  
+                PreparedStatement customerInfoStatement = con.prepareStatement(customerInfoQuery);
+                customerInfoStatement.executeUpdate();
 
                 tablesCreated = true;
                 System.out.println("tables created");
