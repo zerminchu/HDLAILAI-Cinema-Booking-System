@@ -100,6 +100,20 @@ public class SQLConnection {
                                 + "gender VARCHAR(255)"
                                 + ")";
 
+                String transactionQuery = "CREATE TABLE IF NOT EXISTS Transaction  ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "totalGrossPrice DOUBLE,"
+                                + "gst DOUBLE,"
+                                + "totalNetPrice DOUBLE," 
+                                + "dateTime DATETIME,"
+                                + "type VARCHAR(255),"
+                                + "cancelled BOOLEAN,"
+                                + "userAccountId  INT,"
+                                + "UNIQUE KEY unique_id_useraccount (userAccountId),"
+                                + "CONSTRAINT FK_useraccounts_transaction FOREIGN KEY (userAccountId)"
+                                + "REFERENCES UserAccounts(id)"
+                                + ")";
+
                 /*
                  * String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
                  * + "id INT AUTO_INCREMENT PRIMARY KEY,"
@@ -131,7 +145,6 @@ public class SQLConnection {
                 PreparedStatement TicketTypeStatement = con.prepareStatement(TicketTypeQuery);
                 TicketTypeStatement.executeUpdate();
 
-            
                 PreparedStatement movieStatement = con.prepareStatement(movieQuery);
                 movieStatement.executeUpdate();
 
@@ -141,16 +154,29 @@ public class SQLConnection {
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
+<<<<<<< HEAD
                 
                 //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
                 //ticketStatement.executeUpdate();
                  
                 PreparedStatement customerInfoStatement = con.prepareStatement(customerInfoQuery);
                 customerInfoStatement.executeUpdate();
+=======
+                PreparedStatement transactionStatement = con.prepareStatement(transactionQuery);
+                transactionStatement.executeUpdate();
+
+                // PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                // ticketStatement.executeUpdate();
+>>>>>>> b4d17140ec67d2ab8d378ef215817905f73bd5b8
 
                 tablesCreated = true;
                 System.out.println("tables created");
         };
+
+        public void addTestData() {
+                // TODO - Add 100 test data for each table
+
+        }
 
         public Connection getConnection() {
                 return con;

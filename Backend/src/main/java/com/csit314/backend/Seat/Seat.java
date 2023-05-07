@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import com.csit314.backend.db.SQLConnection;
-import com.csit314.backend.Hall.Hall;
+
 
 public class Seat {
     // Checks if table has been created
@@ -15,6 +15,7 @@ public class Seat {
     private Integer rowId = -1;
     private Integer columnId = -1;
     private Boolean blocked = false;
+    private Boolean booked = false;
     // Foreign Key to Hall table
     private Integer hallId = -1;
 
@@ -53,6 +54,15 @@ public class Seat {
         this.rowId = rowId;
         this.columnId = columnId;
         this.blocked = blocked;
+        this.hallId = hallId;
+    }
+
+    public Seat(Integer id, Integer rowId, Integer columnId, Boolean blocked, Boolean booked, Integer hallId) {
+        this.id = id;
+        this.rowId = rowId;
+        this.columnId = columnId;
+        this.blocked = blocked;
+        this.booked = booked;
         this.hallId = hallId;
     }
 
@@ -127,7 +137,6 @@ public class Seat {
 
     public static String saveAll(ArrayList<Seat> seats) throws SQLException {
         // Return failure early incase of incomplete fields
-        System.out.println("hello");
         if (seats.size() == 0) {
             return "Failure";
         }
@@ -359,4 +368,44 @@ public class Seat {
         }
     }
 
+    public ArrayList<Seat> listAllByMovieSession(Integer movieSessionId) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT s.id, s.rowId, s.columnId, s.blocked, t.id, s.hallId AS ticketId FROM"
+                    + " Seat s INNER JOIN Hall h"
+                    + " ON s.hallId = h.id"
+                    + " INNER JOIN MovieSession ms"
+                    + " ON h.id = ms.hallId"
+                    + " LEFT JOIN Ticket t"
+                    + " ON s.id = t.seatId"
+                    + " WHERE ms.id = ?"
+                    + " ORDER BY s.rowId, s.columnId ASC";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, movieSessionId);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Seat> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer seatId = resultSet.getInt("id");
+                Integer rowId = resultSet.getInt("rowId");
+                Integer columnId = resultSet.getInt("columnId");
+                Boolean blocked = resultSet.getBoolean("blocked");
+                Integer hallId = resultSet.getInt("hallId");
+                Boolean booked = resultSet.getInt("ticketId") != 0;
+                // Convert the data into an object that can be sent back to boundary
+                Seat result = new Seat(seatId, rowId, columnId, blocked, booked, hallId);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }
