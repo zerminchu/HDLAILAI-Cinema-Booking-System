@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import com.csit314.backend.db.SQLConnection;
-import com.csit314.backend.Hall.Hall;
+
 
 public class Seat {
     // Checks if table has been created
@@ -137,7 +137,6 @@ public class Seat {
 
     public static String saveAll(ArrayList<Seat> seats) throws SQLException {
         // Return failure early incase of incomplete fields
-        System.out.println("hello");
         if (seats.size() == 0) {
             return "Failure";
         }

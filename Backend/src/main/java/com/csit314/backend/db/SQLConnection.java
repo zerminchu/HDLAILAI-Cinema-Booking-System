@@ -93,6 +93,20 @@ public class SQLConnection {
                                 + "suspended BOOLEAN"
                                 + ")";
 
+                String transactionQuery = "CREATE TABLE IF NOT EXISTS Transaction  ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "totalGrossPrice DOUBLE,"
+                                + "gst DOUBLE,"
+                                + "totalNetPrice DOUBLE," 
+                                + "dateTime DATETIME,"
+                                + "type VARCHAR(255),"
+                                + "cancelled BOOLEAN,"
+                                + "userAccountId  INT,"
+                                + "UNIQUE KEY unique_id_useraccount (userAccountId),"
+                                + "CONSTRAINT FK_useraccounts_transaction FOREIGN KEY (userAccountId)"
+                                + "REFERENCES UserAccounts(id)"
+                                + ")";
+
                 /*
                  * String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
                  * + "id INT AUTO_INCREMENT PRIMARY KEY,"
@@ -124,7 +138,6 @@ public class SQLConnection {
                 PreparedStatement TicketTypeStatement = con.prepareStatement(TicketTypeQuery);
                 TicketTypeStatement.executeUpdate();
 
-            
                 PreparedStatement movieStatement = con.prepareStatement(movieQuery);
                 movieStatement.executeUpdate();
 
@@ -134,10 +147,11 @@ public class SQLConnection {
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
-                
-                //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-                //ticketStatement.executeUpdate();
-                 
+                PreparedStatement transactionStatement = con.prepareStatement(transactionQuery);
+                transactionStatement.executeUpdate();
+
+                // PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                // ticketStatement.executeUpdate();
 
                 tablesCreated = true;
                 System.out.println("tables created");
