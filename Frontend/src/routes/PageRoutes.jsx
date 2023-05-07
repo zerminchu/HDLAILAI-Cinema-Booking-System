@@ -18,6 +18,10 @@ import CinemaManagerHome from "../pages/CinemaManager/CinemaManagerHome";
 import ViewMovies from "../pages/CinemaManager/ViewMovies";
 import AddMovie from "../pages/CinemaManager/AddMovie";
 import UpdateMovie from "../pages/CinemaManager/UpdateMovie";
+import CreateAccountModal from "../pages/Customer/CreateAccountModal";
+import ViewAccount from "../pages/Customer/ViewAccount";
+import ViewMovieDetails from "../pages/Customer/ViewMovieDetails";
+
 function PageRoutes() {
   return (
     <Router>
@@ -43,6 +47,9 @@ function PageRoutes() {
         <Route path="/Unauthorized" element={<NotFoundTitle />} />
         <Route path="/ViewMovies" element={<ViewMovies />} />
         <Route path="/AddMovie" element={<AddMovie />} />
+        <Route path="/CreateAccount" element={<CreateAccountModal />} />
+        <Route path="/ViewAccount" element={<ViewAccount />} />
+        <Route path="/ViewMovieDetails" element={<ViewMovieDetails />} />
       </Routes>
     </Router>
   );
