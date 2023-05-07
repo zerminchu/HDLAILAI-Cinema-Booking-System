@@ -259,7 +259,7 @@ public class MovieSession {
         }
     }
 
-    public static Boolean update(MovieSession movieSession)
+    public Boolean update(MovieSession movieSession)
             throws SQLException {
         Connection connection = null;
         try {

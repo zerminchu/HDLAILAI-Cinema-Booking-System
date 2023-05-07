@@ -1,62 +1,136 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
-// import { useEffect, useState } from "react";
-import {
-  TextInput,
-  NumberInput,
-  Button,
-  Container,
-  Grid,
-  Textarea,
-} from "@mantine/core";
-// import axios from "axios";
-import "../CinemaManager/Components/ViewMovie/MovieStyle.css";
+import { useEffect, useState, useRef } from "react";
+import { TextInput, Button, Select, Text } from "@mantine/core";
+import { DateTimePicker, DatePickerInput, TimeInput } from "@mantine/dates";
+import axios from "axios";
+import { IconClock } from "@tabler/icons-react";
+import { ActionIcon } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { useLocation, useParams } from "react-router-dom";
+function UpdateMovieSession({
+  hallId = -1,
+  movieId = -1,
+  endDateTime = "",
+  startDateTime = "",
+}) {
+  const location = useLocation();
+  const data = location.state;
 
-function UpdateMovieSession() {
-  const { id } = useParams();
-  const [movieName, setMovieName] = useState("");
-  const [movieOptions, setMovieOptions] = useState([]);
-  const [movieId, setMovieId] = useState("");
+  console.log(data);
+  const bufferTimeInMinutes = 60;
+  const startTimeRef = useRef(new Date().getTime());
+  const [date, setDate] = useState(new Date(data.startDateTime));
+  const [hall, setHall] = useState({ id: data.hallId });
+  const [movie, setMovie] = useState({ id: data.movieId });
+  const [hallOptions, setHallOptions] = useState([{ value: "", label: "" }]);
+  const [movieOptions, setMovieOptions] = useState([{ value: "", label: "" }]);
+  const [startTime, setStartTime] = useState(
+    new Date(data.startDateTime).toLocaleTimeString("en-SG", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+  );
+  const [endTime, setEndTime] = useState(
+    new Date(data.endDateTime).toLocaleTimeString("en-SG", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+  );
+  const [error, setError] = useState("");
 
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [userProfileId, setUserProfileId] = useState(-1);
-  // const [profileOptions, setProfileOptions] = useState([]);
+  useEffect(() => {
+    async function getFieldData() {
+      try {
+        const hallResponse = await axios.get(
+          "http://localhost:8080/viewhall/all"
+        );
+        const movieResponse = await axios.get(
+          "http://localhost:8080/viewmovie/all"
+        );
+        if (hallResponse.data && hallResponse.data.length > 0) {
+          setHallOptions(
+            hallResponse.data.map((hall) => ({
+              value: hall,
+              label: hall.name,
+            }))
+          );
+        }
+        if (movieResponse.data && movieResponse.data.length > 0) {
+          setMovieOptions(
+            movieResponse.data.map((movie) => ({
+              value: movie,
+              label: movie.title,
+            }))
+          );
+          setMovie(
+            movieResponse.data.find((movie) => movie.id == data.movieId)
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getFieldData();
+  }, []);
 
-  // // Load user profiles
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/createuserprofile/all")
-  //     .then(({ data }) => {
-  //       if (data) {
-  //         const options = data.map((profile) => {
-  //           return { value: profile.id, label: profile.profileName };
-  //         });
-  //         setProfileOptions([...options]);
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
+  useEffect(() => {
+    const et = new Date(
+      `${date.getFullYear()} ${
+        date.getMonth() + 1
+      } ${date.getDate()} ${startTime}`
+    );
+    console.log(movie);
+    console.log(et);
 
-  // function handleSubmit(event) {
-  //   // Prevent submit from refreshing the page
-  //   event.preventDefault();
-  //   console.log(userProfileId);
-  //   // handle submit here
-  //   axios
-  //     .post("http://localhost:8080/login", {
-  //       userProfile: { id: userProfileId },
-  //       email: email,
-  //       password: password,
-  //     })
-  //     .then((response) => {
-  //       alert(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       alert(error.response.data);
-  //     });
-  // }
+    if (movie?.runTime) {
+      et.setMinutes(et.getMinutes() + movie?.runTime + bufferTimeInMinutes);
+    }
+    console.log(et);
+    if (et)
+      setEndTime(
+        et.toLocaleTimeString("en-SG", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      );
+  }, [movie, date, startTime]);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    axios
+      .put(`http://localhost:8080/updatemoviesession/${data.id}`, {
+        id: data.id,
+        movieId: movie.id,
+        suspended: data.suspended,
+        hallId: hall.id,
+        startDateTime: new Date(
+          `${date.getFullYear()} ${
+            date.getMonth() + 1
+          } ${date.getDate()} ${startTime}`
+        ),
+        endDateTime: new Date(
+          `${date.getFullYear()} ${
+            date.getMonth() + 1
+          } ${date.getDate()} ${endTime}`
+        ),
+      })
+      .then(() => {
+        notifications.show({
+          title: `Movie Session`,
+          message: "Movie Session updated successfully",
+          autoClose: 3000,
+        });
+      })
+      .catch((error) => {
+        notifications.show({
+          title: "Error updating Movie Session",
+          message: error.response.data,
+          autoClose: 3000,
+        });
+      });
+  }
 
   return (
     <form className="CMCreateMS">
@@ -68,30 +142,53 @@ function UpdateMovieSession() {
           placeholder="When is it avaliable?"
           label="Movie Session Date"
           clearable={false}
-          onChange={(event) => setDate(event.target.value)}
+          /* minDate={new Date()} */
+          value={date}
+          onChange={(event) => {
+            console.log(event);
+            setDate(event);
+          }}
         />
+        {!hallId && (
+          <Select
+            className="movieNameField"
+            label="Hall"
+            /* placeholder={Movie Name} */
+            data={hallOptions}
+            value={hall}
+            onChange={setHall}
+            withAsterisk
+          />
+        )}
         <Select
           className="movieNameField"
-          label="Movie Name"
-          placeholder={movieName}
+          label="Movie"
+          /* placeholder={Movie Name} */
           data={movieOptions}
-          value={movieName}
-          onChange={(event) => setmovieName(event.target.value)}
+          value={movie}
+          onChange={setMovie}
           withAsterisk
         />
-        <TextInput
+        <TimeInput
           className="startTimeField"
           placeholder="What time does it start"
-          label="Start Time:"
+          rightSection={
+            <ActionIcon onClick={() => startTimeRef.current.showPicker()}>
+              <IconClock size="1rem" stroke={1.5} />
+            </ActionIcon>
+          }
+          label="Start Time"
+          minDate={new Date()}
           value={startTime}
-          onChange={(event) => setstartTime(event.target.value)}
+          ref={startTimeRef}
+          onChange={(event) => setStartTime(event.target.value)}
         />
-        <TextInput
+        <TimeInput
           className="endTimeField"
           placeholder="What time does it end"
-          label="End Time:"
+          label="Calculated End Time"
           value={endTime}
-          onChange={(event) => setendTime(event.target.value)}
+          disabled
         />
       </div>
       <Button className="msBtn" type="submit" onClick={handleSubmit}>

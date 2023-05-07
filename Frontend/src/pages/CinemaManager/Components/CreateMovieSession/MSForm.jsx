@@ -8,7 +8,7 @@ import { notifications } from "@mantine/notifications";
 
 //DATE, MOVIENAME,STARTTIME,ENDTIME
 
-function CreateMS({ hallId = null }) {
+function MSForm({ hallId = null }) {
   const bufferTimeInMinutes = 60;
   const startTimeRef = useRef(new Date().getTime());
   const [date, setDate] = useState(new Date());
@@ -98,10 +98,6 @@ function CreateMS({ hallId = null }) {
           message: "Movie Session created successfully",
           autoClose: 3000,
         });
-        setmovieName("");
-        setDate("");
-        setstartTime("");
-        setendTime("");
       })
       .catch((error) => {
         notifications.show({
@@ -109,10 +105,6 @@ function CreateMS({ hallId = null }) {
           message: error.response.data,
           autoClose: 3000,
         });
-        setmovieName("");
-        setDate("");
-        setstartTime("");
-        setendTime("");
       });
   }
 
@@ -126,7 +118,7 @@ function CreateMS({ hallId = null }) {
           placeholder="When is it avaliable?"
           label="Movie Session Date"
           clearable={false}
-          /* minDate={new Date()} */
+          minDate={new Date()}
           value={date}
           onChange={(event) => {
             console.log(event);
@@ -182,4 +174,4 @@ function CreateMS({ hallId = null }) {
   );
 }
 
-export default CreateMS;
+export default MSForm;
