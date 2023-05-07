@@ -14,13 +14,13 @@ import com.csit314.backend.UserAccount.UserAccount;
 
 public class CustomerInfo {
     private Integer accountId = -1;
-    private Date dob = "";
+    private Date dob = null;
     private String address = "";
     private String gender = "";
 
     public CustomerInfo() {
         accountId = -1;
-        dob = "";
+        dob = null;
         address = "";
         gender = "";
     }
@@ -51,7 +51,7 @@ public class CustomerInfo {
         this.accountId = accountId;
     }
 
-    public String getDob() {
+    public Date getDob() {
         return dob;
     }
 
@@ -77,7 +77,7 @@ public class CustomerInfo {
 
     public String save(CustomerInfo user) throws SQLException {
         // Return failure early incase of incomplete fields
-        if (user.dob == "" || user.address == "" || user.gender == "") {
+        if (user.dob.equals("") || user.address == "" || user.gender == "") {
             return "Failure";
         }
         Connection connection = null;
@@ -86,7 +86,7 @@ public class CustomerInfo {
             connection = sqlConnection.getConnection();
             String query = "INSERT INTO CustomerInfo (dob, address, gender) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setDate(1, user.dob);
+            statement.setDate(1, new java.sql.Date(user.dob.getDate()));
             statement.setString(2, user.address);
             statement.setString(3, user.gender);
             statement.executeUpdate();
@@ -168,7 +168,7 @@ public class CustomerInfo {
             connection = sqlConnection.getConnection();
             String query = "UPDATE CustomerInfo SET dob = ?, address = ?, gender = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setDate(1, customerInfo.dob);
+            statement.setDate(1, new java.sql.Date(customerInfo.dob.getDate()));
             statement.setString(2, customerInfo.address);
             statement.setString(3, customerInfo.gender);
             statement.executeUpdate();
