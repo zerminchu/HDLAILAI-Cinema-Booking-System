@@ -25,6 +25,7 @@ public class MovieSession {
     public MovieSession() {
     }
 
+    // Map new entry
     public MovieSession(Integer movieId, Integer hallId, Timestamp startDateTime,
             Timestamp endDateTime) {
         this.movieId = movieId;

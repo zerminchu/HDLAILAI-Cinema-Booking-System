@@ -39,6 +39,7 @@ public class CreateSeatController {
             Hall hallToUpdate = objectMapper.convertValue(json.get("hall"), Hall.class);
             ArrayList<Seat> seats = objectMapper.convertValue(json.get("seats"), new TypeReference<ArrayList<Seat>>() {
             });
+            // 1 controller talks to 2 entities
             Seat.saveAll(seats);
             Hall.updateNumberOfSeats(hallToUpdate);
 
