@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CreateMSModal from "./CreateMSModal.jsx";
 
-function ViewMovieSession() {
+function ViewMovieSession({ hallId }) {
   // State to store data
   const [movieSession, setMovieSession] = useState([]);
 
   useEffect(function loadData() {
     // Load data from backend API
     axios
-      .get("http://localhost:8080/viewmoviesession/all")
+      .get(`http://localhost:8080/viewmoviesession/hall/${hallId}`)
       .then(function (response) {
         // Store data into react state
         console.log(response);
@@ -23,7 +23,7 @@ function ViewMovieSession() {
     <div>
       <h1>View Movie Session</h1>
       {/* <ButtonMenu /> */}
-      <CreateMSModal />
+      <CreateMSModal hallId={hallId} />
       <MovieSessionTable data={movieSession} setData={setMovieSession} />
     </div>
   );

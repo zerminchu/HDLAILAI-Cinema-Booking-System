@@ -8,11 +8,11 @@ import { notifications } from "@mantine/notifications";
 
 //DATE, MOVIENAME,STARTTIME,ENDTIME
 
-function CreateMS() {
+function CreateMS({ hallId = null }) {
   const bufferTimeInMinutes = 60;
   const startTimeRef = useRef(new Date().getTime());
   const [date, setDate] = useState(new Date());
-  const [hall, setHall] = useState({});
+  const [hall, setHall] = useState({ id: hallId });
   const [movie, setMovie] = useState({});
   const [hallOptions, setHallOptions] = useState([{ value: "", label: "" }]);
   const [movieOptions, setMovieOptions] = useState([{ value: "", label: "" }]);
@@ -54,7 +54,9 @@ function CreateMS() {
 
   useEffect(() => {
     const et = new Date(
-      `${date.getFullYear()} ${date.getMonth()} ${date.getDate()} ${startTime}`
+      `${date.getFullYear()} ${
+        date.getMonth() + 1
+      } ${date.getDate()} ${startTime}`
     );
     console.log(movie);
     console.log(et);
@@ -80,10 +82,14 @@ function CreateMS() {
         movieId: movie.id,
         hallId: hall.id,
         startDateTime: new Date(
-          `${date.getFullYear()} ${date.getMonth()} ${date.getDate()} ${startTime}`
+          `${date.getFullYear()} ${
+            date.getMonth() + 1
+          } ${date.getDate()} ${startTime}`
         ),
         endDateTime: new Date(
-          `${date.getFullYear()} ${date.getMonth()} ${date.getDate()} ${endTime}`
+          `${date.getFullYear()} ${
+            date.getMonth() + 1
+          } ${date.getDate()} ${endTime}`
         ),
       })
       .then(() => {
@@ -120,22 +126,24 @@ function CreateMS() {
           placeholder="When is it avaliable?"
           label="Movie Session Date"
           clearable={false}
-          minDate={new Date()}
+          /* minDate={new Date()} */
           value={date}
           onChange={(event) => {
             console.log(event);
             setDate(event);
           }}
         />
-        <Select
-          className="movieNameField"
-          label="Hall"
-          /* placeholder={Movie Name} */
-          data={hallOptions}
-          value={hall}
-          onChange={setHall}
-          withAsterisk
-        />
+        {!hallId && (
+          <Select
+            className="movieNameField"
+            label="Hall"
+            /* placeholder={Movie Name} */
+            data={hallOptions}
+            value={hall}
+            onChange={setHall}
+            withAsterisk
+          />
+        )}
         <Select
           className="movieNameField"
           label="Movie"

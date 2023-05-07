@@ -125,21 +125,19 @@ function MovieSessionTable({ data, setData }) {
   );
 
   return (
-    <ScrollArea>
-      <Table miw={1200} verticalSpacing="sm">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Movie Name</th>
-            <th>Status</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </ScrollArea>
+    <Table miw={720} verticalSpacing="sm">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Movie Name</th>
+          <th>Status</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>{rows}</tbody>
+    </Table>
   );
 }
 
