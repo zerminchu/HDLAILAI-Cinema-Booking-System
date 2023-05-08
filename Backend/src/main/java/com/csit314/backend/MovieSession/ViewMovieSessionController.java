@@ -31,6 +31,15 @@ public class ViewMovieSessionController {
         return new ResponseEntity<ArrayList<MovieSession>>(movieSessions, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/movie/{movieId}")
+    public ResponseEntity<ArrayList<MovieSession>> getAllMovieSessionsByMovie(@PathVariable Integer movieId)
+            throws SQLException {
+        // This returns a JSON or XML with the MovieSessions associated with a hall
+        MovieSession ms = new MovieSession();
+        ArrayList<MovieSession> movieSessions = ms.listAllByMovie(movieId);
+        return new ResponseEntity<ArrayList<MovieSession>>(movieSessions, HttpStatus.OK);
+    }
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<MovieSession> getMovieSessionById(@PathVariable Integer id) throws SQLException {
         MovieSession ms = new MovieSession();

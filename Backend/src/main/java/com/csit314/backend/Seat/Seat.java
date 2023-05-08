@@ -93,6 +93,14 @@ public class Seat {
         return blocked;
     }
 
+    public void setBooked(Boolean booked) {
+        this.booked = booked;
+    }
+
+    public Boolean getBooked() {
+        return booked;
+    }
+
     public void setblocked(Boolean blocked) {
         this.blocked = blocked;
     }
@@ -372,7 +380,7 @@ public class Seat {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT s.id, s.rowId, s.columnId, s.blocked, t.id, s.hallId AS ticketId FROM"
+            String query = "SELECT s.id, s.rowId, s.columnId, s.blocked, t.id AS ticketId, s.hallId FROM"
                     + " Seat s INNER JOIN Hall h"
                     + " ON s.hallId = h.id"
                     + " INNER JOIN MovieSession ms"

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { notifications } from "@mantine/notifications";
 import { useLocation, useParams } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   TextInput,
@@ -28,10 +28,10 @@ function UpdateMovie() {
   const navigateTo = useNavigate();
 
   function handleSubmit(event) {
-    console.log (runTime);
+    console.log(runTime);
     event.preventDefault();
     axios
-      .put(`http://localhost:8080/updatemovie/update/${id}`, {
+      .put(`http://localhost:8080/updatemoviesession/update/${id}`, {
         id: id,
         title: title,
         runTime: runTime,
@@ -45,7 +45,7 @@ function UpdateMovie() {
           message: "Movie updated successfully",
           autoClose: 3000,
         });
-        navigateTo('/ViewMovies');
+        navigateTo("/ViewMovies");
       })
       .catch((error) => {
         console.log(error);
@@ -86,7 +86,7 @@ function UpdateMovie() {
                 className="runtimeField"
                 placeholder="Runtime in minutes"
                 label="Runtime"
-                min = {0}
+                min={0}
                 value={runTime}
                 onChange={setRuntime}
               />

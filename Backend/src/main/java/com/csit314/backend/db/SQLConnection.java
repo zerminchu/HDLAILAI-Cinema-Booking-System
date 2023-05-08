@@ -84,17 +84,6 @@ public class SQLConnection {
                                 + "REFERENCES Movie(id)"
                                 + ")";
 
-                String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
-                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                                + "price INT,"
-                                + "movieSessionId INT,"
-                                + "seatId INT,"
-                                + "bookingId VARCHAR(255),"
-                                + "ticketType VARCHAR(255),"
-                                + "CONSTRAINT FK_movieSession_ticket FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id),"
-                                + "CONSTRAINT FK_seat_ticket FOREIGN KEY (seatId) REFERENCES Seat(id)"
-                                + ")";
-
                 String fnbQuery = "CREATE TABLE IF NOT EXISTS Fnb ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "currentPrice INT,"
@@ -116,6 +105,19 @@ public class SQLConnection {
                                 + "UNIQUE KEY unique_id_useraccount (userAccountId),"
                                 + "CONSTRAINT FK_useraccounts_transaction FOREIGN KEY (userAccountId)"
                                 + "REFERENCES UserAccounts(id)"
+                                + ")";
+
+                String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "movieSessionId INT,"
+                                + "seatId INT,"
+                                + "transactionId INT,"
+                                + "ticketTypeId INT,"
+                                + "paidPrice INT,"
+                                + "CONSTRAINT FK_movieSession_ticket FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id),"
+                                + "CONSTRAINT FK_seat_ticket FOREIGN KEY (seatId) REFERENCES Seat(id),"
+                                + "CONSTRAINT FK_transaction_ticket FOREIGN KEY (transactionId) REFERENCES Transaction(id),"
+                                + "CONSTRAINT FK_ticketType_ticket FOREIGN KEY (ticketTypeId) REFERENCES TicketType(id)"
                                 + ")";
 
                 String customerInfoQuery = "CREATE TABLE IF NOT EXISTS CustomerInfo ("
@@ -158,6 +160,9 @@ public class SQLConnection {
                 PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
                 movieSessionStatement.executeUpdate();
 
+                PreparedStatement transactionStatement = con.prepareStatement(transactionQuery);
+                transactionStatement.executeUpdate();
+
                 PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
                 ticketStatement.executeUpdate();
 
@@ -166,9 +171,6 @@ public class SQLConnection {
 
                 // PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
                 // ticketStatement.executeUpdate();
-
-                PreparedStatement transactionStatement = con.prepareStatement(transactionQuery);
-                transactionStatement.executeUpdate();
 
                 PreparedStatement customerInfoStatement = con.prepareStatement(customerInfoQuery);
                 customerInfoStatement.executeUpdate();

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Timestamp;
 import com.csit314.backend.db.SQLConnection;
@@ -132,10 +133,10 @@ public class Transaction {
         this.userAccountId = userAccountId;
     }
 
-    public String save(Transaction createTransaction) throws SQLException {
+    public Integer save(Transaction createTransaction) throws SQLException {
         // Return failure early in case of incomplete fields
         if (createTransaction.userAccountId == null) {
-            return "Failure";
+            return -1;
         }
 
         Connection connection = null;
@@ -143,7 +144,7 @@ public class Transaction {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
             String query = "INSERT IGNORE INTO Transaction (totalGrossPrice, gst, totalNetPrice, dateTime, type, cancelled, userAccountId) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setDouble(1, createTransaction.totalGrossPrice);
             statement.setDouble(2, createTransaction.gst);
             statement.setDouble(3, createTransaction.totalNetPrice);
@@ -152,10 +153,15 @@ public class Transaction {
             statement.setBoolean(6, createTransaction.cancelled);
             statement.setInt(7, createTransaction.userAccountId);
             statement.executeUpdate();
-            return "Success";
+            ResultSet generatedKeyResult = statement.getGeneratedKeys();
+            Integer lastInsertId = -1;
+            if (generatedKeyResult.next()) {
+                lastInsertId = generatedKeyResult.getInt(1);
+            }
+            return lastInsertId;
         } catch (SQLException e) {
             System.out.println(e);
-            return "Failure";
+            return -1;
         } finally {
             if (connection != null) {
                 connection.close();

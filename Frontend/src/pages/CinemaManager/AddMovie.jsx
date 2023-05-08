@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { notifications } from "@mantine/notifications";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import {
   TextInput,
   NumberInput,
@@ -37,7 +37,7 @@ function AddMovie() {
           message: "Movie created successfully",
           autoClose: 3000,
         });
-        navigateTo('/ViewMovies');
+        navigateTo("/ViewMovies");
       })
       .catch((error) => {
         console.log(error);
@@ -77,7 +77,7 @@ function AddMovie() {
                 className="runtimeField"
                 placeholder="Runtime in minutes"
                 label="Runtime"
-                min = {0}
+                min={0}
                 onChange={setRuntime}
               />
             </Grid.Col>

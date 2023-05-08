@@ -74,6 +74,12 @@ function ViewHall() {
     form.setValues({ name: hallNaming });
   }, [hallNaming]);
 
+  function toggleSuspend(seat) {
+    const seatId = seat.id;
+    if (seat.blocked) handleUnsuspend(seatId);
+    else handleSuspend(seatId);
+  }
+
   function handleSuspend(id) {
     axios
       .delete(`http://localhost:8080/suspendseat/${id}`, {
@@ -282,52 +288,7 @@ function ViewHall() {
               <Tabs.Tab value="movieSession">Movie Sessions</Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel value="seatMap" pt="xs">
-              <Container my="md">
-                <Grid>
-                  <Grid.Col xs={12}>
-                    <ul className="showcase">
-                      <li>
-                        <div className="seatSelected">
-                          <MdChair style={{ color: "228BE6" }} />
-                        </div>
-                        <small>Selected</small>
-                      </li>
-                      <li>
-                        <div className="seatAvailable">
-                          <MdChair style={{ color: "868E96" }} />
-                        </div>
-                        <small>Available</small>
-                      </li>
-                      <li>
-                        <div className="seatOccupied">
-                          <MdChair style={{ color: "F03E3E" }} />
-                        </div>
-                        <small>Occupied</small>
-                      </li>
-                      <li>
-                        <div className="seatUnavailable">
-                          <MdChair style={{ color: "2C2E33" }} />
-                        </div>
-                        <small>Unavailable</small>
-                      </li>
-                    </ul>
-                  </Grid.Col>
-                  {/* <Grid.Col xs={4}></Grid.Col> */}
-                  <Grid.Col xs={12}>
-                    <div className="screen">
-                      <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-                        Screen
-                      </span>
-                    </div>
-                  </Grid.Col>
-                  {/*  <Grid.Col xs={4}></Grid.Col> */}
-                </Grid>
-                <SeatMap
-                  seats={seats2D}
-                  unsuspend={handleUnsuspend}
-                  updateSeats={handleSuspend}
-                />
-              </Container>
+              <SeatMap seats={seats2D} handleClick={toggleSuspend} />
             </Tabs.Panel>
             <Tabs.Panel value="movieSession" pt="xs">
               <ViewMovieSession hallId={id} />

@@ -33,7 +33,7 @@ public class CreateSeatController {
     }
 
     @PostMapping(path = "/addAll")
-    public ResponseEntity<String> addNewSeat(@RequestBody Map<String, Object> json) throws SQLException {
+    public ResponseEntity<String> addNewSeats(@RequestBody Map<String, Object> json) throws SQLException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Hall hallToUpdate = objectMapper.convertValue(json.get("hall"), Hall.class);
