@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@mantine/carousel": "^6.0.10",
-    "embla-carousel-react": "^8.0.0-rc03"
-  }
-}
