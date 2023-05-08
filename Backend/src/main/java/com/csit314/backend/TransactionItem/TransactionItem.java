@@ -213,4 +213,40 @@ public class TransactionItem {
         }
     }
 
+    // List all fnb TransactionItem
+    public ArrayList<TransactionItem> listAllByTransactionId(Integer transactionId) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT * FROM TransactionItem ti INNER JOIN Transaction t ON ti.transactionId = t.id INNER JOIN Fnb f ON ti.fnbId = f.id WHERE ti.transactionId = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, transactionId);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<TransactionItem> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer transactionItemId = resultSet.getInt("id");
+                Integer paidPrice = resultSet.getInt("paidPrice");
+                Integer tId = resultSet.getInt("transactionId");
+                Integer quantity = resultSet.getInt("quantity");
+                Integer fnbId = resultSet.getInt("fnbId");
+                String fnbName = resultSet.getString("fnbName");
+
+                // Convert the data into an object that can be sent back to boundary
+                TransactionItem result = new TransactionItem(transactionItemId, paidPrice,
+                        tId, quantity, fnbId, fnbName);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
 }
