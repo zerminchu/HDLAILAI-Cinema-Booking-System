@@ -25,10 +25,10 @@ public class ViewMovieController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<Movie> getMovieById(@PathVariable Integer id) throws SQLException {
         Movie mv = new Movie();
-        if (movie == null) {
+        Movie result = mv.get(id);
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Movie result = mv.get(id);
         return new ResponseEntity<Movie>(result, HttpStatus.OK);
     }
 
