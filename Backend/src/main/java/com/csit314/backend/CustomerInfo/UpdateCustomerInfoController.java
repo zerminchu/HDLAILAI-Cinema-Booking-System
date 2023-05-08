@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UpdateCustomerInfoController {
 
     @PutMapping(path = "/update/{id}")
-    public ResponseEntity<?> update(@RequestBody CustomerInfo customerInfo, @PathVariable Integer accountId)
+    public ResponseEntity<?> update(@RequestBody CustomerInfo customerInfo, @PathVariable Integer id)
             throws SQLException {
         CustomerInfo ci = new CustomerInfo();
         if (ci.update(customerInfo)) {

@@ -13,21 +13,21 @@ import com.csit314.backend.Seat.Seat;
 import com.csit314.backend.UserAccount.UserAccount;
 
 public class CustomerInfo {
-    private Integer accountId = -1;
+    private Integer id = -1;
     private Date dob = null;
     private String address = "";
     private String gender = "";
 
     public CustomerInfo() {
-        accountId = -1;
+        id = -1;
         dob = null;
         address = "";
         gender = "";
     }
 
     // To accept existing profile ids
-    public CustomerInfo(Integer accountId) {
-        this.accountId = accountId;
+    public CustomerInfo(Integer id) {
+        this.id = id;
     }
 
     public CustomerInfo(Date dob, String address, String gender) {
@@ -36,19 +36,19 @@ public class CustomerInfo {
         this.gender = gender;
     }
 
-    public CustomerInfo(Integer accountId, Date dob, String address, String gender) {
-        this.accountId = accountId;
+    public CustomerInfo(Integer id, Date dob, String address, String gender) {
+        this.id = id;
         this.dob = dob;
         this.address = address;
         this.gender = gender;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public Integer getid() {
+        return id;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setid(Integer id) {
+        this.id = id;
     }
 
     public Date getDob() {
@@ -113,12 +113,12 @@ public class CustomerInfo {
             ArrayList<CustomerInfo> results = new ArrayList<>();
             while (resultSet.next()) {
                 // Get the data from the current row
-                Integer accountId = resultSet.getInt("accountId");
+                Integer id = resultSet.getInt("id");
                 Date dob = resultSet.getDate("dob");
                 String address = resultSet.getString("address");
                 String gender = resultSet.getString("gender");
                 // Convert the data into an object that can be sent back to boundary
-                CustomerInfo result = new CustomerInfo(accountId, dob, address, gender);
+                CustomerInfo result = new CustomerInfo(id, dob, address, gender);
                 results.add(result);
             }
             return results;
@@ -132,14 +132,14 @@ public class CustomerInfo {
         }
     }
 
-    public CustomerInfo get(Integer accountId) throws SQLException {
+    public CustomerInfo get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM CustomerInfo WHERE accountId = ?";
+            String query = "SELECT * FROM CustomerInfo WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, accountId);
+            statement.setInt(1, id);
             statement.setMaxRows(1);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
@@ -148,7 +148,7 @@ public class CustomerInfo {
             Date dob = resultSet.getDate("dob");
             String address = resultSet.getString("address");
             String gender = resultSet.getString("gender");
-            CustomerInfo result = new CustomerInfo(accountId, dob, address, gender);
+            CustomerInfo result = new CustomerInfo(id, dob, address, gender);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -171,6 +171,7 @@ public class CustomerInfo {
             statement.setDate(1, new java.sql.Date(customerInfo.dob.getDate()));
             statement.setString(2, customerInfo.address);
             statement.setString(3, customerInfo.gender);
+            statement.setInt(4, customerInfo.id);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

@@ -23,9 +23,10 @@ public class ViewCustomerInfoController {
     }
 
     @GetMapping(path = "/{id}")
-    public CustomerInfo getUserById(@PathVariable Integer accountId) throws SQLException {
+    public ResponseEntity<CustomerInfo> getUserById(@PathVariable Integer id) throws SQLException {
         CustomerInfo ci = new CustomerInfo();
-        return ci.get(accountId);
+        CustomerInfo result = ci.get(id);
+        return new ResponseEntity<CustomerInfo>(result, HttpStatus.OK);
     }
 
 }
