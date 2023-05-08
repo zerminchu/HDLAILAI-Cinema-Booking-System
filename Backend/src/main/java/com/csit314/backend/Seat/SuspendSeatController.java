@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SuspendSeatController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> suspend(@PathVariable Integer id) throws SQLException {
-        if (Seat.suspend(id)) {
+        Seat s = new Seat();
+        if (s.suspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -22,10 +23,11 @@ public class SuspendSeatController {
 
     @PutMapping("/unsuspend/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id) throws SQLException {
-        if (Seat.unsuspend(id)) {
+        Seat s = new Seat();
+        if (s.unsuspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    
+
 }

@@ -1,4 +1,11 @@
-import { TextInput, NumberInput, Button, Container, Grid } from "@mantine/core";
+import {
+  TextInput,
+  NumberInput,
+  Button,
+  Container,
+  Grid,
+  Tabs,
+} from "@mantine/core";
 import "./Components/ViewSeats/ViewHallStyle.css";
 import { MdChair } from "react-icons/md";
 import SeatMap from "./Components/ViewSeats/SeatMap";
@@ -7,9 +14,11 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
+import ViewMovieSession from "./ViewMovieSession";
 
 function ViewHall() {
   const { id } = useParams();
+  const [activeTab, setActiveTab] = useState("seatMap");
   const [hall, setHall] = useState(null);
   const [totalRow, setTotalRow] = useState(0);
   const [totalCol, setTotalCol] = useState(0);
@@ -18,8 +27,6 @@ function ViewHall() {
   const [seats2D, setSeats2D] = useState([]);
   const [hallNaming, setHallName] = useState("");
 
-
-
   async function getHallAndSeats(id) {
     try {
       const hallResponse = await axios.get(
@@ -27,7 +34,7 @@ function ViewHall() {
       );
       const loadedHall = hallResponse.data;
       const seatResponse = await axios.get(
-        `http://localhost:8080/viewseat/all/${id}`
+        `http://localhost:8080/viewseat/hall/${id}`
       );
       const loadedSeats = seatResponse.data;
       let newSeats = [];
@@ -46,9 +53,9 @@ function ViewHall() {
 
   const form = useForm({
     initialValues: {
-      name: hallNaming
+      name: hallNaming,
     },
-  
+
     validate: {
       name: (value) => {
         if (value.length === 0) return "Profile name is empty.";
@@ -59,7 +66,6 @@ function ViewHall() {
     },
   });
 
-
   useEffect(() => {
     getHallAndSeats(id);
   }, []);
@@ -67,6 +73,12 @@ function ViewHall() {
   useEffect(() => {
     form.setValues({ name: hallNaming });
   }, [hallNaming]);
+
+  function toggleSuspend(seat) {
+    const seatId = seat.id;
+    if (seat.blocked) handleUnsuspend(seatId);
+    else handleSuspend(seatId);
+  }
 
   function handleSuspend(id) {
     axios
@@ -203,7 +215,6 @@ function ViewHall() {
                 className="hallNameField"
                 label="Hall Name"
                 {...form.getInputProps("name")}
-
                 disabled={!hallIsUpdating}
               />
             </Grid.Col>
@@ -264,50 +275,26 @@ function ViewHall() {
                 </Button>
               )}
             </Grid.Col>
-            <Grid.Col xs={12}>
-              <ul className="showcase">
-                <li>
-                  <div className="seatSelected">
-                    <MdChair style={{ color: "228BE6" }} />
-                  </div>
-                  <small>Selected</small>
-                </li>
-                <li>
-                  <div className="seatAvailable">
-                    <MdChair style={{ color: "868E96" }} />
-                  </div>
-                  <small>Available</small>
-                </li>
-                <li>
-                  <div className="seatOccupied">
-                    <MdChair style={{ color: "F03E3E" }} />
-                  </div>
-                  <small>Occupied</small>
-                </li>
-                <li>
-                  <div className="seatUnavailable">
-                    <MdChair style={{ color: "2C2E33" }} />
-                  </div>
-                  <small>Unavailable</small>
-                </li>
-              </ul>
-            </Grid.Col>
-            {/* <Grid.Col xs={4}></Grid.Col> */}
-            <Grid.Col xs={12}>
-              <div className="screen">
-                <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-                  Screen
-                </span>
-              </div>
-            </Grid.Col>
-            {/*  <Grid.Col xs={4}></Grid.Col> */}
           </Grid>
         </Container>
-        <SeatMap
-          seats={seats2D}
-          unsuspend={handleUnsuspend}
-          updateSeats={handleSuspend}
-        />
+        <Container>
+          <Tabs
+            defaultValue={activeTab}
+            value={activeTab}
+            onTabChange={setActiveTab}
+          >
+            <Tabs.List>
+              <Tabs.Tab value="seatMap">Seat Map</Tabs.Tab>
+              <Tabs.Tab value="movieSession">Movie Sessions</Tabs.Tab>
+            </Tabs.List>
+            <Tabs.Panel value="seatMap" pt="xs">
+              <SeatMap seats={seats2D} handleClick={toggleSuspend} />
+            </Tabs.Panel>
+            <Tabs.Panel value="movieSession" pt="xs">
+              <ViewMovieSession hallId={id} />
+            </Tabs.Panel>
+          </Tabs>
+        </Container>
       </div>
     )
   );

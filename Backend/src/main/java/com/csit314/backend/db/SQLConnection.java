@@ -64,7 +64,7 @@ public class SQLConnection {
                 String movieQuery = "CREATE TABLE IF NOT EXISTS Movie ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "title VARCHAR(255),"
-                                + "sypnosis VARCHAR(255),"
+                                + "synopsis VARCHAR(255),"
                                 + "genre VARCHAR(255),"
                                 + "runTime INT,"
                                 + "imageURL VARCHAR(255),"
@@ -93,21 +93,51 @@ public class SQLConnection {
                                 + "suspended BOOLEAN"
                                 + ")";
 
-                /*
-                 * String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
-                 * + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                 * 
-                 * + "price INT,"
-                 * + "movieSessionId INT,"
-                 * + "seatId INT,"
-                 * + "bookingId VARCHAR(255),"
-                 * + "ticketType VARCHAR(255),"
-                 * "CONSTRAINT FK_movieSession FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id)"
-                 * + "CONSTRAINT FK_seat FOREIGN KEY (seatId) REFERENCES Seat(id)"
-                 * +
-                 * "CONSTRAINT FK_userAccounts FOREIGN KEY (userAccountId) REFERENCES UserAccounts(id)"
-                 * + ")";
-                 */
+                String transactionQuery = "CREATE TABLE IF NOT EXISTS Transaction  ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "totalGrossPrice DOUBLE,"
+                                + "gst DOUBLE,"
+                                + "totalNetPrice DOUBLE,"
+                                + "dateTime DATETIME,"
+                                + "type VARCHAR(255),"
+                                + "cancelled BOOLEAN,"
+                                + "userAccountId  INT,"
+                                + "UNIQUE KEY unique_id_useraccount (userAccountId),"
+                                + "CONSTRAINT FK_useraccounts_transaction FOREIGN KEY (userAccountId)"
+                                + "REFERENCES UserAccounts(id)"
+                                + ")";
+
+                String ticketQuery = "CREATE TABLE IF NOT EXISTS Ticket ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "movieSessionId INT,"
+                                + "seatId INT,"
+                                + "transactionId INT,"
+                                + "ticketTypeId INT,"
+                                + "paidPrice INT,"
+                                + "CONSTRAINT FK_movieSession_ticket FOREIGN KEY (movieSessionId) REFERENCES MovieSession(id),"
+                                + "CONSTRAINT FK_seat_ticket FOREIGN KEY (seatId) REFERENCES Seat(id),"
+                                + "CONSTRAINT FK_transaction_ticket FOREIGN KEY (transactionId) REFERENCES Transaction(id),"
+                                + "CONSTRAINT FK_ticketType_ticket FOREIGN KEY (ticketTypeId) REFERENCES TicketType(id)"
+                                + ")";
+
+                String customerInfoQuery = "CREATE TABLE IF NOT EXISTS CustomerInfo ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "dob VARCHAR(255),"
+                                + "address VARCHAR(255),"
+                                + "gender VARCHAR(255)"
+                                + ")";
+                String transactionItemQuery = "CREATE TABLE IF NOT EXISTS TransactionItem ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "paidPrice INT,"
+                                + "transactionId INT,"
+                                + "quantity INT,"
+                                + "fnbId INT,"
+                                + "fnbName VARCHAR(255),"
+                                + "CONSTRAINT FK_transactionitem_fnb FOREIGN KEY (fnbId)"
+                                + "REFERENCES Fnb(id),"
+                                + "CONSTRAINT FK_transactionitem_transaction FOREIGN KEY (transactionId)"
+                                + "REFERENCES Transaction(id)"
+                                + ")";
 
                 PreparedStatement profileStatement = con.prepareStatement(profileQuery);
                 profileStatement.executeUpdate();
@@ -124,20 +154,29 @@ public class SQLConnection {
                 PreparedStatement TicketTypeStatement = con.prepareStatement(TicketTypeQuery);
                 TicketTypeStatement.executeUpdate();
 
-            
                 PreparedStatement movieStatement = con.prepareStatement(movieQuery);
                 movieStatement.executeUpdate();
 
                 PreparedStatement movieSessionStatement = con.prepareStatement(movieSessionQuery);
                 movieSessionStatement.executeUpdate();
 
+                PreparedStatement transactionStatement = con.prepareStatement(transactionQuery);
+                transactionStatement.executeUpdate();
+
+                PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                ticketStatement.executeUpdate();
+
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
-                
-                //PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-                //ticketStatement.executeUpdate();
-                 
+                // PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
+                // ticketStatement.executeUpdate();
+
+                PreparedStatement customerInfoStatement = con.prepareStatement(customerInfoQuery);
+                customerInfoStatement.executeUpdate();
+
+                PreparedStatement transactionItemStatement = con.prepareStatement(transactionItemQuery);
+                transactionItemStatement.executeUpdate();
 
                 tablesCreated = true;
                 System.out.println("tables created");

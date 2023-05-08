@@ -16,7 +16,8 @@ public class UpdateUserAccountController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@RequestBody UserAccount user, @PathVariable Integer id) throws SQLException {
-        if (UserAccount.update(user)) {
+        UserAccount ua = new UserAccount();
+        if (ua.update(user)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

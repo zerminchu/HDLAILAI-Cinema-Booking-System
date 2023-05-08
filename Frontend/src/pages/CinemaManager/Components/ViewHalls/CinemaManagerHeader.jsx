@@ -51,13 +51,13 @@ const CinemaManagerHeader = () => {
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: '100%' }}>
           <Group sx={{ height: '100%' }} spacing={50} className={classes.hiddenMobile}>
-            <a href="#" className={classes.link}>
+            <a href="/CinemaManagerHome" className={classes.link}>
               Halls
             </a>
-            <a href="#" className={classes.link}>
+            <a href="/ViewMovies" className={classes.link}>
               Movies
             </a>
-            <a href="#" className={classes.link}>
+            <a href="" className={classes.link}>
               F&B
             </a>
           </Group>

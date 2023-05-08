@@ -18,14 +18,16 @@ public class UpdateUserProfileController {
         if (user.getProfileName() == null || user.getProfileName().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name cannot be empty");
         }
+        UserProfile up = new UserProfile();
 
-        UserProfile existingUser = UserProfile.findByProfileName(user.getProfileName());
+        UserProfile existingUser = up.findByProfileName(user.getProfileName());
         if (existingUser != null && existingUser.getId() != user.getId()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name already exists");
         }
 
         try {
-            UserProfile.update(user);
+
+            up.update(user);
             return ResponseEntity.ok("Saved");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

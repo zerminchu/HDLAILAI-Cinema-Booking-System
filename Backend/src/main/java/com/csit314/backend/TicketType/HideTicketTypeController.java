@@ -15,7 +15,8 @@ public class HideTicketTypeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> hide(@PathVariable Integer id) throws SQLException {
-        if (TicketType.hide(id)) {
+        TicketType tt = new TicketType();
+        if (tt.hide(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -23,7 +24,8 @@ public class HideTicketTypeController {
 
     @PutMapping("/unhide/{id}")
     public ResponseEntity<?> unhide(@PathVariable Integer id) throws SQLException {
-        if (TicketType.unhide(id)) {
+        TicketType tt = new TicketType();
+        if (tt.unhide(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

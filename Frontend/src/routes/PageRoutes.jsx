@@ -21,6 +21,12 @@ import UpdateMovie from "../pages/CinemaManager/UpdateMovie";
 import CreateAccountModal from "../pages/Customer/CreateAccountModal";
 import ViewAccount from "../pages/Customer/ViewAccount";
 import ViewMovieDetails from "../pages/Customer/ViewMovieDetails";
+import CreateMSModal from "../pages/CinemaManager/CreateMSModal";
+import ViewMovieSession from "../pages/CinemaManager/ViewMovieSession";
+import UpdateMovieSession from "../pages/CinemaManager/UpdateMovieSession";
+import UserAdminHome from "../pages/UserAdmin/UserAdminHome";
+import TestPurchaseForm from "../pages/Customer/testPurchaseForm";
+import ViewMovieSessionsByMovie from "../pages/Customer/ViewMovieSessionsByMovie";
 
 function PageRoutes() {
   return (
@@ -50,6 +56,16 @@ function PageRoutes() {
         <Route path="/CreateAccount" element={<CreateAccountModal />} />
         <Route path="/ViewAccount" element={<ViewAccount />} />
         <Route path="/ViewMovieDetails/:id" element={<ViewMovieDetails />} />
+        <Route path="/UpdateMovie" element={<UpdateMovie />} />
+        <Route path="/CreateMS" element={<CreateMSModal />} />
+        <Route path="/ViewMovieSession" element={<ViewMovieSession />} />
+        <Route path="/EditMovieSession/:id" element={<UpdateMovieSession />} />
+        <Route path="/UserAdminHome" element={<UserAdminHome />} />
+        <Route path="/testPurchaseForm" element={<TestPurchaseForm />} />
+        <Route
+          path="/ViewMovieSessionsByMovie"
+          element={<ViewMovieSessionsByMovie />}
+        />
       </Routes>
     </Router>
   );

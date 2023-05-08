@@ -15,7 +15,8 @@ public class SuspendUserProfileController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> suspend(@PathVariable Integer id) throws SQLException {
-        if (UserProfile.suspend(id)) {
+        UserProfile up = new UserProfile();
+        if (up.suspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -23,7 +24,8 @@ public class SuspendUserProfileController {
 
     @PutMapping("/unsuspend/{id}")
     public ResponseEntity<?> unsuspend(@PathVariable Integer id) throws SQLException {
-        if (UserProfile.unsuspend(id)) {
+        UserProfile up = new UserProfile();
+        if (up.unsuspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

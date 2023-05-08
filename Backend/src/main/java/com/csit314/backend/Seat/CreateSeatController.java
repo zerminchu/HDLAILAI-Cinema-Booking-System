@@ -2,7 +2,6 @@ package com.csit314.backend.Seat;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,8 @@ public class CreateSeatController {
     public ResponseEntity<?> addNewSeat(@RequestBody Seat user) throws SQLException {
 
         try {
-            Seat.save(user);
+            Seat s = new Seat();
+            s.save(user);
             return ResponseEntity.ok("Saved");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -33,14 +33,17 @@ public class CreateSeatController {
     }
 
     @PostMapping(path = "/addAll")
-    public ResponseEntity<String> addNewSeat(@RequestBody Map<String, Object> json) throws SQLException {
+    public ResponseEntity<String> addNewSeats(@RequestBody Map<String, Object> json) throws SQLException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Hall hallToUpdate = objectMapper.convertValue(json.get("hall"), Hall.class);
             ArrayList<Seat> seats = objectMapper.convertValue(json.get("seats"), new TypeReference<ArrayList<Seat>>() {
             });
-            Seat.saveAll(seats);
-            Hall.updateNumberOfSeats(hallToUpdate);
+            Seat s = new Seat();
+            Hall h = new Hall();
+            // 1 controller talks to 2 entities
+            s.saveAll(seats);
+            h.updateNumberOfSeats(hallToUpdate);
 
             return new ResponseEntity<String>("Saved", HttpStatus.OK);
         } catch (IllegalArgumentException e) {

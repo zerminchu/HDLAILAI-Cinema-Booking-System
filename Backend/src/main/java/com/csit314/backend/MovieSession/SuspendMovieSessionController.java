@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SuspendMovieSessionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> suspend(@PathVariable Integer id) throws SQLException {
-        if (MovieSession.suspend(id)) {
+        MovieSession ms = new MovieSession();
+        if (ms.suspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -22,7 +23,8 @@ public class SuspendMovieSessionController {
 
     @PutMapping("/unsuspend/{id}")
     public ResponseEntity<?> unsuspend(@PathVariable Integer id) throws SQLException {
-        if (MovieSession.unsuspend(id)) {
+        MovieSession ms = new MovieSession();
+        if (ms.unsuspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

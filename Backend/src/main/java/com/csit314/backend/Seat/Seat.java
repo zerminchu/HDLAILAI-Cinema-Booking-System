@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import com.csit314.backend.db.SQLConnection;
-import com.csit314.backend.Hall.Hall;
 
 public class Seat {
     // Checks if table has been created
@@ -94,6 +93,14 @@ public class Seat {
         return blocked;
     }
 
+    public void setBooked(Boolean booked) {
+        this.booked = booked;
+    }
+
+    public Boolean getBooked() {
+        return booked;
+    }
+
     public void setblocked(Boolean blocked) {
         this.blocked = blocked;
     }
@@ -106,7 +113,7 @@ public class Seat {
         this.hallId = hallId;
     }
 
-    public static String save(Seat seat) throws SQLException {
+    public String save(Seat seat) throws SQLException {
         // Return failure early incase of incomplete fields
         if (seat.hallId == null) {
             return "Failure";
@@ -135,9 +142,8 @@ public class Seat {
         }
     }
 
-    public static String saveAll(ArrayList<Seat> seats) throws SQLException {
+    public String saveAll(ArrayList<Seat> seats) throws SQLException {
         // Return failure early incase of incomplete fields
-        System.out.println("hello");
         if (seats.size() == 0) {
             return "Failure";
         }
@@ -173,7 +179,7 @@ public class Seat {
         }
     }
 
-    public static ArrayList<Seat> listAll() throws SQLException {
+    public ArrayList<Seat> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -205,7 +211,7 @@ public class Seat {
         }
     }
 
-    public static ArrayList<Seat> listAllByHallId(Integer hallId) throws SQLException {
+    public ArrayList<Seat> listAllByHallId(Integer hallId) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -242,7 +248,7 @@ public class Seat {
     }
 
     // Read One
-    public static Seat get(Integer id) throws SQLException {
+    public Seat get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -275,7 +281,7 @@ public class Seat {
         }
     }
 
-    public static Boolean update(Seat seat)
+    public Boolean update(Seat seat)
             throws SQLException {
         Connection connection = null;
         try {
@@ -297,7 +303,7 @@ public class Seat {
         }
     }
 
-    public static Boolean suspend(Integer id) throws SQLException {
+    public Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -318,7 +324,7 @@ public class Seat {
         }
     }
 
-    public static Boolean unsuspend(Integer id) throws SQLException {
+    public Boolean unsuspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -339,7 +345,7 @@ public class Seat {
         }
     }
 
-    public static Seat findBySeat(Boolean blocked) throws SQLException {
+    public Seat findBySeat(Boolean blocked) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -374,7 +380,7 @@ public class Seat {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT s.id, s.rowId, s.columnId, s.blocked, t.id, s.hallId AS ticketId FROM"
+            String query = "SELECT s.id, s.rowId, s.columnId, s.blocked, t.id AS ticketId, s.hallId FROM"
                     + " Seat s INNER JOIN Hall h"
                     + " ON s.hallId = h.id"
                     + " INNER JOIN MovieSession ms"

@@ -4,14 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.ArrayList;
 import com.csit314.backend.db.SQLConnection;
-import com.csit314.backend.Hall.Hall;
-import com.csit314.backend.Movie.Movie;
-import com.csit314.backend.Seat.Seat;
-import com.csit314.backend.UserAccount.UserAccount;
-
 
 public class TicketType {
     private Integer id = -1;
@@ -70,8 +64,7 @@ public class TicketType {
         this.price = price;
     }
 
-
-    public static String save(TicketType ticketType) throws SQLException {
+    public String save(TicketType ticketType) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -94,7 +87,7 @@ public class TicketType {
         }
     }
 
-    public static ArrayList<TicketType> listAll() throws SQLException {
+    public ArrayList<TicketType> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -124,7 +117,7 @@ public class TicketType {
         }
     }
 
-    public static Boolean update(TicketType ticketType)
+    public Boolean update(TicketType ticketType)
             throws SQLException {
         Connection connection = null;
         try {
@@ -147,7 +140,7 @@ public class TicketType {
         }
     }
 
-    public static ArrayList<TicketType> search(String q) throws SQLException {
+    public ArrayList<TicketType> search(String q) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -177,7 +170,7 @@ public class TicketType {
         }
     }
 
-    public static Boolean hide(Integer id) throws SQLException {
+    public Boolean hide(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -198,7 +191,7 @@ public class TicketType {
         }
     }
 
-    public static Boolean unhide(Integer id) throws SQLException {
+    public Boolean unhide(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -219,6 +212,3 @@ public class TicketType {
         }
     }
 }
-
-
-

@@ -17,13 +17,17 @@ public class ViewUserProfileController {
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<UserProfile>> getAllUserProfiles() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<UserProfile> userProfiles = UserProfile.listAll();
+        UserProfile up = new UserProfile();
+
+        ArrayList<UserProfile> userProfiles = up.listAll();
         return new ResponseEntity<ArrayList<UserProfile>>(userProfiles, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public UserProfile getUserById(@PathVariable Integer id) throws SQLException {
-        return UserProfile.get(id);
+        UserProfile up = new UserProfile();
+
+        return up.get(id);
     }
 
 }

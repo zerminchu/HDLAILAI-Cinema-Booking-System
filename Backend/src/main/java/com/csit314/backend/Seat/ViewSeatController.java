@@ -16,24 +16,28 @@ public class ViewSeatController {
 
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<Seat>> getAllSeats() throws SQLException {
+        Seat s = new Seat();
         // This returns a JSON or XML with the users
-        ArrayList<Seat> Seats = Seat.listAll();
+        ArrayList<Seat> Seats = s.listAll();
         return new ResponseEntity<ArrayList<Seat>>(Seats, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public Seat getSeatById(@PathVariable Integer id) throws SQLException {
-        return Seat.get(id);
+    public ResponseEntity<Seat> getSeatById(@PathVariable Integer id) throws SQLException {
+        Seat s = new Seat();
+        Seat result = s.get(id);
+        return new ResponseEntity<Seat>(result, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/all/{hallId}")
+    @GetMapping(path = "/hall/{hallId}")
     public ResponseEntity<ArrayList<Seat>> getAllSeatsByHallId(@PathVariable Integer hallId) throws SQLException {
         // This returns a JSON with the users
-        ArrayList<Seat> Seats = Seat.listAllByHallId(hallId);
+        Seat s = new Seat();
+        ArrayList<Seat> Seats = s.listAllByHallId(hallId);
         return new ResponseEntity<ArrayList<Seat>>(Seats, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/all/{movieSessionId}")
+    @GetMapping(path = "/moviesession/{movieSessionId}")
     public ResponseEntity<ArrayList<Seat>> getAllSeatsByMovieSession(@PathVariable Integer movieSessionId)
             throws SQLException {
         Seat seat = new Seat();

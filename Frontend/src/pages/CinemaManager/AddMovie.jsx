@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { notifications } from "@mantine/notifications";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import {
   TextInput,
   NumberInput,
@@ -15,7 +15,7 @@ function AddMovie() {
   const [title, setTitle] = useState("");
   const [runTime, setRuntime] = useState(0);
   const [genre, setGenre] = useState("");
-  const [sypnosis, setSypnosis] = useState("");
+  const [synopsis, setSypnosis] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [error, setError] = useState("");
 
@@ -28,7 +28,7 @@ function AddMovie() {
         title: title,
         runTime: runTime,
         genre: genre,
-        sypnosis: sypnosis,
+        synopsis: synopsis,
         imageURL: imageURL,
       })
       .then(() => {
@@ -37,7 +37,7 @@ function AddMovie() {
           message: "Movie created successfully",
           autoClose: 3000,
         });
-        navigateTo('/ViewMovies');
+        navigateTo("/ViewMovies");
       })
       .catch((error) => {
         console.log(error);
@@ -77,7 +77,7 @@ function AddMovie() {
                 className="runtimeField"
                 placeholder="Runtime in minutes"
                 label="Runtime"
-                min = {0}
+                min={0}
                 onChange={setRuntime}
               />
             </Grid.Col>

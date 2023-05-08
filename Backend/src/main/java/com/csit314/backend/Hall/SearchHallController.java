@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,7 +17,9 @@ public class SearchHallController {
     public ResponseEntity<ArrayList<Hall>> getAllHalls(@RequestParam("q") String query)
             throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<Hall> searchResults = Hall.search(query);
+        Hall h = new Hall();
+
+        ArrayList<Hall> searchResults = h.search(query);
         return new ResponseEntity<ArrayList<Hall>>(searchResults, HttpStatus.OK);
     }
 }

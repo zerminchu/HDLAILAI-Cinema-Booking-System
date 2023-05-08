@@ -11,7 +11,6 @@ import com.csit314.backend.db.SQLConnection;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpSession;
 
 @Service
 public class UserAccount {
@@ -106,7 +105,7 @@ public class UserAccount {
         this.profile = profile;
     }
 
-    public static String save(UserAccount user) throws SQLException {
+    public String save(UserAccount user) throws SQLException {
         // Return failure early incase of incomplete fields
         if (user.email == "" || user.password == "" || user.name == "" || user.profile == null) {
             return "Failure";
@@ -135,7 +134,7 @@ public class UserAccount {
         }
     }
 
-    public static ArrayList<UserAccount> listAll() throws SQLException {
+    public ArrayList<UserAccount> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -180,7 +179,7 @@ public class UserAccount {
     }
 
     // Read One
-    public static UserAccount get(Integer id) throws SQLException {
+    public UserAccount get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -224,7 +223,7 @@ public class UserAccount {
     }
 
     // Read One
-    public static String login(UserAccount user) throws SQLException {
+    public String login(UserAccount user) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -282,7 +281,7 @@ public class UserAccount {
         }
     }
 
-    public static Boolean update(UserAccount user)
+    public Boolean update(UserAccount user)
             throws SQLException {
         Connection connection = null;
         try {
@@ -307,7 +306,7 @@ public class UserAccount {
         }
     }
 
-    public static Boolean suspend(Integer id) throws SQLException {
+    public Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -328,7 +327,7 @@ public class UserAccount {
         }
     }
 
-    public static Boolean unsuspend(Integer id) throws SQLException {
+    public Boolean unsuspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();

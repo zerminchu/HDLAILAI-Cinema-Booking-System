@@ -17,17 +17,19 @@ public class ViewMovieController {
     @GetMapping(path = "/all")
     public ResponseEntity<ArrayList<Movie>> getAllMovies() throws SQLException {
         // This returns a JSON or XML with the users
-        ArrayList<Movie> viewMovies = Movie.listAll();
+        Movie mv = new Movie();
+        ArrayList<Movie> viewMovies = mv.listAll();
         return new ResponseEntity<ArrayList<Movie>>(viewMovies, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Movie> getMovieById(@PathVariable Integer id) throws SQLException {
-        Movie movie = Movie.get(id);
+        Movie mv = new Movie();
         if (movie == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Movie>(movie, HttpStatus.OK);
+        Movie result = mv.get(id);
+        return new ResponseEntity<Movie>(result, HttpStatus.OK);
     }
-    
+
 }

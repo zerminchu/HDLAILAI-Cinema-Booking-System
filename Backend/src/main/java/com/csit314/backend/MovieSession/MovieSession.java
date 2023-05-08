@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import com.csit314.backend.db.SQLConnection;
 
@@ -13,7 +12,9 @@ public class MovieSession {
     // Attributes
     private Integer id = -1;
     private Integer movieId = -1;
+    private String movieName = "";
     private Integer hallId = -1;
+    private String hallName = "";
     private Boolean suspended = false;
     private Timestamp startDateTime = null;
     private Timestamp endDateTime = null;
@@ -23,10 +24,26 @@ public class MovieSession {
     public MovieSession() {
     }
 
+    // Map new entry
     public MovieSession(Integer movieId, Integer hallId, Timestamp startDateTime,
             Timestamp endDateTime) {
         this.movieId = movieId;
         this.hallId = hallId;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+    }
+
+    // Map Database results
+    public MovieSession(Integer id, Integer movieId, String movieName, Integer hallId, String hallName,
+            Boolean suspended,
+            Timestamp startDateTime,
+            Timestamp endDateTime) {
+        this.id = id;
+        this.movieId = movieId;
+        this.movieName = movieName;
+        this.hallId = hallId;
+        this.hallName = hallName;
+        this.suspended = suspended;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
     }
@@ -56,8 +73,16 @@ public class MovieSession {
         return movieId;
     }
 
+    public String getMovieName() {
+        return movieName;
+    }
+
     public Integer getHallId() {
         return hallId;
+    }
+
+    public String getHallName() {
+        return hallName;
     }
 
     public Boolean getSuspended() {
@@ -73,7 +98,7 @@ public class MovieSession {
     }
 
     // SQL methods
-    public static String save(MovieSession movieSession) throws SQLException {
+    public String save(MovieSession movieSession) throws SQLException {
         if (movieSession.hallId == -1 || movieSession.movieId == -1
                 || movieSession.startDateTime == null || movieSession.endDateTime == null) {
             System.out.println(movieSession.hallId);
@@ -121,7 +146,7 @@ public class MovieSession {
         }
     }
 
-    public static MovieSession get(Integer id) throws SQLException {
+    public MovieSession get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -152,25 +177,32 @@ public class MovieSession {
         }
     }
 
-    public static ArrayList<MovieSession> listAll() throws SQLException {
+    public ArrayList<MovieSession> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM MovieSession";
+            String query = "SELECT * FROM MovieSession ms"
+                    + " INNER JOIN Hall h"
+                    + " ON ms.hallId = h.id "
+                    + " INNER JOIN Movie m"
+                    + " ON ms.movieId = m.id ";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             ArrayList<MovieSession> results = new ArrayList<>();
             while (resultSet.next()) {
                 // Get the data from the current row
                 Integer id = resultSet.getInt("id");
-                Integer hallId = resultSet.getInt("hallId");
                 Integer movieId = resultSet.getInt("movieId");
+                String movieName = resultSet.getString("title");
+                Integer hallId = resultSet.getInt("hallId");
+                String hallName = resultSet.getString("name");
                 Boolean suspended = resultSet.getBoolean("suspended");
                 Timestamp startDateTime = resultSet.getTimestamp("startDateTime");
                 Timestamp endDateTime = resultSet.getTimestamp("endDateTime");
                 // Convert the data into an object that can be sent back to boundary
-                MovieSession result = new MovieSession(id, movieId, hallId, suspended, startDateTime,
+                MovieSession result = new MovieSession(id, movieId, movieName, hallId,
+                        hallName, suspended, startDateTime,
                         endDateTime);
                 results.add(result);
             }
@@ -185,12 +217,58 @@ public class MovieSession {
         }
     }
 
-    public static ArrayList<MovieSession> listAllByHall(Integer hallId) throws SQLException {
+    public ArrayList<MovieSession> listAllByMovie(Integer movieId) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM MovieSession WHERE hallId = ?";
+            String query = "SELECT * FROM MovieSession ms"
+                    + " INNER JOIN Hall h"
+                    + " ON ms.hallId = h.id "
+                    + " INNER JOIN Movie m"
+                    + " ON ms.movieId = m.id "
+                    + " WHERE movieId = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, movieId);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<MovieSession> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer id = resultSet.getInt("id");
+                Integer hallId = resultSet.getInt("hallId");
+                String movieName = resultSet.getString("title");
+                String hallName = resultSet.getString("name");
+                Boolean suspended = resultSet.getBoolean("suspended");
+                Timestamp startDateTime = resultSet.getTimestamp("startDateTime");
+                Timestamp endDateTime = resultSet.getTimestamp("endDateTime");
+                // Convert the data into an object that can be sent back to boundary
+                MovieSession result = new MovieSession(id, movieId, movieName, hallId,
+                        hallName, suspended, startDateTime,
+                        endDateTime);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public ArrayList<MovieSession> listAllByHall(Integer hallId) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT * FROM MovieSession ms"
+                    + " INNER JOIN Hall h"
+                    + " ON ms.hallId = h.id "
+                    + " INNER JOIN Movie m"
+                    + " ON ms.movieId = m.id "
+                    + " WHERE hallId = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, hallId);
             ResultSet resultSet = statement.executeQuery();
@@ -199,11 +277,14 @@ public class MovieSession {
                 // Get the data from the current row
                 Integer id = resultSet.getInt("id");
                 Integer movieId = resultSet.getInt("movieId");
+                String movieName = resultSet.getString("title");
+                String hallName = resultSet.getString("name");
                 Boolean suspended = resultSet.getBoolean("suspended");
                 Timestamp startDateTime = resultSet.getTimestamp("startDateTime");
                 Timestamp endDateTime = resultSet.getTimestamp("endDateTime");
                 // Convert the data into an object that can be sent back to boundary
-                MovieSession result = new MovieSession(id, movieId, hallId, suspended, startDateTime,
+                MovieSession result = new MovieSession(id, movieId, movieName, hallId,
+                        hallName, suspended, startDateTime,
                         endDateTime);
                 results.add(result);
             }
@@ -218,7 +299,7 @@ public class MovieSession {
         }
     }
 
-    public static Boolean update(MovieSession movieSession)
+    public Boolean update(MovieSession movieSession)
             throws SQLException {
         Connection connection = null;
         try {
@@ -257,7 +338,7 @@ public class MovieSession {
         }
     }
 
-    public static Boolean suspend(Integer id) throws SQLException {
+    public Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -278,7 +359,7 @@ public class MovieSession {
         }
     }
 
-    public static Boolean unsuspend(Integer id) throws SQLException {
+    public Boolean unsuspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();

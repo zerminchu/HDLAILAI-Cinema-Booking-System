@@ -54,6 +54,15 @@ function Demo() {
           <List.Item>
             <Link to="/ViewMovieDetails">View Movie Details</Link>{" "}
           </List.Item>
+          <List.Item>
+            <Link to="/CreateMS">Create Movie Session</Link>{" "}
+          </List.Item>
+          <List.Item>
+            <Link to="/ViewMovieSession">View Movie Session</Link>{" "}
+          </List.Item>
+          <List.Item>
+            <Link to="/UserAdminHome"> User Admin Home</Link>
+          </List.Item>
           {currentUser ? (
             <List.Item>
               <LogoutButton />

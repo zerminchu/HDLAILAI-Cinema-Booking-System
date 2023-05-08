@@ -75,7 +75,7 @@ public class UserProfile {
         return suspended;
     }
 
-    public static String save(UserProfile userProfile) throws SQLException {
+    public String save(UserProfile userProfile) throws SQLException {
         // Return failure early incase of incomplete fields
         if (userProfile.profileName == "" || userProfile.permission == "") {
             return "Failure";
@@ -103,7 +103,7 @@ public class UserProfile {
         }
     }
 
-    public static ArrayList<UserProfile> listAll() throws SQLException {
+    public ArrayList<UserProfile> listAll() throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -134,7 +134,7 @@ public class UserProfile {
     }
 
     // Read One
-    public static UserProfile get(Integer id) throws SQLException {
+    public UserProfile get(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -162,7 +162,7 @@ public class UserProfile {
         }
     }
 
-    public static Boolean update(UserProfile userProfile)
+    public Boolean update(UserProfile userProfile)
             throws SQLException {
         Connection connection = null;
         try {
@@ -184,7 +184,7 @@ public class UserProfile {
         }
     }
 
-    public static Boolean suspend(Integer id) throws SQLException {
+    public Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -205,7 +205,7 @@ public class UserProfile {
         }
     }
 
-    public static Boolean unsuspend(Integer id) throws SQLException {
+    public Boolean unsuspend(Integer id) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -226,7 +226,7 @@ public class UserProfile {
         }
     }
 
-    public static UserProfile findByProfileName(String name) throws SQLException {
+    public UserProfile findByProfileName(String name) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -255,7 +255,7 @@ public class UserProfile {
         }
     }
 
-    public static ArrayList<UserProfile> search(String q) throws SQLException {
+    public ArrayList<UserProfile> search(String q) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
