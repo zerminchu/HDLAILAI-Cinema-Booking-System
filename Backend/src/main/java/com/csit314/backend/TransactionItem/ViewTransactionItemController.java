@@ -22,9 +22,10 @@ public class ViewTransactionItemController {
     }
 
     @GetMapping(path = "/{id}")
-    public TransactionItem getTransactionItemById(@PathVariable Integer id) throws SQLException {
+    public ResponseEntity<TransactionItem> getTransactionItemById(@PathVariable Integer id) throws SQLException {
         TransactionItem ti = new TransactionItem();
-        return ti.get(id);
+        TransactionItem result = ti.get(id);
+        return new ResponseEntity<TransactionItem>(result, HttpStatus.OK);
     }
 
     @GetMapping(path = "/transaction/{transactionId}")

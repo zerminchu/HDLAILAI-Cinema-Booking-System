@@ -23,9 +23,10 @@ public class ViewMovieController {
     }
 
     @GetMapping(path = "/{id}")
-    public Movie getMovieById(@PathVariable Integer id) throws SQLException {
+    public ResponseEntity<Movie> getMovieById(@PathVariable Integer id) throws SQLException {
         Movie mv = new Movie();
-        return mv.get(id);
+        Movie result = mv.get(id);
+        return new ResponseEntity<Movie>(result, HttpStatus.OK);
     }
 
 }

@@ -23,9 +23,10 @@ public class ViewSeatController {
     }
 
     @GetMapping(path = "/{id}")
-    public Seat getSeatById(@PathVariable Integer id) throws SQLException {
+    public ResponseEntity<Seat> getSeatById(@PathVariable Integer id) throws SQLException {
         Seat s = new Seat();
-        return s.get(id);
+        Seat result = s.get(id);
+        return new ResponseEntity<Seat>(result, HttpStatus.OK);
     }
 
     @GetMapping(path = "/hall/{hallId}")
