@@ -52,7 +52,7 @@ function Demo() {
             <Link to="/CreateAccount">Customer Create Account</Link>{" "}
           </List.Item>
           <List.Item>
-            <Link to="/ViewMovieDetails">Customer Create Account</Link>{" "}
+            <Link to="/ViewMovieDetails">View Movie Details</Link>{" "}
           </List.Item>
           {currentUser ? (
             <List.Item>

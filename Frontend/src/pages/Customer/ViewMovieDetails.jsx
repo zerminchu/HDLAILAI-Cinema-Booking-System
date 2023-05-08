@@ -1,4 +1,4 @@
-import { TextInput, PasswordInput, Button, Container, SimpleGrid, Grid, Spoiler, Text } from "@mantine/core";
+import { TextInput, PasswordInput, Button, Container, SimpleGrid, Grid, Spoiler, Text, Center } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -14,7 +14,9 @@ function ViewMovieDetails() {
             <Container my="md">
                 <Grid>
                     <Grid.Col span={6}>
-                        <img src={logo} alt="Logo" className="logo" width={400} height={600}/>
+                        <Center>
+                            <img src={logo} alt="Logo" className="logo" width={400} height={600}/>
+                        </Center>
                         <Text fz="xl" ta="center">Cicak-Man</Text>
                     </Grid.Col>
 

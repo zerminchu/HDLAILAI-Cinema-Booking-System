@@ -2,27 +2,24 @@ import MoviesTable from "../CinemaManager/Components/ViewMovie/MoviesTable.jsx";
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Button, TextInput, Group, Pagination, Image, SimpleGrid, Grid } from "@mantine/core";
+import { Button, TextInput, Group, Pagination, Image, SimpleGrid, Grid, Center } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import logo from './Components/cicakman_poster.jpg';
 
 function CustomerHome() {
-  // State to store data
   const [movies, setMovies] = useState([]);
-  // const [isAllMovie, setIsAllMovie] = useState(true);
-  // const [query, setQuery] = useState("");
+  const [isAllMovie, setIsAllMovie] = useState(true);
+  const [query, setQuery] = useState("");
 
+  const recordsPerPage = 6;
+  const [page, setPage] = useState(1);
+  const [records, setRecords] = useState(movies.slice(0, recordsPerPage));
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:8080/searchmovie?q=${query}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setMovies(response.data);
-  //       setIsAllMovie(true);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, [query]);
+  useEffect(() => {
+    const from = (page - 1) * recordsPerPage;
+    const to = from + recordsPerPage;
+    setRecords(movies.slice(from, to));
+  }, [page]);
 
   useEffect(function loadData() {
     // Load data from backend API
@@ -36,48 +33,55 @@ function CustomerHome() {
     // [] means the loadData function only runs once when the page first loads
   }, []);
 
-  const images = ["https://cdn.shopify.com/s/files/1/0057/3728/3618/products/mandalorian.12.11_480x.progressive.jpg?v=1607720303",
-                  "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/mandalorian.53990f.pw_480x.progressive.jpg?v=1599582245",
-                  "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/mandalorian_480x.progressive.jpg?v=1614199582",
-                  "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/mando.rep_480x.progressive.jpg?v=1627669751",
-                  "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/monstersinc24_480x.progressive.jpg?v=1617303583",
-                  "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/ratatouille.24x36_480x.progressive.jpg?v=1658171975"]
-
-  const slides = movies.map((movie) => (
-    <Carousel.Slide key={movie.id}>
-      <Image src={movie.imageURL} height={600}/>
-    </Carousel.Slide>
+  function search(event) {
+    event.preventDefault();
+    console.log(query);
+    axios
+      .get(`http://localhost:8080/searchmovie?q=${query}`)
+      .then((response) => {
+        console.log(response.data);
+        setMovies(response.data);
+        setIsAllMovie(true);
+      })
+      .catch((error) => console.log(error));
+  }
+  
+  const grid = records.map((movie) => (
+    <div key={movie.id}>
+      <Image src={movie.imageURL} height={550}/>
+    </div>
   ))
 
   return (
     <SimpleGrid>
+      <h1>NOW SHOWING</h1>
       <div>
-        <h1>Popular Movies</h1>
-        <Carousel 
-        mx="auto" 
-        withIndicators 
-        height="auto"
-        slideSize="33.333333%"
-        slideGap="md"
-        loop
-        align="start"
-        slidesToScroll={3}
-        >
-          {slides}
-        </Carousel>
+        <form onSubmit={search}>
+          <Group>
+            <TextInput
+                value={query}
+                name={"query"}
+                placeholder="Search for Movies"
+                onChange={(event) => setQuery(event.currentTarget.value)}
+                className="search"
+            />
+            <Button type="submit" variant="light" color="blue">Search</Button>
+          </Group>
+        </form>
+      </div>
+      <div>
+
+        <SimpleGrid cols={3} spacing="md">
+          {grid}
+        </SimpleGrid>
+
       </div>
 
-      <div>
-        <Grid>
-          <Grid.Col span="">
-
-          </Grid.Col>
-        </Grid>
-      </div>
-
-      <div>
-        <Pagination total={10} />
-      </div>
+      <Center maw={400} mx="auto">
+        <div>
+          <Pagination value={page} onChange={setPage} total={movies.length / recordsPerPage} />
+        </div>
+      </Center>
     </SimpleGrid>
   );
 }
