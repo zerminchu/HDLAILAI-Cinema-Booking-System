@@ -15,7 +15,7 @@ function AddMovie() {
   const [title, setTitle] = useState("");
   const [runTime, setRuntime] = useState(0);
   const [genre, setGenre] = useState("");
-  const [synopsis, setSypnosis] = useState("");
+  const [synopsis, setSynopsis] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [error, setError] = useState("");
 
@@ -100,7 +100,7 @@ function AddMovie() {
                 className="synopsisField"
                 placeholder="Synopsis of the movie"
                 label="Synopsis"
-                onChange={(event) => setSypnosis(event.target.value)}
+                onChange={(event) => setSynopsis(event.target.value)}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>

@@ -86,11 +86,11 @@ public class Movie {
         this.title = title;
     }
 
-    public String getSypnosis() {
+    public String getSynopsis() {
         return synopsis;
     }
 
-    public void setSypnosis(String synopsis) {
+    public void setSynopsis(String synopsis) {
         this.synopsis = synopsis;
     }
 
