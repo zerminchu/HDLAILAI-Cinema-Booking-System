@@ -21,7 +21,7 @@ function UpdateMovie() {
   const [title, setTitle] = useState(data.title);
   const [runTime, setRuntime] = useState(data.runTime);
   const [genre, setGenre] = useState(data.genre);
-  const [synopsis, setSypnosis] = useState(data.synopsis);
+  const [synopsis, setSynopsis] = useState(data.synopsis);
   const [imageURL, setImageURL] = useState(data.imageURL);
   const [error, setError] = useState("");
 
@@ -112,7 +112,7 @@ function UpdateMovie() {
                 placeholder="Synopsis of the movie"
                 label="Synopsis"
                 value={synopsis}
-                onChange={(event) => setSypnosis(event.target.value)}
+                onChange={(event) => setSynopsis(event.target.value)}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
