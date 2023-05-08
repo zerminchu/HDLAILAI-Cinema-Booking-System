@@ -49,7 +49,7 @@ function PageRoutes() {
         <Route path="/AddMovie" element={<AddMovie />} />
         <Route path="/CreateAccount" element={<CreateAccountModal />} />
         <Route path="/ViewAccount" element={<ViewAccount />} />
-        <Route path="/ViewMovieDetails" element={<ViewMovieDetails />} />
+        <Route path="/ViewMovieDetails/:id" element={<ViewMovieDetails />} />
       </Routes>
     </Router>
   );

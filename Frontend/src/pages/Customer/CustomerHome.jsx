@@ -2,9 +2,7 @@ import MoviesTable from "../CinemaManager/Components/ViewMovie/MoviesTable.jsx";
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Button, TextInput, Group, Pagination, Image, SimpleGrid, Grid, Center } from "@mantine/core";
-import { Carousel } from "@mantine/carousel";
-import logo from './Components/cicakman_poster.jpg';
+import { Button, TextInput, Group, Pagination, Image, SimpleGrid, Grid, Center, Anchor } from "@mantine/core";
 
 function CustomerHome() {
   const [movies, setMovies] = useState([]);
@@ -19,7 +17,7 @@ function CustomerHome() {
     const from = (page - 1) * recordsPerPage;
     const to = from + recordsPerPage;
     setRecords(movies.slice(from, to));
-  }, [page]);
+  }, [page, movies]);
 
   useEffect(function loadData() {
     // Load data from backend API
@@ -48,7 +46,9 @@ function CustomerHome() {
   
   const grid = records.map((movie) => (
     <div key={movie.id}>
-      <Image src={movie.imageURL} height={550}/>
+      <Anchor component={Link} to={`/ViewMovieDetails/${movie.id}`} state={movie}>
+        <Image src={movie.imageURL} height={550}/>
+      </Anchor>
     </div>
   ))
 
