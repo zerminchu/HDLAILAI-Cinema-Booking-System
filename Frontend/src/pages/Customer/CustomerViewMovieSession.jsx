@@ -1,54 +1,49 @@
-import { NumberInput, Select } from "@mantine/core";
+import { NumberInput, Select, Image, Text,Button } from "@mantine/core";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SeatMap from "../CinemaManager/Components/ViewSeats/SeatMap";
 import { notifications } from "@mantine/notifications";
+import { useLocation, Link } from "react-router-dom";
 
-function TestPurchaseForm(id = 1) {
-  const [movieSession, setMovieSession] = useState(null);
+function CustomerViewMovieSession() {
+  const location = useLocation();
+  const data = location.state;
+  console.log(data);
+  const [movieSession, setMovieSession] = useState(data.movieSession);
+  const [movie, setMovie] = useState(data.movie);
   const [ticketTypeOptions, setTicketOptions] = useState([]);
   const [seats2D, setSeats2D] = useState([[]]);
   const [hall, setHall] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
-  useEffect(() => {
+    useEffect(() => {
     async function fetchTicketTypes() {
-      const movieSessionResponse = await axios.get(
-        `http://localhost:8080/viewmoviesession/${1}`
-      );
-      const loadedMovieSession = movieSessionResponse.data;
 
-      console.log(loadedMovieSession);
-      const hallResponse = await axios.get(
-        `http://localhost:8080/viewhall/${loadedMovieSession.hallId}`
+      //console.log(loadedMovieSession);
+      const hallAndSeatResponse = await axios.get(
+        `http://localhost:8080/viewmoviesession/hallandseat?moviesessionid=${movieSession.id}&hallid=${movieSession.hallId}`
       );
-      console.log(hallResponse.data);
-
-      const loadedHall = hallResponse.data;
-
-      const seatsForMovieSessionResponse = await axios.get(
-        `http://localhost:8080/viewseat/moviesession/${loadedMovieSession.id}`
-      );
-      const loadedSeats = seatsForMovieSessionResponse.data;
+      const {hall: loadedHall, seats: loadedSeats} = hallAndSeatResponse.data;
+      console.log(loadedHall)
       let seatsForMovieSession = [];
       while (loadedSeats.length && loadedHall.totalColumn)
         seatsForMovieSession.push(
           loadedSeats.splice(0, loadedHall.totalColumn)
         );
-      setMovieSession(movieSession);
       setHall(loadedHall);
       setSeats2D(seatsForMovieSession);
-      console.log(seatsForMovieSession);
+      setIsLoading(false);
     }
     fetchTicketTypes();
   }, []);
 
   useEffect(() => {
-    const selectedSeats = seats2D.reduce((prev, next) => {
+    console.log("selectedseats");
+    setSelectedSeats(seats2D.reduce((prev, next) => {
       const filteredSeats = next.filter((seat) => seat.selected);
       return prev.concat(filteredSeats);
-    }, []);
-    console.log("selectedseats");
-    console.log(selectedSeats);
+    }, []));
   }, [seats2D]);
 
   function toggleSelect(seat) {
@@ -77,11 +72,17 @@ function TestPurchaseForm(id = 1) {
     );
   }
 
-  return (
+  return (!isLoading &&
     <>
+    <Image src={movie.imageURL}/>
+    <Text>{movie.title}</Text>
+    <Text>{movie.runTime}</Text>
+    <Text>{new Date(movieSession.startDateTime).toLocaleString('en-sg')}</Text>
+    <Text>{movieSession.hallName}</Text>
       <SeatMap seats={seats2D} handleClick={toggleSelect} />
+      <Button component={Link}  to="/ticketcheckout" state={selectedSeats}>Next</Button>
     </>
   );
 }
 
-export default TestPurchaseForm;
+export default CustomerViewMovieSession;

@@ -25,9 +25,9 @@ import CreateMSModal from "../pages/CinemaManager/CreateMSModal";
 import ViewMovieSession from "../pages/CinemaManager/ViewMovieSession";
 import UpdateMovieSession from "../pages/CinemaManager/UpdateMovieSession";
 import UserAdminHome from "../pages/UserAdmin/UserAdminHome";
-import TestPurchaseForm from "../pages/Customer/testPurchaseForm";
-import ViewMovieSessionsByMovie from "../pages/Customer/ViewMovieSessionsByMovie";
-
+import CustomerViewMovieSession from "../pages/Customer/CustomerViewMovieSession";
+// import ViewMovieSessionsByMovie from "../pages/Customer/Components/ViewMovieDetails/ViewMovieSessionsByMovie";
+import TicketCheckout from "../pages/Customer/TicketCheckout";
 function PageRoutes() {
   return (
     <Router>
@@ -61,11 +61,8 @@ function PageRoutes() {
         <Route path="/ViewMovieSession" element={<ViewMovieSession />} />
         <Route path="/EditMovieSession/:id" element={<UpdateMovieSession />} />
         <Route path="/UserAdminHome" element={<UserAdminHome />} />
-        <Route path="/testPurchaseForm" element={<TestPurchaseForm />} />
-        <Route
-          path="/ViewMovieSessionsByMovie"
-          element={<ViewMovieSessionsByMovie />}
-        />
+        <Route path="/CustomerViewMovieSession/:moviesessionid" element={<CustomerViewMovieSession />} />
+        <Route path="/ticketcheckout" element={<TicketCheckout />}/>
       </Routes>
     </Router>
   );
