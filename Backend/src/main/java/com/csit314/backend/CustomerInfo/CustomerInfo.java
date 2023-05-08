@@ -86,7 +86,7 @@ public class CustomerInfo {
             connection = sqlConnection.getConnection();
             String query = "INSERT INTO CustomerInfo (dob, address, gender) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setDate(1, new java.sql.Date(user.dob.getDate()));
+            statement.setDate(1, new java.sql.Date(user.dob.getTime()));
             statement.setString(2, user.address);
             statement.setString(3, user.gender);
             statement.executeUpdate();
@@ -168,7 +168,7 @@ public class CustomerInfo {
             connection = sqlConnection.getConnection();
             String query = "UPDATE CustomerInfo SET dob = ?, address = ?, gender = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setDate(1, new java.sql.Date(customerInfo.dob.getDate()));
+            statement.setDate(1, new java.sql.Date(customerInfo.dob.getTime()));
             statement.setString(2, customerInfo.address);
             statement.setString(3, customerInfo.gender);
             statement.setInt(4, customerInfo.id);
