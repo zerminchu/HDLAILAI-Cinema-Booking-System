@@ -15,7 +15,7 @@ function AddMovie() {
   const [title, setTitle] = useState("");
   const [runTime, setRuntime] = useState(0);
   const [genre, setGenre] = useState("");
-  const [sypnosis, setSypnosis] = useState("");
+  const [synopsis, setSypnosis] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [error, setError] = useState("");
 
@@ -28,7 +28,7 @@ function AddMovie() {
         title: title,
         runTime: runTime,
         genre: genre,
-        sypnosis: sypnosis,
+        synopsis: synopsis,
         imageURL: imageURL,
       })
       .then(() => {

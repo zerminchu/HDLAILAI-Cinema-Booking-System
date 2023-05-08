@@ -21,7 +21,7 @@ function UpdateMovie() {
   const [title, setTitle] = useState(data.title);
   const [runTime, setRuntime] = useState(data.runTime);
   const [genre, setGenre] = useState(data.genre);
-  const [sypnosis, setSypnosis] = useState(data.sypnosis);
+  const [synopsis, setSypnosis] = useState(data.synopsis);
   const [imageURL, setImageURL] = useState(data.imageURL);
   const [error, setError] = useState("");
 
@@ -36,7 +36,7 @@ function UpdateMovie() {
         title: title,
         runTime: runTime,
         genre: genre,
-        sypnosis: sypnosis,
+        synopsis: synopsis,
         imageURL: imageURL,
       })
       .then(() => {
@@ -111,7 +111,7 @@ function UpdateMovie() {
                 className="synopsisField"
                 placeholder="Synopsis of the movie"
                 label="Synopsis"
-                value={sypnosis}
+                value={synopsis}
                 onChange={(event) => setSypnosis(event.target.value)}
               />
             </Grid.Col>

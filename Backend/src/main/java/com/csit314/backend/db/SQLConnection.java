@@ -64,7 +64,7 @@ public class SQLConnection {
                 String movieQuery = "CREATE TABLE IF NOT EXISTS Movie ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "title VARCHAR(255),"
-                                + "sypnosis VARCHAR(255),"
+                                + "synopsis VARCHAR(255),"
                                 + "genre VARCHAR(255),"
                                 + "runTime INT,"
                                 + "imageURL VARCHAR(255),"
