@@ -71,6 +71,11 @@ function PageRoutes() {
         <Route path="/FnbPurchase" element={<FnbPurchase />} />
 
         <Route path="/CinemaManagerFNB" element={<CinemaManagerFNB />} />
+        <Route path="/CinemaManagerFNBAdd" element={<CinemaManagerFNBAdd />} />
+        <Route
+          path="/CinemaManagerFNBEdit/:id"
+          element={<CinemaManagerFNBEdit />}
+ />
         
       </Routes>
     </Router>
