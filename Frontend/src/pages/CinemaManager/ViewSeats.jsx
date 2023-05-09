@@ -252,6 +252,7 @@ function ViewHall() {
                 defaultValue={0}
                 min={hall.totalColumn}
                 value={totalCol}
+                max={15}
                 onChange={setTotalCol}
                 label="No. of Columns"
                 placeholder=""

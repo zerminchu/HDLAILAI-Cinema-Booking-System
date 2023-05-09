@@ -28,6 +28,7 @@ import UserAdminHome from "../pages/UserAdmin/UserAdminHome";
 import CustomerViewMovieSession from "../pages/Customer/CustomerViewMovieSession";
 // import ViewMovieSessionsByMovie from "../pages/Customer/Components/ViewMovieDetails/ViewMovieSessionsByMovie";
 import TicketCheckout from "../pages/Customer/TicketCheckout";
+import TicketSummary from "../pages/Customer/TicketSummary";
 function PageRoutes() {
   return (
     <Router>
@@ -63,6 +64,7 @@ function PageRoutes() {
         <Route path="/UserAdminHome" element={<UserAdminHome />} />
         <Route path="/CustomerViewMovieSession/:moviesessionid" element={<CustomerViewMovieSession />} />
         <Route path="/ticketcheckout" element={<TicketCheckout />}/>
+        <Route path="/ticketsummary" element={<TicketSummary />} />
       </Routes>
     </Router>
   );

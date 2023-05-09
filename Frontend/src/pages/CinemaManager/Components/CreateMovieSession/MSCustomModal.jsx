@@ -6,12 +6,12 @@ import { Button, Modal } from "@mantine/core";
 
 // Modal.setAppElement("#root");
 
-function MSCustomModal({ children }) {
+function MSCustomModal({ label = "Open", children }) {
   // const [modalIsOpen, setModalIsOpen] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <div>
-      <Button onClick={open}>Create MovieSession</Button>
+      <Button onClick={open}>{label}</Button>
       {/* <Modal
         className="myModal"
         isOpen={modalIsOpen}

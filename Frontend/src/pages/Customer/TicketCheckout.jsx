@@ -1,11 +1,12 @@
-import { useLocation } from "react-router-dom";
-import { Text, Container, Box, Select } from "@mantine/core";
+import { useLocation, Link } from "react-router-dom";
+import { Text, Container, Box, Select, Button,  } from "@mantine/core";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 function TicketCheckout() {
   const location = useLocation();
-  const selectedTickets = location.state;
+  console.log(location.state)
+  const {movieSession, selectedSeats: selectedTickets} = location.state;
   const [tickets, setTickets] = useState(selectedTickets);
   const [options, setOptions] = useState([]);
   const [total, setTotal] = useState(0);
@@ -61,6 +62,7 @@ function TicketCheckout() {
           ? "Select all ticket types to view total price"
           : `$${total.toFixed(2)}`}
       </Text>
+      <Button component={Link} to={"/ticketsummary"} state={{tickets, movieSession} }>Pay Now</Button>
     </Box>
   );
 }

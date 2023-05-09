@@ -95,14 +95,14 @@ public class SQLConnection {
 
                 String transactionQuery = "CREATE TABLE IF NOT EXISTS Transaction  ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                                + "totalGrossPrice DOUBLE,"
-                                + "gst DOUBLE,"
-                                + "totalNetPrice DOUBLE,"
+                                + "totalGrossPrice INT,"
+                                + "gst INT,"
+                                + "totalNetPrice INT,"
                                 + "dateTime DATETIME,"
                                 + "type VARCHAR(255),"
                                 + "cancelled BOOLEAN,"
-                                + "userAccountId  INT,"
-                                + "UNIQUE KEY unique_id_useraccount (userAccountId),"
+                                + "userAccountId INT,"
+                                /* + "UNIQUE KEY unique_id_useraccount (userAccountId)," */
                                 + "CONSTRAINT FK_useraccounts_transaction FOREIGN KEY (userAccountId)"
                                 + "REFERENCES UserAccounts(id)"
                                 + ")";

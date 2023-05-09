@@ -80,7 +80,7 @@ function CustomerViewMovieSession() {
     <Text>{new Date(movieSession.startDateTime).toLocaleString('en-sg')}</Text>
     <Text>{movieSession.hallName}</Text>
       <SeatMap seats={seats2D} handleClick={toggleSelect} />
-      <Button component={Link}  to="/ticketcheckout" state={selectedSeats}>Next</Button>
+      <Button component={Link}  to="/ticketcheckout" state={{ movieSession, selectedSeats}}>Next</Button>
     </>
   );
 }

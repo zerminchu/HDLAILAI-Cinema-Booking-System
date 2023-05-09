@@ -57,6 +57,7 @@ public class CreateTransactionController {
             Ticket t = new Ticket();
             // 1 controller talks to 2 entities
             Integer transactionId = txn.save(transaction);
+            System.out.println(transactionId);
             t.saveAll(tickets, transactionId);
             return ResponseEntity.ok("Saved");
         } catch (IllegalArgumentException e) {

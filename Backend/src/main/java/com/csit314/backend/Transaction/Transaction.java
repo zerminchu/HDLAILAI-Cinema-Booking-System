@@ -12,9 +12,9 @@ import com.csit314.backend.db.SQLConnection;
 public class Transaction {
     // Checks if table has been created
     private Integer id = -1;
-    private Double totalGrossPrice = 0.0;
-    private Double gst = 0.0;
-    private Double totalNetPrice = 0.0;
+    private Integer totalGrossPrice = 0;
+    private Integer gst = 0;
+    private Integer totalNetPrice = 0;
     private Timestamp dateTime = null;
     private String type = "";
     private Boolean cancelled = false;
@@ -22,9 +22,9 @@ public class Transaction {
 
     public Transaction() {
         id = -1;
-        totalGrossPrice = 0.0;
-        gst = 0.0;
-        totalNetPrice = 0.0;
+        totalGrossPrice = 0;
+        gst = 0;
+        totalNetPrice = 0;
         dateTime = null;
         type = "";
         cancelled = false;
@@ -37,8 +37,20 @@ public class Transaction {
         this.id = id;
     }
 
+    public Transaction(Integer totalGrossPrice, Integer gst, Integer totalNetPrice, Timestamp dateTime,
+            String type, Integer userAccountId) {
+                System.out.println("hihi");
+        this.totalGrossPrice = totalGrossPrice;
+        this.gst = gst;
+        this.totalNetPrice = totalNetPrice;
+        this.dateTime = dateTime;
+        this.type = type;
+        this.cancelled = false;
+        this.userAccountId = userAccountId;
+    }
+
     // To map the results from the database
-    public Transaction(Integer id, Double totalGrossPrice, Double gst, Double totalNetPrice, Timestamp dateTime,
+    public Transaction(Integer id, Integer totalGrossPrice, Integer gst, Integer totalNetPrice, Timestamp dateTime,
             String type, Integer userAccountId) {
         this.id = id;
         this.totalGrossPrice = totalGrossPrice;
@@ -50,27 +62,27 @@ public class Transaction {
         this.userAccountId = userAccountId;
     }
 
-    public Transaction(Integer id, Double totalGrossPrice, Double gst, Double totalNetPrice, Timestamp dateTime,
-            String type, Boolean cancellled, Integer userAccountId) {
+    public Transaction(Integer id, Integer totalGrossPrice, Integer gst, Integer totalNetPrice, Timestamp dateTime,
+            String type, Boolean cancelled, Integer userAccountId) {
         this.id = id;
         this.totalGrossPrice = totalGrossPrice;
         this.gst = gst;
         this.totalNetPrice = totalNetPrice;
         this.dateTime = dateTime;
         this.type = type;
-        this.cancelled = cancellled;
+        this.cancelled = cancelled;
         this.userAccountId = userAccountId;
     }
 
-    public Transaction(Integer id, Double totalGrossPrice, Double gst, Double totalNetPrice, Timestamp dateTime,
-            String type, Boolean cancellled) {
+    public Transaction(Integer id, Integer totalGrossPrice, Integer gst, Integer totalNetPrice, Timestamp dateTime,
+            String type, Boolean cancelled) {
         this.id = id;
         this.totalGrossPrice = totalGrossPrice;
         this.gst = gst;
         this.totalNetPrice = totalNetPrice;
         this.dateTime = dateTime;
         this.type = type;
-        this.cancelled = cancellled;
+        this.cancelled = cancelled;
     }
 
     public Integer getId() {
@@ -81,24 +93,28 @@ public class Transaction {
         this.id = id;
     }
 
-    public Double getTotalGrossPrice() {
+    public Integer getTotalGrossPrice() {
         return totalGrossPrice;
     }
 
-    public void setTotalGrossPrice(Double totalGrossPrice) {
+    public void setTotalGrossPrice(Integer totalGrossPrice) {
         this.totalGrossPrice = totalGrossPrice;
     }
 
-    public Double getGst() {
+    public Integer getGst() {
         return gst;
     }
 
-    public void setGst(Double gst) {
+    public void setGst(Integer gst) {
         this.gst = gst;
     }
 
-    public Double getTotalNetPrice() {
+    public Integer getTotalNetPrice() {
         return totalNetPrice;
+    }
+
+    public void setTotalNetPrice(Integer totalNetPrice) {
+        this.totalNetPrice = totalNetPrice;
     }
 
     public Timestamp getDateTime() {
@@ -135,7 +151,7 @@ public class Transaction {
 
     public Integer save(Transaction createTransaction) throws SQLException {
         // Return failure early in case of incomplete fields
-        if (createTransaction.userAccountId == null) {
+        if (createTransaction.userAccountId == -1) {
             return -1;
         }
 
@@ -145,17 +161,26 @@ public class Transaction {
             connection = sqlConnection.getConnection();
             String query = "INSERT IGNORE INTO Transaction (totalGrossPrice, gst, totalNetPrice, dateTime, type, cancelled, userAccountId) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement.setDouble(1, createTransaction.totalGrossPrice);
-            statement.setDouble(2, createTransaction.gst);
-            statement.setDouble(3, createTransaction.totalNetPrice);
+            statement.setInt(1, createTransaction.totalGrossPrice);
+            statement.setInt(2, createTransaction.gst);
+            statement.setInt(3, createTransaction.totalNetPrice);
             statement.setTimestamp(4, createTransaction.dateTime);
             statement.setString(5, createTransaction.type);
             statement.setBoolean(6, createTransaction.cancelled);
             statement.setInt(7, createTransaction.userAccountId);
+            System.out.println(createTransaction.totalGrossPrice);
+                 System.out.println(createTransaction.gst);
+                  System.out.println(createTransaction.totalNetPrice);
+                        System.out.println(createTransaction.dateTime);
+                          System.out.println( createTransaction.type);
+                                    System.out.println(createTransaction.cancelled);
+                                     System.out.println(createTransaction.userAccountId);
             statement.executeUpdate();
             ResultSet generatedKeyResult = statement.getGeneratedKeys();
             Integer lastInsertId = -1;
+            System.out.println("hi");
             if (generatedKeyResult.next()) {
+                       System.out.println("hi2");
                 lastInsertId = generatedKeyResult.getInt(1);
             }
             return lastInsertId;
@@ -181,9 +206,9 @@ public class Transaction {
             while (resultSet.next()) {
                 // Get the data from the current row
                 Integer transactionId = resultSet.getInt("id");
-                Double totalGrossPrice = resultSet.getDouble("totalGrossPrice");
-                Double gst = resultSet.getDouble("gst");
-                Double totalNetPrice = resultSet.getDouble("totalNetPrice");
+                Integer totalGrossPrice = resultSet.getInt("totalGrossPrice");
+                Integer gst = resultSet.getInt("gst");
+                Integer totalNetPrice = resultSet.getInt("totalNetPrice");
                 Timestamp dateTime = resultSet.getTimestamp("dateTime");
                 String type = resultSet.getString("type");
                 Boolean cancelled = resultSet.getBoolean("cancelled");
@@ -221,9 +246,9 @@ public class Transaction {
             ArrayList<Transaction> results = new ArrayList<>();
             while (resultSet.next()) {
                 Integer transactionId = resultSet.getInt("id");
-                Double totalGrossPrice = resultSet.getDouble("totalGrossPrice");
-                Double gst = resultSet.getDouble("gst");
-                Double totalNetPrice = resultSet.getDouble("totalNetPrice");
+                Integer totalGrossPrice = resultSet.getInt("totalGrossPrice");
+                Integer gst = resultSet.getInt("gst");
+                Integer totalNetPrice = resultSet.getInt("totalNetPrice");
                 Timestamp dateTime = resultSet.getTimestamp("dateTime");
                 String type = resultSet.getString("type");
                 Boolean cancelled = resultSet.getBoolean("cancelled");
@@ -260,9 +285,9 @@ public class Transaction {
                 System.out.println("No Transactions found");
                 return null;
             }
-            Double totalGrossPrice = resultSet.getDouble("totalGrossPrice");
-            Double gst = resultSet.getDouble("gst");
-            Double totalNetPrice = resultSet.getDouble("totalNetPrice");
+            Integer totalGrossPrice = resultSet.getInt("totalGrossPrice");
+            Integer gst = resultSet.getInt("gst");
+            Integer totalNetPrice = resultSet.getInt("totalNetPrice");
             Timestamp dateTime = resultSet.getTimestamp("dateTime");
             String type = resultSet.getString("type");
             Boolean cancelled = resultSet.getBoolean("cancelled");
@@ -289,8 +314,8 @@ public class Transaction {
             connection = sqlConnection.getConnection();
             String query = "UPDATE Transaction SET totalGrossPrice = ?, totalNetPrice = ?,  dateTime = ?, type = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setDouble(1, updateTransaction.totalGrossPrice);
-            statement.setDouble(2, updateTransaction.totalNetPrice);
+            statement.setInt(1, updateTransaction.totalGrossPrice);
+            statement.setInt(2, updateTransaction.totalNetPrice);
             statement.setTimestamp(3, updateTransaction.dateTime);
             statement.setString(4, updateTransaction.type);
             statement.setInt(5, updateTransaction.id); // Add this line to set the transaction ID parameter
