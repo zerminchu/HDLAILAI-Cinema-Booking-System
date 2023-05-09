@@ -1,4 +1,4 @@
-import { NumberInput, Select, Image, Text,Button } from "@mantine/core";
+import { SimpleGrid, Grid, Space, Box, Spoiler, Container, Center, Image, Text, Button, Flex } from "@mantine/core";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SeatMap from "../CinemaManager/Components/ViewSeats/SeatMap";
@@ -16,6 +16,7 @@ function CustomerViewMovieSession() {
   const [hall, setHall] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     useEffect(() => {
     async function fetchTicketTypes() {
@@ -73,15 +74,97 @@ function CustomerViewMovieSession() {
   }
 
   return (!isLoading &&
-    <>
-    <Image src={movie.imageURL}/>
-    <Text>{movie.title}</Text>
-    <Text>{movie.runTime}</Text>
-    <Text>{new Date(movieSession.startDateTime).toLocaleString('en-sg')}</Text>
-    <Text>{movieSession.hallName}</Text>
-      <SeatMap seats={seats2D} handleClick={toggleSelect} />
-      <Button component={Link}  to="/ticketcheckout" state={{ movieSession, selectedSeats}}>Next</Button>
-    </>
+    // <div>
+    //   <Text>{movie.title}</Text>
+    //   <Text>{movie.runTime}</Text>
+    //   <SeatMap seats={seats2D} handleClick={toggleSelect} />
+    //   <Button component={Link}  to="/ticketcheckout" state={selectedSeats}>Next</Button>
+    // </div>
+
+    <div>
+      <h1>Choose Your Seats</h1>
+      <Container my="md">
+          <SimpleGrid cols={2}>
+              <div>
+                  <Image src={movie.imageURL} alt="Poster" width={400} height={600}/>
+              </div>
+              <div>
+                  <h1>{movie.title}</h1>
+                  <Box
+                      sx={(theme) => ({
+                          backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[3],
+                          textAlign: 'center',
+                          padding: theme.spacing.xl,
+                          borderRadius: theme.radius.md,
+                  })}
+                  >
+                  <Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide" transitionDuration={0}>
+                                              {movie.synopsis}
+                                          </Spoiler>
+                  </Box>
+                  <Space h="sm" />
+                  <SimpleGrid cols={2}>
+                      <div>
+                          <Box
+                          sx={(theme) => ({
+                              backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.blue[3],
+                              textAlign: 'center',
+                              borderRadius: theme.radius.md,
+                          })}
+                          >
+                              Genre:
+                              <Space h="s" />
+                              <Text weight={600}>{movie.genre}</Text>
+                          </Box>
+                      </div>
+                      <div>
+                          <Box
+                          sx={(theme) => ({
+                              backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.blue[3],
+                              textAlign: 'center',
+                              borderRadius: theme.radius.md,
+                          })}
+                          >
+                              Runtime:
+                              <Space h="s" />
+                              <Text weight={600}>{movie.runTime} minutes</Text>
+                          </Box>
+                      </div>
+                  </SimpleGrid>
+              </div>
+          </SimpleGrid>
+      </Container>
+      <Space h="sm" />
+
+      <Container my="md">
+          <SimpleGrid cols={1}>
+              <Center>
+                <div>
+                    <Text size="xl" weight={700}>Select your seats for {movie.title}, on {new Date(movieSession.startDateTime).toLocaleString('en-sg', options)}</Text>
+                </div>
+              </Center>
+              <Center>
+                  <div>
+                      <Box
+                          sx={(theme) => ({
+                              backgroundColor: theme.colorScheme === '' ? theme.colors.gray[5] : theme.colors.gray[3],
+                              textAlign: 'center',
+                              padding: theme.spacing.xl,
+                              borderRadius: theme.radius.md,
+                              width: '100%',
+                      })}
+                      >
+                        <Text size="xl" weight={700}>{movieSession.hallName}</Text>
+                        <SeatMap seats={seats2D} handleClick={toggleSelect} />
+                      </Box>
+                  </div>
+              </Center>
+          </SimpleGrid>
+      </Container>
+      <Flex justify={{ sm: 'right' }}>
+        <Button component={Link}  to="/ticketcheckout" state={{movieSession, selectedSeats}}>Next</Button>
+      </Flex>
+    </div>
   );
 }
 

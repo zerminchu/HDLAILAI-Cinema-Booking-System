@@ -1,4 +1,4 @@
-import { TextInput, PasswordInput, Button, Container, SimpleGrid, Grid, Spoiler, Text, Center, Image, Box, Loader } from "@mantine/core";
+import { Space, Container, SimpleGrid, Grid, Spoiler, Text, Center, Image, Box, Loader } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -38,7 +38,7 @@ function ViewMovieDetails() {
                         <h1>{movie.title}</h1>
                         <Box
                             sx={(theme) => ({
-                                backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+                                backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[3],
                                 textAlign: 'center',
                                 padding: theme.spacing.xl,
                                 borderRadius: theme.radius.md,
@@ -48,14 +48,50 @@ function ViewMovieDetails() {
                                                     {movie.synopsis}
                                                 </Spoiler>
                         </Box>
+                        <Space h="sm" />
+                        <SimpleGrid cols={2}>
+                            <div>
+                                <Box
+                                sx={(theme) => ({
+                                    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.blue[3],
+                                    textAlign: 'center',
+                                    borderRadius: theme.radius.md,
+                                })}
+                                >
+                                    Genre:
+                                    <Space h="s" />
+                                    <Text weight={600}>{movie.genre}</Text>
+                                </Box>
+                            </div>
+                            <div>
+                                <Box
+                                sx={(theme) => ({
+                                    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.blue[3],
+                                    textAlign: 'center',
+                                    borderRadius: theme.radius.md,
+                                })}
+                                >
+                                    Runtime:
+                                    <Space h="s" />
+                                    <Text weight={600}>{movie.runTime} minutes</Text>
+                                </Box>
+                            </div>
+                        </SimpleGrid>
+
                     </div>
                 </SimpleGrid>
+            </Container>
+            <Space h="sm" />
+            <Container my="md">
                 <SimpleGrid cols={1}>
+                    <div>
+                        <Text size="xl" weight={700}>Select a time slot for {movie.title}</Text>
+                    </div>
                     <Center>
                         <div>
                             <Box
                                 sx={(theme) => ({
-                                    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+                                    backgroundColor: theme.colorScheme === '' ? theme.colors.gray[5] : theme.colors.gray[3],
                                     textAlign: 'center',
                                     padding: theme.spacing.xl,
                                     borderRadius: theme.radius.md,

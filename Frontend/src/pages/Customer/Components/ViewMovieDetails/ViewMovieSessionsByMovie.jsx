@@ -25,6 +25,8 @@ function ViewMovieSessionsByMovie({movie = null}) {
   const dayAfter = new Date(today);
   dayAfter.setDate(dayAfter.getDate() + 2);
   const [activeTab, setActiveTab] = useState(today.toLocaleDateString("en-sg"));
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
   useEffect(() => {
     async function fetchMovieSessions() {
       //console.log(movie.id);
@@ -76,7 +78,7 @@ function ViewMovieSessionsByMovie({movie = null}) {
               backgroundColor:
                 theme.colorScheme === "dark"
                   ? theme.colors.dark[5]
-                  : theme.colors.gray[1],
+                  : theme.colors.blue[2],
             },
           })}
         >
@@ -94,52 +96,56 @@ function ViewMovieSessionsByMovie({movie = null}) {
 
   return (isLoading ? <Loader />: 
     <Tabs
-      defaultValue={today.toLocaleDateString("en-sg")}
+      variant="pills"
+      defaultValue={today.toLocaleDateString('en-SG')}
       orientation="vertical"
-
     >
       <Tabs.List>
-        <Tabs.Tab value={today.toLocaleDateString("en-sg")}>
-          {today.toLocaleDateString("en-sg")}
+        <Tabs.Tab value={today.toLocaleDateString('en-SG')}>
+          {today.toLocaleDateString('en-SG', options)}
         </Tabs.Tab>
-        <Tabs.Tab value={tomorrow.toLocaleDateString("en-sg")}>
-          {tomorrow.toLocaleDateString("en-sg")}
+        <Tabs.Tab value={tomorrow.toLocaleDateString(('en-SG'))}>
+          {tomorrow.toLocaleDateString('en-SG', options)}
         </Tabs.Tab>
-        <Tabs.Tab value={dayAfter.toLocaleDateString("en-sg")}>
-          {dayAfter.toLocaleDateString("en-sg")}
+        <Tabs.Tab value={dayAfter.toLocaleDateString('en-SG')}>
+          {dayAfter.toLocaleDateString("en-sg", options)}
         </Tabs.Tab>
       </Tabs.List>
-  <Container       w={"100%"}>
-      <Tabs.Panel value={today.toLocaleDateString("en-sg")}>
-        <Container>
-          <SimpleGrid cols={6}>
-            {movieSessions.today.length === 0 ? (
-              <Text>No sessions</Text>
-            ) : (
-              showMovieSessionsListings(movieSessions.today)
-            )}
-          </SimpleGrid>
-        </Container>
-      </Tabs.Panel>
-      <Tabs.Panel value={tomorrow.toLocaleDateString("en-sg")}>
-        <Container>
-          <SimpleGrid cols={6}>
-            {movieSessions.tomorrow.length === 0 ? (
-              <Text>No sessions</Text>
-            ) : (showMovieSessionsListings(movieSessions.tomorrow))}
-          </SimpleGrid>
-        </Container>
-      </Tabs.Panel>
-      <Tabs.Panel value={dayAfter.toLocaleDateString("en-sg")}>
-        <Container>
-          <SimpleGrid cols={6}>
-            {movieSessions.dayAfter.length === 0 ? (
-              <Text>No sessions</Text>
-            ) : (showMovieSessionsListings(movieSessions.dayAfter))}
-          </SimpleGrid>
-        </Container>
-      </Tabs.Panel>
-        </Container>
+
+      <Container       w={"100%"}>
+        <Tabs.Panel value={today.toLocaleDateString("en-sg")}>
+          <Container>
+            <SimpleGrid cols={5}>
+              {movieSessions.today.length === 0 ? (
+                <Text>No sessions</Text>
+              ) : (
+                showMovieSessionsListings(movieSessions.today)
+              )}
+            </SimpleGrid>
+          </Container>
+        </Tabs.Panel>
+
+        <Tabs.Panel value={tomorrow.toLocaleDateString("en-sg")}>
+          <Container>
+            <SimpleGrid cols={5}>
+              {movieSessions.tomorrow.length === 0 ? (
+                <Text>No sessions</Text>
+              ) : (showMovieSessionsListings(movieSessions.tomorrow))}
+            </SimpleGrid>
+          </Container>
+        </Tabs.Panel>
+
+        <Tabs.Panel value={dayAfter.toLocaleDateString("en-sg")}>
+          <Container>
+            <SimpleGrid cols={5}>
+              {movieSessions.dayAfter.length === 0 ? (
+                <Text>No sessions</Text>
+              ) : (showMovieSessionsListings(movieSessions.dayAfter))}
+            </SimpleGrid>
+          </Container>
+        </Tabs.Panel>
+
+      </Container>
     </Tabs>
   );
 }
