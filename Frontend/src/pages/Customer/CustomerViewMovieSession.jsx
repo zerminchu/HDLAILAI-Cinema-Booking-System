@@ -162,7 +162,7 @@ function CustomerViewMovieSession() {
           </SimpleGrid>
       </Container>
       <Flex justify={{ sm: 'right' }}>
-        <Button component={Link}  to="/ticketcheckout" state={{movieSession, selectedSeats}}>Next</Button>
+        <Button component={Link}  to="/ticketcheckout" state={{movieSession, selectedSeats}} disabled={selectedSeats.length === 0}>Next</Button>
       </Flex>
     </div>
   );

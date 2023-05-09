@@ -7,6 +7,7 @@ import {
   Button,
   Table,
   Center,
+  Modal,
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
@@ -26,6 +27,7 @@ function TicketSummary() {
   const [GST, setGST] = useState(0);
   const [totalNetPrice, setTotalNetPrice] = useState(0);
   const [paymentMessage, setPaymentMessage] = useState("");
+  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     function summariseTickets() {
@@ -121,10 +123,9 @@ function TicketSummary() {
             <Text>
         {!isNaN(totalNetPrice) && `$${(totalNetPrice / 100).toFixed(2)}`}
       </Text>
-      <form onSubmit={addTransaction}>   <Button type="submit">Pay Now</Button></form>
+      <form onSubmit={addTransaction}><Button type="submit">Pay Now</Button></form>
    
-      <ButtonWithModal label={"Pay Now"}>
-        <Center>
+      <Modal opened={opened}>
           <Lottie
             animationData={confirmationTick}
             loop={false}
@@ -132,11 +133,10 @@ function TicketSummary() {
               setPaymentMessage("Payment Complete");
             }}
           />
-        </Center>
         <Center>
           <Text>Payment Complete</Text>
         </Center>
-      </ButtonWithModal>
+      </Modal>
     </Container>
   );
 }
