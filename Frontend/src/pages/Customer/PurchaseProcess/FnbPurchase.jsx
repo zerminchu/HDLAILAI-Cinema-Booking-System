@@ -14,7 +14,8 @@ import {
   import axios from "axios";
   import { notifications } from "@mantine/notifications";
   import { useForm } from "@mantine/form";
-
+  //import FNBTable from "../pages/CinemaManager/Components/Fnb/FNBTable"
+  
  
   function FnbPurchase() {
     const { id } = useParams();
@@ -132,13 +133,13 @@ import {
               {/*Food Tab*/}
               <Tabs.Panel value="Food" pt="xs">
                 {/*View Fnb Page*/}
-                <CinemaManagerFNB newItem ={food} />
+                <FNBTable data ={food} setData= {setFood} />
               </Tabs.Panel>
 
               {/*Drink Tab*/}
               <Tabs.Panel value="Drink" pt="xs">
                 {/*View Fnb Page*/}
-                <CinemaManagerFNB newItem ={drink} />
+                <FNBTable data ={drink} setData= {setDrink} />
               </Tabs.Panel>
             </Tabs>
           </Container>
