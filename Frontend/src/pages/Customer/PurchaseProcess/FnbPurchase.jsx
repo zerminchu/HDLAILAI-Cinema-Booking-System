@@ -40,9 +40,9 @@ import {
         //Push Food and Drink
         let newFood = [];
         let newDrink = []
-        while (loadedFnb.length)
-          newFood.push(selectedType.filter((Fnb) => Fnb.type === "food"));
-          newDrink.push(selectedType.filter((Fnb) => Fnb.type === "drink"));
+        
+        newFood.push(loadedFnb.filter((Fnb) => Fnb.type === "food"));
+        newDrink.push(loadedFnb.filter((Fnb) => Fnb.type === "drink"));
       
         setFood(newFood);
         setDrink(newDrink);
