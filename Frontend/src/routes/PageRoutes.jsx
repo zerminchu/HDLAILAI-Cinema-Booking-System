@@ -62,7 +62,10 @@ function PageRoutes() {
         <Route path="/ViewMovieSession" element={<ViewMovieSession />} />
         <Route path="/EditMovieSession/:id" element={<UpdateMovieSession />} />
         <Route path="/UserAdminHome" element={<UserAdminHome />} />
-        <Route path="/CustomerViewMovieSession/:moviesessionid" element={<CustomerViewMovieSession />} />
+        <Route
+          path="/CustomerViewMovieSession/:moviesessionid"
+          element={<CustomerViewMovieSession />}
+        />
         <Route path="/ticketcheckout" element={<TicketCheckout />} />
         <Route path="/ticketsummary" element={<TicketSummary />} />
       </Routes>

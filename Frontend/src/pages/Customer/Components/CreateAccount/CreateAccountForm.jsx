@@ -1,91 +1,98 @@
 import { useEffect, useState } from "react";
-import { TextInput, PasswordInput, Button, SimpleGrid } from "@mantine/core";
+import {
+  TextInput,
+  PasswordInput,
+  Button,
+  SimpleGrid,
+  Group,
+} from "@mantine/core";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
-import { useForm } from "@mantine/form";
+import { useNavigate } from "react-router-dom";
 
 function CreateAccountForm() {
-  // const [name, setHallName] = useState("");
-  // const [error, setError] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigateTo = useNavigate();
 
-  // const form = useForm({
-  //   initialValues: {
-  //     name: "",
-  //   },
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/viewuserprofile/all")
+      .then(({ data }) => {
+        if (data) {
+          const options = data.map((profile) => {
+            return { value: profile.id, label: profile.profileName };
+          });
+          setProfileOptions(options);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
-  //   validate: {
-  //     name: (value) => {
-  //       if (value.length === 0) return "Hall name is empty.";
-  //       if (/^\s*$|^\s+.*|.*\s+$/.test(value))
-  //         return "Hall name contains trailing/leading whitespaces";
-  //       return null;
-  //     },
-  //   },
-  // });
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log(userProfile);
+    axios
+      .post("http://localhost:8080/createuseraccount/add", {
+        name: name,
+        password: password,
+        email: email,
+        userProfile: {
+          id: userProfile,
+        },
+      })
+      .then(() => {
+        notifications.show({
+          title: `User Account`,
+          message: "Account created successfully",
+          autoClose: 3000,
+        });
+        navigateTo("/ViewUserAccount");
+      })
+      .catch((error) => {
+        console.log(error);
+        //errorMessage = Name cannot be empty/Password cannot be empty/Email cannot be empty/User Profile cannot be empty
+        let errorMessage = `${error.response.data}`;
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/viewhall/all")
-  //     .then(({ data }) => {
-  //       if (data && data.length > 0) {
-  //         setHallName();
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
-
-  // function handleSubmit() {
-  //   const createHall = {
-  //     name: form.values.name,
-  //   };
-
-  //   axios
-  //     .post("http://localhost:8080/createhall/add", createHall)
-  //     .then(() => {
-  //       notifications.show({
-  //         title: `Hall`,
-  //         message: "Hall created successfully",
-  //         autoClose: 3000,
-  //       });
-
-  //       setTimeout(() => {
-  //         window.location.reload();
-  //       }, 500); 
-  //     })
-  //     .catch((error) => {
-  //       notifications.show({
-  //         title: "Error creating Hall",
-  //         message: error.response.data,
-  //         autoClose: 3000,
-  //       });
-  //       form.reset();
-  //     });
-  // }
+        //If Name is empty display the general text "Please fill in all the fields"
+        //Else, display the individual fields error messages
+        if (errorMessage === "Name cannot be empty") {
+          errorMessage = "Please fill in all the fields";
+        }
+        setError(errorMessage);
+        notifications.show({
+          title: `Error creating User Account`,
+          message: errorMessage,
+          autoClose: 1500,
+          color: "red",
+        });
+      });
+  }
+  function handleReturn(event) {
+    event.preventDefault();
+  }
 
   return (
-    // <form onSubmit={form.onSubmit(handleSubmit)}>
-    <form>
+    <form onSubmit={handleSubmit}>
       <SimpleGrid cols={1} spacing="md">
         <div>
           <TextInput
-            placeholder="First Name"
-            label="First Name:"
+            placeholder="Name"
+            label="Name:"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
             withAsterisk
           />
         </div>
 
         <div>
           <TextInput
-            placeholder="Last Name"
-            label="Last Name:"
-            withAsterisk
-          />
-        </div>
-
-        <div>
-          <TextInput
-            placeholder="Email Address"
+            placeholder="name@email.com"
             label="Email Address:"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
             withAsterisk
           />
         </div>
@@ -94,13 +101,17 @@ function CreateAccountForm() {
           <PasswordInput
             placeholder="Password"
             label="Password:"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             description="Make sure to create a strong password!"
             withAsterisk
           />
         </div>
 
         <div className="createAccSubmitBtn">
-          <Button type="submit">Submit</Button>
+          <Group position="right" mt="md">
+            <Button onClick={handleSubmit}>Submit</Button>
+          </Group>
         </div>
       </SimpleGrid>
     </form>
