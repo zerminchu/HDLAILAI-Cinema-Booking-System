@@ -1,4 +1,7 @@
-import UsersRolesTable from "./components/UserRolesTable";
+import UsersRolesTable from "./components/UserProfile/UserRolesTable";
+import { Button, Group, Text, TextInput } from "@mantine/core";
+import UserAdminHeader from "./components/UserAdminHeader";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -23,6 +26,9 @@ function AdminHome() {
   return (
     <div>
       <h1>Admin Home</h1>
+      <Group>
+        <UserAdminHeader />
+      </Group>
       <ButtonMenu />
       <UsersRolesTable data={users} setData={setUsers} />
     </div>

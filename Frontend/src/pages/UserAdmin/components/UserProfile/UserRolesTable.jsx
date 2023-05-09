@@ -1,4 +1,4 @@
-import UAHomeButton from "./UAHomeButton";
+import UAHomeButton from "../UAHomeButton";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 

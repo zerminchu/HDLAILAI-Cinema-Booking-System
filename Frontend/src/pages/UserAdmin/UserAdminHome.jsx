@@ -1,4 +1,4 @@
-import UsersRolesTable from "./components/UserRolesTable";
+import UsersRolesTable from "./components/UserProfile/UserRolesTable";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ButtonMenu from "./components/ButtonMenu";
@@ -21,9 +21,8 @@ function UserAdminHome() {
 
   return (
     <div>
-      
-        <h1>Admin Home</h1> 
-      
+      <h1>Admin Home</h1>
+
       <ButtonMenu />
       <UsersRolesTable data={users} setData={setUsers} />
     </div>

@@ -60,18 +60,6 @@ const CinemaManagerHome = () => {
           }
         />
       )}
-      {/*   <Select
-        data={["All Hall", ...halls.map((hall) => hall.name)]}
-        placeholder="Select Hall"
-        onChange={(e) => {
-          if (e !== "All Hall") {
-            setFilterValue(e);
-            setIsAllHall(false);
-          } else {
-            setIsAllHall(true);
-          }
-        }}
-      /> */}
     </div>
   );
 };

@@ -51,7 +51,7 @@ function CMCreateHall() {
 
         setTimeout(() => {
           window.location.reload();
-        }, 500); 
+        }, 1000); 
       })
       .catch((error) => {
         notifications.show({

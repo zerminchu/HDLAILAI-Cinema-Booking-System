@@ -10,7 +10,7 @@ import {
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
-import UPEditButton from "./components/UPEditButton";
+import UPEditButton from "./components/UserProfile/UPEditButton";
 
 // data=[] means if data is not provided, default to an empty array instead
 function DisplayRoles({ data = [], setData = null }) {
@@ -147,32 +147,17 @@ function DisplayRoles({ data = [], setData = null }) {
 
   return (
     <ScrollArea>
-      <Group>
-        <h3>Existing Profiles:</h3>
-      </Group>
-      <TextInput
-        placeholder={"Search by profile name"}
-        value={query}
-        name={"query"}
-        onChange={(event) => setQuery(event.currentTarget.value)}
-      />
-      {rows.length === 0 ? (
-        <Text fw={400} style={{ textAlign: "center" }}>
-          No user profiles found
-        </Text>
-      ) : (
-        <Table sx={{ minWidth: 400 }} verticalSpacing="sm">
-          <thead>
-            <tr>
-              <th>Profile Name</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Update</th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </Table>
-      )}
+      <Table sx={{ minWidth: 400 }} verticalSpacing="sm">
+        <thead>
+          <tr>
+            <th>Profile Name</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Update</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </Table>
     </ScrollArea>
   );
 }
