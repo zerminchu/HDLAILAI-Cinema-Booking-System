@@ -124,7 +124,10 @@ public class SQLConnection {
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "dob VARCHAR(255),"
                                 + "address VARCHAR(255),"
-                                + "gender VARCHAR(255)"
+                                + "gender VARCHAR(255),"
+                                + "accountId INT,"
+                                + "CONSTRAINT FK_customerinfo_accountid FOREIGN KEY (accountId)"
+                                + "REFERENCES UserAccounts(id)"
                                 + ")";
                 String transactionItemQuery = "CREATE TABLE IF NOT EXISTS TransactionItem ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"

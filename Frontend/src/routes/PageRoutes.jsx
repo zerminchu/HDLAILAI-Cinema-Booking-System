@@ -55,7 +55,7 @@ function PageRoutes() {
         <Route path="/ViewMovies" element={<ViewMovies />} />
         <Route path="/AddMovie" element={<AddMovie />} />
         <Route path="/CreateAccount" element={<CreateAccountModal />} />
-        <Route path="/ViewAccount" element={<ViewAccount />} />
+        <Route path="/ViewAccount/:id" element={<ViewAccount />} />
         <Route path="/ViewMovieDetails/:id" element={<ViewMovieDetails />} />
         <Route path="/UpdateMovie" element={<UpdateMovie />} />
         <Route path="/CreateMS" element={<CreateMSModal />} />
@@ -63,7 +63,7 @@ function PageRoutes() {
         <Route path="/EditMovieSession/:id" element={<UpdateMovieSession />} />
         <Route path="/UserAdminHome" element={<UserAdminHome />} />
         <Route path="/CustomerViewMovieSession/:moviesessionid" element={<CustomerViewMovieSession />} />
-        <Route path="/ticketcheckout" element={<TicketCheckout />}/>
+        <Route path="/ticketcheckout" element={<TicketCheckout />} />
         <Route path="/ticketsummary" element={<TicketSummary />} />
       </Routes>
     </Router>

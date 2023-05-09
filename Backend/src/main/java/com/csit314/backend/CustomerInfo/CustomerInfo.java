@@ -17,12 +17,14 @@ public class CustomerInfo {
     private Date dob = null;
     private String address = "";
     private String gender = "";
+    private Integer accountId = -1;
 
     public CustomerInfo() {
         id = -1;
         dob = null;
         address = "";
         gender = "";
+        accountId = -1;
     }
 
     // To accept existing profile ids
@@ -30,17 +32,19 @@ public class CustomerInfo {
         this.id = id;
     }
 
-    public CustomerInfo(Date dob, String address, String gender) {
+    public CustomerInfo(Date dob, String address, String gender, Integer accountId) {
         this.dob = dob;
         this.address = address;
         this.gender = gender;
+        this.accountId = accountId;
     }
 
-    public CustomerInfo(Integer id, Date dob, String address, String gender) {
+    public CustomerInfo(Integer id, Date dob, String address, String gender, Integer accountId) {
         this.id = id;
         this.dob = dob;
         this.address = address;
         this.gender = gender;
+        this.accountId = accountId;
     }
 
     public Integer getid() {
@@ -75,6 +79,14 @@ public class CustomerInfo {
         this.gender = gender;
     }
 
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
     public String save(CustomerInfo user) throws SQLException {
         // Return failure early incase of incomplete fields
         if (user.dob.equals("") || user.address == "" || user.gender == "") {
@@ -84,11 +96,12 @@ public class CustomerInfo {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "INSERT INTO CustomerInfo (dob, address, gender) VALUES (?, ?, ?)";
+            String query = "INSERT INTO CustomerInfo (dob, address, gender, accountId) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setDate(1, new java.sql.Date(user.dob.getTime()));
             statement.setString(2, user.address);
             statement.setString(3, user.gender);
+            statement.setInt(4, user.accountId);
             statement.executeUpdate();
             return "Success";
         } catch (SQLException e) {
@@ -107,7 +120,7 @@ public class CustomerInfo {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM CustomerInfo";
+            String query = "SELECT * FROM CustomerInfo ci INNER JOIN UserAccounts ua ON ci.accountId = ua.id";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             ArrayList<CustomerInfo> results = new ArrayList<>();
@@ -117,8 +130,9 @@ public class CustomerInfo {
                 Date dob = resultSet.getDate("dob");
                 String address = resultSet.getString("address");
                 String gender = resultSet.getString("gender");
+                Integer accountId = resultSet.getInt("accountId");
                 // Convert the data into an object that can be sent back to boundary
-                CustomerInfo result = new CustomerInfo(id, dob, address, gender);
+                CustomerInfo result = new CustomerInfo(id, dob, address, gender, accountId);
                 results.add(result);
             }
             return results;
@@ -132,23 +146,25 @@ public class CustomerInfo {
         }
     }
 
-    public CustomerInfo get(Integer id) throws SQLException {
+    public CustomerInfo get(Integer accountId) throws SQLException {
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM CustomerInfo WHERE id = ?";
+            String query = "SELECT * FROM CustomerInfo ci INNER JOIN UserAccounts ua ON ci.accountId = ua.id WHERE ci.accountId = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, id);
+            statement.setInt(1, accountId);
             statement.setMaxRows(1);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
                 return null;
             }
+            Integer ciId = resultSet.getInt("id");
             Date dob = resultSet.getDate("dob");
             String address = resultSet.getString("address");
             String gender = resultSet.getString("gender");
-            CustomerInfo result = new CustomerInfo(id, dob, address, gender);
+            Integer aId = resultSet.getInt("accountId");
+            CustomerInfo result = new CustomerInfo(ciId, dob, address, gender, aId);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -166,12 +182,12 @@ public class CustomerInfo {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE CustomerInfo SET dob = ?, address = ?, gender = ? WHERE id = ?";
+            String query = "UPDATE CustomerInfo SET dob = ?, address = ?, gender = ? WHERE accountId = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setDate(1, new java.sql.Date(customerInfo.dob.getTime()));
             statement.setString(2, customerInfo.address);
             statement.setString(3, customerInfo.gender);
-            statement.setInt(4, customerInfo.id);
+            statement.setInt(4, customerInfo.accountId);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

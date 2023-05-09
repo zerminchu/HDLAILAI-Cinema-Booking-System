@@ -306,6 +306,30 @@ public class UserAccount {
         }
     }
 
+    public Boolean updateCustomer(UserAccount user)
+            throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "UPDATE UserAccounts SET name= ?, email= ?, password= ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, user.name);
+            statement.setString(2, user.email);
+            statement.setString(3, user.password);
+            statement.setInt(4, user.id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
     public Boolean suspend(Integer id) throws SQLException {
         Connection connection = null;
         try {

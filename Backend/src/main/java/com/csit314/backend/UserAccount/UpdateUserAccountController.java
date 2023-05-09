@@ -22,4 +22,14 @@ public class UpdateUserAccountController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @PutMapping("/updatecustomer/{id}")
+    public ResponseEntity<?> updateCustomer(@RequestBody UserAccount user, @PathVariable Integer id)
+            throws SQLException {
+        UserAccount ua = new UserAccount();
+        if (ua.updateCustomer(user)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
