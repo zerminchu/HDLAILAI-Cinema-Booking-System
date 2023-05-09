@@ -25,6 +25,9 @@ import UserAdminHome from "../pages/UserAdmin/UserAdminHome";
 import TestPurchaseForm from "../pages/Customer/testPurchaseForm";
 import ViewMovieSessionsByMovie from "../pages/Customer/ViewMovieSessionsByMovie";
 
+//nid a viewfnb
+
+
 function PageRoutes() {
   return (
     <Router>

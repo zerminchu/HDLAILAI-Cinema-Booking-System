@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 
@@ -22,21 +21,9 @@ export function FnbCart({ data, setData }) {
 
   //Delete button for Fnb Item in Cart
   function handleDelete(id) {
-    axios
-      .delete(`http://localhost:8080/suspendmovie/${id}`, {
-        suspended: true,
-      })
-      .then(() => {
-        setData(
-          data.map((movie) =>
-            movie.id === id ? { ...movie, suspended: true } : movie
-          )
-        );
-      })
-      .catch((error) => console.log(error));
+    setData(data.filter((item) => item.id !== id));
   }
 
- 
   const rows = data.map(
     (item, index) =>
       item && (
@@ -82,11 +69,11 @@ export function FnbCart({ data, setData }) {
               >
                 X
               </Button>
-
           </td>
-
-
         </tr>
+        
+
+
       )
   );
 

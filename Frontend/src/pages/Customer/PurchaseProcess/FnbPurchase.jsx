@@ -15,18 +15,51 @@ import {
   import { notifications } from "@mantine/notifications";
   import { useForm } from "@mantine/form";
  
-  
   function FnbPurchase() {
     const { id } = useParams();
     //display the first tab food when load in
     const [activeTab, setActiveTab] = useState("Food");
-    const [food, setFood] = useState([]);
-    const [drink, setDrink] = useState([]);
 
+    //food
+    const [food, setFood] = useState([]);
+
+    //drink
+    const [drink, setDrink] = useState([]);
 
     //Shopping Cart
     const [cart, setCart] = useState([]);
     
+    
+    
+    const fnbDrink = selectedFnb.filter((fnb) => ticket.Fnb.type === "drink" );
+
+
+    async function getFoodAndDrink(id) {
+      try {
+        const fnbResponse = await axios.get(
+          `http://localhost:8080/viewhall/${id}`
+        );
+        const loadedFnb = fnbResponse.data;
+
+        //Push Food and Drink
+        let newFood = [];
+        let newDrink = []
+        while (loadedFnb.length)
+          newFood.push(selectedType.filter((Fnb) => Fnb.type === "food"));
+          newDrink.push(selectedType.filter((Fnb) => Fnb.type === "drink"));
+      
+        setFood(newFood);
+        setDrink(newDrink);
+        console.log(id);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    useEffect(() => {
+      getFoodAndDrink(id);
+    }, []);
+
     /*
     const form = useForm({
       initialValues: {
@@ -86,7 +119,6 @@ import {
        (
         <div>
           
-
           {/*Tab Part*/}
           <Group>
           <Container>
@@ -102,12 +134,12 @@ import {
               
               {/*Food Tab*/}
               <Tabs.Panel value="Food" pt="xs">
-                <FnbFood food={food} handleClick={toggleSuspend} />
+                <FnbTable food={food} handleClick={toggleSuspend} />
               </Tabs.Panel>
 
               {/*Drink Tab*/}
               <Tabs.Panel value="Drink" pt="xs">
-                <FnbDrink drink={drink} handleClick={toggleSuspend} />
+                <FnbTable drink={drink} handleClick={toggleSuspend} />
               </Tabs.Panel>
             </Tabs>
           </Container>
