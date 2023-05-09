@@ -14,6 +14,8 @@ import {
   import axios from "axios";
   import { notifications } from "@mantine/notifications";
   import { useForm } from "@mantine/form";
+  // not yet merged in
+  import CinemaManagerFNB from "./CinemaManagerFNB";
  
   function FnbPurchase() {
     const { id } = useParams();
@@ -33,7 +35,7 @@ import {
       try {
         const fnbResponse = await axios.get(
           //no location
-          `http://localhost:8080/viewhall/${id}`
+          `http://localhost:8080/CinemaManagerFNB/${id}`
         );
         const loadedFnb = fnbResponse.data;
 
@@ -131,13 +133,13 @@ import {
               {/*Food Tab*/}
               <Tabs.Panel value="Food" pt="xs">
                 {/*View Fnb Page*/}
-                <CinemaManagerFNB fnbID ={food} />
+                <CinemaManagerFNB newItem ={food} />
               </Tabs.Panel>
 
               {/*Drink Tab*/}
               <Tabs.Panel value="Drink" pt="xs">
                 {/*View Fnb Page*/}
-                <CinemaManagerFNB fnbID={drink} />
+                <CinemaManagerFNB newItem ={drink} />
               </Tabs.Panel>
             </Tabs>
           </Container>
@@ -151,7 +153,7 @@ import {
           {/*Submit Button*/}
           <Group>
           <div className="submitBtn">
-          <Button type="submit">Next</Button>
+          <Button type="submit">Submit</Button>
           </div>
           </Group>
         </div>
