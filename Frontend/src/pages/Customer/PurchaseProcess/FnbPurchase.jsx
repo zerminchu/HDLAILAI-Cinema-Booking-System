@@ -14,8 +14,8 @@ import {
   import axios from "axios";
   import { notifications } from "@mantine/notifications";
   import { useForm } from "@mantine/form";
-  // not yet merged in
-  import CinemaManagerFNB from "./CinemaManagerFNB";
+ 
+  
  
   function FnbPurchase() {
     const { id } = useParams();

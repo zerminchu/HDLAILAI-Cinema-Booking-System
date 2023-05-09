@@ -24,12 +24,12 @@ import UpdateMovieSession from "../pages/CinemaManager/UpdateMovieSession";
 import UserAdminHome from "../pages/UserAdmin/UserAdminHome";
 import TestPurchaseForm from "../pages/Customer/testPurchaseForm";
 import ViewMovieSessionsByMovie from "../pages/Customer/ViewMovieSessionsByMovie";
+import CinemaManagerFNBAdd from "../pages/CinemaManager/CinemaManagerFNBAdd";
+import CinemaManagerFNB from "../pages/CinemaManager/CinemaManagerFNB";
+import CinemaManagerFNBEdit from "../pages/CinemaManager/CinemaManagerFNBEdit";
 
 import FnbPurchase from "../pages/Customer/PurchaseProcess/FnbPurchase";
 
-//nid a viewfnb
-
-import CinemaManagerFNB from "../pages/CinemaManager/CinemaManagerFNB";
 
 
 function PageRoutes() {
