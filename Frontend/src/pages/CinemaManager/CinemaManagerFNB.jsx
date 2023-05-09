@@ -5,7 +5,7 @@ import { Button, Group, TextInput, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const CinemaManagerFNB = () => {
+function CinemaManagerFNB  () {
   const [fnbs, setFnbs] = useState([]);
   const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);

@@ -14,8 +14,7 @@ import {
   import axios from "axios";
   import { notifications } from "@mantine/notifications";
   import { useForm } from "@mantine/form";
- 
-  
+
  
   function FnbPurchase() {
     const { id } = useParams();
@@ -35,7 +34,7 @@ import {
       try {
         const fnbResponse = await axios.get(
           //no location
-          `http://localhost:8080/CinemaManagerFNB/${id}`
+          `http://localhost:8080/viewfnb/all`
         );
         const loadedFnb = fnbResponse.data;
 
