@@ -11,6 +11,7 @@ import {
   Center,
   Divider,
 } from "@mantine/core";
+import confirmationTick from "../../assets/59865-confirmation-tick.json";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -116,6 +117,7 @@ function TicketCheckout() {
           Pay Now
         </Button>
       </Flex>
+      {}
     </Container>
   );
 }
