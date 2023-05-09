@@ -29,14 +29,10 @@ import {
     //Shopping Cart
     const [cart, setCart] = useState([]);
     
-    
-    
-    const fnbDrink = selectedFnb.filter((fnb) => ticket.Fnb.type === "drink" );
-
-
     async function getFoodAndDrink(id) {
       try {
         const fnbResponse = await axios.get(
+          //no location
           `http://localhost:8080/viewhall/${id}`
         );
         const loadedFnb = fnbResponse.data;
@@ -134,12 +130,14 @@ import {
               
               {/*Food Tab*/}
               <Tabs.Panel value="Food" pt="xs">
-                <FnbTable food={food} handleClick={toggleSuspend} />
+                {/*View Fnb Page*/}
+                <CinemaManagerFNB fnbID ={food} />
               </Tabs.Panel>
 
               {/*Drink Tab*/}
               <Tabs.Panel value="Drink" pt="xs">
-                <FnbTable drink={drink} handleClick={toggleSuspend} />
+                {/*View Fnb Page*/}
+                <CinemaManagerFNB fnbID={drink} />
               </Tabs.Panel>
             </Tabs>
           </Container>
