@@ -134,6 +134,45 @@ public class UserAccount {
         }
     }
 
+    public String saveCust(UserAccount user) throws SQLException {
+
+        // Return failure early incase of incomplete fields
+        if (user.email == "" || user.password == "" || user.name == "") {
+            return "Failure";
+        }
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String firstQuery = "SELECT id FROM UserProfiles WHERE permission = 'Customer'";
+            PreparedStatement firstPreparedStatement = connection.prepareStatement(firstQuery);
+            ResultSet rs = firstPreparedStatement.executeQuery();
+            Integer customerProfileId = -1;
+            System.out.println("a");
+            while (rs.next()) {
+                customerProfileId = rs.getInt("id");
+            }
+            String query = "INSERT INTO UserAccounts (email, password, name, profileId, suspended) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, user.email);
+            statement.setString(2, user.password);
+            statement.setString(3, user.name);
+            statement.setInt(4, customerProfileId);
+            statement.setBoolean(5, user.suspended);
+
+            statement.executeUpdate();
+            return "Success";
+        } catch (SQLException e) {
+            System.out.println(e);
+            return "Failure";
+        } finally {
+            // Close SQL connection when not in use
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
     public ArrayList<UserAccount> listAll() throws SQLException {
         Connection connection = null;
         try {

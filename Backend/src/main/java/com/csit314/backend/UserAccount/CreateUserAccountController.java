@@ -24,4 +24,12 @@ public class CreateUserAccountController {
         ua.save(user);
         return ResponseEntity.ok("Account has been created successfully");
     }
+
+    @PostMapping(path = "/addcustomer") // Map ONLY POST Requests
+    public @ResponseBody ResponseEntity<?> addNewCustomer(@RequestBody UserAccount user)
+            throws SQLException {
+        UserAccount ua = new UserAccount();
+        ua.saveCust(user);
+        return ResponseEntity.ok("Customer Account has been created successfully");
+    }
 }

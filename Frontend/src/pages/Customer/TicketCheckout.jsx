@@ -77,6 +77,7 @@ function TicketCheckout() {
           </Text>
           <Select
             size="sm"
+            
             sx={{ display: "inline" }}
             data={options.map((option) => {
               return {

@@ -18,7 +18,7 @@ import confirmationTick from "../../assets/59865-confirmation-tick.json";
 
 function TicketSummary() {
   const location = useLocation();
-  const {movieSession, tickets: selectedTickets }= location.state;
+  const { movieSession, tickets: selectedTickets } = location.state;
   console.log(selectedTickets);
   const [ticketSummary, setTicketSummary] = useState([]);
   const [options, setOptions] = useState([]);
@@ -58,8 +58,8 @@ function TicketSummary() {
 
   useEffect(() => {
     const gross = ticketSummary.reduce((prev, next) => {
-        return prev + next.price * next.quantity;
-      }, 0);
+      return prev + next.price * next.quantity;
+    }, 0);
     const gst = gross * 0.08;
     const net = gross + gst;
     setTotalGrossPrice(gross);
@@ -80,26 +80,29 @@ function TicketSummary() {
   async function addTransaction(event) {
     event.preventDefault();
     try {
-    const response = await axios.post("http://localhost:8080/createtransaction/ticket", {
-      transaction: {
-        userAccountId: 1,
-        type: "ticket",
-        totalGrossPrice: totalGrossPrice.toFixed(0),
-        gst: GST.toFixed(0),
-        dateTime: new Date(),
-        totalNetPrice: totalNetPrice.toFixed(0)
-      },
-      tickets: selectedTickets.map((ticket)=> ({
-        movieSessionId: movieSession.id,
-        seatId: ticket.id,
-        ticketTypeId: ticket.ticketType.id,
-        paidPrice: ticket.ticketType.price,
-      }))
-    });
-    console.log(response)
-  } catch (e) {
-    console.log(e);
-  }
+      const response = await axios.post(
+        "http://localhost:8080/createtransaction/ticket",
+        {
+          transaction: {
+            userAccountId: 1,
+            type: "ticket",
+            totalGrossPrice: totalGrossPrice.toFixed(0),
+            gst: GST.toFixed(0),
+            dateTime: new Date(),
+            totalNetPrice: totalNetPrice.toFixed(0),
+          },
+          tickets: selectedTickets.map((ticket) => ({
+            movieSessionId: movieSession.id,
+            seatId: ticket.id,
+            ticketTypeId: ticket.ticketType.id,
+            paidPrice: ticket.ticketType.price,
+          })),
+        }
+      );
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
@@ -117,22 +120,22 @@ function TicketSummary() {
       <Text>
         {!isNaN(totalGrossPrice) && `$${(totalGrossPrice / 100).toFixed(2)}`}
       </Text>
-            <Text>
-        {!isNaN(GST) && `$${(GST / 100).toFixed(2)}`}
-      </Text>
-            <Text>
+      <Text>{!isNaN(GST) && `$${(GST / 100).toFixed(2)}`}</Text>
+      <Text>
         {!isNaN(totalNetPrice) && `$${(totalNetPrice / 100).toFixed(2)}`}
       </Text>
-      <form onSubmit={addTransaction}><Button type="submit">Pay Now</Button></form>
-   
+      <form onSubmit={addTransaction}>
+        <Button type="submit">Pay Now</Button>
+      </form>
+
       <Modal opened={opened}>
-          <Lottie
-            animationData={confirmationTick}
-            loop={false}
-            onComplete={() => {
-              setPaymentMessage("Payment Complete");
-            }}
-          />
+        <Lottie
+          animationData={confirmationTick}
+          loop={false}
+          onComplete={() => {
+            setPaymentMessage("Payment Complete");
+          }}
+        />
         <Center>
           <Text>Payment Complete</Text>
         </Center>

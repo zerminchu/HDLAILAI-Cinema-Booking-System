@@ -39,7 +39,6 @@ public class Transaction {
 
     public Transaction(Integer totalGrossPrice, Integer gst, Integer totalNetPrice, Timestamp dateTime,
             String type, Integer userAccountId) {
-                System.out.println("hihi");
         this.totalGrossPrice = totalGrossPrice;
         this.gst = gst;
         this.totalNetPrice = totalNetPrice;

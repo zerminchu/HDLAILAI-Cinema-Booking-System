@@ -17,31 +17,13 @@ function CreateAccountForm() {
   const [error, setError] = useState("");
   const navigateTo = useNavigate();
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/viewuserprofile/all")
-      .then(({ data }) => {
-        if (data) {
-          const options = data.map((profile) => {
-            return { value: profile.id, label: profile.profileName };
-          });
-          setProfileOptions(options);
-        }
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(userProfile);
     axios
-      .post("http://localhost:8080/createuseraccount/add", {
+      .post("http://localhost:8080/createuseraccount/addcustomer", {
         name: name,
         password: password,
         email: email,
-        userProfile: {
-          id: userProfile,
-        },
       })
       .then(() => {
         notifications.show({
@@ -49,7 +31,7 @@ function CreateAccountForm() {
           message: "Account created successfully",
           autoClose: 3000,
         });
-        navigateTo("/ViewUserAccount");
+        navigateTo("/CustomerHome");
       })
       .catch((error) => {
         console.log(error);
