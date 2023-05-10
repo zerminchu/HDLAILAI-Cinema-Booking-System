@@ -57,6 +57,12 @@ function Demo() {
           <List.Item>
             <Link to="/UserAdminHome"> User Admin Home</Link>
           </List.Item>
+          <List.Item>
+            <Link to="/FnbPurchaseSummary">Fnb Purchase Summary</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="/FnbPurchaseReceipt">Fnb Purchase Receipt</Link>
+          </List.Item>
           {currentUser ? (
             <List.Item>
               <LogoutButton />

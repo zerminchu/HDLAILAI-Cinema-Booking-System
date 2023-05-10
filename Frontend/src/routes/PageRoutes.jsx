@@ -24,6 +24,8 @@ import UpdateMovieSession from "../pages/CinemaManager/UpdateMovieSession";
 import UserAdminHome from "../pages/UserAdmin/UserAdminHome";
 import TestPurchaseForm from "../pages/Customer/testPurchaseForm";
 import ViewMovieSessionsByMovie from "../pages/Customer/ViewMovieSessionsByMovie";
+import FnbPurchaseSummary from "../pages/Customer/FnbPurchaseSummary";
+import FnbPurchaseReceipt from "../pages/Customer/FnbPurchaseReceipt";
 
 function PageRoutes() {
   return (
@@ -60,6 +62,8 @@ function PageRoutes() {
           path="/ViewMovieSessionsByMovie"
           element={<ViewMovieSessionsByMovie />}
         />
+        <Route path="/FnbPurchaseSummary" element={<FnbPurchaseSummary />} />
+        <Route path="/FnbPurchaseReceipt" element={<FnbPurchaseReceipt />} />
       </Routes>
     </Router>
   );
