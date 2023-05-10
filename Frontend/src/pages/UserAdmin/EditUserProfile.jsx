@@ -5,11 +5,11 @@ import { notifications } from "@mantine/notifications";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
 
-function EditUserProfile() {
-  const { id } = useParams();
-  const location = useLocation();
-  const data = location.state;
-  const navigate = useNavigate(); // Access the history object
+function EditUserProfile({ id, data }) {
+  /* const { id } = useParams();
+  const location = useLocation(); */
+  //const data = location.state;
+  //const navigate = useNavigate(); // Access the history object
 
   const form = useForm({
     initialValues: {
@@ -44,8 +44,11 @@ function EditUserProfile() {
           autoClose: 3000,
         });
 
-        navigate("/ProfilePage");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
+
       .catch((error) => {
         notifications.show({
           title: "Error updating profile name",
@@ -65,7 +68,7 @@ function EditUserProfile() {
         />
       </div>
       <div className="CMCreateHall-button-container">
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Update Profile Name</Button>
       </div>
     </form>
   );

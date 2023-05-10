@@ -10,7 +10,7 @@ import {
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
-import UPEditButton from "./components/UserProfile/UPEditButton";
+import EditUPModel from "./EditUPModel";
 
 // data=[] means if data is not provided, default to an empty array instead
 function DisplayRoles({ data = [], setData = null }) {
@@ -139,7 +139,7 @@ function DisplayRoles({ data = [], setData = null }) {
           </td>
 
           <td>
-            <UPEditButton id={item.id} data={item} />
+            <EditUPModel id={item.id} data={item} />
           </td>
         </tr>
       )

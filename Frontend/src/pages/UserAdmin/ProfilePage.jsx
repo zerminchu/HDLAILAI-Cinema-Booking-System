@@ -59,10 +59,6 @@ function ProfilePage() {
       });
   };
 
-  /*   const handleClose = () => {
-    setIsModalOpen(false);
-  }; */
-
   return (
     <div>
       <Group>
@@ -78,7 +74,7 @@ function ProfilePage() {
           className="search-bar"
         />
       </Group>
-      {users.length === 0 ? ( // Fix: should be users.length instead of rows.length
+      {users.length === 0 ? (
         <Text fw={400} style={{ textAlign: "center" }}>
           No user profiles found
         </Text>

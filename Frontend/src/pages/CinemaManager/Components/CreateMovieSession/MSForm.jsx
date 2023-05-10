@@ -58,13 +58,11 @@ function MSForm({ hallId = null }) {
         date.getMonth() + 1
       } ${date.getDate()} ${startTime}`
     );
-    console.log(movie);
-    console.log(et);
 
     if (movie?.runTime) {
       et.setMinutes(et.getMinutes() + movie?.runTime + bufferTimeInMinutes);
     }
-    console.log(et);
+
     if (et)
       setEndTime(
         et.toLocaleTimeString("en-SG", {
@@ -77,6 +75,16 @@ function MSForm({ hallId = null }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    if (!startTime) {
+      notifications.show({
+        title: "Error creating Movie Session",
+        message: "Please fill in the start time field.",
+        autoClose: 3000,
+      });
+      return;
+    }
+
     axios
       .post("http://localhost:8080/createmoviesession/add", {
         movieId: movie.id,
