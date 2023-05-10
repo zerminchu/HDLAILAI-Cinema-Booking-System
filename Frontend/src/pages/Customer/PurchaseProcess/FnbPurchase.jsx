@@ -14,9 +14,10 @@ import {
   import axios from "axios";
   import { notifications } from "@mantine/notifications";
   import { useForm } from "@mantine/form";
-  //import FNBTable from "../pages/CinemaManager/Components/Fnb/FNBTable"
-  
- 
+  import CinemaManagerFNB from "../../CinemaManager/CinemaManagerFNB";
+  import FoodTable from "./FoodTable";
+  import BeverageTable from "./BeverageTable";
+
   function FnbPurchase() {
     const { id } = useParams();
     //display the first tab food when load in
@@ -34,21 +35,30 @@ import {
     async function getFoodAndDrink(id) {
       try {
         const fnbResponse = await axios.get(
-          //no location
+          
           `http://localhost:8080/viewfnb/all`
         );
         const loadedFnb = fnbResponse.data;
 
         //Push Food and Drink
+        //let newFood = [];
         let newFood = [];
-        let newDrink = []
+        let newDrink = [];
         
-        newFood.push(loadedFnb.filter((Fnb) => Fnb.type === "food"));
-        newDrink.push(loadedFnb.filter((Fnb) => Fnb.type === "drink"));
       
+
+        newFood.push(loadedFnb.filter((Fnb) => Fnb.type == "Food"));
+        newDrink.push(loadedFnb.filter((Fnb) => Fnb.type == "Beverage"));
+        
+        
         setFood(newFood);
         setDrink(newDrink);
         console.log(id);
+       // console.log("test3");
+        //console.log(food);
+        //console.log("test4");
+        //console.log(drink);
+
       } catch (error) {
         console.log(error);
       }
@@ -119,7 +129,7 @@ import {
           
           {/*Tab Part*/}
           <Group>
-          <Container>
+          <Container> 
             <Tabs
               defaultValue={activeTab}
               value={activeTab}
@@ -133,13 +143,13 @@ import {
               {/*Food Tab*/}
               <Tabs.Panel value="Food" pt="xs">
                 {/*View Fnb Page*/}
-                <FNBTable data ={food} setData= {setFood} />
+                <FoodTable data ={food}  />
               </Tabs.Panel>
 
               {/*Drink Tab*/}
               <Tabs.Panel value="Drink" pt="xs">
                 {/*View Fnb Page*/}
-                <FNBTable data ={drink} setData= {setDrink} />
+                <BeverageTable data ={drink} />
               </Tabs.Panel>
             </Tabs>
           </Container>
