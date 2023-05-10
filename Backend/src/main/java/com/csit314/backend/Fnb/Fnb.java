@@ -188,13 +188,13 @@ public class Fnb {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE Fnb SET currentPrice= ? WHERE id = ? WHERE imageURL= ? WHERE name= ? WHERE type=?";
+            String query = "UPDATE Fnb SET currentPrice = ?, imageURL = ?, name = ?, type = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, fnb.currentPrice);
-            statement.setInt(2, fnb.id);
-            statement.setString(3, fnb.imageURL);
-            statement.setString(4, fnb.name);
-            statement.setString(5, fnb.type);
+            statement.setString(2, fnb.imageURL);
+            statement.setString(3, fnb.name);
+            statement.setString(4, fnb.type);
+            statement.setInt(5, fnb.id);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

@@ -29,6 +29,12 @@ import CustomerViewMovieSession from "../pages/Customer/CustomerViewMovieSession
 // import ViewMovieSessionsByMovie from "../pages/Customer/Components/ViewMovieDetails/ViewMovieSessionsByMovie";
 import TicketCheckout from "../pages/Customer/TicketCheckout";
 import TicketSummary from "../pages/Customer/TicketSummary";
+import TestPurchaseForm from "../pages/Customer/testPurchaseForm";
+import ViewMovieSessionsByMovie from "../pages/Customer/ViewMovieSessionsByMovie";
+import CinemaManagerFNBAdd from "../pages/CinemaManager/CinemaManagerFNBAdd";
+import CinemaManagerFNB from "../pages/CinemaManager/CinemaManagerFNB";
+import CinemaManagerFNBEdit from "../pages/CinemaManager/CinemaManagerFNBEdit";
+
 function PageRoutes() {
   return (
     <Router>
@@ -65,6 +71,20 @@ function PageRoutes() {
         <Route
           path="/CustomerViewMovieSession/:moviesessionid"
           element={<CustomerViewMovieSession />}
+        />
+        <Route path="/ticketcheckout" element={<TicketCheckout />} />
+        <Route path="/ticketsummary" element={<TicketSummary />} />
+        <Route path="/CinemaManagerFNB" element={<CinemaManagerFNB />} />
+        <Route path="/CinemaManagerFNBAdd" element={<CinemaManagerFNBAdd />} />
+        <Route
+          path="/CinemaManagerFNBEdit/:id"
+          element={<CinemaManagerFNBEdit />}
+        />
+        <Route path="/CinemaManagerFNB" element={<CinemaManagerFNB />} />
+        <Route path="/CinemaManagerFNBAdd" element={<CinemaManagerFNBAdd />} />
+        <Route
+          path="/CinemaManagerFNBEdit/:id"
+          element={<CinemaManagerFNBEdit />}
         />
         <Route path="/ticketcheckout" element={<TicketCheckout />} />
         <Route path="/ticketsummary" element={<TicketSummary />} />
