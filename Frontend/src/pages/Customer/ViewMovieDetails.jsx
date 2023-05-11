@@ -16,6 +16,7 @@ import axios from "axios";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import ViewMovieSessionsByMovie from "./Components/ViewMovieDetails/ViewMovieSessionsByMovie";
+import { Button } from "@mantine/core";
 
 function ViewMovieDetails() {
   const location = useLocation();
@@ -132,7 +133,7 @@ function ViewMovieDetails() {
                   borderRadius: theme.radius.md,
                 })}
               >
-                <Button onClick = {setShowSession(true)}>
+                <Button onClick = {() => setShowSession(true)}>
                   Movie Sessions
                 </Button>
                 {showSession && <ViewMovieSessionsByMovie movie={movie}/>}
