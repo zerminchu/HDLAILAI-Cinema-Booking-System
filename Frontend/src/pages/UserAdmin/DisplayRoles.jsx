@@ -4,6 +4,7 @@ import {
   Text,
   ScrollArea,
   TextInput,
+  Pagination,
   Button,
 } from "@mantine/core";
 
@@ -15,6 +16,8 @@ import EditUPModel from "./EditUPModel";
 // data=[] means if data is not provided, default to an empty array instead
 function DisplayRoles({ data = [], setData = null }) {
   const [query, setQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
 
   useEffect(() => {
     axios
@@ -43,7 +46,6 @@ function DisplayRoles({ data = [], setData = null }) {
     axios
       .delete(`http://localhost:8080/suspenduserprofile/${id}`, updatedUser)
       .then(() => {
-        // Update the state to add the strikethrough and gray out
         setData((prevUsers) =>
           prevUsers.map((user) =>
             user.id === id ? { ...user, suspended: true } : user
@@ -94,7 +96,11 @@ function DisplayRoles({ data = [], setData = null }) {
       });
   };
 
-  const rows = data.map(
+  const indexOfLastItem = currentPage * perPage;
+  const indexOfFirstItem = indexOfLastItem - perPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  const rows = currentItems.map(
     (item, index) =>
       item && (
         <tr key={index}>
@@ -144,6 +150,7 @@ function DisplayRoles({ data = [], setData = null }) {
         </tr>
       )
   );
+  const totalPages = Math.ceil(data.length / perPage);
 
   return (
     <ScrollArea>
@@ -158,6 +165,23 @@ function DisplayRoles({ data = [], setData = null }) {
         </thead>
         <tbody>{rows}</tbody>
       </Table>
+      {data.length > 0 && (
+        <Pagination
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 1,
+            padding: "300px",
+            justifyContent: "center",
+          }}
+          limit={perPage}
+          page={currentPage}
+          onChange={(newPage) => setCurrentPage(newPage)}
+          total={totalPages}
+        />
+      )}
     </ScrollArea>
   );
 }
