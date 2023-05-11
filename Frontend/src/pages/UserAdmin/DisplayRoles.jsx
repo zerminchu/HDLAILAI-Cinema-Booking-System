@@ -168,13 +168,17 @@ function DisplayRoles({ data = [], setData = null }) {
       {data.length > 0 && (
         <Pagination
           style={{
-            position: "fixed",
+            /*   position: "fixed",
             bottom: 0,
             left: "50%",
             transform: "translateX(-50%)",
             zIndex: 1,
-            padding: "300px",
             justifyContent: "center",
+            display: "flex",
+            padding: "250px", */
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 20,
           }}
           limit={perPage}
           page={currentPage}

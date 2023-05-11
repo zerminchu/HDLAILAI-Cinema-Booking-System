@@ -11,9 +11,8 @@ import CreateUPModel from "./CreateUPModel";
 function ProfilePage() {
   const [users, setUsers] = useState([]);
   const [query, setQuery] = useState("");
-  //const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     axios
       .get(`http://localhost:8080/searchuserprofile?q=${query}`)
       .then((response) => {
@@ -21,7 +20,16 @@ function ProfilePage() {
         setUsers(response.data); // Fix: should be setUsers instead of setData
       })
       .catch((error) => console.log(error));
-  }, [query]);
+  }, [query]); */
+  function search(event) {
+    event.preventDefault();
+    axios
+      .get(`http://localhost:8080/searchuserprofile?q=${query}`)
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => console.log(error));
+  }
 
   const handleAddUser = (profileName, selectedRole) => {
     console.log(profileName, selectedRole); // Check that profileName and selectedRole are received correctly
@@ -64,16 +72,22 @@ function ProfilePage() {
       <Group>
         <UserAdminHeader />
       </Group>
-      <Group>
-        <CreateUPModel onAddUser={handleAddUser} />
-        <TextInput
-          placeholder={"Search by profile name"}
-          value={query}
-          name={"query"}
-          onChange={(event) => setQuery(event.currentTarget.value)}
-          className="search-bar"
-        />
-      </Group>
+      <form onSubmit={search}>
+        <Group>
+          <CreateUPModel onAddUser={handleAddUser} />
+          <TextInput
+            placeholder={"Search by profile name"}
+            value={query}
+            name={"query"}
+            onChange={(event) => setQuery(event.currentTarget.value)}
+            className="search-bar"
+          />
+          <Button type="submit" variant="light" color="blue">
+            Search
+          </Button>
+        </Group>
+      </form>
+
       {users.length === 0 ? (
         <Text fw={400} style={{ textAlign: "center" }}>
           No user profiles found
