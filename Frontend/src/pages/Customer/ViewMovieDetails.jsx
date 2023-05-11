@@ -24,7 +24,7 @@ function ViewMovieDetails() {
   const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-  const [showSession, setShowSession] = useState(false);
+  const [showSession, setShowSession] = useState (false);
 
   useEffect(function loadData() {
     // Load data from backend API
