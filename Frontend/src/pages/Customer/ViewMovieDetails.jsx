@@ -23,7 +23,6 @@ function ViewMovieDetails() {
   const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-  const [showSession, setShowSession] = useState(false);
 
   useEffect(function loadData() {
     // Load data from backend API
@@ -132,10 +131,7 @@ function ViewMovieDetails() {
                   borderRadius: theme.radius.md,
                 })}
               >
-                <Button onClick = {setShowSession(true)}>
-                  Movie Sessions
-                </Button>
-                {showSession && <ViewMovieSessionsByMovie movie={movie}/>}
+                <ViewMovieSessionsByMovie movie={movie} />
               </Box>
             </div>
           </Center>
