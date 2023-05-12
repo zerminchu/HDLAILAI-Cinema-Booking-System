@@ -35,6 +35,10 @@ import CinemaManagerFNBAdd from "../pages/CinemaManager/CinemaManagerFNBAdd";
 import CinemaManagerFNB from "../pages/CinemaManager/CinemaManagerFNB";
 import CinemaManagerFNBEdit from "../pages/CinemaManager/CinemaManagerFNBEdit";
 
+import FnbPurchase from "../pages/Customer/PurchaseProcess/FnbPurchase";
+
+
+
 function PageRoutes() {
   return (
     <Router>
@@ -80,6 +84,9 @@ function PageRoutes() {
           path="/CinemaManagerFNBEdit/:id"
           element={<CinemaManagerFNBEdit />}
         />
+
+        <Route path="/FnbPurchase" element={<FnbPurchase />} />
+
         <Route path="/CinemaManagerFNB" element={<CinemaManagerFNB />} />
         <Route path="/CinemaManagerFNBAdd" element={<CinemaManagerFNBAdd />} />
         <Route
