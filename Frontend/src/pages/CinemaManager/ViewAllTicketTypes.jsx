@@ -46,18 +46,20 @@ function ViewAllTicketTypes() {
       <Group>
         <CinemaManagerHeader />
       </Group>
-      <Group>
-        <TextInput
-          value={query}
-          name={"query"}
-          placeholder="Search for Ticket Types"
-          onChange={(event) => setQuery(event.currentTarget.value)}
-          className="search"
-        />
-        <Button type="submit" variant="light" color="blue">
-          Search
-        </Button>
-      </Group>
+      <form onSubmit={search}>
+        <Group>
+          <TextInput
+            value={query}
+            name={"query"}
+            placeholder="Search for Ticket Types"
+            onChange={(event) => setQuery(event.currentTarget.value)}
+            className="search"
+          />
+          <Button type="submit" variant="light" color="blue">
+            Search
+          </Button>
+        </Group>
+      </form>
       <Space h="lg" />
       <Button component={Link} to="/AddTicketType">
         Add New
