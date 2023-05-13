@@ -11,75 +11,83 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const HallTable = (props) => {
+const TicketTypesTable = (props) => {
   const theme = useMantineTheme();
-  const [halls, setHalls] = useState(props.halls);
+  const [ticketTypes, setTicketTypes] = useState(props.ticketTypes);
 
   useEffect(() => {
-    setHalls(props.halls);
-  }, [props.halls]);
+    setTicketTypes(props.ticketTypes);
+  }, [props.ticketTypes]);
 
-  console.log(props.halls);
+  console.log(props.ticketTypes);
 
   const handleStatus = (id, checkOrNot) => {
-    const updatedHalls = halls.map((hall) => {
-      if (hall.id === id) {
-        hall.status = checkOrNot ? "Available" : "Not Available";
-        if (hall.status === "Not Available") {
+    const updatedTicketTypes = ticketTypes.map((ticketType) => {
+      if (ticketType.id === id) {
+        ticketType.status = checkOrNot ? "Available" : "Not Available";
+        if (ticketType.status === "Not Available") {
           handleSuspend(id);
         } else {
           axios
-            .put(`http://localhost:8080/suspendhall/unsuspend/${id}`)
+            .put(`http://localhost:8080/hidetickettype/unhide/${id}`)
             .then((response) => {
               console.log(response.data);
             })
             .catch((err) => console.log(err));
         }
       }
-      return hall;
+      return ticketType;
     });
-    setHalls(updatedHalls);
+    setTicketTypes(updatedTicketTypes);
   };
 
   const handleSuspend = (id) => {
     axios
-      .delete(`http://localhost:8080/suspendhall/${id}`)
+      .delete(`http://localhost:8080/hidetickettype/${id}`)
       .then(() => {
-        const updatedHalls = halls.map((hall) => {
+        const updatedTicketTypes = ticketTypes.map((hall) => {
           if (hall.id === id) {
             return { ...hall, status: "Not Available" };
           }
           return hall;
         });
-        setHalls(updatedHalls);
+        setTicketTypes(updatedTicketTypes);
       })
       .catch((err) => console.log(err));
   };
 
-  const rows = halls.map(
-    (hall) =>
-      hall && (
-        <tr key={hall.id}>
+  const rows = ticketTypes.map(
+    (ticketType) =>
+      ticketType && (
+        <tr key={ticketType.id}>
           <td>
             <div style={{ textAlign: "left" }}>
-              <Text>{hall.name}</Text>
+              <Text>{ticketType.typeName}</Text>
+            </div>
+          </td>
+
+          <td>
+            <div style={{ textAlign: "left" }}>
+              <Text>{ticketType.price}</Text>
             </div>
           </td>
 
           <td>
             <Group>
               <Switch
-                checked={hall.status === "Available"}
+                checked={ticketType.status === "Available"}
                 onChange={(event) => {
-                  handleStatus(hall.id, event.currentTarget.checked);
+                  handleStatus(ticketType.id, event.currentTarget.checked);
                 }}
                 color="green"
                 size="md"
                 label={
-                  hall.status === "Available" ? "Available" : "Not Available"
+                  ticketType.status === "Available"
+                    ? "Available"
+                    : "Not Available"
                 }
                 thumbIcon={
-                  hall.status === "Available" ? (
+                  ticketType.status === "Available" ? (
                     <IconCheck
                       size="0.8rem"
                       color={theme.colors.teal[theme.fn.primaryShade()]}
@@ -98,8 +106,8 @@ const HallTable = (props) => {
           </td>
 
           <td>
-            <Button component={Link} to={`/ViewHall/${hall.id}`}>
-              View
+            <Button component={Link} to={`/UpdateTicketType/${ticketType.id}`}>
+              Edit
             </Button>
           </td>
         </tr>
@@ -111,9 +119,9 @@ const HallTable = (props) => {
       <Table miw={1200} verticalSpacing="sm" position="left">
         <thead>
           <tr>
-            <th>Hall</th>
+            <th>Ticket Type</th>
+            <th>Price (Cents)</th>
             <th>Status</th>
-            <th>Details</th>
             <th></th>
           </tr>
         </thead>
@@ -123,4 +131,4 @@ const HallTable = (props) => {
   );
 };
 
-export default HallTable;
+export default TicketTypesTable;

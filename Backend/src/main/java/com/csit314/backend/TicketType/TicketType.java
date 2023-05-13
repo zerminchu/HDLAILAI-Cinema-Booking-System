@@ -87,6 +87,33 @@ public class TicketType {
         }
     }
 
+    public TicketType get(Integer id) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT * FROM TicketType WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.setMaxRows(1);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return null;
+            }
+            String typeName = resultSet.getString("typeName");
+            Integer price = resultSet.getInt("price");
+            TicketType result = new TicketType(id, typeName, price);
+            return result;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
     public ArrayList<TicketType> listAll() throws SQLException {
         Connection connection = null;
         try {
