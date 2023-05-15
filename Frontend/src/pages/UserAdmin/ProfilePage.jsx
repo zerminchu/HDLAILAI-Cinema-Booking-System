@@ -69,6 +69,7 @@ function ProfilePage() {
 
   return (
     <div>
+      <h1>Admin Home</h1>
       <Group>
         <UserAdminHeader />
       </Group>
