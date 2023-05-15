@@ -11,11 +11,13 @@ public class TicketType {
     private Integer id = -1;
     private String typeName = "";
     private Integer price = -1;
+    private Boolean hide = false;
 
     public TicketType() {
         id = -1;
         typeName = "";
         price = -1;
+        hide = false;
     }
 
     // To accept existing profile ids
@@ -28,10 +30,11 @@ public class TicketType {
         this.price = price;
     }
 
-    public TicketType(Integer id, String typeName, Integer price) {
+    public TicketType(Integer id, String typeName, Integer price, Boolean hide) {
         this.id = id;
         this.typeName = typeName;
         this.price = price;
+        this.hide = hide;
     }
 
     public TicketType(Integer id, String typeName) {
@@ -62,6 +65,14 @@ public class TicketType {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Boolean getHide() {
+        return hide;
+    }
+
+    public void setHide(Boolean hide) {
+        this.hide = hide;
     }
 
     public String save(TicketType ticketType) throws SQLException {
@@ -102,7 +113,8 @@ public class TicketType {
             }
             String typeName = resultSet.getString("typeName");
             Integer price = resultSet.getInt("price");
-            TicketType result = new TicketType(id, typeName, price);
+            Boolean hide = resultSet.getBoolean("hide");
+            TicketType result = new TicketType(id, typeName, price, hide);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -128,9 +140,9 @@ public class TicketType {
                 Integer id = resultSet.getInt("id");
                 String typeName = resultSet.getString("typeName");
                 Integer price = resultSet.getInt("price");
-
+                Boolean hide = resultSet.getBoolean("hide");
                 // Convert the data into an object that can be sent back to boundary
-                TicketType result = new TicketType(id, typeName, price);
+                TicketType result = new TicketType(id, typeName, price, hide);
                 results.add(result);
             }
             return results;
@@ -202,7 +214,7 @@ public class TicketType {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE TicketType SET suspended = ? WHERE id = ?";
+            String query = "UPDATE TicketType SET hide = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setBoolean(1, true);
             statement.setInt(2, id);
@@ -223,7 +235,7 @@ public class TicketType {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE TicketType SET suspended = ? WHERE id = ?";
+            String query = "UPDATE TicketType SET hide = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setBoolean(1, false);
             statement.setInt(2, id);
