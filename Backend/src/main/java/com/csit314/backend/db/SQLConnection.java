@@ -147,6 +147,7 @@ public class SQLConnection {
                                 + "date DATETIME,"
                                 + "reportType VARCHAR(255),"
                                 + "time DATETIME,"
+                                + "transactionId INT,"
                                 + "CONSTRAINT FK_cinemaowner_transaction FOREIGN KEY (transactionId)"
                                 + "REFERENCES Transaction(id)"
                                 + ")";
