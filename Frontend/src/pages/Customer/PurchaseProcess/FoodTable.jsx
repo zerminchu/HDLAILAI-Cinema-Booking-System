@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-
+import CustomerPurchaseButton from "./CustomerPurchaseButton";
 
 
 import {
@@ -21,33 +21,20 @@ function FoodTable({ data }) {
     console.log("data");
     console.log(data);
 
-function handleAdd(id) {
-  setData(data.filter((item) => item.id == id));
-}
-
 const rows = data.map(
     (item, index) =>
       item && (
         <tr key={index}>
+            
+          <td>
           <td>{item.name}</td>
-          <td>${(item.currentPrice / 100).toFixed(2)}</td>
-            {/*Add Button*/}
+         
+            <td>${(item.currentPrice / 100).toFixed(2)}</td>
             <td>
-          <Button
-                variant="outline"
-                radius="xl"
-                size="xs"
-                color="gray"
-                uppercase
-                onClick={() => {
-                  handleAdd(id);
-                }}
-              >
-              Add
-              </Button>
+            <CustomerPurchaseButton id={item.id} data={item} />
           </td>
 
-          
+          </td>
         </tr>
         
       )

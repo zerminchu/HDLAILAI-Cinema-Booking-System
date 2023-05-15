@@ -163,7 +163,7 @@ import {
           {/*Submit Button*/}
           <Group>
           <div className="submitBtn">
-          <Button type="submit">Continue</Button>
+          <Button type="submit">Submit</Button>
           </div>
           </Group>
         </div>
