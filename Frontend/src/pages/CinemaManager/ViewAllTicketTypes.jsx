@@ -3,7 +3,7 @@ import TicketTypesTable from "./Components/ViewAllTicketTypes/TicketTypesTable.j
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Button, TextInput, Group, Space, Loader } from "@mantine/core";
+import { Button, TextInput, Group, Space, Loader, Text } from "@mantine/core";
 import "./Components/ViewMovie/SearchMovie.css";
 
 function ViewAllTicketTypes() {
@@ -67,7 +67,7 @@ function ViewAllTicketTypes() {
       <Space h="lg" />
       {ticketTypes.length === 0 ? (
         <Text fw={400} style={{ textAlign: "center" }}>
-          No halls found
+          No Ticket Types found
         </Text>
       ) : (
         <TicketTypesTable
