@@ -36,6 +36,7 @@ const TicketTypesTable = (props) => {
             .catch((err) => console.log(err));
         }
       }
+      console.log(ticketType.status);
       return ticketType;
     });
     setTicketTypes(updatedTicketTypes);
@@ -45,11 +46,11 @@ const TicketTypesTable = (props) => {
     axios
       .delete(`http://localhost:8080/hidetickettype/${id}`)
       .then(() => {
-        const updatedTicketTypes = ticketTypes.map((hall) => {
-          if (hall.id === id) {
-            return { ...hall, status: "Not Available" };
+        const updatedTicketTypes = ticketTypes.map((ticketType) => {
+          if (ticketType.id === id) {
+            return { ...ticketType, status: "Not Available" };
           }
-          return hall;
+          return ticketType;
         });
         setTicketTypes(updatedTicketTypes);
       })
