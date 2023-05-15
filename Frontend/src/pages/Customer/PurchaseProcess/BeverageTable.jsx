@@ -1,8 +1,4 @@
-
-
 import React, { useState, useEffect } from "react";
-import CustomerPurchaseButton from "./CustomerPurchaseButton";
-
 
 import {
   Avatar,
@@ -21,6 +17,10 @@ function BeverageTable({ data }) {
     console.log("data");
     console.log(data);
 
+function handleAdd(id) {
+    setData(data.filter((item) => item.id == id));
+}
+
 const rows = data.map(
     (item, index) =>
       item && (
@@ -28,7 +28,21 @@ const rows = data.map(
           <td>
             <td>{item.name}</td>
             <td>${(item.currentPrice / 100).toFixed(2)}</td>
-            <td><CustomerPurchaseButton id={item.id} data={item} /></td>
+            {/*Add Button*/}
+            <td>
+            <Button
+                variant="outline"
+                radius="xl"
+                size="xs"
+                color="gray"
+                uppercase
+                onClick={() => {
+                  handleAdd(id);
+                }}
+              >
+              Add
+              </Button>
+          </td>
           
 
           </td>
