@@ -58,8 +58,7 @@ public class SQLConnection {
                 String TicketTypeQuery = "CREATE TABLE IF NOT EXISTS TicketType ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "typeName VARCHAR(255),"
-                                + "price INT,"
-                                + "hide BOOLEAN"
+                                + "price INT"
                                 + ")";
 
                 String movieQuery = "CREATE TABLE IF NOT EXISTS Movie ("
