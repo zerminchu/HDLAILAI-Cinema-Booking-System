@@ -34,10 +34,10 @@ import ViewMovieSessionsByMovie from "../pages/Customer/ViewMovieSessionsByMovie
 import CinemaManagerFNBAdd from "../pages/CinemaManager/CinemaManagerFNBAdd";
 import CinemaManagerFNB from "../pages/CinemaManager/CinemaManagerFNB";
 import CinemaManagerFNBEdit from "../pages/CinemaManager/CinemaManagerFNBEdit";
-
 import FnbPurchase from "../pages/Customer/PurchaseProcess/FnbPurchase";
-
-
+import ViewAllTicketTypes from "../pages/CinemaManager/ViewAllTicketTypes";
+import UpdateTicketType from "../pages/CinemaManager/UpdateTicketType";
+import AddTicketType from "../pages/CinemaManager/AddTicketType";
 
 function PageRoutes() {
   return (
@@ -95,6 +95,9 @@ function PageRoutes() {
         />
         <Route path="/ticketcheckout" element={<TicketCheckout />} />
         <Route path="/ticketsummary" element={<TicketSummary />} />
+        <Route path="/ViewAllTicketTypes" element={<ViewAllTicketTypes />} />
+        <Route path="/UpdateTicketType/:id" element={<UpdateTicketType />} />
+        <Route path="/AddTicketType" element={<AddTicketType />} />
       </Routes>
     </Router>
   );
