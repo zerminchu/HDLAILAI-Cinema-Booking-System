@@ -75,8 +75,8 @@ function ViewAllTicketTypes() {
             isAllTicketTypes
               ? ticketTypes
               : ticketTypes.filter(
-                  (ticketType) => ticketType.typeName === filterValue
-                )
+                (ticketType) => ticketType.typeName === filterValue
+              )
           }
         />
       )}
