@@ -143,6 +143,15 @@ public class SQLConnection {
                                 + "REFERENCES Transaction(id)"
                                 + ")";
 
+                String cinemaOwnerQuery = "CREATE TABLE IF NOT EXISTS CinemaOwner ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "date DATETIME,"
+                                + "reportType VARCHAR(255),"
+                                + "time DATETIME,"
+                                + "CONSTRAINT FK_cinemaowner_transaction FOREIGN KEY (transactionId)"
+                                + "REFERENCES Transaction(id)"
+                                + ")";
+
                 PreparedStatement profileStatement = con.prepareStatement(profileQuery);
                 profileStatement.executeUpdate();
 
@@ -181,6 +190,9 @@ public class SQLConnection {
 
                 PreparedStatement transactionItemStatement = con.prepareStatement(transactionItemQuery);
                 transactionItemStatement.executeUpdate();
+
+                PreparedStatement cinemaOwnerStatement = con.prepareStatement(cinemaOwnerQuery);
+                cinemaOwnerStatement.executeUpdate();
 
                 tablesCreated = true;
                 System.out.println("tables created");
