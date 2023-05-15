@@ -63,11 +63,12 @@ function Demo() {
           {/* <List.Item>
             <Link to="/UserAdminHome"> User Admin Home</Link>
           </List.Item> */}
+  
           <List.Item>
             <Link to="/UserAdminHome"> User Admin Home</Link>
-          </List.Item>
+          </List.Item> 
           <List.Item>
-            <Link to="/FnbPurchase"> Customer</Link>
+          <Link to="/FnbPurchase"> Customer</Link>
           </List.Item>
           {currentUser ? (
             <List.Item>

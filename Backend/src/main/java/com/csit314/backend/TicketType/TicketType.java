@@ -11,13 +11,11 @@ public class TicketType {
     private Integer id = -1;
     private String typeName = "";
     private Integer price = -1;
-    private String status = "";
 
     public TicketType() {
         id = -1;
         typeName = "";
         price = -1;
-        status = "";
     }
 
     // To accept existing profile ids
@@ -30,11 +28,10 @@ public class TicketType {
         this.price = price;
     }
 
-    public TicketType(Integer id, String typeName, Integer price, String status) {
+    public TicketType(Integer id, String typeName, Integer price) {
         this.id = id;
         this.typeName = typeName;
         this.price = price;
-        this.status = status;
     }
 
     public TicketType(Integer id, String typeName) {
@@ -67,14 +64,6 @@ public class TicketType {
         this.price = price;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String save(TicketType ticketType) throws SQLException {
         Connection connection = null;
         try {
@@ -98,34 +87,6 @@ public class TicketType {
         }
     }
 
-    public TicketType get(Integer id) throws SQLException {
-        Connection connection = null;
-        try {
-            SQLConnection sqlConnection = new SQLConnection();
-            connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM TicketType WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, id);
-            statement.setMaxRows(1);
-            ResultSet resultSet = statement.executeQuery();
-            if (!resultSet.next()) {
-                return null;
-            }
-            String typeName = resultSet.getString("typeName");
-            Integer price = resultSet.getInt("price");
-            String status = resultSet.getString("status");
-            TicketType result = new TicketType(id, typeName, price, status);
-            return result;
-        } catch (SQLException e) {
-            System.out.println(e);
-            return null;
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
-        }
-    }
-
     public ArrayList<TicketType> listAll() throws SQLException {
         Connection connection = null;
         try {
@@ -140,9 +101,9 @@ public class TicketType {
                 Integer id = resultSet.getInt("id");
                 String typeName = resultSet.getString("typeName");
                 Integer price = resultSet.getInt("price");
-                String status = resultSet.getString("status");
+
                 // Convert the data into an object that can be sent back to boundary
-                TicketType result = new TicketType(id, typeName, price, status);
+                TicketType result = new TicketType(id, typeName, price);
                 results.add(result);
             }
             return results;
@@ -214,9 +175,9 @@ public class TicketType {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE TicketType SET status = ? WHERE id = ?";
+            String query = "UPDATE TicketType SET suspended = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, "Not Available");
+            statement.setBoolean(1, true);
             statement.setInt(2, id);
             statement.executeUpdate();
             return true;
@@ -235,9 +196,9 @@ public class TicketType {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "UPDATE TicketType SET status = ? WHERE id = ?";
+            String query = "UPDATE TicketType SET suspended = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, "Available");
+            statement.setBoolean(1, false);
             statement.setInt(2, id);
             statement.executeUpdate();
             return true;

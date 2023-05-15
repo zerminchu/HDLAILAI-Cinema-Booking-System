@@ -70,13 +70,6 @@ const CinemaManagerHeader = () => {
             >
               F&B
             </Anchor>
-            <Anchor
-              component={Link}
-              to="/ViewAllTicketTypes"
-              className={classes.link}
-            >
-              Ticket Types
-            </Anchor>
           </Group>
         </Group>
       </Header>
