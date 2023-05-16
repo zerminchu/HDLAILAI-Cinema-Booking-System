@@ -1,55 +1,42 @@
-
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CustomerPurchaseButton from "./CustomerPurchaseButton";
+import { Table } from "@mantine/core";
 
+function FoodTable({ data, onAddToCart }) {
+  const [selectedItems, setSelectedItems] = useState([]);
 
-import {
-  Avatar,
-  Badge,
-  Table,
-  Group,
-  Text,
-  Select,
-  ScrollArea,
-  TextInput,
-  Button,
-  Anchor,
-} from "@mantine/core";
+  const handleAdd = (id, data) => {
+    const itemIndex = selectedItems.findIndex((item) => item.id === id);
+    if (itemIndex !== -1 && selectedItems[itemIndex].quantity === 0) {
+      updatedItems = [...selectedItems];
+      updatedItems[itemIndex] = data;
+      setSelectedItems(updatedItems);
+    } else {
+      setSelectedItems([...selectedItems, data]);
+      onAddToCart(data);
+    }
+  };
 
-function FoodTable({ data }) {
-    console.log("data");
-    console.log(data);
+  const rows = data.map((item, index) => (
+    <tr key={index}>
+      <td>{item.name}</td>
+      <td>${(item.currentPrice / 100).toFixed(2)}</td>
+      <td>
+        <CustomerPurchaseButton
+          id={item.id}
+          data={item}
+          handleAdd={handleAdd}
+        />
+      </td>
+    </tr>
+  ));
 
-const rows = data.map(
-    (item, index) =>
-      item && (
-        <tr key={index}>
-            
-          <td>
-          <td>{item.name}</td>
-         
-            <td>${(item.currentPrice / 100).toFixed(2)}</td>
-            <td>
-            <CustomerPurchaseButton id={item.id} data={item} />
-          </td>
-
-          </td>
-        </tr>
-        
-      )
-  );
-  
-  console.log("rows");
-  console.log(rows);
   return (
     <Table miw={720} verticalSpacing="sm">
       <thead>
         <tr>
-          <th>Food name</th>
+          <th>Food Name</th>
           <th>Price</th>
-          
-          
         </tr>
       </thead>
       <tbody>{rows}</tbody>

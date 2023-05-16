@@ -172,10 +172,6 @@ function TicketCheckout() {
 
         <form onSubmit={addTransaction}>
           <Button
-            /*           component={Link}
-          to={"/ticketsummary"}
-          state={{ tickets, movieSession }}
-           */
             onClick={addTransaction}
             disabled={isNaN(total)}
           >

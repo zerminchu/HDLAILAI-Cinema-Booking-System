@@ -37,6 +37,7 @@ import CinemaManagerFNBEdit from "../pages/CinemaManager/CinemaManagerFNBEdit";
 
 import FnbPurchase from "../pages/Customer/PurchaseProcess/FnbPurchase";
 import FnbSummary from "../pages/Customer/PurchaseProcess/FnbSummary";
+import FnbPurchaseReceipt from "../pages/Customer/PurchaseProcess/FnbPurchaseReceipt";
 
 function PageRoutes() {
   return (
@@ -53,7 +54,6 @@ function PageRoutes() {
         <Route path="/Login" element={<LoginModal />} />
         <Route path="/ViewHall/:id" element={<ViewHall />} />
         <Route path="/UpdateMovie/:id" element={<UpdateMovie />} />
-        {/*  <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}> */}
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
@@ -95,6 +95,7 @@ function PageRoutes() {
         />
         <Route path="/ticketcheckout" element={<TicketCheckout />} />
         <Route path="/ticketsummary" element={<TicketSummary />} />
+        <Route path="/FnbPurchaseReceipt" element={<FnbPurchaseReceipt />} />
       </Routes>
     </Router>
   );

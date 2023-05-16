@@ -8,6 +8,10 @@ import {
   Table,
   Center,
   Modal,
+  Space,
+  Divider,
+  Group,
+  ScrollArea,
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
@@ -78,18 +82,27 @@ function TicketSummary() {
   });
 
   return (
-    <Container>
-      <Table>
-        <thead>
-          <tr>
-            <th>Ticket Type</th>
-            <th>Quantity</th>
-            <th>Total cost</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-      <Text>
+    <Container size="sm">
+      <h1>Purchase Summary</h1>
+      <Space h="xl" />
+      <ScrollArea h={720}>
+        <Container>
+          <Table>
+            <thead>
+              <tr>
+                <th>Ticket Type</th>
+                <th>Quantity</th>
+                <th>Total cost</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        </Container>
+      </ScrollArea>
+      <Divider />
+      <Space h="xl" />
+      <Text align="right">
+        Total Gross Price:{" "}
         {!isNaN(totalGrossPrice) && `$${(totalGrossPrice / 100).toFixed(2)}`}
       </Text>
       <Text>{!isNaN(GST) && `$${(GST / 100).toFixed(2)}`}</Text>

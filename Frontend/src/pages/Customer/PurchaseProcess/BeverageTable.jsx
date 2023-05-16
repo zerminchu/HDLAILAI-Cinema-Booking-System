@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import CustomerPurchaseButton from "./CustomerPurchaseButton";
-import FnbCart from "./FnbCart";
-import { Table, Text } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
+import { Table } from "@mantine/core";
 
-function BeverageTable({ data, onAddToCart, isButtonDisabled }) {
+function BeverageTable({ data, onAddToCart }) {
   const [selectedItems, setSelectedItems] = useState([]);
 
 
@@ -39,7 +37,7 @@ function BeverageTable({ data, onAddToCart, isButtonDisabled }) {
       <Table miw={720} verticalSpacing="sm">
         <thead>
           <tr>
-            <th>Beverage name</th>
+            <th>Beverage Name</th>
             <th>Price</th>
           </tr>
         </thead>
