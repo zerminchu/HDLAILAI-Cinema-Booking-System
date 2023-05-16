@@ -1,81 +1,61 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Table, Text, Button, ScrollArea, NumberInput } from "@mantine/core";
 
+function FnbCart({ data, setData }) {
+  const handleQuantityChange = (id, quantity) => {
+    const updatedData = data.map((item) => {
+      if (item.id === id) {
+        return { ...item, quantity };
+      }
+      return item;
+    });
+    setData(updatedData);
+  };
 
-import {
-  Avatar,
-  Badge,
-  Table,
-  Group,
-  Text,
-  Select,
-  ScrollArea,
-  TextInput,
-  Button,
-  Anchor,
-} from "@mantine/core";
-
-export function FnbCart({ data, setData }) {
+  const handleDelete = (id) => {
+    const updatedData = data.filter((item) => item.id !== id);
+    setData(updatedData);
+  };
   
-  //Number of qty customer purchase for Fnb
-  const [totalQty, setTotalqty] = useState(0);
-
-  //Delete button for Fnb Item in Cart
-  function handleDelete(id) {
-    setData(data.filter((item) => item.id !== id));
-  }
-
-  const rows = data.map(
-    (item, index) =>
-      item && (
-        <tr key={index}>
-          <td>
-            {/*Name of Fnb Item*/}
-            <div style={{ textAlign: "left" }}>
-              <Text>{item.name}</Text>
-            </div>
-          </td>
-          
-          <td>
-          {/*Qty of Fnb Item*/}
-            <div style={{ textAlign: "left" }}>
-            <NumberInput
-                defaultValue={0}
-                className="qtyField"
-                value={totalQty}
-                onChange={setTotalqty}
-              />
-            </div>
-          </td>
-
-        
-          {/*Price of Fnb Item*/}
-          <td>
-            <div style={{ textAlign: "left" }}>
-              <Text>{item.currentPrice}</Text>
-            </div>
-          </td>
-
-          {/*Delete Button*/}
-          <td>
-          <Button
-                variant="outline"
-                radius="xl"
-                size="xs"
-                color="gray"
-                uppercase
-                onClick={() => {
-                  handleDelete(item.id);
-                }}
-              >
-                X
-              </Button>
-          </td>
-        </tr>
-        
-
-
-      )
-  );
+  
+  const rows = data.map((item, index) => (
+    <tr key={index}>
+      <td>
+        <div style={{ textAlign: "left" }}>
+          <Text>{item.name}</Text>
+        </div>
+      </td>
+      <td>
+        <div style={{ textAlign: "left" }}>
+          <NumberInput
+            defaultValue={0}
+            className="qtyField"
+            value={item.quantity}
+            onChange={(value) => handleQuantityChange(item.id, value)}
+          />
+        </div>
+      </td>
+      <td>
+        <div style={{ textAlign: "left" }}>
+          <Text>{(item.currentPrice / 100).toFixed(2)}</Text>
+        </div>
+      </td>
+      <td>
+        <Button
+          variant="outline"
+          radius="xl"
+          size="xs"
+          color="gray"
+          uppercase
+          onClick={() => {
+            handleDelete(item.id);
+          }}
+        >
+          Delete
+        </Button>
+      </td>
+    </tr>
+  ));
 
   return (
     <ScrollArea>
@@ -85,7 +65,7 @@ export function FnbCart({ data, setData }) {
             <th>Item Name</th>
             <th>Quantity</th>
             <th>Price</th>
-            
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
