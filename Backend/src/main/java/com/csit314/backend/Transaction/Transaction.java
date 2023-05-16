@@ -169,18 +169,18 @@ public class Transaction {
             statement.setBoolean(6, createTransaction.cancelled);
             statement.setInt(7, createTransaction.userAccountId);
             System.out.println(createTransaction.totalGrossPrice);
-                 System.out.println(createTransaction.gst);
-                  System.out.println(createTransaction.totalNetPrice);
-                        System.out.println(createTransaction.dateTime);
-                          System.out.println( createTransaction.type);
-                                    System.out.println(createTransaction.cancelled);
-                                     System.out.println(createTransaction.userAccountId);
+            System.out.println(createTransaction.gst);
+            System.out.println(createTransaction.totalNetPrice);
+            System.out.println(createTransaction.dateTime);
+            System.out.println(createTransaction.type);
+            System.out.println(createTransaction.cancelled);
+            System.out.println(createTransaction.userAccountId);
             statement.executeUpdate();
             ResultSet generatedKeyResult = statement.getGeneratedKeys();
             Integer lastInsertId = -1;
             System.out.println("hi");
             if (generatedKeyResult.next()) {
-                       System.out.println("hi2");
+                System.out.println("hi2");
                 lastInsertId = generatedKeyResult.getInt(1);
             }
             return lastInsertId;

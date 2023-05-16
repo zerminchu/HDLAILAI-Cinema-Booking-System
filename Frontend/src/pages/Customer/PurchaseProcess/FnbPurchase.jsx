@@ -36,8 +36,8 @@ function FnbPurchase() {
     const updatedItems = selectedItems.filter((item) => item.id !== itemId);
     setSelectedItems(updatedItems);
   };
-  
-  
+
+
 
   async function getFoodAndDrink(id) {
     try {

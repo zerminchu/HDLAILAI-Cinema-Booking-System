@@ -24,7 +24,6 @@ public class Fnb {
         name = "";
         type = "";
         suspended = false;
-
     }
 
     // To accept existing profile ids
