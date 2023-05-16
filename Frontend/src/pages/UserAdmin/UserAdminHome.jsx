@@ -1,13 +1,12 @@
-import UsersRolesTable from "./components/UserProfile/UserRolesTable";
+import UsersRolesTable from "./components/UserAdminHome/UserAccountTable";
 import { Button, Group, Text, TextInput } from "@mantine/core";
 import UserAdminHeader from "./components/UserAdminHeader";
 import "./Components/SearchBar.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import CreateUAModel from "./CreateUAModel";
+import CreateUAModal from "./CreateUAModal";
 import { notifications } from "@mantine/notifications";
 import { Pagination } from "@mantine/core";
-
 
 function UserAdminHome() {
   // State to store data
@@ -26,16 +25,19 @@ function UserAdminHome() {
       .catch((error) => console.log(error));
   }
 
-  const handleAddAccount = (name, email,password,profile) => {
-    console.log(name, email,password,profile); // Check that profileName and selectedRole are received correctly
+  const handleAddAccount = (name, email, password, profileId) => {
+    console.log({ name, email, password, profileId }); // Check that profileName and selectedRole are received correctly
+    console.log("nihao");
 
     // Make sure key of javascript dictionary matches the java object in the backend
     axios
-      .post("http://localhost:8080/createuserprofile/add", {
+      .post("http://localhost:8080/createuseraccount/add", {
         name: name, // Means name: name
         email: email,
         password: password,
-        profile: profile,
+        profile: {
+          id: profileId,
+        },
       })
       .then((response) => {
         console.log(response.data); // Check that the new profile is received correctly
@@ -50,9 +52,9 @@ function UserAdminHome() {
           message: "User Account created successfully",
           autoClose: 3000,
         });
-        setTimeout(() => {
+        /* setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 1000); */
       })
 
       .catch((error) => {
@@ -64,18 +66,17 @@ function UserAdminHome() {
       });
   };
 
-        /*
   useEffect(function loadData() {
     // Load data from backend API
     axios
       .get("http://localhost:8080/viewuseraccount/all")
       .then(function (response) {
         // Store data into react state
-        console.log(response);
+        console.log(response.data);
         setUsers(response.data);
       });
     // [] means the loadData function only runs once when the page first loads
-  }, []); */
+  }, []);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -95,7 +96,7 @@ function UserAdminHome() {
       </Group>
       <form onSubmit={search}>
         <Group>
-          <CreateUAModel onAddAccount={handleAddAccount} />
+          <CreateUAModal onAddAccount={handleAddAccount} />
           <TextInput
             placeholder={"Search by account name"}
             value={query}
@@ -110,7 +111,7 @@ function UserAdminHome() {
       </form>
 
       <UsersRolesTable data={currentUsers} setData={setUsers} />
-    {users.length > 0 && (
+      {users.length > 0 && (
         <Pagination
           style={{
             display: "flex",

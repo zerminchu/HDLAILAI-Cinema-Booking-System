@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import CustomPopUp from "./components/UserProfile/CustomPopUp";
-import CreateAccountForm from "./components/UserProfile/CreateAccountForm";
+import CreateRolesForm from "./components/UserProfile/CreateRolesForm";
 
 import logo from "./Components/UserProfile/logo-no-background.png";
 
-function CreateUPModel({ onAddAccount }) {
-  const buttonText = "Add Account";
+function CreateUPModal({ onAddUser }) {
+  const buttonText = "Add Profile";
 
   return (
     <CustomPopUp buttonText={buttonText} variant="filled">
       <img src={logo} alt="Logo" width={400} height={130} />
-      <CreateAccountForm onAddAccount={onAddAccount} />
+      <CreateRolesForm onAddUser={onAddUser} />
     </CustomPopUp>
   );
 }
 
-export default CreateUPModel;
+export default CreateUPModal;

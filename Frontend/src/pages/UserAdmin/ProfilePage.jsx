@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DisplayRoles from "./DisplayRoles";
+import DisplayRoles from "./components/UserProfile/DisplayRoles";
 import CreateRolesForm from "./components/UserProfile/CustomPopUp";
 import UserAdminHeader from "./components/UserAdminHeader";
 import { notifications } from "@mantine/notifications";
 import "./Components/SearchBar.css";
 import { Button, Group, Text, TextInput, Modal } from "@mantine/core";
-import CreateUPModel from "./CreateUPModel";
+import CreateUPModal from "./CreateUPModal";
 
 function ProfilePage() {
   const [users, setUsers] = useState([]);
@@ -53,11 +53,10 @@ function ProfilePage() {
           message: "Profile created successfully",
           autoClose: 3000,
         });
-        setTimeout(() => {
+        /* setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 1000); */
       })
-
       .catch((error) => {
         notifications.show({
           title: "Error creating User Profile",
@@ -75,7 +74,7 @@ function ProfilePage() {
       </Group>
       <form onSubmit={search}>
         <Group>
-          <CreateUPModel onAddUser={handleAddUser} />
+          <CreateUPModal onAddUser={handleAddUser} />
           <TextInput
             placeholder={"Search by profile name"}
             value={query}

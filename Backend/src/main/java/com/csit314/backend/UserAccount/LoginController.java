@@ -17,7 +17,7 @@ public class LoginController {
     @PostMapping
     public ResponseEntity<String> validateLogin(@RequestBody UserAccount user, HttpSession session) {
         try {
-            if (user.getUserProfile().getId() == -1) {
+            if (user.getProfile().getId() == -1) {
                 return new ResponseEntity<String>("Profile not selected", HttpStatus.BAD_REQUEST);
             }
             // Check email empty or password empty

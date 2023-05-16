@@ -97,11 +97,11 @@ public class UserAccount {
         this.password = password;
     }
 
-    public UserProfile getUserProfile() {
+    public UserProfile getProfile() {
         return profile;
     }
 
-    public void setUserProfile(UserProfile profile) {
+    public void setProfile(UserProfile profile) {
         this.profile = profile;
     }
 
@@ -203,7 +203,7 @@ public class UserAccount {
                 Boolean profileSuspended = resultSet.getBoolean("up_suspended");
                 UserProfile userProfile = new UserProfile(profileId, profileName, permission, profileSuspended);
                 // Convert the data into an object that can be sent back to boundary
-                UserAccount result = new UserAccount(accountId, email, name, password, accountSuspended, userProfile);
+                UserAccount result = new UserAccount(accountId, name, email, password, accountSuspended, userProfile);
                 results.add(result);
             }
             return results;
@@ -249,7 +249,7 @@ public class UserAccount {
             String profileName = resultSet.getString("profileName");
             Boolean up_suspended = resultSet.getBoolean("up_suspended");
             UserProfile userProfile = new UserProfile(profileId, profileName, permission, up_suspended);
-            UserAccount result = new UserAccount(id, email, name, password, ua_suspended, userProfile);
+            UserAccount result = new UserAccount(id, name, email, password, ua_suspended, userProfile);
             return result;
         } catch (SQLException e) {
             System.out.println(e);

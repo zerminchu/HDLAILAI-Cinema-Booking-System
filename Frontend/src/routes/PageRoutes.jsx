@@ -6,7 +6,7 @@ import ViewUserAccount from "../pages/UserAdmin/ViewUserAccount";
 import OwnerHome from "../pages/Owner/OwnerHome";
 import CreateUserAccount from "../pages/UserAdmin/CreateUserAccount";
 import ProfilePage from "../pages/UserAdmin/ProfilePage";
-import DisplayRoles from "../pages/UserAdmin/DisplayRoles";
+import DisplayRoles from "../pages/UserAdmin/components/UserProfile/DisplayRoles";
 import EditUserAccount from "../pages/UserAdmin/EditUserAccount";
 import EditUserProfile from "../pages/UserAdmin/EditUserProfile";
 import LoginModal from "../pages/Login/LoginModal";
@@ -36,8 +36,6 @@ import CinemaManagerFNB from "../pages/CinemaManager/CinemaManagerFNB";
 import CinemaManagerFNBEdit from "../pages/CinemaManager/CinemaManagerFNBEdit";
 
 import FnbPurchase from "../pages/Customer/PurchaseProcess/FnbPurchase";
-
-
 
 function PageRoutes() {
   return (
