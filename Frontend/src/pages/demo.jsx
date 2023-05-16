@@ -45,25 +45,6 @@ function Demo() {
           </List.Item>
 
           <List.Item>
-            <Link to="/UserAdminHome"> User Admin Home</Link>
-          </List.Item>
-          {/*   <List.Item>
-            <Link to="/ViewMovieDetails">View Movie Details</Link>{" "}
-          </List.Item> */}
-          {/*  <List.Item>
-            <Link to="/CreateMS">Create Movie Session</Link>{" "}
-          </List.Item> */}
-          {/* <List.Item>
-            <Link to="/ViewMovieSession">View Movie Session</Link>{" "}
-          </List.Item> */}
-          {/* <List.Item>
-            <Link to="/UserAdminHome"> User Admin Home</Link>
-          </List.Item> */}
-          <List.Item>
-            <Link to="/UserAdminHome"> User Admin Home</Link>
-          </List.Item>
-        
-          <List.Item>
             <Link to="/FnbPurchase"> Customer F&B</Link>
           </List.Item>
           {currentUser ? (
@@ -76,11 +57,6 @@ function Demo() {
             </List.Item>
           )}
         </List>
-        <Image
-          width={200}
-          height={400}
-          src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81rvqkDIVseCWKxu7UfkjzFLj7dbQBnBiiRRkI_UgmHJDX57ePJRveri1i_dYx5Qe7u_vHMC9sgbNqjsW9X-sC-zqhSqag=s1600"
-        />
       </div>
     </div>
   );
