@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function ViewMovieSessionsByMovie({movie = null}) {
+function ViewMovieSessionsByMovie({ movie = null }) {
   const [movieSessions, setMovieSessions] = useState({
     today: [],
     tomorrow: [],
@@ -25,7 +25,12 @@ function ViewMovieSessionsByMovie({movie = null}) {
   const dayAfter = new Date(today);
   dayAfter.setDate(dayAfter.getDate() + 2);
   const [activeTab, setActiveTab] = useState(today.toLocaleDateString("en-sg"));
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
   useEffect(() => {
     async function fetchMovieSessions() {
@@ -64,7 +69,8 @@ function ViewMovieSessionsByMovie({movie = null}) {
   function showMovieSessionsListings(daySessions) {
     return daySessions.map((movieSession) => {
       return (
-        <Box key={movieSession.id}
+        <Box
+          key={movieSession.id}
           sx={(theme) => ({
             backgroundColor:
               theme.colorScheme === "dark"
@@ -82,37 +88,47 @@ function ViewMovieSessionsByMovie({movie = null}) {
             },
           })}
         >
-          <Link to={`/CustomerViewMovieSession/${movieSession.id}`}  state={{movie, movieSession}}>
-            <Text style={{whiteSpace:"nowrap"}}>{new Date(movieSession.startDateTime).toLocaleTimeString("en-sg", {
-              hour12: true,
-              hour: "2-digit",
-              minute: "2-digit",
-            })}</Text>
+          <Link
+            to={`/CustomerViewMovieSession/${movieSession.id}`}
+            state={{ movie, movieSession }}
+          >
+            <Text style={{ whiteSpace: "nowrap" }}>
+              {new Date(movieSession.startDateTime).toLocaleTimeString(
+                "en-sg",
+                {
+                  hour12: true,
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }
+              )}
+            </Text>
           </Link>
         </Box>
       );
     });
   }
 
-  return (isLoading ? <Loader />: 
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Tabs
       variant="pills"
-      defaultValue={today.toLocaleDateString('en-SG')}
+      defaultValue={today.toLocaleDateString("en-SG")}
       orientation="vertical"
     >
       <Tabs.List>
-        <Tabs.Tab value={today.toLocaleDateString('en-SG')}>
-          {today.toLocaleDateString('en-SG', options)}
+        <Tabs.Tab value={today.toLocaleDateString("en-SG")}>
+          {today.toLocaleDateString("en-SG", options)}
         </Tabs.Tab>
-        <Tabs.Tab value={tomorrow.toLocaleDateString(('en-SG'))}>
-          {tomorrow.toLocaleDateString('en-SG', options)}
+        <Tabs.Tab value={tomorrow.toLocaleDateString("en-SG")}>
+          {tomorrow.toLocaleDateString("en-SG", options)}
         </Tabs.Tab>
-        <Tabs.Tab value={dayAfter.toLocaleDateString('en-SG')}>
+        <Tabs.Tab value={dayAfter.toLocaleDateString("en-SG")}>
           {dayAfter.toLocaleDateString("en-sg", options)}
         </Tabs.Tab>
       </Tabs.List>
 
-      <Container       w={"100%"}>
+      <Container w={"100%"}>
         <Tabs.Panel value={today.toLocaleDateString("en-sg")}>
           <Container>
             <SimpleGrid cols={5}>
@@ -130,7 +146,9 @@ function ViewMovieSessionsByMovie({movie = null}) {
             <SimpleGrid cols={5}>
               {movieSessions.tomorrow.length === 0 ? (
                 <Text>No sessions</Text>
-              ) : (showMovieSessionsListings(movieSessions.tomorrow))}
+              ) : (
+                showMovieSessionsListings(movieSessions.tomorrow)
+              )}
             </SimpleGrid>
           </Container>
         </Tabs.Panel>
@@ -140,11 +158,12 @@ function ViewMovieSessionsByMovie({movie = null}) {
             <SimpleGrid cols={5}>
               {movieSessions.dayAfter.length === 0 ? (
                 <Text>No sessions</Text>
-              ) : (showMovieSessionsListings(movieSessions.dayAfter))}
+              ) : (
+                showMovieSessionsListings(movieSessions.dayAfter)
+              )}
             </SimpleGrid>
           </Container>
         </Tabs.Panel>
-
       </Container>
     </Tabs>
   );

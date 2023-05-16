@@ -37,6 +37,7 @@ public class Transaction {
         this.id = id;
     }
 
+    // Receive from boundary
     public Transaction(Integer totalGrossPrice, Integer gst, Integer totalNetPrice, Timestamp dateTime,
             String type, Integer userAccountId) {
         this.totalGrossPrice = totalGrossPrice;
