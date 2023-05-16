@@ -77,6 +77,34 @@ function TicketSummary() {
     );
   });
 
+  async function addTransaction(event) {
+    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/createtransaction/ticket",
+        {
+          transaction: {
+            userAccountId: 1,
+            type: "ticket",
+            totalGrossPrice: totalGrossPrice.toFixed(0),
+            gst: GST.toFixed(0),
+            dateTime: new Date(),
+            totalNetPrice: totalNetPrice.toFixed(0),
+          },
+          tickets: selectedTickets.map((ticket) => ({
+            movieSessionId: movieSession.id,
+            seatId: ticket.id,
+            ticketTypeId: ticket.ticketType.id,
+            paidPrice: ticket.ticketType.price,
+          })),
+        }
+      );
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
     <Container>
       <Table>
@@ -96,9 +124,22 @@ function TicketSummary() {
       <Text>
         {!isNaN(totalNetPrice) && `$${(totalNetPrice / 100).toFixed(2)}`}
       </Text>
-      <Button component={Link} to="/">
-        Go Home
-      </Button>
+      <form onSubmit={addTransaction}>
+        <Button type="submit">Pay Now</Button>
+      </form>
+
+      <Modal opened={opened}>
+        <Lottie
+          animationData={confirmationTick}
+          loop={false}
+          onComplete={() => {
+            setPaymentMessage("Payment Complete");
+          }}
+        />
+        <Center>
+          <Text>Payment Complete</Text>
+        </Center>
+      </Modal>
     </Container>
   );
 }

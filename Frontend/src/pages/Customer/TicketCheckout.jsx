@@ -1,4 +1,4 @@
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import {
   Text,
   Container,
@@ -10,11 +10,8 @@ import {
   ScrollArea,
   Center,
   Divider,
-  Modal,
-  Group,
 } from "@mantine/core";
 import confirmationTick from "../../assets/59865-confirmation-tick.json";
-import Lottie from "lottie-react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -25,11 +22,6 @@ function TicketCheckout() {
   const [tickets, setTickets] = useState(selectedTickets);
   const [options, setOptions] = useState([]);
   const [total, setTotal] = useState(0);
-  const [opened, setOpened] = useState(false);
-  const [totalGrossPrice, setTotalGrossPrice] = useState(0);
-  const [GST, setGST] = useState(0);
-  const [totalNetPrice, setTotalNetPrice] = useState(0);
-  const navigate = useNavigate();
   useEffect(() => {
     async function fetchTicketTypes() {
       //console.log(loadedMovieSession);
@@ -45,14 +37,11 @@ function TicketCheckout() {
   }, []);
 
   useEffect(() => {
-    const gross = tickets.reduce((prev, next) => {
-      return prev + next.ticketType?.price;
-    }, 0);
-    const gst = gross * 0.08;
-    const net = gross + gst;
-    setTotalGrossPrice(gross);
-    setGST(gst);
-    setTotalNetPrice(net);
+    setTotal(
+      tickets.reduce((prev, next) => {
+        return prev + next.ticketType?.price;
+      }, 0) / 100
+    );
   }, [tickets]);
 
   function setTicketType(ticketId, value) {
@@ -64,37 +53,6 @@ function TicketCheckout() {
       })
     );
   }
-
-  async function addTransaction(event) {
-    event.preventDefault();
-    try {
-      console.log(selectedTickets);
-      const response = await axios.post(
-        "http://localhost:8080/createtransaction/ticket",
-        {
-          transaction: {
-            userAccountId: 1,
-            type: "ticket",
-            totalGrossPrice: totalGrossPrice.toFixed(0),
-            gst: GST.toFixed(0),
-            dateTime: new Date(),
-            totalNetPrice: totalNetPrice.toFixed(0),
-          },
-          tickets: tickets.map((ticket) => ({
-            movieSessionId: movieSession.id,
-            seatId: ticket.id,
-            ticketTypeId: ticket.ticketType.id,
-            paidPrice: ticket.ticketType.price,
-          })),
-        }
-      );
-      console.log(response);
-      setOpened(true);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   const ticketSummary = tickets.map((ticket) => {
     return (
       <Container
@@ -145,56 +103,21 @@ function TicketCheckout() {
       <ScrollArea h={720}>{ticketSummary}</ScrollArea>
       <Divider my="sm" />
       <Flex direction="column" align={"end"} gap={20}>
-        {isNaN(totalGrossPrice) ? (
-          <Text>Select all ticket types to view total price</Text>
-        ) : (
-          <Grid columns={4} sx={{ width: "300px" }}>
-            <Grid.Col span={3}>
-              <Text>Total Gross Ticket Fees:</Text>
-            </Grid.Col>
-            <Grid.Col span={1} sx={{ textAlign: "right" }}>
-              <Text>{`$${(totalGrossPrice / 100).toFixed(2)}`}</Text>
-            </Grid.Col>
-            <Grid.Col span={3}>
-              <Text>GST (8%):</Text>{" "}
-            </Grid.Col>
-            <Grid.Col span={1} sx={{ textAlign: "right" }}>
-              <Text>{`$${(GST / 100).toFixed(2)}`}</Text>{" "}
-            </Grid.Col>
-            <Grid.Col span={3}>
-              <Text>Total Net Ticket Fees:</Text>{" "}
-            </Grid.Col>
-            <Grid.Col span={1} sx={{ textAlign: "right" }}>
-              <Text>{`$${(totalNetPrice / 100).toFixed(2)}`}</Text>{" "}
-            </Grid.Col>
-          </Grid>
-        )}
-
-        <form onSubmit={addTransaction}>
-          <Button
-            /*           component={Link}
+        <Text>
+          {isNaN(total)
+            ? "Select all ticket types to view total price"
+            : `Total ticket fee: $${total.toFixed(2)}`}
+        </Text>{" "}
+        <Button
+          component={Link}
           to={"/ticketsummary"}
           state={{ tickets, movieSession }}
-           */
-            onClick={addTransaction}
-            disabled={isNaN(total)}
-          >
-            Pay Now
-          </Button>
-        </form>
+          disabled={isNaN(total)}
+        >
+          Pay Now
+        </Button>
       </Flex>
-      <Modal opened={opened}>
-        <Lottie
-          animationData={confirmationTick}
-          loop={false}
-          onComplete={() => {
-            navigate("/ticketSummary", { state: { tickets, movieSession } });
-          }}
-        />
-        <Center>
-          <Text>Payment Complete</Text>
-        </Center>
-      </Modal>
+      {}
     </Container>
   );
 }

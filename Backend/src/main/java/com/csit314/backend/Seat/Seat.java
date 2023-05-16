@@ -386,7 +386,7 @@ public class Seat {
                     + " INNER JOIN MovieSession ms"
                     + " ON h.id = ms.hallId"
                     + " LEFT JOIN Ticket t"
-                    + " ON s.id = t.seatId AND ms.id = t.movieSessionId"
+                    + " ON s.id = t.seatId"
                     + " WHERE ms.id = ?"
                     + " ORDER BY s.rowId, s.columnId ASC";
             PreparedStatement statement = connection.prepareStatement(query);
