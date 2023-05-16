@@ -1,6 +1,6 @@
 import CinemaManagerHeader from "./Components/ViewHalls/CinemaManagerHeader";
 import { useEffect, useState } from "react";
-import { Button, Group, Text, TextInput } from "@mantine/core";
+import { Button, Group, Text, TextInput, Pagination } from "@mantine/core";
 import HallTable from "./Components/ViewHalls/HallTable";
 import axios from "axios";
 import CMCreateHallModel from "./CMCreateHallModel";
@@ -10,6 +10,8 @@ const CinemaManagerHome = () => {
   const [isAllHall, setIsAllHall] = useState(true);
   const [halls, setHalls] = useState([]);
   const [query, setQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
 
   useEffect(() => {
     axios
@@ -32,6 +34,14 @@ const CinemaManagerHome = () => {
       .catch((error) => console.log(error));
   }, []);
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const indexOfLastHall = currentPage * perPage;
+  const indexOfFirstHall = indexOfLastHall - perPage;
+  const currentHalls = halls.slice(indexOfFirstHall, indexOfLastHall);
+
   return (
     <div>
       <Group>
@@ -52,13 +62,20 @@ const CinemaManagerHome = () => {
           No halls found
         </Text>
       ) : (
-        <HallTable
-          halls={
-            isAllHall
-              ? halls
-              : halls.filter((hall) => hall.name === filterValue)
-          }
-        />
+        <>
+          <HallTable
+            halls={
+              isAllHall ? currentHalls : currentHalls.filter((hall) => hall.name === filterValue)
+            }
+          />
+          <Pagination
+            style={{ justifyContent: "center", marginTop: 20 }}
+            limit={perPage}
+            page={currentPage}
+            onChange={handlePageChange}
+            total={Math.ceil(halls.length / perPage)}
+          />
+        </>
       )}
     </div>
   );
