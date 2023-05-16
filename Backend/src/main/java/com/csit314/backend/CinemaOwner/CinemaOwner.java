@@ -14,7 +14,8 @@ public class CinemaOwner {
     private Integer id = -1;
     private Timestamp date = null; 
     private String reportType = "";
-    private Timestamp time = null; 
+    private Timestamp startTime = null;
+    private Timestamp endTime = null; 
 
     //Foreign key to transaction
     private Integer transactionId = -1;
@@ -23,7 +24,8 @@ public class CinemaOwner {
         id = -1;
         date = null;
         reportType = "";
-        time = null;
+        startTime = null;
+        endTime = null;
         transactionId = -1;
     }
 
@@ -32,11 +34,12 @@ public class CinemaOwner {
     }
 
     public CinemaOwner(Integer id, Timestamp date, 
-                            String reportType, Timestamp time, Integer transactionId) {
+                            String reportType, Timestamp startTime, Timestamp endTime,Integer transactionId) {
         this.id = id;
         this.date = date;
         this.reportType = reportType;
-        this.time = time;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.transactionId = transactionId;
     }
 
@@ -64,12 +67,20 @@ public class CinemaOwner {
         this.reportType = reportType;
     }
 
-    public Timestamp getTime() {
-        return time;
+    public Timestamp getStartTime() {
+        return startTime;
     }
 
-    public void setTime(Timestamp time) {
-        this.time = time;
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
+    }
+
+    public Timestamp getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
     }
 
     public Integer getTransactionId() {
@@ -78,5 +89,40 @@ public class CinemaOwner {
 
     public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
+    }
+
+    private ArrayList<Transaction> getSales(Timestamp startTime, Timestamp endTime) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT * FROM Transaction WHERE dateTime >= ? AND dateTime <= ?";
+
+            /*String query = "SELECT ticketType, COUNT(*) AS count, SUM(price) AS totalAmount " +
+                "FROM Transaction " +
+                "WHERE dateTime >= ? AND dateTime <= ? " +
+                "GROUP BY ticketType";
+            */
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setTimestamp(1, startTime);
+            statement.setTimestamp(2, endTime);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Transaction> results = new ArrayList<>();
+            while (resultSet.next()) {
+                Integer transactionId = resultSet.getInt("id");
+
+                Transaction result = new Transaction(transactionId);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
 }
