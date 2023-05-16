@@ -16,8 +16,7 @@ function FnbCart({ data, setData }) {
     const updatedData = data.filter((item) => item.id !== id);
     setData(updatedData);
   };
-  
-  
+
   const rows = data.map((item, index) => (
     <tr key={index}>
       <td>
@@ -28,18 +27,15 @@ function FnbCart({ data, setData }) {
       <td>
         <div style={{ textAlign: "left" }}>
           <NumberInput
-            defaultValue={0}
+            defaultValue={1}
+            min={1}
             className="qtyField"
             value={item.quantity}
             onChange={(value) => handleQuantityChange(item.id, value)}
           />
         </div>
       </td>
-      <td>
-        <div style={{ textAlign: "left" }}>
-          <Text>{(item.currentPrice / 100).toFixed(2)}</Text>
-        </div>
-      </td>
+
       <td>
         <Button
           variant="outline"
@@ -64,7 +60,6 @@ function FnbCart({ data, setData }) {
           <tr>
             <th>Item Name</th>
             <th>Quantity</th>
-            <th>Price</th>
             <th>Action</th>
           </tr>
         </thead>

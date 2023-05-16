@@ -1,18 +1,31 @@
-import { Container, Table, Text, Button, Modal, Center } from "@mantine/core";
-import { useLocation, Link } from "react-router-dom";
+import {
+  Container,
+  Table,
+  Text,
+  Button,
+  Modal,
+  Center,
+  Grid,
+  Col,
+  Flex,
+  Divider,
+  ScrollArea,
+} from "@mantine/core";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 
 import { useState, useEffect } from "react";
+import confirmationTick from "../../../assets/59865-confirmation-tick.json";
 import Lottie from "lottie-react";
 import axios from "axios";
 
 function FnbSummary() {
   const location = useLocation();
   const { selectedItems } = location.state;
-  const [paymentMessage, setPaymentMessage] = useState("");
   const [opened, setOpened] = useState(false);
   const [totalGrossPrice, setTotalGrossPrice] = useState(0);
   const [GST, setGST] = useState(0);
   const [totalNetPrice, setTotalNetPrice] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const calculatePrices = () => {
@@ -62,49 +75,73 @@ function FnbSummary() {
   };
 
   return (
-    <Container>
-      <Table>
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {selectedItems.map((item, index) => (
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>{item.quantity}</td>
-              <td>
-                ${(Number(item.currentPrice * item.quantity) / 100).toFixed(2)}
-              </td>
+    <Container size="sm" px="sm">
+      <h1>F&B Purchase Summary</h1>
+      <Divider my="sm" />
+      <ScrollArea h={720}>
+        <Table>
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Total Price</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {selectedItems.map((item, index) => (
+              <tr key={index}>
+                <td>{item.name}</td>
+                <td>{item.quantity}</td>
+                <td>
+                  $
+                  {(Number(item.currentPrice * item.quantity) / 100).toFixed(2)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </ScrollArea>
 
-      <Text>
-        Total Gross Price: ${(Number(totalGrossPrice) / 100).toFixed(2)}
-      </Text>
-      <Text>GST: ${(Number(GST) / 100).toFixed(2)}</Text>
-      <Text>Total Net Price: ${(Number(totalNetPrice) / 100).toFixed(2)}</Text>
+      <Divider my="sm" />
+      <Flex direction="column" align={"end"} gap={20}>
+        <Grid columns={4} sx={{ width: "300px" }}>
+          <Grid.Col span={3}>
+            <Text>Total Gross F&B Price:</Text>
+          </Grid.Col>
+          <Grid.Col span={1} sx={{ textAlign: "right" }}>
+            <Text>{`$${(totalGrossPrice / 100).toFixed(2)}`}</Text>
+          </Grid.Col>
+          <Grid.Col span={3}>
+            <Text>GST (8%):</Text>{" "}
+          </Grid.Col>
+          <Grid.Col span={1} sx={{ textAlign: "right" }}>
+            <Text>{`$${(GST / 100).toFixed(2)}`}</Text>{" "}
+          </Grid.Col>
+          <Grid.Col span={3}>
+            <Text>Total Nett F&B Price:</Text>{" "}
+          </Grid.Col>
+          <Grid.Col span={1} sx={{ textAlign: "right" }}>
+            <Text>{`$${(totalNetPrice / 100).toFixed(2)}`}</Text>{" "}
+          </Grid.Col>
+        </Grid>
 
-      <Button onClick={handlePayment}>Pay Now</Button>
-
+        <form onSubmit={handlePayment}>
+          <Button onClick={handlePayment}>Pay Now</Button>
+        </form>
+      </Flex>
       <Modal opened={opened}>
         <Lottie
+          animationData={confirmationTick}
           loop={false}
           onComplete={() => {
-            setPaymentMessage("Payment Complete");
+            navigate("/FnbPurchaseReceipt", { state: { selectedItems } });
           }}
         />
         <Center>
-          <Text>{paymentMessage}</Text>
-        </Center>{" "}
+          <Text>Payment Complete</Text>
+        </Center>
       </Modal>
     </Container>
   );
 }
-
 export default FnbSummary;

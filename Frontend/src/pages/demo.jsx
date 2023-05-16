@@ -39,17 +39,13 @@ function Demo() {
           <List.Item>
             <Link to="/ViewUserAccount">User Admin Home</Link>
           </List.Item>
-          {/* <List.Item>
-            <Link to="/CreateUserAccount">Create User Account</Link>
-          </List.Item> */}
-          {/*     <List.Item>
-            <Link to="/ProfilePage ">User Admin Home</Link>
-          </List.Item> */}
+
           <List.Item>
             <Link to="/CinemaManagerHome">Cinema Manager Home</Link>{" "}
           </List.Item>
+
           <List.Item>
-            <Link to="/CreateAccount">Customer Create Account</Link>{" "}
+            <Link to="/UserAdminHome"> User Admin Home</Link>
           </List.Item>
           {/*   <List.Item>
             <Link to="/ViewMovieDetails">View Movie Details</Link>{" "}
@@ -66,8 +62,9 @@ function Demo() {
           <List.Item>
             <Link to="/UserAdminHome"> User Admin Home</Link>
           </List.Item>
+        
           <List.Item>
-            <Link to="/FnbPurchase"> Customer</Link>
+            <Link to="/FnbPurchase"> Customer F&B</Link>
           </List.Item>
           {currentUser ? (
             <List.Item>

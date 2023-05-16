@@ -40,6 +40,7 @@ import CustomerPurchaseHistory from "../pages/Customer/PurchaseProcess/CustomerP
 import ViewAllTicketTypes from "../pages/CinemaManager/ViewAllTicketTypes";
 import UpdateTicketType from "../pages/CinemaManager/UpdateTicketType";
 import AddTicketType from "../pages/CinemaManager/AddTicketType";
+import FnbPurchaseReceipt from "../pages/Customer/PurchaseProcess/FnbPurchaseReceipt";
 
 function PageRoutes() {
   return (
@@ -56,7 +57,6 @@ function PageRoutes() {
         <Route path="/Login" element={<LoginModal />} />
         <Route path="/ViewHall/:id" element={<ViewHall />} />
         <Route path="/UpdateMovie/:id" element={<UpdateMovie />} />
-        {/*  <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}> */}
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
@@ -102,6 +102,7 @@ function PageRoutes() {
         <Route path="/ViewAllTicketTypes" element={<ViewAllTicketTypes />} />
         <Route path="/UpdateTicketType/:id" element={<UpdateTicketType />} />
         <Route path="/AddTicketType" element={<AddTicketType />} />
+        <Route path="/FnbPurchaseReceipt" element={<FnbPurchaseReceipt />} />
       </Routes>
     </Router>
   );

@@ -28,9 +28,10 @@ function FnbPurchase() {
 
   //Shopping Cart
   const [selectedItems, setSelectedItems] = useState([]);
-  const [showCart, setShowCart] = useState(false); // Track whether to show the cart
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const navigate = useNavigate(); // Navigation hook
+  const [showCart, setShowCart] = useState(false);
+  const [isButtonVisible, setIsButtonVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   const updateSelectedItems = (itemId) => {
     const updatedItems = selectedItems.filter((item) => item.id !== itemId);
@@ -62,29 +63,44 @@ function FnbPurchase() {
       (selectedItem) => selectedItem.id === item.id
     );
     if (!itemExists) {
-      setSelectedItems([...selectedItems, item]);
+      setSelectedItems([...selectedItems, { ...item, quantity: 1 }]);
       setShowCart(true);
-      showNotification();
+      showNotification("Item added to cart", "Success");
+      setIsButtonVisible(true);
+    } else {
+      showNotification(
+        "Item already added",
+        "You have already added this item to the cart.",
+        "info"
+      );
     }
   };
 
-  const showNotification = () => {
+  const showNotification = (title, message, color) => {
     notifications.show({
-      title: "Item added to cart",
-      message: "You can only add the item once.",
-      color: "success",
+      title,
+      message,
+      color,
     });
   };
 
   const handleSubmit = () => {
-    navigate("/fnbsummary", {
-      state: {
-        selectedItems,
-        totalGrossPrice: calculateTotalGrossPrice(selectedItems),
-        GST: calculateGST(selectedItems),
-        totalNetPrice: calculateTotalNetPrice(selectedItems),
-      },
-    });
+    if (selectedItems.some((item) => item.quantity === 0)) {
+      showNotification(
+        "Quantity not selected",
+        "Please select a quantity.",
+        "error"
+      );
+    } else {
+      navigate("/fnbsummary", {
+        state: {
+          selectedItems,
+          totalGrossPrice: calculateTotalGrossPrice(selectedItems),
+          GST: calculateGST(selectedItems),
+          totalNetPrice: calculateTotalNetPrice(selectedItems),
+        },
+      });
+    }
   };
 
   const calculateTotalGrossPrice = (items) => {
@@ -101,6 +117,7 @@ function FnbPurchase() {
     const GST = calculateGST(items);
     return totalGrossPrice + GST;
   };
+
   return (
     <div>
       {/* Tab Part */}
@@ -129,7 +146,6 @@ function FnbPurchase() {
           </Tabs>
         </Container>
       </Group>
-
       {/* Shopping cart Part */}
       <Group>
         {showCart && (
@@ -140,15 +156,13 @@ function FnbPurchase() {
           />
         )}
       </Group>
-
-      {/* Submit Button */}
-      <Group>
-        <div className="submitBtn">
-          <Button type="submit" onClick={handleSubmit}>
-            Submit
+      <div style={{ marginTop: "auto", textAlign: "right" }}>
+        {isButtonVisible && (
+          <Button color={"blue"} onClick={handleSubmit}>
+            Next
           </Button>
-        </div>
-      </Group>
+        )}
+      </div>
     </div>
   );
 }

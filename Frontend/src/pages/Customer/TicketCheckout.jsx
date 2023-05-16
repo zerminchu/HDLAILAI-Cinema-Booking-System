@@ -103,19 +103,39 @@ function TicketCheckout() {
       <ScrollArea h={720}>{ticketSummary}</ScrollArea>
       <Divider my="sm" />
       <Flex direction="column" align={"end"} gap={20}>
-        <Text>
-          {isNaN(total)
-            ? "Select all ticket types to view total price"
-            : `Total ticket fee: $${total.toFixed(2)}`}
-        </Text>{" "}
-        <Button
-          component={Link}
-          to={"/ticketsummary"}
-          state={{ tickets, movieSession }}
-          disabled={isNaN(total)}
-        >
-          Pay Now
-        </Button>
+        {isNaN(totalGrossPrice) ? (
+          <Text>Select all ticket types to view total price</Text>
+        ) : (
+          <Grid columns={4} sx={{ width: "300px" }}>
+            <Grid.Col span={3}>
+              <Text>Total Gross Ticket Fees:</Text>
+            </Grid.Col>
+            <Grid.Col span={1} sx={{ textAlign: "right" }}>
+              <Text>{`$${(totalGrossPrice / 100).toFixed(2)}`}</Text>
+            </Grid.Col>
+            <Grid.Col span={3}>
+              <Text>GST (8%):</Text>{" "}
+            </Grid.Col>
+            <Grid.Col span={1} sx={{ textAlign: "right" }}>
+              <Text>{`$${(GST / 100).toFixed(2)}`}</Text>{" "}
+            </Grid.Col>
+            <Grid.Col span={3}>
+              <Text>Total Nett Ticket Fees:</Text>{" "}
+            </Grid.Col>
+            <Grid.Col span={1} sx={{ textAlign: "right" }}>
+              <Text>{`$${(totalNetPrice / 100).toFixed(2)}`}</Text>{" "}
+            </Grid.Col>
+          </Grid>
+        )}
+
+        <form onSubmit={addTransaction}>
+          <Button
+            onClick={addTransaction}
+            disabled={isNaN(total)}
+          >
+            Pay Now
+          </Button>
+        </form>
       </Flex>
       {}
     </Container>
