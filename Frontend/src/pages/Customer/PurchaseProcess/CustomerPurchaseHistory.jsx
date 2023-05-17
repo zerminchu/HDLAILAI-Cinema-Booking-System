@@ -6,6 +6,7 @@ import {
     Grid,
     Tabs,
     Group,
+    Pagination,
 } from "@mantine/core";
 
 import { useEffect, useState } from "react";
@@ -18,6 +19,9 @@ function TicketPurchaseHistory() {
     const { id } = useParams();
     //display the first tab food when load in
     const [activeTab, setActiveTab] = useState("Fnb");
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     //ticket
     const [ticket, setTicket] = useState([]);
@@ -46,6 +50,10 @@ function TicketPurchaseHistory() {
         getTransaction(id);
     }, []);
 
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const visibleFnb = fnb.slice(startIndex, startIndex + itemsPerPage);
+    const visibleTickets = ticket.slice(startIndex, startIndex + itemsPerPage);
+
     return (
         <div>
             {/* Tab Part */}
@@ -64,12 +72,24 @@ function TicketPurchaseHistory() {
                         <Tabs.Panel value="Fnb" pt="xs">
                             {/* View Fnb Page */}
                             <FnbHistoryTable data={fnb} setData={setFnb} />
+                            <Pagination
+                                total={Math.max(fnb.length, itemsPerPage)}
+                                limit={itemsPerPage}
+                                page={currentPage}
+                                onChange={setCurrentPage}
+                            />
                         </Tabs.Panel>
 
                         {/* Ticket Tab */}
                         <Tabs.Panel value="Ticket" pt="xs">
                             {/* View Ticket Page */}
                             <TicketHistoryTable data={ticket} setData={setTicket} />
+                            <Pagination
+                                total={Math.max(ticket.length, itemsPerPage)} // Use Math.max to ensure the pagination is displayed
+                                limit={itemsPerPage}
+                                page={currentPage}
+                                onChange={setCurrentPage}
+                            />
                         </Tabs.Panel>
                     </Tabs>
                 </Container>
