@@ -10,7 +10,7 @@ import DisplayRoles from "../pages/UserAdmin/DisplayRoles";
 import EditUserAccount from "../pages/UserAdmin/EditUserAccount";
 import EditUserProfile from "../pages/UserAdmin/EditUserProfile";
 import LoginModal from "../pages/Login/LoginModal";
-import ViewHall from "../pages/CinemaManager/ViewSeats";
+import ViewHall from "../pages/CinemaManager/ViewHall";
 import LoginForm from "../pages/Login/LoginForm";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundTitle from "../pages/UnauthorizedPage";
