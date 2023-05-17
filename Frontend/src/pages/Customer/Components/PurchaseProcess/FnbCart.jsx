@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Table, Text, Button, ScrollArea, NumberInput } from "@mantine/core";
+import {
+  Table,
+  Text,
+  Button,
+  ScrollArea,
+  NumberInput,
+  Container,
+} from "@mantine/core";
 
 function FnbCart({ data, setData }) {
   const handleQuantityChange = (id, quantity) => {
@@ -54,18 +61,20 @@ function FnbCart({ data, setData }) {
   ));
 
   return (
-    <ScrollArea>
-      <Table miw={1200} verticalSpacing="sm">
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </ScrollArea>
+    <Container size="lg" px="sm">
+      <ScrollArea>
+        <Table miw={1200} verticalSpacing="sm">
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      </ScrollArea>
+    </Container>
   );
 }
 

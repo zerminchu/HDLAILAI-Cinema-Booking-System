@@ -1,9 +1,17 @@
 import CinemaManagerHeader from "./Components/ViewHalls/CinemaManagerHeader";
-import TicketTypesTable from "./Components/ViewAllTicketTypes/TicketTypesTable.jsx";
+import TicketTypesTable from "./Components/ViewAllTicketTypes/TicketTypesTable";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Button, TextInput, Group, Space, Loader, Text } from "@mantine/core";
+import {
+  Button,
+  TextInput,
+  Group,
+  Space,
+  Loader,
+  Text,
+  Divider,
+} from "@mantine/core";
 import "./Components/ViewMovie/SearchMovie.css";
 
 function ViewAllTicketTypes() {
@@ -43,6 +51,9 @@ function ViewAllTicketTypes() {
     <Loader />
   ) : (
     <div>
+      <h1>Ticket Types</h1>
+      <Space h="lg" />
+      <Divider my="sm" size="sm" />
       <form onSubmit={search}>
         <Group>
           <TextInput
@@ -50,15 +61,18 @@ function ViewAllTicketTypes() {
             name={"query"}
             placeholder="Search for Ticket Types"
             onChange={(event) => setQuery(event.currentTarget.value)}
-            className="search"
+            className="search-bar"
           />
           <Button type="submit" variant="light" color="blue">
             Search
           </Button>
         </Group>
       </form>
-      <Space h="lg" />
-      <Button component={Link} to="/AddTicketType">
+      <Button
+        component={Link}
+        to="/AddTicketType"
+        style={{ marginTop: "10px", marginBottom: "10px" }}
+      >
         Add New
       </Button>
       <Space h="lg" />

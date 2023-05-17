@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CustomerPurchaseButton from "./CustomerPurchaseButton";
-import { Table } from "@mantine/core";
+import { Table, Container, ScrollArea } from "@mantine/core";
 
 function FoodTable({ data, onAddToCart }) {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -32,7 +32,7 @@ function FoodTable({ data, onAddToCart }) {
   ));
 
   return (
-    <Table miw={720} verticalSpacing="sm">
+    <Table miw={1080} verticalSpacing="sm">
       <thead>
         <tr>
           <th>Food Name</th>

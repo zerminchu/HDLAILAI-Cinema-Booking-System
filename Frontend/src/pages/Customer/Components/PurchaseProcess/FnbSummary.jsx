@@ -14,7 +14,7 @@ import {
 import { useLocation, Link, useNavigate } from "react-router-dom";
 
 import { useState, useEffect } from "react";
-import confirmationTick from "../../../assets/59865-confirmation-tick.json";
+import confirmationTick from "../../../../assets/59865-confirmation-tick.json";
 import Lottie from "lottie-react";
 import axios from "axios";
 

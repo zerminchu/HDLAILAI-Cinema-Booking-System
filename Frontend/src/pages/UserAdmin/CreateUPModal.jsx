@@ -4,7 +4,7 @@ import CreateRolesForm from "./components/UserProfile/CreateRolesForm";
 
 import logo from "./Components/UserProfile/logo-no-background.png";
 
-function CreateUPModel({ onAddUser }) {
+function CreateUPModal({ onAddUser }) {
   const buttonText = "Add Profile";
 
   return (
@@ -15,4 +15,4 @@ function CreateUPModel({ onAddUser }) {
   );
 }
 
-export default CreateUPModel;
+export default CreateUPModal;

@@ -5,10 +5,18 @@ import CreateRolesForm from "./components/UserProfile/CustomPopUp";
 import UserAdminHeader from "./components/UserAdminHeader";
 import { notifications } from "@mantine/notifications";
 import "./Components/SearchBar.css";
-import { Button, Group, Text, TextInput, Modal } from "@mantine/core";
-import CreateUPModel from "./CreateUPModel";
+import {
+  Button,
+  Group,
+  Text,
+  TextInput,
+  Modal,
+  Space,
+  Divider,
+} from "@mantine/core";
+import CreateUPModal from "./CreateUPModal";
 
-function ProfilePage() {
+function ViewAllUserProfiles() {
   const [users, setUsers] = useState([]);
   const [query, setQuery] = useState("");
 
@@ -69,9 +77,11 @@ function ProfilePage() {
 
   return (
     <div>
+      <h1>User Profiles</h1>
+      <Space h="md" />
+      <Divider my="sm" size="sm" />
       <form onSubmit={search}>
         <Group>
-          <CreateUPModel onAddUser={handleAddUser} />
           <TextInput
             placeholder={"Search by profile name"}
             value={query}
@@ -84,6 +94,7 @@ function ProfilePage() {
           </Button>
         </Group>
       </form>
+      <CreateUPModal onAddUser={handleAddUser} />
 
       {users.length === 0 ? (
         <Text fw={400} style={{ textAlign: "center" }}>
@@ -95,4 +106,4 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default ViewAllUserProfiles;
