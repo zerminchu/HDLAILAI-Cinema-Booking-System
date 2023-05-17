@@ -36,10 +36,6 @@ const CinemaManagerFNB = () => {
   return (
     <div>
       <Group>
-        <CinemaManagerHeader />
-      </Group>
-
-      <Group>
         <Button component={Link} to={`/CinemaManagerFNBAdd/`}>
           Add Item
         </Button>

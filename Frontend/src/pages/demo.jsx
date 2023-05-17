@@ -47,15 +47,6 @@ function Demo() {
           <List.Item>
             <Link to="/FnbPurchase"> Customer F&B</Link>
           </List.Item>
-          {currentUser ? (
-            <List.Item>
-              <LogoutButton />
-            </List.Item>
-          ) : (
-            <List.Item>
-              <LoginModal />
-            </List.Item>
-          )}
         </List>
       </div>
     </div>

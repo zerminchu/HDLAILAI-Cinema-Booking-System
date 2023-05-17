@@ -41,70 +41,69 @@ import ViewAllTicketTypes from "../pages/CinemaManager/ViewAllTicketTypes";
 import UpdateTicketType from "../pages/CinemaManager/UpdateTicketType";
 import AddTicketType from "../pages/CinemaManager/AddTicketType";
 import FnbPurchaseReceipt from "../pages/Customer/PurchaseProcess/FnbPurchaseReceipt";
+import { HeaderResponsive } from "../components/Navbar";
 
 function PageRoutes() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" exact element={<Demo />} />
-        <Route path="/CustomerHome" element={<CustomerHome />} />
-        <Route path="/OwnerHome" element={<OwnerHome />} />
+    <Routes>
+      <Route path="/" exact element={<CustomerHome />} />
+      <Route path="/CustomerHome" element={<CustomerHome />} />
+      <Route path="/OwnerHome" element={<OwnerHome />} />
+      <Route path="/CreateAccount" element={<CreateAccountModal />} />
+      {/*       <Route path="/Login" element={<LoginModal />} />
+      <Route path="/Login" element={<LoginForm />} /> */}
+      <Route path="/Unauthorized" element={<NotFoundTitle />} />
+      <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}>
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
         <Route path="/ProfilePage" element={<ProfilePage />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/EditUserProfile/:id" element={<EditUserProfile />} />
-        <Route path="/Login" element={<LoginModal />} />
-        <Route path="/ViewHall/:id" element={<ViewHall />} />
-        <Route path="/UpdateMovie/:id" element={<UpdateMovie />} />
         <Route path="/ViewUserAccount" element={<ViewUserAccount />} />
         <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
-        {/*  </Route> */}
+        <Route path="/UserAdminHome" element={<UserAdminHome />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={["Cinema Manager"]} />}>
+        <Route path="/ViewHall/:id" element={<ViewHall />} />
+        <Route path="/UpdateMovie/:id" element={<UpdateMovie />} />
         <Route path="/CinemaManagerHome" element={<CinemaManagerHome />} />
-        <Route path="/Login" element={<LoginForm />} />
-        <Route path="/Unauthorized" element={<NotFoundTitle />} />
-        <Route path="/ViewMovies" element={<ViewMovies />} />
-        <Route path="/AddMovie" element={<AddMovie />} />
-        <Route path="/CreateAccount" element={<CreateAccountModal />} />
-        <Route path="/ViewAccount/:id" element={<ViewAccount />} />
-        <Route path="/ViewMovieDetails/:id" element={<ViewMovieDetails />} />
+        <Route path="/CinemaManagerFNB" element={<CinemaManagerFNB />} />
+        <Route path="/CinemaManagerFNBAdd" element={<CinemaManagerFNBAdd />} />
+        <Route
+          path="/CinemaManagerFNBEdit/:id"
+          element={<CinemaManagerFNBEdit />}
+        />
+        <Route path="/ViewAllTicketTypes" element={<ViewAllTicketTypes />} />
+        <Route path="/UpdateTicketType/:id" element={<UpdateTicketType />} />
+        <Route path="/AddTicketType" element={<AddTicketType />} />
         <Route path="/UpdateMovie" element={<UpdateMovie />} />
         <Route path="/CreateMS" element={<CreateMSModal />} />
         <Route path="/ViewMovieSession" element={<ViewMovieSession />} />
         <Route path="/EditMovieSession/:id" element={<UpdateMovieSession />} />
-        <Route path="/UserAdminHome" element={<UserAdminHome />} />
+        <Route path="/ViewMovies" element={<ViewMovies />} />
+        <Route path="/AddMovie" element={<AddMovie />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={["Customer"]} />}>
         <Route
           path="/CustomerViewMovieSession/:moviesessionid"
           element={<CustomerViewMovieSession />}
         />
+        <Route path="/ViewAccount/:id" element={<ViewAccount />} />
+        <Route path="/ViewMovieDetails/:id" element={<ViewMovieDetails />} />
         <Route path="/ticketcheckout" element={<TicketCheckout />} />
         <Route path="/ticketsummary" element={<TicketSummary />} />
-        <Route path="/CinemaManagerFNB" element={<CinemaManagerFNB />} />
-        <Route path="/CinemaManagerFNBAdd" element={<CinemaManagerFNBAdd />} />
-        <Route
-          path="/CinemaManagerFNBEdit/:id"
-          element={<CinemaManagerFNBEdit />}
-        />
-        <Route path="/CustomerPurchaseHistory/:id" element={<CustomerPurchaseHistory />} />
-
         <Route path="/FnbPurchase" element={<FnbPurchase />} />
         <Route path="/FnbSummary" element={<FnbSummary />} />
-
-        <Route path="/CinemaManagerFNB" element={<CinemaManagerFNB />} />
-        <Route path="/CinemaManagerFNBAdd" element={<CinemaManagerFNBAdd />} />
-        <Route
-          path="/CinemaManagerFNBEdit/:id"
-          element={<CinemaManagerFNBEdit />}
-        />
         <Route path="/ticketcheckout" element={<TicketCheckout />} />
         <Route path="/ticketsummary" element={<TicketSummary />} />
-        <Route path="/ViewAllTicketTypes" element={<ViewAllTicketTypes />} />
-        <Route path="/UpdateTicketType/:id" element={<UpdateTicketType />} />
-        <Route path="/AddTicketType" element={<AddTicketType />} />
         <Route path="/FnbPurchaseReceipt" element={<FnbPurchaseReceipt />} />
-      </Routes>
-    </Router>
+        <Route
+          path="/CustomerPurchaseHistory/:id"
+          element={<CustomerPurchaseHistory />}
+        />
+      </Route>
+    </Routes>
   );
 }
 

@@ -1,4 +1,5 @@
 import "./App.css";
+import { HeaderResponsive } from "./components/Navbar";
 import PageRoutes from "./routes/PageRoutes";
 
 function App() {

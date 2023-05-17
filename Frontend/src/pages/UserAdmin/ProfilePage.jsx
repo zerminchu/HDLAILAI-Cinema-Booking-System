@@ -69,9 +69,6 @@ function ProfilePage() {
 
   return (
     <div>
-      <Group>
-        <UserAdminHeader />
-      </Group>
       <form onSubmit={search}>
         <Group>
           <CreateUPModel onAddUser={handleAddUser} />

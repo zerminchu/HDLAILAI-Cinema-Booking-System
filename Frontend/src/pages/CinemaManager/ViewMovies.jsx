@@ -12,7 +12,6 @@ function ViewMovies() {
   const [isAllMovie, setIsAllMovie] = useState(true);
   const [query, setQuery] = useState("");
 
-
   useEffect(() => {
     axios
       .get(`http://localhost:8080/searchmovie?q=${query}`)
@@ -26,21 +25,16 @@ function ViewMovies() {
 
   useEffect(function loadData() {
     // Load data from backend API
-    axios
-      .get("http://localhost:8080/viewmovie/all")
-      .then(function (response) {
-        // Store data into react state
-        console.log(response);
-        setMovies(response.data);
-      });
+    axios.get("http://localhost:8080/viewmovie/all").then(function (response) {
+      // Store data into react state
+      console.log(response);
+      setMovies(response.data);
+    });
     // [] means the loadData function only runs once when the page first loads
   }, []);
 
   return (
     <div>
-      <Group>
-        <CinemaManagerHeader />
-      </Group>
       <Group>
         <TextInput
           value={query}

@@ -45,9 +45,6 @@ const CinemaManagerHome = () => {
   return (
     <div>
       <Group>
-        <CinemaManagerHeader />
-      </Group>
-      <Group>
         <CMCreateHallModel />
         <TextInput
           value={query}
@@ -65,7 +62,9 @@ const CinemaManagerHome = () => {
         <>
           <HallTable
             halls={
-              isAllHall ? currentHalls : currentHalls.filter((hall) => hall.name === filterValue)
+              isAllHall
+                ? currentHalls
+                : currentHalls.filter((hall) => hall.name === filterValue)
             }
           />
           <Pagination
