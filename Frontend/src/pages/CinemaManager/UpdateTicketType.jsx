@@ -89,7 +89,7 @@ function UpdateTicketType() {
       className="UpdateTicketTypeForm"
       onSubmit={form.onSubmit(handleSubmit)}
     >
-      <h1>Update Movie</h1>
+      <h1>Update Ticket Type</h1>
       <div>
         <Container my="md">
           <SimpleGrid col={1}>

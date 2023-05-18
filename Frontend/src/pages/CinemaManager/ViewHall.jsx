@@ -272,7 +272,7 @@ function ViewHall() {
                   className="updateBtn"
                   onClick={() => setSeatIsUpdating(!seatIsUpdating)}
                 >
-                  Update Seats
+                  Create / Update Seats
                 </Button>
               )}
             </Grid.Col>

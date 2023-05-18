@@ -9,12 +9,10 @@ const useStyles = createStyles((theme) => ({
   root: {
     position: "relative",
   },
-
   input: {
     height: rem(54),
     paddingTop: rem(18),
   },
-
   button: {
     marginTop: theme.spacing.md,
   },
@@ -22,56 +20,106 @@ const useStyles = createStyles((theme) => ({
 
 const CinemaManagerFNBAdd = () => {
   const classes = useStyles();
-  //const [item, setItem] = useState(null);
   const [name, setName] = useState("");
-  const [currentPrice, setCurrentPrice] = useState(0);
+  const [currentPrice, setCurrentPrice] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [type, setType] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [priceError, setPriceError] = useState("");
+  const [urlError, setURLError] = useState("");
+  const [typeError, setTypeError] = useState("");
 
   const handleCancel = () => {
     setName("");
     setCurrentPrice("");
     setImageURL("");
     setType("");
+    clearErrors();
   };
 
-  const handleAddClick = () => {
-    const newItem = {
-      name: name,
-      currentPrice: currentPrice,
-      imageURL: imageURL,
-      type: type,
-    };
+  const clearErrors = () => {
+    setNameError("");
+    setPriceError("");
+    setURLError("");
+    setTypeError("");
+  };
 
-    axios
-      .post("http://localhost:8080/createfnb/add", newItem)
-      .then((response) => {
-        console.log(response.data);
+  const validateForm = () => {
+    clearErrors();
+    let isValid = true;
 
-        notifications.show({
-          title: `F&B Item`,
-          message: "Item Added successfully",
-          autoClose: 3000,
+    if (name.trim() === "") {
+      setNameError("Item Name cannot be empty");
+      isValid = false;
+    } else if (name !== name.trim()) {
+      setNameError("Item Name contains trailing/leading whitespace");
+      isValid = false;
+    }
+
+    if (currentPrice === "" || parseFloat(currentPrice) === 0) {
+      setPriceError("Price cannot be zero");
+      isValid = false;
+    }
+
+    if (imageURL.trim() === "") {
+      setURLError("Image URL cannot be empty");
+      isValid = false;
+    } else if (imageURL !== imageURL.trim()) {
+      setURLError("Image URL contains trailing/leading whitespace");
+      isValid = false;
+    }
+
+    if (type.trim() === "") {
+      setTypeError("Please select an item type");
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const isValid = validateForm();
+
+    if (isValid) {
+      const newItem = {
+        name: name,
+        currentPrice: parseFloat(currentPrice),
+        imageURL: imageURL,
+        type: type,
+      };
+
+      axios
+        .post("http://localhost:8080/createfnb/add", newItem)
+        .then((response) => {
+          console.log(response.data);
+
+          notifications.show({
+            title: "F&B Item",
+            message: "Item Added successfully",
+            autoClose: 3000,
+          });
+        })
+        .catch((error) => {
+          notifications.show({
+            title: "Error Adding New F&B Item",
+            message: error.response.data,
+            autoClose: 3000,
+          });
         });
-      })
-      .catch((error) => {
-        notifications.show({
-          title: "Error Adding New F&B Item",
-          message: error.response.data,
-          autoClose: 3000,
-        });
-      });
+    }
   };
 
   return (
-    <div>
+    <form onSubmit={handleFormSubmit}>
       <TextInput
         label="Item Name"
         placeholder="Popcorn (S)"
         classNames={classes.input}
+        error={nameError}
+        value={name}
         onChange={(event) => {
           const value = event.target.value;
-          console.log(value);
           setName(value);
         }}
       />
@@ -80,6 +128,7 @@ const CinemaManagerFNBAdd = () => {
         label="Price"
         placeholder="Enter number only"
         classNames={classes.input}
+        error={priceError}
         min={0}
         precision={2}
         parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
@@ -93,17 +142,18 @@ const CinemaManagerFNBAdd = () => {
         }
         value={currentPrice}
         onChange={(value) => {
-          setCurrentPrice(value * 100);
+          setCurrentPrice(value);
         }}
       />
 
       <TextInput
-        label="ImageURL"
+        label="Image URL"
         placeholder="Provide the full link"
         classNames={classes.input}
+        error={urlError}
+        value={imageURL}
         onChange={(event) => {
           const value = event.target.value;
-          console.log(value);
           setImageURL(value);
         }}
       />
@@ -115,9 +165,10 @@ const CinemaManagerFNBAdd = () => {
           { value: "food", label: "Food" },
           { value: "beverage", label: "Beverage" },
         ]}
-        onSelect={(event) => {
+        error={typeError}
+        value={type}
+        onChange={(event) => {
           const value = event.target.value;
-          console.log(value);
           setType(value);
         }}
       />
@@ -126,21 +177,21 @@ const CinemaManagerFNBAdd = () => {
         <Button
           className={classes.button}
           component={Link}
-          to={`/CinemaManagerFNB/`}
-          onClick={handleAddClick}
+          to="/CinemaManagerFNB/"
+          type="submit"
         >
           Add
         </Button>
         <Button
           className={classes.button}
           component={Link}
-          to={`/CinemaManagerFNB/`}
+          to="/CinemaManagerFNB/"
           onClick={handleCancel}
         >
           Cancel
         </Button>
       </Group>
-    </div>
+    </form>
   );
 };
 

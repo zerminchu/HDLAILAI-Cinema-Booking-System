@@ -414,4 +414,34 @@ public class UserAccount {
         }
     }
 
+    public UserAccount findByEmail(String email) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT * FROM UserAccounts WHERE email = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            statement.setMaxRows(1);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return null;
+            }
+            Integer id = resultSet.getInt("id");
+            String password = resultSet.getString("password");
+            String name = resultSet.getString("name");
+            Boolean suspended = resultSet.getBoolean("suspended");
+
+            UserAccount result = new UserAccount(id, password, name, name, suspended, profile);
+            return result;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
 }

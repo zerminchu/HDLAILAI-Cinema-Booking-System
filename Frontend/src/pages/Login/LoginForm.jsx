@@ -21,9 +21,11 @@ function LoginForm() {
       .get("http://localhost:8080/viewuserprofile/all")
       .then(({ data }) => {
         if (data) {
-          const options = data.map((profile) => {
-            return { value: profile.id, label: profile.profileName };
-          });
+          const options = data
+            .filter((profileName) => profileName.suspended !== true)
+            .map((profile) => {
+              return { value: profile.id, label: profile.profileName };
+            });
           setProfileOptions([...options]);
         }
       })
@@ -48,8 +50,14 @@ function LoginForm() {
         localStorage.setItem("jwt", token);
         setCurrentUser(decodedToken);
 
-        notifications.show({ title: "Welcome!", message: "Login successful" });
-        return navigate("/");
+        if (decodedToken.userProfile.suspended === true) {
+        } else {
+          notifications.show({
+            title: "Welcome!",
+            message: "Login successful",
+          });
+          navigate("/");
+        }
       })
       .catch((error) => {
         console.log(error);

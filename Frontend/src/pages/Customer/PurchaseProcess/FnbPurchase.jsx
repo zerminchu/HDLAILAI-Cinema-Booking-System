@@ -38,15 +38,17 @@ function FnbPurchase() {
     setSelectedItems(updatedItems);
   };
 
-
-
   async function getFoodAndDrink(id) {
     try {
       const fnbResponse = await axios.get(`http://localhost:8080/viewfnb/all`);
       const loadedFnb = fnbResponse.data;
 
-      const newFood = loadedFnb.filter((Fnb) => Fnb.type === "Food");
-      const newDrink = loadedFnb.filter((Fnb) => Fnb.type === "Beverage");
+      const newFood = loadedFnb.filter(
+        (Fnb) => Fnb.type === "Food" && !Fnb.suspended
+      );
+      const newDrink = loadedFnb.filter(
+        (Fnb) => Fnb.type === "Beverage" && !Fnb.suspended
+      );
       setFood(newFood);
       setDrink(newDrink);
     } catch (error) {

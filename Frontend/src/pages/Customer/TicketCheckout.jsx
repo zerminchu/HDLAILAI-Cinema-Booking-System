@@ -1,4 +1,6 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../AuthContext";
+
 import {
   Text,
   Container,
@@ -10,38 +12,59 @@ import {
   ScrollArea,
   Center,
   Divider,
+  Modal,
+  Group,
 } from "@mantine/core";
 import confirmationTick from "../../assets/59865-confirmation-tick.json";
+import Lottie from "lottie-react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 function TicketCheckout() {
   const location = useLocation();
-  console.log(location.state);
   const { movieSession, selectedSeats: selectedTickets } = location.state;
   const [tickets, setTickets] = useState(selectedTickets);
   const [options, setOptions] = useState([]);
   const [total, setTotal] = useState(0);
+  const [opened, setOpened] = useState(false);
+  const [totalGrossPrice, setTotalGrossPrice] = useState(0);
+  const [GST, setGST] = useState(0);
+  const [totalNetPrice, setTotalNetPrice] = useState(0);
+  const navigate = useNavigate();
+
+  /*   const userAccountId = getUserAccountId(); // Replace this with your own logic to get the userAccountId dynamically
+
+  function getUserAccountId() {
+    const user = useAuth();
+    return user.userAccountId;
+  }
+
+  console.log(userAccountId); */
+
   useEffect(() => {
     async function fetchTicketTypes() {
-      //console.log(loadedMovieSession);
       const ticketTypeResponse = await axios.get(
         `http://localhost:8080/viewtickettype/all`
       );
 
-      const loadedTicketTypes = ticketTypeResponse.data;
-      console.log(loadedTicketTypes);
+      const loadedTicketTypes = ticketTypeResponse.data.filter(
+        (ticketType) => ticketType.status !== "Not Available"
+      );
+
       setOptions(loadedTicketTypes);
     }
     fetchTicketTypes();
   }, []);
 
   useEffect(() => {
-    setTotal(
-      tickets.reduce((prev, next) => {
-        return prev + next.ticketType?.price;
-      }, 0) / 100
-    );
+    const gross = tickets.reduce((prev, next) => {
+      return prev + next.ticketType?.price;
+    }, 0);
+    const gst = gross * 0.08;
+    const net = gross + gst;
+    setTotalGrossPrice(gross);
+    setGST(gst);
+    setTotalNetPrice(net);
   }, [tickets]);
 
   function setTicketType(ticketId, value) {
@@ -53,6 +76,39 @@ function TicketCheckout() {
       })
     );
   }
+
+  async function addTransaction(event) {
+    event.preventDefault();
+    try {
+      /*     const user = useAuth();
+      const userAccountId = user.userAccountId;
+      console.log("User Account ID:", userAccountId); */
+      const response = await axios.post(
+        "http://localhost:8080/createtransaction/ticket",
+        {
+          transaction: {
+            userAccountId: 1,
+            type: "ticket",
+            totalGrossPrice: totalGrossPrice.toFixed(0),
+            gst: GST.toFixed(0),
+            dateTime: new Date(),
+            totalNetPrice: totalNetPrice.toFixed(0),
+          },
+          tickets: tickets.map((ticket) => ({
+            movieSessionId: movieSession.id,
+            seatId: ticket.id,
+            ticketTypeId: ticket.ticketType.id,
+            paidPrice: ticket.ticketType.price,
+          })),
+        }
+      );
+      console.log(response);
+      setOpened(true);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const ticketSummary = tickets.map((ticket) => {
     return (
       <Container
@@ -129,15 +185,25 @@ function TicketCheckout() {
         )}
 
         <form onSubmit={addTransaction}>
-          <Button
-            onClick={addTransaction}
-            disabled={isNaN(total)}
-          >
+          <Button onClick={addTransaction} disabled={isNaN(total)}>
             Pay Now
           </Button>
         </form>
       </Flex>
-      {}
+      <Modal opened={opened}>
+        <Lottie
+          animationData={confirmationTick}
+          loop={false}
+          onComplete={() => {
+            navigate("/ticketSummary", {
+              state: { tickets, movieSession },
+            });
+          }}
+        />
+        <Center>
+          <Text>Payment Complete</Text>
+        </Center>
+      </Modal>
     </Container>
   );
 }

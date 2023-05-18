@@ -1,147 +1,87 @@
-import { useLocation, Link } from "react-router-dom";
 import {
-  Text,
   Container,
-  Box,
-  Select,
-  Button,
   Table,
-  Center,
-  Modal,
-  Space,
-  Divider,
+  Text,
+  Button,
   Group,
+  Center,
+  Grid,
+  Col,
+  Flex,
+  Divider,
   ScrollArea,
 } from "@mantine/core";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+
 import { useState, useEffect } from "react";
-import { useDisclosure } from "@mantine/hooks";
-import ButtonWithModal from "../../components/ButtonWithModal";
 import Lottie from "lottie-react";
 import axios from "axios";
-import confirmationTick from "../../assets/59865-confirmation-tick.json";
 
-function TicketSummary() {
+function FnbPurchaseReceipt() {
   const location = useLocation();
-  const { movieSession, tickets: selectedTickets } = location.state;
-  console.log(selectedTickets);
-  const [ticketSummary, setTicketSummary] = useState([]);
-  const [options, setOptions] = useState([]);
-  const [total, setTotal] = useState(0);
+  const { selectedItems } = location.state;
   const [totalGrossPrice, setTotalGrossPrice] = useState(0);
   const [GST, setGST] = useState(0);
   const [totalNetPrice, setTotalNetPrice] = useState(0);
-  const [paymentMessage, setPaymentMessage] = useState("");
-  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
-    function summariseTickets() {
-      setTicketSummary(
-        selectedTickets.reduce((prev, next) => {
-          const matchIndex = prev.findIndex(
-            (ticket) => ticket.typeName === next.ticketType.typeName
-          );
-          console.log(matchIndex);
-          if (matchIndex === -1) {
-            return [
-              ...prev,
-              {
-                id: next.ticketType.id,
-                typeName: next.ticketType.typeName,
-                price: next.ticketType.price,
-                quantity: 1,
-              },
-            ];
-          }
-          prev[matchIndex].quantity += 1;
-          return prev;
-        }, [])
-      );
-    }
-    summariseTickets();
-  }, []);
+    const calculatePrices = () => {
+      let grossPrice = 0;
+      selectedItems.forEach((item) => {
+        grossPrice += item.currentPrice * item.quantity;
+      });
 
-  useEffect(() => {
-    const gross = ticketSummary.reduce((prev, next) => {
-      return prev + next.price * next.quantity;
-    }, 0);
-    const gst = gross * 0.08;
-    const net = gross + gst;
-    setTotalGrossPrice(gross);
-    setGST(gst);
-    setTotalNetPrice(net);
-  }, [ticketSummary]);
+      const gst = Math.round(grossPrice * 0.07);
+      const netPrice = grossPrice + gst;
 
-  const rows = ticketSummary.map((ticketType) => {
-    return (
-      <tr key={`${ticketType.id}`}>
-        <td>Movie Ticket(s) - {ticketType.typeName}</td>
-        <td>x{ticketType.quantity}</td>
-        <td>${(ticketType.quantity * ticketType.price) / 100}</td>
-      </tr>
-    );
-  });
+      setTotalGrossPrice(grossPrice);
+      setGST(gst);
+      setTotalNetPrice(netPrice);
+    };
 
-  async function addTransaction(event) {
-    event.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/createtransaction/ticket",
-        {
-          transaction: {
-            userAccountId: 1,
-            type: "ticket",
-            totalGrossPrice: totalGrossPrice.toFixed(0),
-            gst: GST.toFixed(0),
-            dateTime: new Date(),
-            totalNetPrice: totalNetPrice.toFixed(0),
-          },
-          tickets: selectedTickets.map((ticket) => ({
-            movieSessionId: movieSession.id,
-            seatId: ticket.id,
-            ticketTypeId: ticket.ticketType.id,
-            paidPrice: ticket.ticketType.price,
-          })),
-        }
-      );
-      console.log(response);
-    } catch (e) {
-      console.log(e);
-    }
-  }
+    calculatePrices();
+  }, [selectedItems]);
 
   return (
     <Container size="sm">
-      <h1>Purchase Summary</h1>
-      <Space h="xl" />
-      <ScrollArea h={720}>
-        <Container>
-          <Table>
-            <thead>
-              <tr>
-                <th>Ticket Type</th>
-                <th>Quantity</th>
-                <th>Total cost</th>
-              </tr>
-            </thead>
-            <tbody>{rows}</tbody>
-          </Table>
-        </Container>
-      </ScrollArea>
-      <Divider />
-      <Space h="xl" />
-      <Text align="right">
-        Total Gross Price:{" "}
-        {!isNaN(totalGrossPrice) && `$${(totalGrossPrice / 100).toFixed(2)}`}
-      </Text>
-      <Text>{!isNaN(GST) && `$${(GST / 100).toFixed(2)}`}</Text>
-      <Text>
-        {!isNaN(totalNetPrice) && `$${(totalNetPrice / 100).toFixed(2)}`}
-      </Text>
-      <Button component={Link} to="/">
-        Go Home
-      </Button>
+      <Center mt="20px">
+        <Text size="xl" weight={500}>
+          Thank you for your purchase!
+        </Text>
+      </Center>
+      <Divider my="20px" />
+      <Table>
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {selectedItems.map((item, index) => (
+            <tr key={index}>
+              <td>{item.name}</td>
+              <td>{item.quantity}</td>
+              <td>${(item.currentPrice * item.quantity) / 100}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      <Divider my="30px" />
+      <Group justify="center" align="center">
+        <Text size="lg">Total Amount Paid:</Text>
+        <Text size="lg" weight={500}>
+          ${totalNetPrice / 100}
+        </Text>
+      </Group>
+      <Center mt="30px">
+        <Button component={Link} to="/">
+          Go Back
+        </Button>
+      </Center>
     </Container>
   );
 }
 
-export default TicketSummary;
+export default FnbPurchaseReceipt;

@@ -31,7 +31,7 @@ function UpdateMovie() {
     console.log(runTime);
     event.preventDefault();
     axios
-      .put(`http://localhost:8080/updatemoviesession/update/${id}`, {
+      .put(`http://localhost:8080/updatemovie/update/${id}`, {
         id: id,
         title: title,
         runTime: runTime,
