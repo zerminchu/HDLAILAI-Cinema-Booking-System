@@ -77,7 +77,7 @@ function CustomerHome() {
               name={"query"}
               placeholder="Search for Movies"
               onChange={(event) => setQuery(event.currentTarget.value)}
-              className="search"
+              className="search-bar"
             />
             <Button type="submit" variant="light" color="blue">
               Search

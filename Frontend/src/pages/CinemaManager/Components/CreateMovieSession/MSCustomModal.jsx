@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./MSModalStyle.css";
 // import Modal from "react-modal";
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure } from "@mantine/hooks";
 import { Button, Modal } from "@mantine/core";
 
 // Modal.setAppElement("#root");
@@ -11,7 +11,12 @@ function MSCustomModal({ label = "Open", children }) {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <div>
-      <Button onClick={open}>{label}</Button>
+      <Button
+        onClick={open}
+        style={{ marginTop: "10px", marginBottom: "10px" }}
+      >
+        {label}
+      </Button>
       {/* <Modal
         className="myModal"
         isOpen={modalIsOpen}

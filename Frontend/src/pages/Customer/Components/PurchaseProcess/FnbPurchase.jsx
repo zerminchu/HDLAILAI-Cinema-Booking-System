@@ -6,6 +6,8 @@ import {
   Grid,
   Tabs,
   Group,
+  Center,
+  Flex,
 } from "@mantine/core";
 
 import FnbCart from "./FnbCart";
@@ -124,7 +126,7 @@ function FnbPurchase() {
     <div>
       {/* Tab Part */}
       <Group>
-        <Container>
+        <Container size="xl" px="sm">
           <Tabs
             defaultValue={activeTab}
             value={activeTab}
@@ -139,7 +141,6 @@ function FnbPurchase() {
               {/* View Fnb Page */}
               <FoodTable data={food} onAddToCart={handleAddToCart} />
             </Tabs.Panel>
-
             {/* Drink Tab */}
             <Tabs.Panel value="Drink" pt="xs">
               {/* View Fnb Page */}

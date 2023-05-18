@@ -10,6 +10,7 @@ import {
   rem,
   Image,
   Anchor,
+  Flex,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import logo from "../assets/logo.png";
@@ -108,11 +109,11 @@ export function HeaderResponsive(/* { links } */) {
     "User Admin": [
       {
         label: "User Accounts",
-        link: "/ViewUserAccount",
+        link: "/UserAdminHome",
       },
       {
         label: "User Profiles",
-        link: "/ProfilePage",
+        link: "/ViewAllUserProfiles",
       },
     ],
     "Cinema Manager": [
@@ -168,35 +169,43 @@ export function HeaderResponsive(/* { links } */) {
   return (
     <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
       <Container className={classes.header}>
-        <Image src={logo} alt="logo" height={50} width={"auto"} />
-        <Group spacing={5} className={classes.links}>
-          {items}
-          {currentUser ? (
-            currentUser.role === "Customer" ? (
-              <ProfileMenu />
+        <Flex justify={{ sm: "flex-start" }}>
+          <Image src={logo} alt="logo" height={50} width={"auto"} />
+        </Flex>
+        <Flex justify={{ sm: "flex-end" }}>
+          <Group spacing={5} className={classes.links}>
+            {items}
+            {currentUser ? (
+              currentUser.role === "Customer" ? (
+                <ProfileMenu />
+              ) : (
+                <LogoutButton />
+              )
             ) : (
-              <LogoutButton />
-            )
-          ) : (
-            <Group>
-              <LoginModal />
-              <CreateAccountModal />
-            </Group>
-          )}
-        </Group>
-        <Burger
-          opened={opened}
-          onClick={toggle}
-          className={classes.burger}
-          size="sm"
-        />
-        <Transition transition="pop-top-right" duration={200} mounted={opened}>
-          {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
-              {items}
-            </Paper>
-          )}
-        </Transition>
+              <Group>
+                <LoginModal />
+                <CreateAccountModal />
+              </Group>
+            )}
+          </Group>
+          <Burger
+            opened={opened}
+            onClick={toggle}
+            className={classes.burger}
+            size="sm"
+          />
+          <Transition
+            transition="pop-top-right"
+            duration={200}
+            mounted={opened}
+          >
+            {(styles) => (
+              <Paper className={classes.dropdown} withBorder style={styles}>
+                {items}
+              </Paper>
+            )}
+          </Transition>
+        </Flex>
       </Container>
     </Header>
   );

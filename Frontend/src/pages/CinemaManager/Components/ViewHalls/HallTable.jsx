@@ -111,7 +111,7 @@ const HallTable = (props) => {
       <Table miw={1200} verticalSpacing="sm" position="left">
         <thead>
           <tr>
-            <th>Hall</th>
+            <th>Hall Name</th>
             <th>Status</th>
             <th>Details</th>
             <th></th>

@@ -11,7 +11,7 @@ function CustomPopUp({ children, buttonText, variant, color }) {
         onClick={open}
         variant={variant}
         color={color}
-        style={{ margin: "10px" }}
+        style={{ marginTop: "10px", marginBottom: "10px" }}
       >
         {buttonText}
       </Button>
