@@ -129,10 +129,7 @@ function TicketCheckout() {
         )}
 
         <form onSubmit={addTransaction}>
-          <Button
-            onClick={addTransaction}
-            disabled={isNaN(total)}
-          >
+          <Button onClick={addTransaction} disabled={isNaN(total)}>
             Pay Now
           </Button>
         </form>
