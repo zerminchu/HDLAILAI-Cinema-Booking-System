@@ -5,17 +5,10 @@ import {
   Button,
   Group,
   Center,
-  Grid,
-  Col,
-  Flex,
   Divider,
-  ScrollArea,
 } from "@mantine/core";
-import { useLocation, Link, useNavigate } from "react-router-dom";
-
+import { useLocation, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Lottie from "lottie-react";
-import axios from "axios";
 
 function FnbPurchaseReceipt() {
   const location = useLocation();
@@ -26,17 +19,19 @@ function FnbPurchaseReceipt() {
 
   useEffect(() => {
     const calculatePrices = () => {
-      let grossPrice = 0;
-      selectedItems.forEach((item) => {
-        grossPrice += item.currentPrice * item.quantity;
-      });
+      if (selectedItems && selectedItems.length > 0) {
+        let grossPrice = 0;
+        selectedItems.forEach((item) => {
+          grossPrice += item.currentPrice * item.quantity;
+        });
 
-      const gst = Math.round(grossPrice * 0.07);
-      const netPrice = grossPrice + gst;
+        const gst = Math.round(grossPrice * 0.07);
+        const netPrice = grossPrice + gst;
 
-      setTotalGrossPrice(grossPrice);
-      setGST(gst);
-      setTotalNetPrice(netPrice);
+        setTotalGrossPrice(grossPrice);
+        setGST(gst);
+        setTotalNetPrice(netPrice);
+      }
     };
 
     calculatePrices();
@@ -50,24 +45,28 @@ function FnbPurchaseReceipt() {
         </Text>
       </Center>
       <Divider my="20px" />
-      <Table>
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {selectedItems.map((item, index) => (
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>{item.quantity}</td>
-              <td>${(item.currentPrice * item.quantity) / 100}</td>
+      {selectedItems && selectedItems.length > 0 ? (
+        <Table>
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Total Price</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {selectedItems.map((item, index) => (
+              <tr key={index}>
+                <td>{item.name}</td>
+                <td>{item.quantity}</td>
+                <td>${(item.currentPrice * item.quantity) / 100}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <Text>No items selected.</Text>
+      )}
       <Divider my="30px" />
       <Group justify="center" align="center">
         <Text size="lg">Total Amount Paid:</Text>
