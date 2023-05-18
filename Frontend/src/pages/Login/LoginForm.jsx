@@ -14,7 +14,6 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [userProfileId, setUserProfileId] = useState(-1);
   const [profileOptions, setProfileOptions] = useState([]);
-  
   const navigate = useNavigate();
   // Load user profiles
   useEffect(() => {
