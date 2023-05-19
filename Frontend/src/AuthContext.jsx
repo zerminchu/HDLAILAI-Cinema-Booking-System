@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
       setCurrentUser(JSON.parse(localStorage.getItem("user")));
       setLoading(false);
     }
+    setLoading(false);
   }, []);
 
   const value = {

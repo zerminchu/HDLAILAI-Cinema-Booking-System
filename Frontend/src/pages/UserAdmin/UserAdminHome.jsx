@@ -106,9 +106,6 @@ function UserAdminHome() {
   return (
     <div>
       <h1>Admin Home</h1>
-      <Group>
-        <UserAdminHeader />
-      </Group>
       <form onSubmit={search}>
         <Group>
           <CreateUAModal onAddAccount={handleAddAccount} />

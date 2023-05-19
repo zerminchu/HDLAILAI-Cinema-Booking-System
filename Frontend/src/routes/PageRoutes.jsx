@@ -6,7 +6,7 @@ import CustomerHome from "../pages/Customer/CustomerHome";
 import OwnerHome from "../pages/Owner/OwnerHome";
 import CreateUserAccount from "../pages/UserAdmin/CreateUserAccount";
 import ProfilePage from "../pages/UserAdmin/ViewAllUserProfiles";
-import DisplayRoles from "../pages/UserAdmin/DisplayRoles";
+/* import DisplayRoles from "../pages/UserAdmin/DisplayRoles"; */
 import EditUserAccount from "../pages/UserAdmin/EditUserAccount";
 import EditUserProfile from "../pages/UserAdmin/EditUserProfile";
 import LoginModal from "../pages/Login/LoginModal";
@@ -57,11 +57,11 @@ function PageRoutes() {
       <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}>
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
         <Route path="/ViewAllUserProfiles" element={<ViewAllUserProfiles />} />
-        <Route path="/DisplayRoles" element={<DisplayRoles />} />
+        {/* <Route path="/DisplayRoles" element={<DisplayRoles />} /> */}
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/EditUserProfile/:id" element={<EditUserProfile />} />
         {/* <Route path="/ViewUserAccount" element={<ViewUserAccount />} /> */}
-        <Route path="/DisplayRoles" element={<DisplayRoles />} />
+        {/* <Route path="/DisplayRoles" element={<DisplayRoles />} /> */}
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/UserAdminHome" element={<UserAdminHome />} />
       </Route>
