@@ -32,15 +32,6 @@ function TicketCheckout() {
   const [totalNetPrice, setTotalNetPrice] = useState(0);
   const navigate = useNavigate();
 
-  /*   const userAccountId = getUserAccountId(); // Replace this with your own logic to get the userAccountId dynamically
-
-  function getUserAccountId() {
-    const user = useAuth();
-    return user.userAccountId;
-  }
-
-  console.log(userAccountId); */
-
   useEffect(() => {
     async function fetchTicketTypes() {
       const ticketTypeResponse = await axios.get(
@@ -80,9 +71,6 @@ function TicketCheckout() {
   async function addTransaction(event) {
     event.preventDefault();
     try {
-      /*     const user = useAuth();
-      const userAccountId = user.userAccountId;
-      console.log("User Account ID:", userAccountId); */
       const response = await axios.post(
         "http://localhost:8080/createtransaction/ticket",
         {

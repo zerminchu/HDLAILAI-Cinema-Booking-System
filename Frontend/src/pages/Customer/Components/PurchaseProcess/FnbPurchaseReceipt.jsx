@@ -70,7 +70,7 @@ function FnbPurchaseReceipt() {
         </Table>
       </Group>
       <Group mt="30px" mb="30px" position="center">
-        <Text>Total Amount Paid:</Text>
+        <Text>Total Amount Paid including GST:</Text>
         <Text>$ {totalNetPrice / 100}</Text>
       </Group>
       <Group position="center">
