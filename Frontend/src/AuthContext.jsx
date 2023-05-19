@@ -8,12 +8,25 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   // To ensure that user is retrieved and set into the state inside useEffect before the children are rendered
   // Info taken from https://youtu.be/PKwu15ldZ7k?t=1528
   // const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setLoading(true);
+    if (currentUser) {
+      setLoading(false);
+      return;
+    }
+    if (localStorage.getItem("user")) {
+      setCurrentUser(JSON.parse(localStorage.getItem("user")));
+      setLoading(false);
+    }
+  }, []);
 
   const value = {
     currentUser,
+    loading,
     setCurrentUser,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

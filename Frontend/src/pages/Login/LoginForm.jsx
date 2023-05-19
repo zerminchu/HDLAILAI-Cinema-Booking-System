@@ -14,7 +14,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [userProfileId, setUserProfileId] = useState(-1);
   const [profileOptions, setProfileOptions] = useState([]);
-  
+
   const navigate = useNavigate();
   // Load user profiles
   useEffect(() => {
@@ -50,7 +50,7 @@ function LoginForm() {
         const decodedToken = jose.decodeJwt(token);
         localStorage.setItem("jwt", token);
         setCurrentUser(decodedToken);
-
+        localStorage.setItem("user", JSON.stringify(decodedToken));
         if (decodedToken.userProfile.suspended === true) {
         } else {
           notifications.show({
