@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CustomerPurchaseButton from "./CustomerPurchaseButton";
-import { Table, Container, ScrollArea } from "@mantine/core";
+import { Table, Image } from "@mantine/core";
 
 function FoodTable({ data, onAddToCart }) {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -17,8 +17,13 @@ function FoodTable({ data, onAddToCart }) {
     }
   };
 
-  const rows = data.map((item, index) => (
+  const filteredData = data.filter((item) => item.type === "Food");
+
+  const rows = filteredData.map((item, index) => (
     <tr key={index}>
+      <td>
+        <Image src={item.imageURL} width={100} height={100} alt={item.name} />
+      </td>
       <td>{item.name}</td>
       <td>${(item.currentPrice / 100).toFixed(2)}</td>
       <td>
@@ -35,6 +40,7 @@ function FoodTable({ data, onAddToCart }) {
     <Table miw={1080} verticalSpacing="sm">
       <thead>
         <tr>
+          <th>Food Image</th>
           <th>Food Name</th>
           <th>Price</th>
         </tr>
