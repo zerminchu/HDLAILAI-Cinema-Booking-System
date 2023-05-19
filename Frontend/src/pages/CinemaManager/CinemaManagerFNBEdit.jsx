@@ -2,7 +2,8 @@ import { createStyles, rem, Group, NumberInput } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { TextInput, Button, Select } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+import { useForm } from "@mantine/form";
 import axios from "axios";
 
 const useStyles = createStyles((theme) => ({
@@ -25,31 +26,56 @@ const CinemaManagerFNBEdit = () => {
   const { id } = useParams();
   const location = useLocation();
   const data = location.state;
+  const navigate = useNavigate();
 
   const [name, setName] = useState(data.name);
   const [currentPrice, setCurrentPrice] = useState(data.currentPrice);
   const [imageURL, setImageURL] = useState(data.imageURL);
   const [type, setType] = useState(data.type);
-  const [realPrice, setRealPrice] = useState(data.currentPrice / 100);
 
-  const handleCancel = () => {
-    setName("");
-    setCurrentPrice("");
-    setImageURL("");
-    setType("");
-  };
-
-  const handleEditClick = () => {
-    console.log(realPrice);
-    console.log(currentPrice);
-
-    const updatedItem = {
-      id: id,
+  const form = useForm({
+    initialValues: {
       name: name,
-      currentPrice: currentPrice,
+      currentPrice: currentPrice / 100,
       imageURL: imageURL,
       type: type,
-    };
+    },
+
+    validate: {
+      name: (value) => {
+        if (value.length === 0) return "Item name is empty.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Item name contains trailing/leading whitespaces";
+        return null;
+      },
+      currentPrice: (value) => {
+        if (value.length === 0) return "Item price is empty.";
+        if (value <= 0) return "Item price must be greater than 0.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Item price contains trailing/leading whitespaces";
+        return null;
+      },
+      imageURL: (value) => {
+        if (value.length === 0) return "Item imageURL is empty.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Item imageURL contains trailing/leading whitespaces";
+        return null;
+      },
+      type: (value) => {
+        if (value.length === 0) return "Item type is empty.";
+        return null;
+      },
+    },
+  });
+
+    const handleSubmit = (values) => {
+    console.log(values);
+
+    const updatedItem = {id: id, 
+      name: values.name, 
+      currentPrice: values.currentPrice * 100, 
+      imageURL: values.imageURL, 
+      type: values.type};
     console.log(updatedItem);
 
     axios
@@ -62,6 +88,8 @@ const CinemaManagerFNBEdit = () => {
           message: "Item Updated successfully",
           autoClose: 3000,
         });
+
+        navigate(`/CinemaManagerFNB/`);
       })
       .catch((error) => {
         notifications.show({
@@ -73,15 +101,11 @@ const CinemaManagerFNBEdit = () => {
   };
 
   return (
-    <div>
+  <form onSubmit={form.onSubmit(handleSubmit)}>
       <TextInput
         label="Item Name"
         classNames={classes.input}
-        value={name}
-        onChange={(event) => {
-          const value = event.target.value;
-          setName(value);
-        }}
+        {...form.getInputProps('name')}
       />
 
       <NumberInput
@@ -93,40 +117,27 @@ const CinemaManagerFNBEdit = () => {
         parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
         formatter={(value) =>
           !Number.isNaN(parseFloat(value))
-            ? `$ ${value / 100}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+            ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
             : "$ "
-        }
-        value={currentPrice}
-        onChange={(value) => {
-          setCurrentPrice(value * 100);
-        }}
+        } 
+        {...form.getInputProps('currentPrice')}
       />
       <TextInput
         label="ImageURL"
         classNames={classes.input}
-        value={imageURL}
-        onChange={(event) => {
-          const value = event.target.value;
-          console.log(value);
-          setImageURL(value);
-        }}
+        {...form.getInputProps('imageURL')}
       />
 
       <Select
         label="Item Type"
-        defaultValue={type}
         data={["Food", "Beverage"]}
-        onSelect={(event) => {
-          setType(event.target.value);
-        }}
+        {...form.getInputProps('type')}
       />
 
       <Group position="right" mt="md">
         <Button
+          type="submit"
           className={classes.button}
-          component={Link}
-          to={`/CinemaManagerFNB/`}
-          onClick={handleEditClick}
         >
           Confirm
         </Button>
@@ -134,12 +145,11 @@ const CinemaManagerFNBEdit = () => {
           className={classes.button}
           component={Link}
           to={`/CinemaManagerFNB/`}
-          onClick={handleCancel}
         >
           Cancel
         </Button>
       </Group>
-    </div>
+  </form>
   );
 };
 
