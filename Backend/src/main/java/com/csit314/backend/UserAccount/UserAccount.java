@@ -99,11 +99,11 @@ public class UserAccount {
         this.password = password;
     }
 
-    public UserProfile getUserProfile() {
+    public UserProfile getProfile() {
         return profile;
     }
 
-    public void setUserProfile(UserProfile profile) {
+    public void setProfile(UserProfile profile) {
         this.profile = profile;
     }
 
@@ -205,7 +205,7 @@ public class UserAccount {
                 Boolean profileSuspended = resultSet.getBoolean("up_suspended");
                 UserProfile userProfile = new UserProfile(profileId, profileName, permission, profileSuspended);
                 // Convert the data into an object that can be sent back to boundary
-                UserAccount result = new UserAccount(accountId, email, name, password, accountSuspended, userProfile);
+                UserAccount result = new UserAccount(accountId, name, email, password, accountSuspended, userProfile);
                 results.add(result);
             }
             return results;
@@ -251,7 +251,7 @@ public class UserAccount {
             String profileName = resultSet.getString("profileName");
             Boolean up_suspended = resultSet.getBoolean("up_suspended");
             UserProfile userProfile = new UserProfile(profileId, profileName, permission, up_suspended);
-            UserAccount result = new UserAccount(id, email, name, password, ua_suspended, userProfile);
+            UserAccount result = new UserAccount(id, name, email, password, ua_suspended, userProfile);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -443,5 +443,41 @@ public class UserAccount {
             }
         }
     }
-
+    public ArrayList<UserAccount> search(String q) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT * FROM UserAccounts WHERE name LIKE ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            System.out.println(q);
+            statement.setString(1, "%" + q + "%");
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<UserAccount> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                Boolean suspended = resultSet.getBoolean("suspended");
+                Integer profileId = resultSet.getInt("profileId");
+                String profileName = resultSet.getString("profileName");
+                String permission = resultSet.getString("permission");
+                Boolean up_suspended = resultSet.getBoolean("up_suspended");
+                UserProfile profile = new UserProfile(profileId, profileName, permission, up_suspended);
+                // Convert the data into an object that can be sent back to boundary
+                UserAccount result = new UserAccount(id, name, email, password,suspended,profile);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }

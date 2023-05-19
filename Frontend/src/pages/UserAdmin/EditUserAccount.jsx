@@ -14,7 +14,7 @@ function EditUserAccount() {
   const [email, setEmail] = useState(data.email);
   const [password, setPassword] = useState(data.password);
   console.log(data.userProfile);
-  const [userProfileId, setUserProfileId] = useState(`${data.userProfile.id}`);
+  const [profileId, setProfileId] = useState(`${data.profile.id}`);
   const [profileOptions, setProfileOptions] = useState([
     { value: "", label: "" },
   ]);
@@ -43,8 +43,8 @@ function EditUserAccount() {
         name: name,
         password: password,
         email: email,
-        userProfile: {
-          id: userProfileId,
+        profile: {
+          id: profileId,
         },
       })
       .then(() => {
@@ -84,13 +84,12 @@ function EditUserAccount() {
             onChange={(event) => setPassword(event.target.value)}
             withAsterisk
           />
-          {console.log(userProfileId)}
           <Select
             label="User Profile"
             placeholder={"Select a profile"}
             data={profileOptions}
-            value={userProfileId}
-            onChange={setUserProfileId}
+            value={profileId}
+            onChange={setProfileId}
             withAsterisk
           />
           <Group position="right" mt="md">

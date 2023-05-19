@@ -11,7 +11,7 @@ import {
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
-import EditUPModel from "./EditUPModel";
+import EditUPModel from "../../EditUPModel";
 
 // data=[] means if data is not provided, default to an empty array instead
 function DisplayRoles({ data = [], setData = null }) {

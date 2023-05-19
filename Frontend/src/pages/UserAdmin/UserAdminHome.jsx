@@ -1,21 +1,78 @@
-import UsersRolesTable from "./components/UserProfile/UserRolesTable";
+import UsersRolesTable from "./components/UserAdminHome/UserAccountTable";
+import { Button, Group, Text, TextInput } from "@mantine/core";
+import UserAdminHeader from "./components/UserAdminHeader";
+import "./Components/SearchBar.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-//import { Button, TextInput, Group } from "@mantine/core";
-import { Group, Text, TextInput, Pagination, Button } from "@mantine/core";
-import ButtonMenu from "./components/ButtonMenu";
+import CreateUAModal from "./CreateUAModal";
+import { notifications } from "@mantine/notifications";
+import { Pagination } from "@mantine/core";
 
 function UserAdminHome() {
   // State to store data
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
+  const [query, setQuery] = useState("");
 
   function search(event) {
     event.preventDefault();
     axios
-      .get(`http://localhost:8080/searchuserprofile?q=${query}`)
+      .get(`http://localhost:8080/searchuseraccount?q=${query}`)
       .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => console.log(error));
+  }
+
+  const handleAddAccount = (name, email, password, profileId) => {
+    console.log({ name, email, password, profileId }); // Check that profileName and selectedRole are received correctly
+    console.log("nihao");
+
+    // Make sure key of javascript dictionary matches the java object in the backend
+    axios
+      .post("http://localhost:8080/createuseraccount/add", {
+        name: name, // Means name: name
+        email: email,
+        password: password,
+        profile: {
+          id: profileId,
+        },
+      })
+      .then((response) => {
+        console.log(response.data); // Check that the new profile is received correctly
+
+        axios
+          .get("http://localhost:8080/viewuseraccount/all")
+          .then((response) => setUsers(response.data))
+          .catch((error) => console.log(error));
+
+        notifications.show({
+          title: `User Account`,
+          message: "User Account created successfully",
+          autoClose: 3000,
+        });
+        /* setTimeout(() => {
+          window.location.reload();
+        }, 1000); */
+      })
+
+      .catch((error) => {
+        notifications.show({
+          title: "Error creating User Account",
+          message: error.response.data,
+          autoClose: 3000,
+        });
+      });
+  };
+
+  function search(event) {
+    event.preventDefault();
+    axios
+      .get("http://localhost:8080/viewuseraccount/all")
+      .then(function (response) {
+        // Store data into react state
+        console.log(response.data);
         setUsers(response.data);
       })
       .catch((error) => console.log(error));
@@ -36,13 +93,27 @@ function UserAdminHome() {
     [currentPage, perPage]
   );
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const indexOfLastItem = currentPage * perPage;
+  const indexOfFirstItem = indexOfLastItem - perPage;
+  const currentUsers = users.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(users.length / perPage);
+
   return (
     <div>
-      {/* <form onSubmit={search}>
+      <h1>Admin Home</h1>
+      <Group>
+        <UserAdminHeader />
+      </Group>
+      <form onSubmit={search}>
         <Group>
-          <CreateUPModel onAddUser={handleAddUser} />
+          <CreateUAModal onAddAccount={handleAddAccount} />
           <TextInput
-            placeholder={"Search by profile name"}
+            placeholder={"Search by account name"}
             value={query}
             name={"query"}
             onChange={(event) => setQuery(event.currentTarget.value)}
@@ -54,24 +125,20 @@ function UserAdminHome() {
         </Group>
       </form>
 
-      {users.length === 0 ? (
-        <Text fw={400} style={{ textAlign: "center" }}>
-          No user profiles found
-        </Text>
-      ) : null} */}
-      <ButtonMenu />
-      <UsersRolesTable data={users} setData={setUsers} />
-      <Pagination
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: 20,
-        }}
-        limit={perPage}
-        page={currentPage}
-        onChange={(newPage) => setCurrentPage(newPage)}
-        total={users.length}
-      />
+      <UsersRolesTable data={currentUsers} setData={setUsers} />
+      {users.length > 0 && (
+        <Pagination
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 20,
+          }}
+          limit={perPage}
+          page={currentPage}
+          onChange={handlePageChange}
+          total={totalPages}
+        />
+      )}
     </div>
   );
 }

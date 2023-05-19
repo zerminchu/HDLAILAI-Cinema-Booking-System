@@ -37,8 +37,8 @@ function CreateUserAccount() {
         name: name,
         password: password,
         email: email,
-        userProfile: {
-          id: userProfile,
+        profile: {
+          id: profile,
         },
       })
       .then(() => {
