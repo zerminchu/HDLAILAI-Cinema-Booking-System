@@ -15,6 +15,7 @@ import {
 function UpdateTicketType() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const form = useForm({
     initialValues: {
       typeName: "",
@@ -40,7 +41,7 @@ function UpdateTicketType() {
       );
       const loadedTicketType = ticketTypeResponse.data;
       form.setFieldValue("typeName", loadedTicketType.typeName);
-      form.setFieldValue("price", loadedTicketType.price);
+      form.setFieldValue("price", loadedTicketType.price / 100);
       console.log(id);
     } catch (error) {
       console.log(error);
@@ -62,7 +63,7 @@ function UpdateTicketType() {
       .put(`http://localhost:8080/updatetickettype/update/${id}`, {
         id: id,
         typeName: values.typeName,
-        price: values.price,
+        price: values.price * 100,
       })
       .then(() => {
         notifications.show({
@@ -98,22 +99,25 @@ function UpdateTicketType() {
                 className="ticketTypeField"
                 placeholder="Name of the ticket type"
                 label="Ticket Type"
-                // Since you're using useform(), you can remove the value and onchange thingies
-                /* value={ticketType}
-                onChange={(event) => setTypeName(event.target.value)} */
-                // Replace with this line to automatically get the onchange and value from useform
                 {...form.getInputProps("typeName")}
               />
             </div>
             <div>
               <NumberInput
                 className="priceField"
-                placeholder="Price of the ticket type"
+                placeholder="Enter number only"
                 label="Price"
                 min={0}
-                // Since you're using useform(), you can remove the value and onchange thingies
-                /* value={price}
-                onChange={setPrice} */
+                precision={2}
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                formatter={(value) =>
+                  !Number.isNaN(parseFloat(value))
+                    ? `$ ${value}`.replace(
+                        /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
+                        ","
+                      )
+                    : "$ "
+                }
                 {...form.getInputProps("price")}
               />
             </div>

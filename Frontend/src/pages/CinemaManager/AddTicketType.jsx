@@ -24,7 +24,7 @@ function AddTicketType() {
     axios
       .post("http://localhost:8080/createtickettype/add", {
         typeName: typeName,
-        price: price,
+        price: price * 100,
       })
       .then(() => {
         notifications.show({
@@ -36,7 +36,6 @@ function AddTicketType() {
       })
       .catch((error) => {
         console.log(error);
-        //errorMessage = Name cannot be empty/Password cannot be empty/Email cannot be empty/User Profile cannot be empty
         let errorMessage = `${error.response.data}`;
 
         setError(errorMessage);
@@ -67,10 +66,20 @@ function AddTicketType() {
             <div>
               <NumberInput
                 className="priceField"
-                placeholder="Price of the ticket type"
-                label="Price (Cents)"
+                placeholder="Enter number only"
+                label="Price"
                 min={0}
                 value={price}
+                precision={2}
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                formatter={(value) =>
+                  !Number.isNaN(parseFloat(value))
+                    ? `$ ${value}`.replace(
+                        /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
+                        ","
+                      )
+                    : "$ "
+                }
                 onChange={setPrice}
               />
             </div>
