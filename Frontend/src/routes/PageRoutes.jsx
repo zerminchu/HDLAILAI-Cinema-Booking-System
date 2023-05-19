@@ -43,11 +43,25 @@ import AddTicketType from "../pages/CinemaManager/AddTicketType";
 import FnbPurchaseReceipt from "../pages/Customer/Components/PurchaseProcess/FnbPurchaseReceipt";
 import { HeaderResponsive } from "../components/Navbar";
 import ViewAllUserProfiles from "../pages/UserAdmin/ViewAllUserProfiles";
+import RoleBasedHome from "./RoleBasedHome";
 
 function PageRoutes() {
   return (
     <Routes>
-      <Route path="/" exact element={<CustomerHome />} />
+      <Route
+        path="/"
+        exact
+        element={
+          <RoleBasedHome
+            roleHome={{
+              "User Admin": "/UserAdminHome",
+              "Cinema Manager": "/CinemaManagerHome",
+              Customer: "/CustomerHome",
+              Owner: "/OwnerHome",
+            }}
+          />
+        }
+      />
       <Route path="/CustomerHome" element={<CustomerHome />} />
       <Route path="/OwnerHome" element={<OwnerHome />} />
       <Route path="/CreateAccount" element={<CreateAccountModal />} />

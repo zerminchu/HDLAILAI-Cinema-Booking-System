@@ -51,14 +51,11 @@ function LoginForm() {
         localStorage.setItem("jwt", token);
         setCurrentUser(decodedToken);
         localStorage.setItem("user", JSON.stringify(decodedToken));
-        if (decodedToken.userProfile.suspended === true) {
-        } else {
-          notifications.show({
-            title: "Welcome!",
-            message: "Login successful",
-          });
-          navigate("/");
-        }
+        notifications.show({
+          title: "Welcome!",
+          message: "Login successful",
+        });
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);

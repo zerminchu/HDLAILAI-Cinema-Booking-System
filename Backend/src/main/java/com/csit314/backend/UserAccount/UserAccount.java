@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import org.apache.catalina.authenticator.SpnegoAuthenticator.AcceptAction;
 import org.springframework.stereotype.Service;
 import com.csit314.backend.UserProfile.UserProfile;
 import com.csit314.backend.db.SQLConnection;

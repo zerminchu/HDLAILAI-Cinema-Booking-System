@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }) => {
   // Info taken from https://youtu.be/PKwu15ldZ7k?t=1528
   // const [loading, setLoading] = useState(true);
   useEffect(() => {
-    setLoading(true);
     if (currentUser) {
       setLoading(false);
       return;
@@ -22,7 +21,9 @@ export const AuthProvider = ({ children }) => {
       setCurrentUser(JSON.parse(localStorage.getItem("user")));
       setLoading(false);
     }
-    setLoading(false);
+    if (loading) {
+      setLoading(false);
+    }
   }, []);
 
   const value = {
