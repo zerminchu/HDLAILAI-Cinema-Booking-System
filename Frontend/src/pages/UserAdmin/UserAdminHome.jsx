@@ -1,12 +1,19 @@
 import UsersRolesTable from "./components/UserAdminHome/UserAccountTable";
-import { Button, Group, Text, TextInput } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Text,
+  TextInput,
+  Divider,
+  Pagination,
+  Space,
+} from "@mantine/core";
 import UserAdminHeader from "./components/UserAdminHeader";
 import "./Components/SearchBar.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CreateUAModal from "./CreateUAModal";
 import { notifications } from "@mantine/notifications";
-import { Pagination } from "@mantine/core";
 
 function UserAdminHome() {
   // State to store data
@@ -106,6 +113,8 @@ function UserAdminHome() {
   return (
     <div>
       <h1>Admin Home</h1>
+      <Space h="md" />
+      <Divider my="sm" size="sm" />
       <form onSubmit={search}>
         <Group>
           <CreateUAModal onAddAccount={handleAddAccount} />

@@ -40,7 +40,7 @@ function LoginForm() {
     // handle submit here
     axios
       .post("http://localhost:8080/login", {
-        userProfile: { id: userProfileId },
+        profile: { id: userProfileId },
         email: email,
         password: password,
       })
