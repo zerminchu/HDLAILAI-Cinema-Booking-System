@@ -138,6 +138,10 @@ export function HeaderResponsive(/* { links } */) {
       { label: "Movies", link: "/CustomerHome" },
       { label: "F&B", link: "/FnbPurchase" },
     ],
+    "Cinema Owner": [
+      { label: "Ticket Sales", link: "/TicketSales" },
+      { label: "Fnb Sales", link: "/FnbSales" },
+    ],
   };
 
   const [opened, { toggle, close }] = useDisclosure(false);

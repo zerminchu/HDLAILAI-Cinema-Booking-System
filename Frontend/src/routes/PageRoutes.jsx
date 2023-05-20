@@ -57,7 +57,7 @@ function PageRoutes() {
               "User Admin": "/UserAdminHome",
               "Cinema Manager": "/CinemaManagerHome",
               Customer: "/CustomerHome",
-              Owner: "/OwnerHome",
+              "Cinema Owner": "/OwnerHome",
             }}
           />
         }
@@ -117,6 +117,9 @@ function PageRoutes() {
           path="/CustomerPurchaseHistory/:id"
           element={<CustomerPurchaseHistory />}
         />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={["Cinema Hour"]} />}>
+        <Route path="/OwnerHome" element={<OwnerHome />} />
       </Route>
     </Routes>
   );
