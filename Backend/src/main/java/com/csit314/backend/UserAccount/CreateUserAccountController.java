@@ -18,18 +18,15 @@ public class CreateUserAccountController {
     @PostMapping(path = "/add") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity<?> addNewUser(@RequestBody UserAccount user)
             throws SQLException {
-                try {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestBody means it is the message sent in the GET or POST request
-        // TODO
-        UserAccount ua = new UserAccount();
-        ua.save(user);
-        return ResponseEntity.ok("Account has been created successfully");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return new ResponseEntity<String>("Account creation failed", HttpStatus.INTERNAL_SERVER_ERROR);
-                    // return ResponseEntity.ok("Account creation failed");
-                }
+        try {
+            UserAccount ua = new UserAccount();
+            ua.save(user);
+            return ResponseEntity.ok("Account has been created successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>("Account creation failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            // return ResponseEntity.ok("Account creation failed");
+        }
     }
 
     @PostMapping(path = "/addcustomer") // Map ONLY POST Requests

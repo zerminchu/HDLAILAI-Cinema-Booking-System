@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
@@ -51,11 +51,6 @@ function UpdateTicketType() {
   useEffect(() => {
     getTicketType(id);
   }, []);
-
-  // Since you're using useform(), you don't need this to change the form values, but good attempt at using useEffect
-  //   useEffect(() => {
-  //     form.setValues({ typeName: ticketType, price: price });
-  //   }, [ticketType, price]);
 
   function handleSubmit(values, event) {
     event.preventDefault();

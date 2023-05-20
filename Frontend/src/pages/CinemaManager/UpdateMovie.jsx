@@ -19,47 +19,90 @@ function UpdateMovie() {
   const data = location.state;
 
   const [title, setTitle] = useState(data.title);
+  const [titleError, setTitleError] = useState("");
   const [runTime, setRuntime] = useState(data.runTime);
+  const [runTimeError, setRunTimeError] = useState("");
   const [genre, setGenre] = useState(data.genre);
+  const [genreError, setGenreError] = useState("");
   const [synopsis, setSynopsis] = useState(data.synopsis);
+  const [synopsisError, setSynopsisError] = useState("");
   const [imageURL, setImageURL] = useState(data.imageURL);
+  const [imageURLError, setImageURLError] = useState("");
   const [error, setError] = useState("");
 
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
+
+  function validateForm() {
+    let isValid = true;
+
+    const fields = [
+      { value: title, errorSetter: setTitleError, fieldName: "Title" },
+      { value: genre, errorSetter: setGenreError, fieldName: "Genre" },
+      { value: synopsis, errorSetter: setSynopsisError, fieldName: "Synopsis" },
+      {
+        value: imageURL,
+        errorSetter: setImageURLError,
+        fieldName: "Image URL",
+      },
+    ];
+    fields.forEach(({ value, errorSetter, fieldName }) => {
+      const trimmedValue = value.trim();
+
+      if (trimmedValue === "") {
+        errorSetter(`${fieldName} is empty`);
+        isValid = false;
+      } else if (value !== trimmedValue) {
+        errorSetter(`${fieldName} contains trailing/leading whitespace`);
+        isValid = false;
+      } else {
+        errorSetter("");
+      }
+    });
+
+    if (runTime < 60) {
+      setRunTimeError("Runtime must be more than 60 minutes");
+      isValid = false;
+    } else {
+      setRunTimeError("");
+    }
+
+    return isValid;
+  }
 
   function handleSubmit(event) {
-    console.log(runTime);
     event.preventDefault();
-    axios
-      .put(`http://localhost:8080/updatemovie/update/${id}`, {
-        id: id,
-        title: title,
-        runTime: runTime,
-        genre: genre,
-        synopsis: synopsis,
-        imageURL: imageURL,
-      })
-      .then(() => {
-        notifications.show({
-          title: `Movie`,
-          message: "Movie updated successfully",
-          autoClose: 3000,
-        });
-        navigateTo("/ViewMovies");
-      })
-      .catch((error) => {
-        console.log(error);
+    if (validateForm()) {
+      axios
+        .put(`http://localhost:8080/updatemovie/update/${id}`, {
+          id: id,
+          title: title,
+          runTime: runTime,
+          genre: genre,
+          synopsis: synopsis,
+          imageURL: imageURL,
+        })
+        .then(() => {
+          notifications.show({
+            title: `Movie`,
+            message: "Movie updated successfully",
+            autoClose: 3000,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
 
-        let errorMessage = `${error.response.data}`;
+          let errorMessage = `${error.response.data}`;
 
-        setError(errorMessage);
-        notifications.show({
-          title: `Error updating Movie`,
-          message: errorMessage,
-          autoClose: 1500,
-          color: "red",
+          setError(errorMessage);
+          notifications.show({
+            title: `Error updating Movie`,
+            message: errorMessage,
+            autoClose: 1500,
+            color: "red",
+          });
         });
-      });
+      navigate("/ViewMovies");
+    }
   }
 
   return (
@@ -76,6 +119,8 @@ function UpdateMovie() {
                 label="Movie Title"
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
+                error={titleError}
+                withAsterisk
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -89,6 +134,8 @@ function UpdateMovie() {
                 min={0}
                 value={runTime}
                 onChange={setRuntime}
+                error={runTimeError}
+                withAsterisk
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -101,6 +148,8 @@ function UpdateMovie() {
                 label="Genre"
                 value={genre}
                 onChange={(event) => setGenre(event.target.value)}
+                error={genreError}
+                withAsterisk
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -113,6 +162,8 @@ function UpdateMovie() {
                 label="Synopsis"
                 value={synopsis}
                 onChange={(event) => setSynopsis(event.target.value)}
+                error={synopsisError}
+                withAsterisk
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -125,6 +176,8 @@ function UpdateMovie() {
                 label="Movie Image"
                 value={imageURL}
                 onChange={(event) => setImageURL(event.target.value)}
+                error={imageURLError}
+                withAsterisk
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>

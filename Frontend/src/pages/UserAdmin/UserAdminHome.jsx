@@ -1,4 +1,5 @@
-import UsersRolesTable from "./components/UserAdminHome/UserAccountTable";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Button,
   Group,
@@ -8,38 +9,45 @@ import {
   Pagination,
   Space,
 } from "@mantine/core";
-import UserAdminHeader from "./components/UserAdminHeader";
 import "./Components/SearchBar.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import CreateUAModal from "./CreateUAModal";
 import { notifications } from "@mantine/notifications";
+import UsersRolesTable from "./components/UserAdminHome/UserAccountTable";
+import CreateUAModal from "./CreateUAModal";
 
 function UserAdminHome() {
-  // State to store data
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
   const [query, setQuery] = useState("");
 
-  function search(event) {
+  useEffect(() => {
+    loadData();
+  }, [currentPage, perPage]);
+
+  const loadData = () => {
+    axios
+      .get("http://localhost:8080/viewuseraccount/all")
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleSearch = (event) => {
     event.preventDefault();
     axios
       .get(`http://localhost:8080/searchuseraccount?q=${query}`)
       .then((response) => {
         setUsers(response.data);
+        setCurrentPage(1);
       })
       .catch((error) => console.log(error));
-  }
+  };
 
   const handleAddAccount = (name, email, password, profileId) => {
-    console.log({ name, email, password, profileId }); // Check that profileName and selectedRole are received correctly
-    console.log("nihao");
-
-    // Make sure key of javascript dictionary matches the java object in the backend
     axios
       .post("http://localhost:8080/createuseraccount/add", {
-        name: name, // Means name: name
+        name: name,
         email: email,
         password: password,
         profile: {
@@ -47,23 +55,13 @@ function UserAdminHome() {
         },
       })
       .then((response) => {
-        console.log(response.data); // Check that the new profile is received correctly
-
-        axios
-          .get("http://localhost:8080/viewuseraccount/all")
-          .then((response) => setUsers(response.data))
-          .catch((error) => console.log(error));
-
+        loadData();
         notifications.show({
-          title: `User Account`,
+          title: "User Account",
           message: "User Account created successfully",
           autoClose: 3000,
         });
-        /* setTimeout(() => {
-          window.location.reload();
-        }, 1000); */
       })
-
       .catch((error) => {
         notifications.show({
           title: "Error creating User Account",
@@ -72,33 +70,6 @@ function UserAdminHome() {
         });
       });
   };
-
-  function search(event) {
-    event.preventDefault();
-    axios
-      .get("http://localhost:8080/viewuseraccount/all")
-      .then(function (response) {
-        // Store data into react state
-        console.log(response.data);
-        setUsers(response.data);
-      })
-      .catch((error) => console.log(error));
-  }
-
-  useEffect(
-    function loadData() {
-      // Load data from backend API
-      axios
-        .get("http://localhost:8080/viewuseraccount/all")
-        .then(function (response) {
-          // Store data into react state
-          console.log(response);
-          setUsers(response.data);
-        });
-      // [] means the loadData function only runs once when the page first loads
-    },
-    [currentPage, perPage]
-  );
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -112,16 +83,15 @@ function UserAdminHome() {
 
   return (
     <div>
-      <h1>Admin Home</h1>
+      <h1>User Accounts</h1>
       <Space h="md" />
       <Divider my="sm" size="sm" />
-      <form onSubmit={search}>
+      <form onSubmit={handleSearch}>
         <Group>
-          <CreateUAModal onAddAccount={handleAddAccount} />
           <TextInput
-            placeholder={"Search by account name"}
+            placeholder="Search by account name"
             value={query}
-            name={"query"}
+            name="query"
             onChange={(event) => setQuery(event.currentTarget.value)}
             className="search-bar"
           />
@@ -130,7 +100,13 @@ function UserAdminHome() {
           </Button>
         </Group>
       </form>
+      <CreateUAModal onAddAccount={handleAddAccount} />
 
+      {users.length === 0 ? (
+        <Text fw={400} style={{ textAlign: "center" }}>
+          No user accounts found
+        </Text>
+      ) : null}
       <UsersRolesTable data={currentUsers} setData={setUsers} />
       {users.length > 0 && (
         <Pagination

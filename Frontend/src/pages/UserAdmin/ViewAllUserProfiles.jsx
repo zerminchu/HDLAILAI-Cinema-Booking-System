@@ -19,16 +19,6 @@ import CreateUPModal from "./CreateUPModal";
 function ViewAllUserProfiles() {
   const [users, setUsers] = useState([]);
   const [query, setQuery] = useState("");
-
-  /*   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/searchuserprofile?q=${query}`)
-      .then((response) => {
-        console.log(response.data);
-        setUsers(response.data); // Fix: should be setUsers instead of setData
-      })
-      .catch((error) => console.log(error));
-  }, [query]); */
   function search(event) {
     event.preventDefault();
     axios

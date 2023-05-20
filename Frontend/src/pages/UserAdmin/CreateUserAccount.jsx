@@ -51,11 +51,7 @@ function CreateUserAccount() {
       })
       .catch((error) => {
         console.log(error);
-        //errorMessage = Name cannot be empty/Password cannot be empty/Email cannot be empty/User Profile cannot be empty
         let errorMessage = `${error.response.data}`;
-
-        //If Name is empty display the general text "Please fill in all the fields"
-        //Else, display the individual fields error messages
         if (errorMessage === "Name cannot be empty") {
           errorMessage = "Please fill in all the fields";
         }
