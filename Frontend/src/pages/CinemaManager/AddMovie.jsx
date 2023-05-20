@@ -95,6 +95,8 @@ function AddMovie() {
             color: "red",
           });
         });
+
+      navigate("/ViewMovies");
     }
   }
   return (

@@ -115,7 +115,7 @@ export function MoviesTable({ data, setData }) {
             <th>Movie</th>
             <th>Genre</th>
             <th>Runtime</th>
-            <th>Edit</th>
+            <th>Status</th>
             <th>Edit</th>
           </tr>
         </thead>
