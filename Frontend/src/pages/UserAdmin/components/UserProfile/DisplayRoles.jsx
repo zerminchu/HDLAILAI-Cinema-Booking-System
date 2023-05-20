@@ -39,7 +39,7 @@ function DisplayRoles({ data = [], setData = null }) {
       .catch((error) => console.log(error));
   }, [query]);
 
-  const handleSuspend = (id) => {
+  function handleSuspend(id) {
     const updatedUser = {
       suspended: true,
     };
@@ -65,9 +65,9 @@ function DisplayRoles({ data = [], setData = null }) {
           autoClose: 3000,
         });
       });
-  };
+  }
 
-  const handleUnsuspend = (id) => {
+  function handleUnsuspend(id) {
     const updatedUser = {
       suspended: false,
     };
@@ -94,7 +94,7 @@ function DisplayRoles({ data = [], setData = null }) {
           autoClose: 3000,
         });
       });
-  };
+  }
 
   const indexOfLastItem = currentPage * perPage;
   const indexOfFirstItem = indexOfLastItem - perPage;
@@ -168,14 +168,6 @@ function DisplayRoles({ data = [], setData = null }) {
       {data.length > 0 && (
         <Pagination
           style={{
-            /*   position: "fixed",
-            bottom: 0,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 1,
-            justifyContent: "center",
-            display: "flex",
-            padding: "250px", */
             display: "flex",
             justifyContent: "center",
             marginTop: 20,

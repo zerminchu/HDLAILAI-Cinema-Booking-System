@@ -441,6 +441,7 @@ public class UserAccount {
             }
         }
     }
+
     public ArrayList<UserAccount> search(String q) throws SQLException {
         Connection connection = null;
         try {
@@ -460,12 +461,9 @@ public class UserAccount {
                 String password = resultSet.getString("password");
                 Boolean suspended = resultSet.getBoolean("suspended");
                 Integer profileId = resultSet.getInt("profileId");
-                String profileName = resultSet.getString("profileName");
-                String permission = resultSet.getString("permission");
-                Boolean up_suspended = resultSet.getBoolean("up_suspended");
-                UserProfile profile = new UserProfile(profileId, profileName, permission, up_suspended);
+                UserProfile profile = new UserProfile(profileId);
                 // Convert the data into an object that can be sent back to boundary
-                UserAccount result = new UserAccount(id, name, email, password,suspended,profile);
+                UserAccount result = new UserAccount(id, name, email, password, suspended, profile);
                 results.add(result);
             }
             return results;
