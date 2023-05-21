@@ -91,6 +91,7 @@ const CinemaManagerFNBAdd = () => {
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
+      <h1>Add F&B Item</h1>
       <div>
         <TextInput
           label="Item Name"
@@ -131,16 +132,9 @@ const CinemaManagerFNBAdd = () => {
           {...form.getInputProps("type")}
         />
 
-        <Group position="right" mt="md">
+        <Group position="left" mt="md">
           <Button type="submit" className={classes.button}>
             Add
-          </Button>
-          <Button
-            className={classes.button}
-            component={Link}
-            to={`/CinemaManagerFNB/`}
-          >
-            Cancel
           </Button>
         </Group>
       </div>

@@ -5,7 +5,7 @@ import axios from "axios";
 import { IconClock } from "@tabler/icons-react";
 import { ActionIcon } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 function UpdateMovieSession({
   hallId = -1,
   movieId = -1,
@@ -13,6 +13,7 @@ function UpdateMovieSession({
   startDateTime = "",
 }) {
   const location = useLocation();
+  const route = useNavigate();
   const data = location.state;
 
   console.log(data);
@@ -130,11 +131,13 @@ function UpdateMovieSession({
           autoClose: 3000,
         });
       });
+    route(`/ViewHall/${data.id}`);
   }
 
   return (
     <form className="CMCreateMS">
       <div>
+        <h1>Update Movie Session</h1>
         <DatePickerInput
           className="DateField"
           mt="md"
@@ -142,7 +145,7 @@ function UpdateMovieSession({
           placeholder="When is it avaliable?"
           label="Movie Session Date"
           clearable={false}
-          /* minDate={new Date()} */
+          minDate={new Date()}
           value={date}
           onChange={(event) => {
             console.log(event);

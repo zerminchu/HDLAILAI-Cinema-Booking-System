@@ -54,19 +54,19 @@ function UpdateMovie() {
       genre: (value) => {
         if (value.length === 0) return "Movie imageURL is empty.";
         if (/^\s*$|^\s+.*|.*\s+$/.test(value))
-          return "Movie imageURL contains trailing/leading whitespaces";
+          return "Movie genre contains trailing/leading whitespaces";
         return null;
       },
       synopsis: (value) => {
         if (value.length === 0) return "Movie imageURL is empty.";
         if (/^\s*$|^\s+.*|.*\s+$/.test(value))
-          return "Movie imageURL contains trailing/leading whitespaces";
+          return "Movie synopsis contains trailing/leading whitespaces";
         return null;
       },
       imageURL: (value) => {
         if (value.length === 0) return "Movie imageURL is empty.";
         if (/^\s*$|^\s+.*|.*\s+$/.test(value))
-          return "Movie imageURL contains trailing/leading whitespaces";
+          return "Movie image URL contains trailing/leading whitespaces";
         return null;
       },
     },
@@ -95,18 +95,18 @@ function UpdateMovie() {
       .catch((error) => {
         console.log(error);
 
-          let errorMessage = `${error.response.data}`;
+        let errorMessage = `${error.response.data}`;
 
-          setError(errorMessage);
-          notifications.show({
-            title: `Error updating Movie`,
-            message: errorMessage,
-            autoClose: 1500,
-            color: "red",
-          });
+        setError(errorMessage);
+        notifications.show({
+          title: `Error updating Movie`,
+          message: errorMessage,
+          autoClose: 1500,
+          color: "red",
         });
-      navigate("/ViewMovies");
-    }
+      });
+    navigate("/ViewMovies");
+  }
 
   return (
     <form className="UpdateMovieForm" onSubmit={form.onSubmit(handleSubmit)}>
@@ -122,7 +122,7 @@ function UpdateMovie() {
                 label="Movie Title"
                 //value={title}
                 //onChange={(event) => setTitle(event.target.value)}
-                {...form.getInputProps('title')}
+                {...form.getInputProps("title")}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -136,7 +136,7 @@ function UpdateMovie() {
                 min={0}
                 //value={runTime}
                 //onChange={setRuntime}
-                {...form.getInputProps('runTime')}
+                {...form.getInputProps("runTime")}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -149,7 +149,7 @@ function UpdateMovie() {
                 label="Genre"
                 /* value={genre}
                 onChange={(event) => setGenre(event.target.value)} */
-                {...form.getInputProps('genre')}
+                {...form.getInputProps("genre")}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -160,9 +160,9 @@ function UpdateMovie() {
                 className="synopsisField"
                 placeholder="Synopsis of the movie"
                 label="Synopsis"
-               /*  value={synopsis}
+                /*  value={synopsis}
                 onChange={(event) => setSynopsis(event.target.value)} */
-                {...form.getInputProps('synopsis')}
+                {...form.getInputProps("synopsis")}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -173,9 +173,9 @@ function UpdateMovie() {
                 className="movieImageField"
                 placeholder="Movie image URL"
                 label="Movie Image"
-          /*       value={imageURL}
+                /*       value={imageURL}
                 onChange={(event) => setImageURL(event.target.value)} */
-                {...form.getInputProps('imageURL')}
+                {...form.getInputProps("imageURL")}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
