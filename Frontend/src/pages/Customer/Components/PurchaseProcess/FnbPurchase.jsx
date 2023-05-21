@@ -127,12 +127,13 @@ function FnbPurchase() {
       {/* Tab Part */}
       <Group>
         <Container size="xl" px="sm">
+          <h1>Food and Beverages</h1>
           <Tabs
             defaultValue={activeTab}
             value={activeTab}
             onTabChange={setActiveTab}
           >
-            <Tabs.List>
+            <Tabs.List position="center">
               <Tabs.Tab value="Food">Food</Tabs.Tab>
               <Tabs.Tab value="Drink">Beverage</Tabs.Tab>
             </Tabs.List>
