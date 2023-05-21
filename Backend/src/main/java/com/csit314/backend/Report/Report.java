@@ -349,7 +349,7 @@ public class Report {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT SUM(paidPrice) AS grossRevenueEarned, COUNT(typeName) AS numberSold, itemName"
+            String query = "SELECT SUM(paidPrice) AS grossRevenueEarned, COUNT(typeName) AS numberSold, typeName AS itemName"
                     + " FROM transaction txn "
                     + " INNER JOIN ticket tkt"
                     + " ON tkt.transactionId = txn.id"
@@ -387,7 +387,7 @@ public class Report {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT SUM(paidPrice) AS grossRevenueEarned, COUNT(typeName) AS numberSold, itemName"
+            String query = "SELECT SUM(paidPrice) AS grossRevenueEarned, COUNT(typeName) AS numberSold, typeName AS itemName"
                     + " FROM transaction txn "
                     + " INNER JOIN ticket tkt"
                     + " ON tkt.transactionId = txn.id"

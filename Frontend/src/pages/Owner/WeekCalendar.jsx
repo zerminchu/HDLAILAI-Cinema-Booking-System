@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Group } from "@mantine/core";
 import { Calendar } from "@mantine/dates";
 import dayjs from "dayjs";
@@ -8,7 +8,7 @@ function getDay(date) {
   return day === 0 ? 6 : day - 1;
 }
 
-function startOfWeek(date) {
+export function startOfWeek(date) {
   return new Date(
     date.getFullYear(),
     date.getMonth(),
@@ -16,7 +16,7 @@ function startOfWeek(date) {
   );
 }
 
-function endOfWeek(date) {
+export function endOfWeek(date) {
   return dayjs(
     new Date(
       date.getFullYear(),
@@ -39,6 +39,9 @@ function isInWeekRange(date, value) {
 function WeekCalendar({ setWeek }) {
   const [hovered, setHovered] = useState(null);
   const [value, setValue] = useState(new Date());
+  useEffect(() => {
+    setWeek([startOfWeek(value), endOfWeek(value)]);
+  }, []);
   return (
     <Calendar
       withCellSpacing={false}

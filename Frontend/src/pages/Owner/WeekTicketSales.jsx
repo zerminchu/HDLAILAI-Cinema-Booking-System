@@ -2,13 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import SummaryTable from "./Components/SummaryTable";
 import WeekCalendar from "./WeekCalendar";
-import { Button } from "@mantine/core";
-
+import { Button, Center, Flex } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 export default function WeekTicketSales() {
   // Array of 2 elements, startOfWeek and endOfWeek
   const [week, setWeek] = useState([]);
   const [data, setData] = useState([]);
-  // nvr touch
+
   async function handleSubmit(event) {
     event.preventDefault();
     try {
@@ -21,8 +21,14 @@ export default function WeekTicketSales() {
           },
         }
       );
+      if (response.data.length === 0) {
+        notifications.show({
+          title: "No data available",
+          message: "No sales were made during this period",
+          autoClose: 3000,
+        });
+      }
       setData(response.data);
-      console.log(response);
     } catch (error) {
       console.log(error);
       notifications.show({
@@ -34,11 +40,14 @@ export default function WeekTicketSales() {
   }
   return (
     <>
-      <WeekCalendar value={week} setValue={setWeek} setWeek={setWeek} />
-
-      <Button className="msBtn" type="submit" onClick={handleSubmit}>
-        Generate
-      </Button>
+      <Center>
+        <Flex direction="column">
+          <WeekCalendar value={week} setValue={setWeek} setWeek={setWeek} />
+          <Button className="msBtn" type="submit" onClick={handleSubmit}>
+            Generate
+          </Button>{" "}
+        </Flex>
+      </Center>
       {data.length === 0 ? <></> : <SummaryTable data={data} />}
     </>
   );

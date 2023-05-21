@@ -3,7 +3,7 @@ import Demo from "../pages/demo";
 import CustomerHome from "../pages/Customer/CustomerHome";
 // import ManagerHome from "../pages/ManagerHome";
 // import ViewUserAccount from "../pages/UserAdmin/ViewUserAccount";
-import OwnerHome from "../pages/Owner/OwnerHome";
+
 import CreateUserAccount from "../pages/UserAdmin/CreateUserAccount";
 import ProfilePage from "../pages/UserAdmin/ViewAllUserProfiles";
 /* import DisplayRoles from "../pages/UserAdmin/DisplayRoles"; */
@@ -44,6 +44,8 @@ import FnbPurchaseReceipt from "../pages/Customer/Components/PurchaseProcess/Fnb
 import { HeaderResponsive } from "../components/Navbar";
 import ViewAllUserProfiles from "../pages/UserAdmin/ViewAllUserProfiles";
 import RoleBasedHome from "./RoleBasedHome";
+import TicketReport from "../pages/Owner/TicketReport";
+import FnbReport from "../pages/Owner/FnbReport";
 
 function PageRoutes() {
   return (
@@ -57,13 +59,12 @@ function PageRoutes() {
               "User Admin": "/UserAdminHome",
               "Cinema Manager": "/CinemaManagerHome",
               Customer: "/CustomerHome",
-              "Cinema Owner": "/OwnerHome",
+              "Cinema Owner": "/TicketReport",
             }}
           />
         }
       />
       <Route path="/CustomerHome" element={<CustomerHome />} />
-      <Route path="/OwnerHome" element={<OwnerHome />} />
       <Route path="/CreateAccount" element={<CreateAccountModal />} />
       {/*       <Route path="/Login" element={<LoginModal />} />
       <Route path="/Login" element={<LoginForm />} /> */}
@@ -118,8 +119,9 @@ function PageRoutes() {
           element={<CustomerPurchaseHistory />}
         />
       </Route>
-      <Route element={<ProtectedRoute allowedRoles={["Cinema Hour"]} />}>
-        <Route path="/OwnerHome" element={<OwnerHome />} />
+      <Route element={<ProtectedRoute allowedRoles={["Cinema Owner"]} />}>
+        <Route path="/TicketReport" element={<TicketReport />} />
+        <Route path="/FnbReport" element={<FnbReport />} />
       </Route>
     </Routes>
   );

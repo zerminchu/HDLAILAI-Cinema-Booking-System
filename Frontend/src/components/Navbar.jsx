@@ -139,8 +139,8 @@ export function HeaderResponsive(/* { links } */) {
       { label: "F&B", link: "/FnbPurchase" },
     ],
     "Cinema Owner": [
-      { label: "Ticket Sales", link: "/TicketSales" },
-      { label: "Fnb Sales", link: "/FnbSales" },
+      { label: "Ticket Sales", link: "/TicketReport" },
+      { label: "Fnb Sales", link: "/FnbReport" },
     ],
   };
 
