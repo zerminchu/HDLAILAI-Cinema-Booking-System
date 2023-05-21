@@ -52,7 +52,7 @@ const UserAdminHeader = () => {
             spacing={50}
             className={classes.hiddenMobile}
           >
-            <a href="/UserAdminHome" className={classes.link}>
+            <a href="/ViewUserAccount" className={classes.link}>
               User Account
             </a>
             <a href="/ProfilePage" className={classes.link}>

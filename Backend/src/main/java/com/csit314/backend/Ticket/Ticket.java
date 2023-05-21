@@ -14,6 +14,8 @@ public class Ticket {
     private Integer id = -1; // PK
     private Integer movieSessionId = -1; // FK
     private Integer seatId = -1; // FK
+    private Integer rowNo = -1;
+    private Integer columnNo = -1;
     private Integer transactionId = -1; // FK
     private Integer ticketTypeId = -1;
     private Integer paidPrice = -1;

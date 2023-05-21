@@ -6,7 +6,7 @@ import CustomerHome from "../pages/Customer/CustomerHome";
 import OwnerHome from "../pages/Owner/OwnerHome";
 import CreateUserAccount from "../pages/UserAdmin/CreateUserAccount";
 import ProfilePage from "../pages/UserAdmin/ViewAllUserProfiles";
-/* import DisplayRoles from "../pages/UserAdmin/DisplayRoles"; */
+import DisplayRoles from "../pages/UserAdmin/DisplayRoles";
 import EditUserAccount from "../pages/UserAdmin/EditUserAccount";
 import EditUserProfile from "../pages/UserAdmin/EditUserProfile";
 import LoginModal from "../pages/Login/LoginModal";
@@ -43,25 +43,11 @@ import AddTicketType from "../pages/CinemaManager/AddTicketType";
 import FnbPurchaseReceipt from "../pages/Customer/Components/PurchaseProcess/FnbPurchaseReceipt";
 import { HeaderResponsive } from "../components/Navbar";
 import ViewAllUserProfiles from "../pages/UserAdmin/ViewAllUserProfiles";
-import RoleBasedHome from "./RoleBasedHome";
 
 function PageRoutes() {
   return (
     <Routes>
-      <Route
-        path="/"
-        exact
-        element={
-          <RoleBasedHome
-            roleHome={{
-              "User Admin": "/UserAdminHome",
-              "Cinema Manager": "/CinemaManagerHome",
-              Customer: "/CustomerHome",
-              "Cinema Owner": "/OwnerHome",
-            }}
-          />
-        }
-      />
+      <Route path="/" exact element={<CustomerHome />} />
       <Route path="/CustomerHome" element={<CustomerHome />} />
       <Route path="/OwnerHome" element={<OwnerHome />} />
       <Route path="/CreateAccount" element={<CreateAccountModal />} />
@@ -71,11 +57,11 @@ function PageRoutes() {
       <Route element={<ProtectedRoute allowedRoles={["User Admin"]} />}>
         <Route path="/CreateUserAccount" element={<CreateUserAccount />} />
         <Route path="/ViewAllUserProfiles" element={<ViewAllUserProfiles />} />
-        {/* <Route path="/DisplayRoles" element={<DisplayRoles />} /> */}
+        <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/EditUserProfile/:id" element={<EditUserProfile />} />
         {/* <Route path="/ViewUserAccount" element={<ViewUserAccount />} /> */}
-        {/* <Route path="/DisplayRoles" element={<DisplayRoles />} /> */}
+        <Route path="/DisplayRoles" element={<DisplayRoles />} />
         <Route path="/EditUserAccount/:id" element={<EditUserAccount />} />
         <Route path="/UserAdminHome" element={<UserAdminHome />} />
       </Route>
@@ -117,9 +103,6 @@ function PageRoutes() {
           path="/CustomerPurchaseHistory/:id"
           element={<CustomerPurchaseHistory />}
         />
-      </Route>
-      <Route element={<ProtectedRoute allowedRoles={["Cinema Hour"]} />}>
-        <Route path="/OwnerHome" element={<OwnerHome />} />
       </Route>
     </Routes>
   );

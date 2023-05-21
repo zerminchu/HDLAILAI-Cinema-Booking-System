@@ -43,7 +43,6 @@ function BeverageTable({ data, onAddToCart }) {
           <th>Beverage Image</th>
           <th>Beverage Name</th>
           <th>Price</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>

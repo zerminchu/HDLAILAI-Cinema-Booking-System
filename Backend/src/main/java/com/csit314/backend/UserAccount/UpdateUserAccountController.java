@@ -27,9 +27,6 @@ public class UpdateUserAccountController {
     public ResponseEntity<?> updateCustomer(@RequestBody UserAccount user, @PathVariable Integer id)
             throws SQLException {
         UserAccount ua = new UserAccount();
-        if (ua.findByEmail(user.getEmail()) != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
-        }
         if (ua.updateCustomer(user)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }

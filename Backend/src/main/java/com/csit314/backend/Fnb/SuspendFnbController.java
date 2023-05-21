@@ -22,7 +22,7 @@ public class SuspendFnbController {
     }
 
     @PutMapping("/unsuspend/{id}")
-    public ResponseEntity<?> unsuspend(@PathVariable Integer id) throws SQLException {
+    public ResponseEntity<?> update(@PathVariable Integer id) throws SQLException {
         Fnb f = new Fnb();
         if (f.unsuspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);

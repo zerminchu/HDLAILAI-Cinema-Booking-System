@@ -13,8 +13,14 @@ import axios from "axios";
 import "../CinemaManager/Components/ViewMovie/MovieStyle.css";
 import { useForm } from "@mantine/form";
 function AddMovie() {
+/*   const [title, setTitle] = useState("");
+  const [runTime, setRuntime] = useState(0);
+  const [genre, setGenre] = useState("");
+  const [synopsis, setSynopsis] = useState("");
+  const [imageURL, setImageURL] = useState("");*/
+  const [error, setError] = useState("");
 
-  const navigate = useNavigate();
+  const navigateTo = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -83,18 +89,16 @@ function AddMovie() {
         //errorMessage = Name cannot be empty/Password cannot be empty/Email cannot be empty/User Profile cannot be empty
         let errorMessage = `${error.response.data}`;
 
-          setError(errorMessage);
-          notifications.show({
-            title: `Error creating Movie`,
-            message: errorMessage,
-            autoClose: 1500,
-            color: "red",
-          });
+        setError(errorMessage);
+        notifications.show({
+          title: `Error creating Movie`,
+          message: errorMessage,
+          autoClose: 1500,
+          color: "red",
         });
+      });
+  }
 
-      navigate("/ViewMovies");
-    }
-  
   return (
     <form className="CreateMovieForm" onSubmit={form.onSubmit(handleSubmit)}>
       <h1>Add New Movie</h1>

@@ -17,41 +17,8 @@ function AddTicketType() {
   const [typeName, setTypeName] = useState("");
   const [price, setPrice] = useState(0);
   const [error, setError] = useState("");
-  const [typeNameError, setTypeNameError] = useState("");
-  const [priceError, setPriceError] = useState("");
 
-  const navigate = useNavigate();
-
-  function validateForm() {
-    let isValid = true;
-
-    const fields = [
-      { value: typeName, errorSetter: setTypeNameError, fieldName: "Type" },
-    ];
-
-    fields.forEach(({ value, errorSetter, fieldName }) => {
-      const trimmedValue = value.trim();
-
-      if (trimmedValue === "") {
-        errorSetter(`${fieldName} is empty`);
-        isValid = false;
-      } else if (value !== trimmedValue) {
-        errorSetter(`${fieldName} contains trailing/leading whitespace`);
-        isValid = false;
-      } else {
-        errorSetter("");
-      }
-    });
-
-    if (price < 1) {
-      setPriceError("Price must be greater than 0");
-      isValid = false;
-    } else {
-      setPriceError("");
-    }
-
-    return isValid;
-  }
+  const navigateTo = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -95,19 +62,15 @@ function AddTicketType() {
         //errorMessage = Name cannot be empty/Password cannot be empty/Email cannot be empty/User Profile cannot be empty
         let errorMessage = `${error.response.data}`;
 
-          setError(errorMessage);
-          notifications.show({
-            title: `Error creating Ticket Type`,
-            message: errorMessage,
-            autoClose: 1500,
-            color: "red",
-          });
+        setError(errorMessage);
+        notifications.show({
+          title: `Error creating Ticket Type`,
+          message: errorMessage,
+          autoClose: 1500,
+          color: "red",
         });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-      navigate("/ViewAllTicketTypes");
-    }
+      });
+  }
 
   return (
     <form className="createTicketTypeForm" onSubmit={form.onSubmit(handleSubmit)}>

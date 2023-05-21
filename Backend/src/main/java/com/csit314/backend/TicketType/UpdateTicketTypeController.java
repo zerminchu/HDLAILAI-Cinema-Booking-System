@@ -15,6 +15,17 @@ public class UpdateTicketTypeController {
 
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<?> update(@RequestBody TicketType ticketType, @PathVariable Integer id) throws SQLException {
+        if (ticketType.getTypeName() == null || ticketType.getTypeName().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ticket type cannot be empty");
+        }
+
+        if (ticketType.getPrice() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Price cannot be empty");
+        }
+
+        if (ticketType.getPrice() <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Price must be greater than 0");
+        }
 
         try {
             TicketType tt = new TicketType();

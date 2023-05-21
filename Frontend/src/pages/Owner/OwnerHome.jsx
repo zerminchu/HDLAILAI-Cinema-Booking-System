@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { Button, Select, Tabs } from "@mantine/core";
-import { DatePickerInput, DateTimePicker } from "@mantine/dates";
+import { Button, Select } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
 import logo from "./Components/logo-no-background.png";
 import "./OwnerStyle.css";
-import WeekCalendar from "./WeekCalendar";
-import WeekTicketSales from "./WeekTicketSales";
+
 
 function OwnerHome() {
+  
   const [DATE, setDate] = useState("");
 
   //Report Type
@@ -27,57 +27,89 @@ function OwnerHome() {
   ]);
   const [error, setError] = useState("");
 
+
+  //nvr touch
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/viewhall/all")
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setHallName();
+        }
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  // nvr touch
+  function handleSubmit(event) {
+    event.preventDefault();
+    axios
+      .post("http://localhost:8080/createhall/add", {
+        name: name,
+      })
+      .then(() => {
+        notifications.show({
+          title: `Movie Session`,
+          message: "Movie Session created successfully",
+          autoClose: 3000,
+        });
+        setDate("");
+        setreportType("");
+        setTime("");
+      
+      })
+      .catch((error) => {
+        notifications.show({
+          title: "Error creating Movie Session",
+          message: error.response.data,
+          autoClose: 3000,
+        });
+        setDate("");
+        setreportType("");
+        setTime("");
+
+      });
+  }
+
   return (
     <form className="OwnerHome">
+      <img src={logo} alt="Logo" class="picture" />
       <h1>Cinema Owner Homepage</h1>
-      <Tabs defaultValue="gallery">
-        <Tabs.List position="center">
-          <Tabs.Tab value="gallery">Hourly</Tabs.Tab>
-          <Tabs.Tab value="messages">Weekly</Tabs.Tab>
-          <Tabs.Tab value="settings">Daily</Tabs.Tab>
-        </Tabs.List>
-
-        <Tabs.Panel value="gallery" pt="xs">
-          <DateTimePicker
-            className="dateField"
-            mt="md"
-            popoverProps={{ withinPortal: true }}
-            placeholder={DATE}
-            label="Date:"
-            clearable={false}
-            onChange={(event) => setDate(event.target.value)}
+      <div>
+        <Select
+            className="reportField"
+            label="Report Type:"
+            data={reportTypeOptions}
+            value={reportType}
+            //not sure if this is correct
+            onChange={setreportType}
+           
           />
-        </Tabs.Panel>
-
-        <Tabs.Panel value="messages" pt="xs">
-          <WeekTicketSales />
-        </Tabs.Panel>
-
-        <Tabs.Panel value="settings" pt="xs">
-          <DatePickerInput
-            className="dateField"
-            mt="md"
-            popoverProps={{ withinPortal: true }}
-            placeholder={DATE}
-            label="Date:"
-            clearable={false}
-            onChange={(event) => setDate(event.target.value)}
+          <br></br>
+        <Select
+            className="timeField"
+            label="Time: "
+            data={timeOptions}
+            value={time}
+            //not sure if this is correct
+            onChange={setTime} 
+          
           />
-        </Tabs.Panel>
-      </Tabs>
-      <div></div>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+        <DatePickerInput
+        className="dateField"
+        mt="md"
+        popoverProps={{ withinPortal: true }}
+        placeholder={DATE}
+        label="Date:"
+        clearable={false}
+        onChange={(event) => setDate(event.target.value)}
+        />
+      </div>
+      <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+      <br></br><br></br><br></br><br></br><br></br>
+
+      <Button className="msBtn" type ="submit"
+      onClick={handleSubmit}>Generate</Button>
     </form>
   );
 }

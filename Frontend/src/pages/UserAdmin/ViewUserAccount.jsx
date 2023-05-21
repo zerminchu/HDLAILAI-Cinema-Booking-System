@@ -1,4 +1,4 @@
-import UsersRolesTable from "./components/UserAdminHome/UserAccountTable";
+import UsersRolesTable from "./components/UserProfile/UserRolesTable";
 import { Button, Group, Text, TextInput } from "@mantine/core";
 import UserAdminHeader from "./components/UserAdminHeader";
 

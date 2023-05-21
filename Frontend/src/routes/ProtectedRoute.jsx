@@ -2,7 +2,7 @@ import { Route, redirect } from "react-router-dom";
 import * as jose from "jose";
 
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 //import AuthContext from "../Context/authProvider";
 
 import React from "react";

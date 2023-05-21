@@ -58,7 +58,7 @@ function ViewHall() {
 
     validate: {
       name: (value) => {
-        if (value.length === 0) return "Hall name is empty.";
+        if (value.length === 0) return "Profile name is empty.";
         if (/^\s*$|^\s+.*|.*\s+$/.test(value))
           return "Profile name contains trailing/leading whitespaces";
         return null;
@@ -114,69 +114,6 @@ function ViewHall() {
       .catch((error) => console.log(error));
   }
 
-  function handleAddSeats() {
-    const seatsToSave = [];
-    seats2D.forEach((row) => {
-      row.forEach((seat) => {
-        const { rowId: seatRowId, columnId: seatColumnId, isBlocked } = seat;
-        const newSeat = {
-          rowId: seatRowId,
-          columnId: seatColumnId,
-          blocked: isBlocked,
-          hallId: id,
-        };
-        seatsToSave.push(newSeat);
-      });
-    });
-
-    let newSeats = [];
-    const totalSeats = [];
-    for (let i = 1; i <= totalRow; i++) {
-      for (let j = 1; j <= totalCol; j++) {
-        let existingSeat = seatsToSave.find(
-          (seat) => seat.rowId === i && seat.columnId === j
-        );
-        if (!existingSeat) {
-          newSeats.push({ rowId: i, columnId: j, blocked: false, hallId: id });
-          totalSeats.push({
-            rowId: i,
-            columnId: j,
-            blocked: false,
-            hallId: id,
-          });
-        } else {
-          totalSeats.push(existingSeat);
-        }
-      }
-    }
-    const updatedHall = {
-      id,
-      totalRow,
-      totalColumn: totalCol,
-    };
-    axios
-      .post(`http://localhost:8080/createseat/addAll`, {
-        seats: newSeats,
-        hall: updatedHall,
-      })
-      .then(() => {
-        setSeatIsUpdating();
-        getHallAndSeats(id);
-        notifications.show({
-          title: "Seats saved",
-          message: "Seat data saved successfully",
-          autoClose: 3000,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        notifications.show({
-          title: "Error saving seats",
-          autoClose: 3000,
-        });
-      });
-  }
-
   function handleUpdateSeats() {
     const seatsToSave = [];
     seats2D.forEach((row) => {
@@ -217,8 +154,10 @@ function ViewHall() {
       totalRow,
       totalColumn: totalCol,
     };
+
+    console.log(newSeats);
     axios
-      .post(`http://localhost:8080/updateseat/updateAll`, {
+      .post(`http://localhost:8080/createseat/addAll`, {
         seats: newSeats,
         hall: updatedHall,
       })
@@ -226,21 +165,21 @@ function ViewHall() {
         setSeatIsUpdating();
         getHallAndSeats(id);
         notifications.show({
-          title: "Seats updated",
-          message: "Seat data updated successfully",
+          title: "Seats saved",
+          message: "Seat data saved successfully",
           autoClose: 3000,
         });
       })
       .catch((error) => {
         console.log(error);
         notifications.show({
-          title: "Error updating seats",
+          title: "Error saving seats",
           autoClose: 3000,
         });
       });
   }
 
-  function handleHallUpdate() {
+  const handleHallUpdate = () => {
     const updatedHallName = {
       id: id,
       name: form.values.name,
@@ -251,8 +190,8 @@ function ViewHall() {
       .then(() => {
         setHallIsUpdating(!hallIsUpdating);
         notifications.show({
-          title: "Hall ",
-          message: "Hall name updated successfully",
+          title: "Hall updated",
+          message: "Hall data saved successfully",
           autoClose: 3000,
         });
       })
@@ -260,11 +199,10 @@ function ViewHall() {
         console.log(error);
         notifications.show({
           title: "Error updating hall",
-          message: error.response.data,
           autoClose: 3000,
         });
       });
-  }
+  };
 
   return (
     hall && (
@@ -322,33 +260,19 @@ function ViewHall() {
               />
             </Grid.Col>
             <Grid.Col xs={12}>
-              {!seats2D.length ? (
-                seatIsUpdating ? (
-                  <form onSubmit={handleAddSeats}>
-                    <Button type="submit" className="submitBtn">
-                      Submit
-                    </Button>
-                  </form>
-                ) : (
-                  <Button
-                    className="updateBtn"
-                    onClick={() => setSeatIsUpdating(!seatIsUpdating)}
-                  >
-                    Create Seats
-                  </Button>
-                )
-              ) : seatIsUpdating ? (
-                <form onSubmit={handleUpdateSeats}>
-                  <Button type="submit" className="submitBtn">
-                    Submit
-                  </Button>
-                </form>
+              {seatIsUpdating ? (
+                <Button
+                  className="submitBtn"
+                  onClick={() => handleUpdateSeats()}
+                >
+                  Submit
+                </Button>
               ) : (
                 <Button
                   className="updateBtn"
                   onClick={() => setSeatIsUpdating(!seatIsUpdating)}
                 >
-                  Update Seats
+                  Create / Update Seats
                 </Button>
               )}
             </Grid.Col>

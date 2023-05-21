@@ -22,7 +22,7 @@ public class SuspendHallController {
     }
 
     @PutMapping("/unsuspend/{id}")
-    public ResponseEntity<?> unsuspend(@PathVariable Integer id) throws SQLException {
+    public ResponseEntity<?> update(@PathVariable Integer id) throws SQLException {
         Hall h = new Hall();
         if (h.unsuspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);

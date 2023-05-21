@@ -138,10 +138,6 @@ export function HeaderResponsive(/* { links } */) {
       { label: "Movies", link: "/CustomerHome" },
       { label: "F&B", link: "/FnbPurchase" },
     ],
-    "Cinema Owner": [
-      { label: "Ticket Sales", link: "/TicketSales" },
-      { label: "Fnb Sales", link: "/FnbSales" },
-    ],
   };
 
   const [opened, { toggle, close }] = useDisclosure(false);
@@ -174,9 +170,7 @@ export function HeaderResponsive(/* { links } */) {
     <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
       <Container className={classes.header}>
         <Flex justify={{ sm: "flex-start" }}>
-          <Anchor component={Link} to="/">
-            <Image src={logo} alt="logo" height={50} width={"auto"} />
-          </Anchor>
+          <Image src={logo} alt="logo" height={50} width={"auto"} />
         </Flex>
         <Flex justify={{ sm: "flex-end" }}>
           <Group spacing={5} className={classes.links}>
