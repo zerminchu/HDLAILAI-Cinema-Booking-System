@@ -91,15 +91,12 @@ function CustomerHome() {
         </SimpleGrid>
       </div>
 
-      <Center maw={400} mx="auto">
-        <div>
-          <Pagination
-            value={page}
-            onChange={setPage}
-            total={movies.length / recordsPerPage}
-          />
-        </div>
-      </Center>
+      <Pagination
+        position="center"
+        value={page}
+        onChange={setPage}
+        total={Math.ceil(movies.length / recordsPerPage)}
+      />
     </SimpleGrid>
   );
 }

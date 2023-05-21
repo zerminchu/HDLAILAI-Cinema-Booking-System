@@ -1,12 +1,12 @@
 import {
-    TextInput,
-    NumberInput,
-    Button,
-    Container,
-    Grid,
-    Tabs,
-    Group,
-    Pagination,
+  TextInput,
+  NumberInput,
+  Button,
+  Container,
+  Grid,
+  Tabs,
+  Group,
+  Pagination,
 } from "@mantine/core";
 
 import { useEffect, useState } from "react";
@@ -16,86 +16,72 @@ import TicketHistoryTable from "./TicketHistoryTable";
 import FnbHistoryTable from "./FnbHistoryTable";
 
 function TicketPurchaseHistory() {
-    const { id } = useParams();
-    //display the first tab food when load in
-    const [activeTab, setActiveTab] = useState("Fnb");
+  const { id } = useParams();
+  //display the first tab food when load in
+  const [activeTab, setActiveTab] = useState("Fnb");
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
+  //ticket
+  const [ticket, setTicket] = useState([]);
 
-    //ticket
-    const [ticket, setTicket] = useState([]);
+  //fnb
+  const [fnb, setFnb] = useState([]);
 
-    //fnb
-    const [fnb, setFnb] = useState([]);
+  async function getTransaction(id) {
+    try {
+      const transactionResponse = await axios.get(
+        `http://localhost:8080/viewtransaction/useraccount/${id}`
+      );
+      const loadedTransaction = transactionResponse.data;
 
-    async function getTransaction(id) {
-        try {
-            const transactionResponse = await axios.get(`http://localhost:8080/viewtransaction/useraccount/${id}`);
-            const loadedTransaction = transactionResponse.data;
+      const newFnb = loadedTransaction.filter(
+        (Transaction) => Transaction.type === "fnb"
+      );
+      const newTicket = loadedTransaction.filter(
+        (Transaction) => Transaction.type === "ticket"
+      );
 
-            const newFnb = loadedTransaction.filter((Transaction) => Transaction.type === "fnb");
-            const newTicket = loadedTransaction.filter((Transaction) => Transaction.type === "ticket");
-
-            setFnb(newFnb);
-            setTicket(newTicket);
-
-
-        } catch (error) {
-            console.log(error);
-        }
+      setFnb(newFnb);
+      setTicket(newTicket);
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    useEffect(() => {
-        getTransaction(id);
-    }, []);
+  useEffect(() => {
+    getTransaction(id);
+  }, []);
 
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const visibleFnb = fnb.slice(startIndex, startIndex + itemsPerPage);
-    const visibleTickets = ticket.slice(startIndex, startIndex + itemsPerPage);
+  return (
+    <div>
+      {/* Tab Part */}
+      <Group>
+        <Container>
+          <h1>Purchase History</h1>
+          <Tabs
+            defaultValue={activeTab}
+            value={activeTab}
+            onTabChange={setActiveTab}
+          >
+            <Tabs.List position="center">
+              <Tabs.Tab value="Fnb">Fnb</Tabs.Tab>
+              <Tabs.Tab value="Ticket">Ticket</Tabs.Tab>
+            </Tabs.List>
+            {/* Food Tab */}
+            <Tabs.Panel value="Fnb" pt="xs">
+              {/* View Fnb Page */}
+              <FnbHistoryTable data={fnb} setData={setFnb} />
+            </Tabs.Panel>
 
-    return (
-        <div>
-            {/* Tab Part */}
-            <Group>
-                <Container>
-                    <Tabs
-                        defaultValue={activeTab}
-                        value={activeTab}
-                        onTabChange={setActiveTab}
-                    >
-                        <Tabs.List>
-                            <Tabs.Tab value="Fnb">Fnb</Tabs.Tab>
-                            <Tabs.Tab value="Ticket">Ticket</Tabs.Tab>
-                        </Tabs.List>
-                        {/* Food Tab */}
-                        <Tabs.Panel value="Fnb" pt="xs">
-                            {/* View Fnb Page */}
-                            <FnbHistoryTable data={fnb} setData={setFnb} />
-                            <Pagination
-                                total={Math.max(fnb.length, itemsPerPage)}
-                                limit={itemsPerPage}
-                                page={currentPage}
-                                onChange={setCurrentPage}
-                            />
-                        </Tabs.Panel>
-
-                        {/* Ticket Tab */}
-                        <Tabs.Panel value="Ticket" pt="xs">
-                            {/* View Ticket Page */}
-                            <TicketHistoryTable data={ticket} setData={setTicket} />
-                            <Pagination
-                                total={Math.max(ticket.length, itemsPerPage)} // Use Math.max to ensure the pagination is displayed
-                                limit={itemsPerPage}
-                                page={currentPage}
-                                onChange={setCurrentPage}
-                            />
-                        </Tabs.Panel>
-                    </Tabs>
-                </Container>
-            </Group>
-        </div>
-    );
+            {/* Ticket Tab */}
+            <Tabs.Panel value="Ticket" pt="xs">
+              {/* View Ticket Page */}
+              <TicketHistoryTable data={ticket} setData={setTicket} />
+            </Tabs.Panel>
+          </Tabs>
+        </Container>
+      </Group>
+    </div>
+  );
 }
 
 export default TicketPurchaseHistory;
