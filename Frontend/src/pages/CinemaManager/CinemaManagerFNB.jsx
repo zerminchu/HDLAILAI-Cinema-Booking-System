@@ -10,17 +10,6 @@ const CinemaManagerFNB = () => {
   const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:8080/searchfnb?q=${query}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setFnbs(response.data);
-  //       console.log(query);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, [query]);
-
   function search(event) {
     event.preventDefault();
     console.log(query);
@@ -39,8 +28,6 @@ const CinemaManagerFNB = () => {
       .then((response) => {
         setFnbs(response.data);
         console.log(response.data);
-        //setIsSearching(false);
-        //console.log(isSearching);
       })
       .catch((error) => console.log(error));
   }, []);

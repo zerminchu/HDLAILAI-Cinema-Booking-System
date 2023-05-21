@@ -17,6 +17,7 @@ import { useState, useEffect } from "react";
 import confirmationTick from "../../../../assets/59865-confirmation-tick.json";
 import Lottie from "lottie-react";
 import axios from "axios";
+import { useAuth } from "../../../../AuthContext";
 
 function FnbSummary() {
   const location = useLocation();
@@ -26,7 +27,7 @@ function FnbSummary() {
   const [GST, setGST] = useState(0);
   const [totalNetPrice, setTotalNetPrice] = useState(0);
   const navigate = useNavigate();
-
+  const { currentUser } = useAuth();
   useEffect(() => {
     const calculatePrices = () => {
       let grossPrice = 0;
@@ -47,13 +48,13 @@ function FnbSummary() {
 
   const handlePayment = async (event) => {
     event.preventDefault();
-
+    console.log(selectedItems);
     try {
       const response = await axios.post(
         "http://localhost:8080/createtransaction/fnb",
         {
           transaction: {
-            userAccountId: 1,
+            userAccountId: currentUser.id,
             type: "fnb",
             totalGrossPrice: totalGrossPrice.toFixed(0),
             gst: GST.toFixed(0),
@@ -61,7 +62,7 @@ function FnbSummary() {
             totalNetPrice: totalNetPrice.toFixed(0),
           },
           transactionItem: selectedItems.map((item) => ({
-            paidPrice: item.paidPrice,
+            paidPrice: item.currentPrice,
             quantity: item.quantity,
             fnbId: item.id,
             fnbName: item.name,

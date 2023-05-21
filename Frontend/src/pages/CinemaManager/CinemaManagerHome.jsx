@@ -14,7 +14,7 @@ import axios from "axios";
 import CMCreateHallModel from "./CMCreateHallModel";
 import "./Components/ViewHalls/SearchHall.css";
 
-const CinemaManagerHome = () => {
+function CinemaManagerHome() {
   const [isAllHall, setIsAllHall] = useState(true);
   const [halls, setHalls] = useState([]);
   const [query, setQuery] = useState("");
@@ -97,6 +97,6 @@ const CinemaManagerHome = () => {
       )}
     </div>
   );
-};
+}
 
 export default CinemaManagerHome;

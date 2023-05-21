@@ -106,6 +106,9 @@ function MSForm({ hallId = null }) {
           message: "Movie Session created successfully",
           autoClose: 3000,
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
       .catch((error) => {
         notifications.show({

@@ -1,13 +1,11 @@
 package com.csit314.backend.UserAccount;
 
 import java.sql.SQLException;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.http.HttpStatus;
-// import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,10 +16,15 @@ public class CreateUserAccountController {
     @PostMapping(path = "/add") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity<?> addNewUser(@RequestBody UserAccount user)
             throws SQLException {
-
-        UserAccount ua = new UserAccount();
-        ua.save(user);
-        return ResponseEntity.ok("Account has been created successfully");
+        try {
+            UserAccount ua = new UserAccount();
+            ua.save(user);
+            return ResponseEntity.ok("Account has been created successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>("Account creation failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            // return ResponseEntity.ok("Account creation failed");
+        }
     }
 
     @PostMapping(path = "/addcustomer") // Map ONLY POST Requests

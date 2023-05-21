@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
@@ -15,6 +15,7 @@ import {
 function UpdateTicketType() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const form = useForm({
     initialValues: {
       typeName: "",
@@ -53,11 +54,6 @@ function UpdateTicketType() {
   useEffect(() => {
     getTicketType(id);
   }, []);
-
-  // Since you're using useform(), you don't need this to change the form values, but good attempt at using useEffect
-  //   useEffect(() => {
-  //     form.setValues({ typeName: ticketType, price: price });
-  //   }, [ticketType, price]);
 
   function handleSubmit(values, event) {
     event.preventDefault();
@@ -101,17 +97,13 @@ function UpdateTicketType() {
                 className="ticketTypeField"
                 placeholder="Name of the ticket type"
                 label="Ticket Type"
-                // Since you're using useform(), you can remove the value and onchange thingies
-                /* value={ticketType}
-                onChange={(event) => setTypeName(event.target.value)} */
-                // Replace with this line to automatically get the onchange and value from useform
                 {...form.getInputProps("typeName")}
               />
             </div>
             <div>
               <NumberInput
                 className="priceField"
-                placeholder="Price of the ticket type"
+                placeholder="Enter number only"
                 label="Price"
                 min={0}
                 precision={2}

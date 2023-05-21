@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DisplayRoles from "./DisplayRoles";
+import DisplayRoles from "./components/UserProfile/DisplayRoles";
 import CreateRolesForm from "./components/UserProfile/CustomPopUp";
 import UserAdminHeader from "./components/UserAdminHeader";
 import { notifications } from "@mantine/notifications";
@@ -19,16 +19,6 @@ import CreateUPModal from "./CreateUPModal";
 function ViewAllUserProfiles() {
   const [users, setUsers] = useState([]);
   const [query, setQuery] = useState("");
-
-  /*   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/searchuserprofile?q=${query}`)
-      .then((response) => {
-        console.log(response.data);
-        setUsers(response.data); // Fix: should be setUsers instead of setData
-      })
-      .catch((error) => console.log(error));
-  }, [query]); */
   function search(event) {
     event.preventDefault();
     axios
@@ -61,11 +51,10 @@ function ViewAllUserProfiles() {
           message: "Profile created successfully",
           autoClose: 3000,
         });
-        setTimeout(() => {
+        /* setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 1000); */
       })
-
       .catch((error) => {
         notifications.show({
           title: "Error creating User Profile",
