@@ -43,6 +43,7 @@ function FoodTable({ data, onAddToCart }) {
           <th>Food Image</th>
           <th>Food Name</th>
           <th>Price</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>

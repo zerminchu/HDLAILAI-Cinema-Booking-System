@@ -123,7 +123,7 @@ const TicketTypesTable = (props) => {
             <th>Ticket Type</th>
             <th>Price</th>
             <th>Status</th>
-            <th></th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

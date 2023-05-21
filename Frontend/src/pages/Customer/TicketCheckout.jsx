@@ -31,6 +31,7 @@ function TicketCheckout() {
   const [GST, setGST] = useState(0);
   const [totalNetPrice, setTotalNetPrice] = useState(0);
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     async function fetchTicketTypes() {
@@ -71,11 +72,12 @@ function TicketCheckout() {
   async function addTransaction(event) {
     event.preventDefault();
     try {
+      console.log(currentUser);
       const response = await axios.post(
         "http://localhost:8080/createtransaction/ticket",
         {
           transaction: {
-            userAccountId: 1,
+            userAccountId: currentUser.id,
             type: "ticket",
             totalGrossPrice: totalGrossPrice.toFixed(0),
             gst: GST.toFixed(0),

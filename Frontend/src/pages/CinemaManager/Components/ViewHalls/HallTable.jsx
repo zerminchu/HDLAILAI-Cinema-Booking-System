@@ -21,7 +21,7 @@ const HallTable = (props) => {
 
   console.log(props.halls);
 
-  const handleStatus = (id, checkOrNot) => {
+  function handleStatus(id, checkOrNot) {
     const updatedHalls = halls.map((hall) => {
       if (hall.id === id) {
         hall.status = checkOrNot ? "Available" : "Not Available";
@@ -39,7 +39,7 @@ const HallTable = (props) => {
       return hall;
     });
     setHalls(updatedHalls);
-  };
+  }
 
   const handleSuspend = (id) => {
     axios

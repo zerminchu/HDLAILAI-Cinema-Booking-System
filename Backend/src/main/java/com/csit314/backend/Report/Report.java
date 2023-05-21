@@ -11,7 +11,7 @@ import java.text.DateFormat;
 import java.sql.Date;
 import com.csit314.backend.db.SQLConnection;
 
-public class Report {
+/* public class Report {
     private Integer id = -1;
     private Integer totalNetPrice = -1;
     private Timestamp hourly = null;
@@ -288,6 +288,271 @@ public class Report {
                 String week = resultSet.getString("weekly");
                 // Convert the data into an object that can be sent back to boundary
                 Report result = new Report(totalNetPrice, week);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+} */
+
+public class Report {
+    private Integer grossRevenueEarned = -1;
+    private Integer numberSold = -1;
+    private String itemName = "";
+
+    public Report() {
+        grossRevenueEarned = -1;
+        numberSold = -1;
+        itemName = "";
+    }
+
+    public Report(Integer grossRevenueEarned,
+            Integer numberSold, String itemName) {
+        this.grossRevenueEarned = grossRevenueEarned;
+        this.numberSold = numberSold;
+        this.itemName = itemName;
+    }
+
+    public void setGrossRevenueEarned(Integer grossRevenueEarned) {
+        this.grossRevenueEarned = grossRevenueEarned;
+    }
+
+    public void setNumberSold(Integer numberSold) {
+        this.numberSold = numberSold;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public Integer getGrossRevenueEarned() {
+        return grossRevenueEarned;
+    }
+
+    public Integer getNumberSold() {
+        return numberSold;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public ArrayList<Report> listAllTicketByHour(Timestamp startDateTime, Timestamp endDateTime) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT SUM(paidPrice) AS grossRevenueEarned, COUNT(typeName) AS numberSold, itemName"
+                    + " FROM transaction txn "
+                    + " INNER JOIN ticket tkt"
+                    + " ON tkt.transactionId = txn.id"
+                    + " INNER JOIN tickettype tt"
+                    + " ON tkt.ticketTypeId = tt.id"
+                    + " WHERE txn.dateTime <= ? AND txn.dateTime >= ?"
+                    + " GROUP BY typeName";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setTimestamp(1, endDateTime);
+            statement.setTimestamp(2, startDateTime);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Report> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer grossRevenueEarned = resultSet.getInt("grossRevenueEarned");
+                Integer numberSold = resultSet.getInt("numberSold");
+                String itemName = resultSet.getString("itemName");
+                // Convert the data into an object that can be sent back to boundary
+                Report result = new Report(grossRevenueEarned, numberSold, itemName);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public ArrayList<Report> listAllTicketByDay(Timestamp startDateTime, Timestamp endDateTime) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT SUM(paidPrice) AS grossRevenueEarned, COUNT(typeName) AS numberSold, itemName"
+                    + " FROM transaction txn "
+                    + " INNER JOIN ticket tkt"
+                    + " ON tkt.transactionId = txn.id"
+                    + " INNER JOIN tickettype tt"
+                    + " ON tkt.ticketTypeId = tt.id"
+                    + " WHERE txn.dateTime <= ? AND txn.dateTime >= ?"
+                    + " GROUP BY typeName";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setTimestamp(1, endDateTime);
+            statement.setTimestamp(2, startDateTime);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Report> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer grossRevenueEarned = resultSet.getInt("grossRevenueEarned");
+                Integer numberSold = resultSet.getInt("numberSold");
+                String itemName = resultSet.getString("itemName");
+                // Convert the data into an object that can be sent back to boundary
+                Report result = new Report(grossRevenueEarned, numberSold, itemName);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public ArrayList<Report> listAllTicketByWeek(Timestamp startDateTime, Timestamp endDateTime) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT SUM(paidPrice) AS grossRevenueEarned, COUNT(typeName) AS numberSold, typeName AS itemName"
+                    + " FROM transaction txn "
+                    + " INNER JOIN ticket tkt"
+                    + " ON tkt.transactionId = txn.id"
+                    + " INNER JOIN tickettype tt"
+                    + " ON tkt.ticketTypeId = tt.id"
+                    + " WHERE txn.dateTime <= ? AND txn.dateTime >= ?"
+                    + " GROUP BY typeName";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setTimestamp(1, endDateTime);
+            statement.setTimestamp(2, startDateTime);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Report> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer grossRevenueEarned = resultSet.getInt("grossRevenueEarned");
+                Integer numberSold = resultSet.getInt("numberSold");
+                String itemName = resultSet.getString("itemName");
+                // Convert the data into an object that can be sent back to boundary
+                Report result = new Report(grossRevenueEarned, numberSold, itemName);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public ArrayList<Report> listAllFnbByHour(Timestamp startDateTime, Timestamp endDateTime) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT SUM(paidPrice) AS grossRevenueEarned, COUNT(fnbName) AS numberSold, fnbName AS itemName"
+                    + " FROM transaction txn"
+                    + " INNER JOIN csit314.transactionitem ti"
+                    + " ON ti.transactionId = txn.id"
+                    + " WHERE txn.dateTime <= ? AND txn.dateTime >= ?"
+                    + "GROUP BY itemName";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setTimestamp(1, endDateTime);
+            statement.setTimestamp(2, startDateTime);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Report> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer grossRevenueEarned = resultSet.getInt("grossRevenueEarned");
+                Integer numberSold = resultSet.getInt("numberSold");
+                String itemName = resultSet.getString("itemName");
+                // Convert the data into an object that can be sent back to boundary
+                Report result = new Report(grossRevenueEarned, numberSold, itemName);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public ArrayList<Report> listAllFnbByDay(Timestamp startDateTime, Timestamp endDateTime) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT SUM(paidPrice) AS grossRevenueEarned, COUNT(fnbName) AS numberSold, fnbName AS itemName"
+                    + " FROM transaction txn"
+                    + " INNER JOIN csit314.transactionitem ti"
+                    + " ON ti.transactionId = txn.id"
+                    + " WHERE txn.dateTime <= ? AND txn.dateTime >= ?"
+                    + "GROUP BY itemName";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setTimestamp(1, endDateTime);
+            statement.setTimestamp(2, startDateTime);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Report> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer grossRevenueEarned = resultSet.getInt("grossRevenueEarned");
+                Integer numberSold = resultSet.getInt("numberSold");
+                String itemName = resultSet.getString("itemName");
+                // Convert the data into an object that can be sent back to boundary
+                Report result = new Report(grossRevenueEarned, numberSold, itemName);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public ArrayList<Report> listAllFnbByWeek(Timestamp startDateTime, Timestamp endDateTime) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT SUM(paidPrice) AS grossRevenueEarned, COUNT(fnbName) AS numberSold, fnbName AS itemName"
+                    + " FROM transaction txn"
+                    + " INNER JOIN csit314.transactionitem ti"
+                    + " ON ti.transactionId = txn.id"
+                    + " WHERE txn.dateTime <= ? AND txn.dateTime >= ?"
+                    + " GROUP BY itemName";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setTimestamp(1, endDateTime);
+            statement.setTimestamp(2, startDateTime);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Report> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer grossRevenueEarned = resultSet.getInt("grossRevenueEarned");
+                Integer numberSold = resultSet.getInt("numberSold");
+                String itemName = resultSet.getString("itemName");
+                // Convert the data into an object that can be sent back to boundary
+                Report result = new Report(grossRevenueEarned, numberSold, itemName);
                 results.add(result);
             }
             return results;

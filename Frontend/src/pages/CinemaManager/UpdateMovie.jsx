@@ -26,7 +26,7 @@ function UpdateMovie() {
   const [imageURL, setImageURL] = useState(data.imageURL);
   const [error, setError] = useState("");
 
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -95,17 +95,18 @@ function UpdateMovie() {
       .catch((error) => {
         console.log(error);
 
-        let errorMessage = `${error.response.data}`;
+          let errorMessage = `${error.response.data}`;
 
-        setError(errorMessage);
-        notifications.show({
-          title: `Error updating Movie`,
-          message: errorMessage,
-          autoClose: 1500,
-          color: "red",
+          setError(errorMessage);
+          notifications.show({
+            title: `Error updating Movie`,
+            message: errorMessage,
+            autoClose: 1500,
+            color: "red",
+          });
         });
-      });
-  }
+      navigate("/ViewMovies");
+    }
 
   return (
     <form className="UpdateMovieForm" onSubmit={form.onSubmit(handleSubmit)}>

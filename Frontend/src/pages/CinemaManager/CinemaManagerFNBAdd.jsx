@@ -86,70 +86,65 @@ const CinemaManagerFNBAdd = () => {
         });
       });
 
-      form.reset();
+    form.reset();
   };
 
   return (
-  <form onSubmit={form.onSubmit(handleSubmit)}>
-    <div>
-      <TextInput
-        label="Item Name"
-        placeholder="Popcorn (S)"
-        classNames={classes.input}
-        {...form.getInputProps('name')}
-      />
+    <form onSubmit={form.onSubmit(handleSubmit)}>
+      <div>
+        <TextInput
+          label="Item Name"
+          placeholder="Popcorn (S)"
+          classNames={classes.input}
+          {...form.getInputProps("name")}
+        />
 
-      <NumberInput
-        label="Price"
-        placeholder="Enter number only"
-        classNames={classes.input}
-        min={0}
-        precision={2}
-        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-        formatter={(value) =>
-          !Number.isNaN(parseFloat(value))
-            ? `$ ${value}`.replace(
-                /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
-                ","
-              )
-            : "$ "
-        }
-        {...form.getInputProps('currentPrice')}
-      />
+        <NumberInput
+          label="Price"
+          placeholder="Enter number only"
+          classNames={classes.input}
+          min={0}
+          precision={2}
+          parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+          formatter={(value) =>
+            !Number.isNaN(parseFloat(value))
+              ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+              : "$ "
+          }
+          {...form.getInputProps("currentPrice")}
+        />
 
-      <TextInput
-        label="ImageURL"
-        placeholder="Provide the full link"
-        classNames={classes.input}
-        {...form.getInputProps('imageURL')}
-      />
+        <TextInput
+          label="Image URL"
+          placeholder="Provide the full link"
+          classNames={classes.input}
+          {...form.getInputProps("imageURL")}
+        />
 
-      <Select
-        label="Select item type"
-        placeholder="Select one"
-        data={[
-          { value: "Food", label: "Food" },
-          { value: "Beverage", label: "Beverage" },
-        ]}
-        {...form.getInputProps('type')}
-      />
+        <Select
+          label="Select item type"
+          placeholder="Select one"
+          data={[
+            { value: "Food", label: "Food" },
+            { value: "Beverage", label: "Beverage" },
+          ]}
+          {...form.getInputProps("type")}
+        />
 
-      <Group position="right" mt="md">
-        <Button
-          type="submit"
-          className={classes.button}>
-          Add
-        </Button>
-        <Button
-          className={classes.button}
-          component={Link}
-          to={`/CinemaManagerFNB/`}
-        >
-          Cancel
-        </Button>
-      </Group>
-    </div>
-  </form>
+        <Group position="right" mt="md">
+          <Button type="submit" className={classes.button}>
+            Add
+          </Button>
+          <Button
+            className={classes.button}
+            component={Link}
+            to={`/CinemaManagerFNB/`}
+          >
+            Cancel
+          </Button>
+        </Group>
+      </div>
+    </form>
   );
 };
 
