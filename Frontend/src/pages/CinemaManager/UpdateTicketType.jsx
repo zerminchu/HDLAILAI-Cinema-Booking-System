@@ -29,7 +29,10 @@ function UpdateTicketType() {
         return null;
       },
       price: (value) => {
-        if (value < 1) return "Ticket type price is invalid.";
+        if (value.length === 0) return "Ticket type price is empty.";
+        if (value <= 0) return "Ticket type price is invalid.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Ticket type price contains trailing/leading whitespaces";
       },
     },
   });
@@ -40,7 +43,7 @@ function UpdateTicketType() {
       );
       const loadedTicketType = ticketTypeResponse.data;
       form.setFieldValue("typeName", loadedTicketType.typeName);
-      form.setFieldValue("price", loadedTicketType.price);
+      form.setFieldValue("price", loadedTicketType.price / 100);
       console.log(id);
     } catch (error) {
       console.log(error);
@@ -62,7 +65,7 @@ function UpdateTicketType() {
       .put(`http://localhost:8080/updatetickettype/update/${id}`, {
         id: id,
         typeName: values.typeName,
-        price: values.price,
+        price: values.price * 100,
       })
       .then(() => {
         notifications.show({
@@ -111,6 +114,13 @@ function UpdateTicketType() {
                 placeholder="Price of the ticket type"
                 label="Price"
                 min={0}
+                precision={2}
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                formatter={(value) =>
+                  !Number.isNaN(parseFloat(value))
+                    ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+                    : "$ "
+                } 
                 // Since you're using useform(), you can remove the value and onchange thingies
                 /* value={price}
                 onChange={setPrice} */

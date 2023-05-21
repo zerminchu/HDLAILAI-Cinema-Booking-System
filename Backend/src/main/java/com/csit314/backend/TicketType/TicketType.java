@@ -194,8 +194,10 @@ public class TicketType {
                 // Get the data from the current row
                 Integer id = resultSet.getInt("id");
                 String typeName = resultSet.getString("typeName");
+                Integer price = resultSet.getInt("price");
+                String status = resultSet.getString("status");
                 // Convert the data into an object that can be sent back to boundary
-                TicketType result = new TicketType(id, typeName);
+                TicketType result = new TicketType(id, typeName, price, status);
                 results.add(result);
             }
             return results;

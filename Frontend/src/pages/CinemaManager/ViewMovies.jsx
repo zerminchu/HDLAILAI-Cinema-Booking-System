@@ -3,7 +3,7 @@ import MoviesTable from "../CinemaManager/Components/ViewMovie/MoviesTable.jsx";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Button, TextInput, Group, Space, Divider } from "@mantine/core";
+import { Button, TextInput, Group, Space, Divider, Text } from "@mantine/core";
 import "./Components/ViewMovie/SearchMovie.css";
 
 function ViewMovies() {
@@ -73,7 +73,12 @@ function ViewMovies() {
       >
         Add New
       </Button>
-      <MoviesTable data={movies} setData={setMovies} />
+      {movies && <MoviesTable data={movies} setData={setMovies} />}
+      {movies.length === 0 && (
+        <Text fw={600} style={{ textAlign: "center", margin: "30px" }}>
+          No Movies Found
+        </Text>
+      )}
     </div>
   );
 }

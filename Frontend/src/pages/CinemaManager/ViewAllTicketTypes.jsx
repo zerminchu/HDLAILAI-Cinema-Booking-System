@@ -34,11 +34,11 @@ function ViewAllTicketTypes() {
       .catch((error) => console.log(error));
   }
 
-  useEffect(function loadData() {
+  useEffect(() => {
     // Load data from backend API
     axios
       .get("http://localhost:8080/viewtickettype/all")
-      .then(function (response) {
+      .then((response) => {
         // Store data into react state
         console.log(response);
         setTicketTypes(response.data);
@@ -81,15 +81,7 @@ function ViewAllTicketTypes() {
           No Ticket Types found
         </Text>
       ) : (
-        <TicketTypesTable
-          ticketTypes={
-            isAllTicketTypes
-              ? ticketTypes
-              : ticketTypes.filter(
-                  (ticketType) => ticketType.typeName === filterValue
-                )
-          }
-        />
+        ticketTypes && <TicketTypesTable ticketTypes={ticketTypes}/>
       )}
     </div>
   );

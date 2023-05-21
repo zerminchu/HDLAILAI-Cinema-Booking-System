@@ -11,6 +11,7 @@ import {
 } from "@mantine/core";
 import axios from "axios";
 import "../CinemaManager/Components/ViewMovie/MovieStyle.css";
+import { useForm } from "@mantine/form";
 
 function AddTicketType() {
   const [typeName, setTypeName] = useState("");
@@ -19,12 +20,34 @@ function AddTicketType() {
 
   const navigateTo = useNavigate();
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  const form = useForm({
+    initialValues: {
+      typeName: "",
+      price: 0,
+    },
+
+    validate: {
+      typeName: (value) => {
+        if (value.length === 0) return "Ticket type name is empty.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Ticket type name contains trailing/leading whitespaces";
+        return null;
+      },
+      price: (value) => {
+        if (value.length === 0) return "Ticket type price is empty.";
+        if (value <= 0) return "Ticket type price is invalid.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Ticket type price contains trailing/leading whitespaces";
+      },
+    },
+  });
+
+  function handleSubmit(values) {
+    //event.preventDefault();
     axios
       .post("http://localhost:8080/createtickettype/add", {
-        typeName: typeName,
-        price: price,
+        typeName: values.typeName,
+        price: values.price * 100,
       })
       .then(() => {
         notifications.show({
@@ -50,7 +73,7 @@ function AddTicketType() {
   }
 
   return (
-    <form className="createTicketTypeForm" onSubmit={handleSubmit}>
+    <form className="createTicketTypeForm" onSubmit={form.onSubmit(handleSubmit)}>
       <h1>Add New Ticket Type</h1>
       <div>
         <Container my="md">
@@ -60,18 +83,26 @@ function AddTicketType() {
                 className="ticketTypeField"
                 placeholder="Name of the ticket type"
                 label="Ticket Type"
-                value={typeName}
-                onChange={(event) => setTypeName(event.target.value)}
+                {...form.getInputProps("typeName")}
               />
             </div>
             <div>
               <NumberInput
                 className="priceField"
                 placeholder="Price of the ticket type"
-                label="Price (Cents)"
+                label="Price"
                 min={0}
-                value={price}
-                onChange={setPrice}
+                {...form.getInputProps("price")}
+                precision={2}
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                formatter={(value) =>
+                  !Number.isNaN(parseFloat(value))
+                    ? `$ ${value}`.replace(
+                        /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
+                        ","
+                      )
+                    : "$ "
+                }
               />
             </div>
 

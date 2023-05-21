@@ -69,7 +69,7 @@ const TicketTypesTable = (props) => {
 
           <td>
             <div style={{ textAlign: "left" }}>
-              <Text>{ticketType.price}</Text>
+              <Text>$ {(ticketType.price / 100).toFixed(2)}</Text>
             </div>
           </td>
 
@@ -121,7 +121,7 @@ const TicketTypesTable = (props) => {
         <thead>
           <tr>
             <th>Ticket Type</th>
-            <th>Price (Cents)</th>
+            <th>Price</th>
             <th>Status</th>
             <th></th>
           </tr>
