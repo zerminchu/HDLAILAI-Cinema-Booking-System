@@ -61,24 +61,18 @@ function CreateAccountForm({ onAddAccount }) {
       name: (value) => {
         if (value.length === 0) return "name is empty.";
         if (value !== value.trim())
-          return "Name should not contain trailing/leading whitespace.";
+          return "Name contains trailing/leading whitespaces";
 
         return null;
       },
       email: (value) => {
         if (value.length === 0) return "Email is empty.";
         if (value !== value.trim())
-          return "Email should not contain trailing/leading whitespace.";
+          return "Email contains trailing/leading whitespaces";
 
         return null;
       },
-      password: (value) => {
-        if (value.length === 0) return "Password is empty.";
-        if (value !== value.trim())
-          return "Password should not contain trailing/leading whitespace.";
-
-        return null;
-      },
+      
       profileId: (value) => {
         if (value.length === 0) return "Profile is empty.";
 
