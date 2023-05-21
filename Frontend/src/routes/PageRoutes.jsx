@@ -1,12 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Demo from "../pages/demo";
 import CustomerHome from "../pages/Customer/CustomerHome";
-// import ManagerHome from "../pages/ManagerHome";
-// import ViewUserAccount from "../pages/UserAdmin/ViewUserAccount";
 import OwnerHome from "../pages/Owner/OwnerHome";
 import CreateUserAccount from "../pages/UserAdmin/CreateUserAccount";
 import ProfilePage from "../pages/UserAdmin/ViewAllUserProfiles";
-/* import DisplayRoles from "../pages/UserAdmin/DisplayRoles"; */
 import EditUserAccount from "../pages/UserAdmin/EditUserAccount";
 import EditUserProfile from "../pages/UserAdmin/EditUserProfile";
 import LoginModal from "../pages/Login/LoginModal";
@@ -26,11 +23,8 @@ import ViewMovieSession from "../pages/CinemaManager/ViewMovieSession";
 import UpdateMovieSession from "../pages/CinemaManager/UpdateMovieSession";
 import UserAdminHome from "../pages/UserAdmin/UserAdminHome";
 import CustomerViewMovieSession from "../pages/Customer/CustomerViewMovieSession";
-// import ViewMovieSessionsByMovie from "../pages/Customer/Components/ViewMovieDetails/ViewMovieSessionsByMovie";
 import TicketCheckout from "../pages/Customer/TicketCheckout";
 import TicketSummary from "../pages/Customer/TicketSummary";
-/* import TestPurchaseForm from "../pages/Customer/testPurchaseForm";
-import ViewMovieSessionsByMovie from "../pages/Customer/ViewMovieSessionsByMovie"; */
 import CinemaManagerFNBAdd from "../pages/CinemaManager/CinemaManagerFNBAdd";
 import CinemaManagerFNB from "../pages/CinemaManager/CinemaManagerFNB";
 import CinemaManagerFNBEdit from "../pages/CinemaManager/CinemaManagerFNBEdit";
