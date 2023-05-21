@@ -6,7 +6,7 @@ import { ActionIcon, Button, Center, Flex } from "@mantine/core";
 import { DatePicker, TimeInput } from "@mantine/dates";
 import { IconClock } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
-export default function DayTicketSales() {
+export default function HourTicketSales() {
   const [date, setDate] = useState(new Date());
   const ref = useRef();
   const [startTime, setStartTime] = useState("");
