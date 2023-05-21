@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Group,
@@ -19,6 +20,7 @@ function UserAdminHome() {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
   const [query, setQuery] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadData();
@@ -69,6 +71,10 @@ function UserAdminHome() {
           autoClose: 3000,
         });
       });
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+    navigate("/UserAdminHome");
   };
 
   const handlePageChange = (newPage) => {
