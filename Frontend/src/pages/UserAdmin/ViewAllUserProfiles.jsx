@@ -4,7 +4,7 @@ import DisplayRoles from "./components/UserProfile/DisplayRoles";
 import CreateRolesForm from "./components/UserProfile/CustomPopUp";
 import UserAdminHeader from "./components/UserAdminHeader";
 import { notifications } from "@mantine/notifications";
-import "./Components/SearchBar.css";
+import "./components/searchbar.css";
 import {
   Button,
   Group,
