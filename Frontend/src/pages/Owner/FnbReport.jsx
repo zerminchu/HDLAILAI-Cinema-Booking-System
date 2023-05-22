@@ -5,9 +5,9 @@ import axios from "axios";
 import { notifications } from "@mantine/notifications";
 import logo from "./Components/logo-no-background.png";
 import "./OwnerStyle.css";
-import HourFnbSales from "./HourFnbSales";
-import WeekFnbSales from "./WeekFnbSales";
-import DayFnbSales from "./DayFnbSales";
+import HourFnbSales from "./HourFnBSales.jsx";
+import WeekFnbSales from "./WeekFnBSales.jsx";
+import DayFnbSales from "./DayFnBSales.jsx";
 
 export default function FnbReport() {
   return (
