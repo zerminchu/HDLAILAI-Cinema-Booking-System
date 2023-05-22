@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CustomPopUp from "./components/CreateUserAccount/CustomPopUp";
 import CreateAccountForm from "./components/CreateUserAccount/CreateAccountForm";
 
-import logo from "./Components/UserProfile/logo-no-background.png";
+import logo from "./components/UserProfile/logo-no-background.png";
 
 function CreateUAModal() {
   const buttonText = "Add Account";

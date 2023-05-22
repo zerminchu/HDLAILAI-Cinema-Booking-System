@@ -97,6 +97,9 @@ function CreateAccountForm({ onAddAccount }) {
           message: "User Account created successfully",
           autoClose: 3000,
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
       .catch((error) => {
         notifications.show({
@@ -105,10 +108,6 @@ function CreateAccountForm({ onAddAccount }) {
           autoClose: 3000,
         });
       });
-    /* setTimeout(() => {
-      window.location.reload();
-    }, 1000);
-    navigate("/UserAdminHome"); */
   }
 
   function handleSubmit(values, event) {

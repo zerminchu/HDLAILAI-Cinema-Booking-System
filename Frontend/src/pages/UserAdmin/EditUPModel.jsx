@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CustomPopUp from "./components/UserProfile/CustomPopUp";
 import EditUserProfile from "./EditUserProfile";
 import { Button } from "@mantine/core";
-import logo from "./Components/UserProfile/logo-no-background.png";
+import logo from "./components/UserProfile/logo-no-background.png";
 
 function EditUPModel({ id, data }) {
   const buttonText = "Edit";
