@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import SummaryTable from "./Components/SummaryTable";
-import WeekCalendar from "./WeekCalendar";
 import { ActionIcon, Button, Center, Flex } from "@mantine/core";
 import { DatePicker, TimeInput } from "@mantine/dates";
 import { IconClock } from "@tabler/icons-react";

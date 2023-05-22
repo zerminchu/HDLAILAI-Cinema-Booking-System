@@ -1,9 +1,4 @@
-import { useEffect, useState } from "react";
 import { Button, Container, Select, Tabs } from "@mantine/core";
-import { DatePickerInput, DateTimePicker } from "@mantine/dates";
-import axios from "axios";
-import { notifications } from "@mantine/notifications";
-import logo from "./Components/logo-no-background.png";
 import "./OwnerStyle.css";
 import HourFnbSales from "./HourFnBSales.jsx";
 import WeekFnbSales from "./WeekFnBSales.jsx";

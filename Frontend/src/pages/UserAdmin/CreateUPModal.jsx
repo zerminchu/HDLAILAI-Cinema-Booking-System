@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CustomPopUp from "./components/UserProfile/CustomPopUp";
 import CreateRolesForm from "./components/UserProfile/CreateRolesForm";
 
-import logo from "./Components/UserProfile/logo-no-background.png";
+import logo from "./components/UserProfile/logo-no-background.png";
 
 function CreateUPModal() {
   const buttonText = "Add Profile";
