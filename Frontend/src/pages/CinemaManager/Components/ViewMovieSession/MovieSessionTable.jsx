@@ -36,10 +36,6 @@ function MovieSessionTable({ data, setData }) {
   }
 
   const rows = data.map((item, index) => {
-    if (item && item.suspended === true) {
-      return null;
-    }
-
     return (
       <tr key={index}>
         <td>
