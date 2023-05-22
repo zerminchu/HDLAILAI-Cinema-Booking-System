@@ -10,7 +10,7 @@ import {
   Pagination,
   Space,
 } from "@mantine/core";
-import "./Components/SearchBar.css";
+import "./components/SearchBar.css";
 import { notifications } from "@mantine/notifications";
 import UsersRolesTable from "./components/UserAdminHome/UserAccountTable";
 import CreateUAModal from "./CreateUAModal";
