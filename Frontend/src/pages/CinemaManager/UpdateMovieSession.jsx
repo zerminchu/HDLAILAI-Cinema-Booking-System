@@ -76,6 +76,10 @@ function UpdateMovieSession({
   }, []);
 
   useEffect(() => {
+    console.log(startTime);
+    if (!startTime) {
+      return;
+    }
     const et = new Date(
       `${date.getFullYear()} ${
         date.getMonth() + 1
@@ -100,6 +104,13 @@ function UpdateMovieSession({
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (!startTime) {
+      return notifications.show({
+        title: "Error updating Movie Session",
+        message: "Invalid start time",
+        autoClose: 3000,
+      });
+    }
     axios
       .put(`http://localhost:8080/updatemoviesession/${data.id}`, {
         id: data.id,
@@ -127,11 +138,11 @@ function UpdateMovieSession({
       .catch((error) => {
         notifications.show({
           title: "Error updating Movie Session",
-          message: error.response.data,
+          message: "Movie Session is overlapping",
           autoClose: 3000,
         });
       });
-    route(`/ViewHall/${data.id}`);
+    route(`/ViewHall/${hall.id}`);
   }
 
   return (
@@ -151,6 +162,7 @@ function UpdateMovieSession({
             console.log(event);
             setDate(event);
           }}
+          required
         />
         {!hallId && (
           <Select
