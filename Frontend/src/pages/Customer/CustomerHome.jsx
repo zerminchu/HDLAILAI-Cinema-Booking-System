@@ -13,6 +13,7 @@ import {
   Center,
   Anchor,
   Divider,
+  Text,
 } from "@mantine/core";
 
 function CustomerHome() {
@@ -85,12 +86,17 @@ function CustomerHome() {
           </Group>
         </form>
       </div>
-      <div>
-        <SimpleGrid cols={3} spacing="md">
-          {grid}
-        </SimpleGrid>
-      </div>
-
+      {movies.length === 0 ? (
+        <Text fw={400} style={{ textAlign: "center" }}>
+          No movies found
+        </Text>
+      ) : (
+        <div>
+          <SimpleGrid cols={3} spacing="md">
+            {grid}
+          </SimpleGrid>
+        </div>
+      )}
       <Pagination
         position="center"
         value={page}
