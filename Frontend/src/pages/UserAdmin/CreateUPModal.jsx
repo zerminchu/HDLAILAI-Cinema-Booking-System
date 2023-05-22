@@ -4,13 +4,13 @@ import CreateRolesForm from "./components/UserProfile/CreateRolesForm";
 
 import logo from "./Components/UserProfile/logo-no-background.png";
 
-function CreateUPModal({ onAddUser }) {
+function CreateUPModal() {
   const buttonText = "Add Profile";
 
   return (
     <CustomPopUp buttonText={buttonText} variant="filled">
       <img src={logo} alt="Logo" width={400} height={130} />
-      <CreateRolesForm onAddUser={onAddUser} />
+      <CreateRolesForm />
     </CustomPopUp>
   );
 }

@@ -4,13 +4,13 @@ import CreateAccountForm from "./components/CreateUserAccount/CreateAccountForm"
 
 import logo from "./Components/UserProfile/logo-no-background.png";
 
-function CreateUAModal({ onAddAccount }) {
+function CreateUAModal() {
   const buttonText = "Add Account";
 
   return (
     <CustomPopUp buttonText={buttonText} variant="filled">
       <img src={logo} alt="Logo" width={400} height={130} />
-      <CreateAccountForm onAddAccount={onAddAccount} />
+      <CreateAccountForm />
     </CustomPopUp>
   );
 }

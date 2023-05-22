@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
   createStyles,
   rem,
@@ -12,6 +11,7 @@ import {
 } from "@mantine/core";
 import axios from "axios";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -72,7 +72,7 @@ function CreateAccountForm({ onAddAccount }) {
 
         return null;
       },
-      
+
       profileId: (value) => {
         if (value.length === 0) return "Profile is empty.";
 
@@ -80,6 +80,36 @@ function CreateAccountForm({ onAddAccount }) {
       },
     },
   });
+
+  function onAddAccount(name, email, password, profileId) {
+    axios
+      .post("http://localhost:8080/createuseraccount/add", {
+        name: name,
+        email: email,
+        password: password,
+        profile: {
+          id: profileId,
+        },
+      })
+      .then((response) => {
+        notifications.show({
+          title: "User Account",
+          message: "User Account created successfully",
+          autoClose: 3000,
+        });
+      })
+      .catch((error) => {
+        notifications.show({
+          title: "Error creating User Account",
+          message: error.response.data,
+          autoClose: 3000,
+        });
+      });
+    /* setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+    navigate("/UserAdminHome"); */
+  }
 
   function handleSubmit(values, event) {
     event.preventDefault();
