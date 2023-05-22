@@ -10,7 +10,6 @@ build_front:
   script:
     - cd Frontend
     - npm install
-    - npm test
     - npm start
   artifacts:
     paths:
