@@ -24,16 +24,16 @@ function UserAdminHome() {
 
   useEffect(() => {
     loadData();
-  }, [currentPage, perPage]);
+  }, []);
 
-  const loadData = () => {
+  function loadData() {
     axios
       .get("http://localhost:8080/viewuseraccount/all")
       .then((response) => {
         setUsers(response.data);
       })
       .catch((error) => console.log(error));
-  };
+  }
 
   function handleSearch(event) {
     event.preventDefault();
@@ -46,37 +46,6 @@ function UserAdminHome() {
       .catch((error) => console.log(error));
   }
 
-  function handleAddAccount(name, email, password, profileId) {
-    axios
-      .post("http://localhost:8080/createuseraccount/add", {
-        name: name,
-        email: email,
-        password: password,
-        profile: {
-          id: profileId,
-        },
-      })
-      .then((response) => {
-        loadData();
-        notifications.show({
-          title: "User Account",
-          message: "User Account created successfully",
-          autoClose: 3000,
-        });
-      })
-      .catch((error) => {
-        notifications.show({
-          title: "Error creating User Account",
-          message: error.response.data,
-          autoClose: 3000,
-        });
-      });
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
-    navigate("/UserAdminHome");
-  }
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -84,7 +53,6 @@ function UserAdminHome() {
   const indexOfLastItem = currentPage * perPage;
   const indexOfFirstItem = indexOfLastItem - perPage;
   const currentUsers = users.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(users.length / perPage);
 
   return (
@@ -106,14 +74,16 @@ function UserAdminHome() {
           </Button>
         </Group>
       </form>
-      <CreateUAModal onAddAccount={handleAddAccount} />
+      <CreateUAModal />
 
       {users.length === 0 ? (
         <Text fw={400} style={{ textAlign: "center" }}>
           No user accounts found
         </Text>
-      ) : null}
-      <UsersRolesTable data={currentUsers} setData={setUsers} />
+      ) : (
+        <UsersRolesTable data={currentUsers} setData={setUsers} />
+      )}
+
       {users.length > 0 && (
         <Pagination
           style={{

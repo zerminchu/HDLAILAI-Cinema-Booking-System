@@ -24,10 +24,13 @@ public class ViewUserProfileController {
     }
 
     @GetMapping(path = "/{id}")
-    public UserProfile getUserById(@PathVariable Integer id) throws SQLException {
+    public ResponseEntity<UserProfile> getUserById(@PathVariable Integer id) throws SQLException {
         UserProfile up = new UserProfile();
-
-        return up.get(id);
+        UserProfile userProfile = up.get(id);
+        if (userProfile == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
     }
 
 }

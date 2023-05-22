@@ -8,5 +8,14 @@ export default defineConfig({
     port: 5173,
     strictPort: false,
   },
+  test: {
+    coverage: {
+      reporter: ["text", "html"],
+      provider: "istanbul",
+    },
+    typecheck: {
+      checker: "tsc",
+      include: ["**/*.{test,spec}.{ts,js}"],
+    },
+  },
 });
-

@@ -2,6 +2,8 @@ import { createStyles, rem, Group, Box } from "@mantine/core";
 import { useState } from "react";
 import { TextInput, Select, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
+import axios from "axios";
 const useStyles = createStyles((theme) => ({
   root: {
     position: "relative",
@@ -17,7 +19,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-function CreateRolesForm({ onAddUser }) {
+function CreateRolesForm() {
   const classes = useStyles();
   const rolesData = [
     { label: "Customer", value: "Customer" },
@@ -45,6 +47,36 @@ function CreateRolesForm({ onAddUser }) {
       },
     },
   });
+
+  function onAddUser(profileName, selectedRole) {
+    console.log(profileName, selectedRole); // Check that profileName and selectedRole are received correctly
+
+    // Make sure key of javascript dictionary matches the java object in the backend
+    axios
+      .post("http://localhost:8080/createuserprofile/add", {
+        profileName: profileName, // Means profileName: profileName
+        permission: selectedRole,
+      })
+      .then((response) => {
+        console.log(response.data); // Check that the new profile is received correctly
+
+        notifications.show({
+          title: `User Profile`,
+          message: "Profile created successfully",
+          autoClose: 3000,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      })
+      .catch((error) => {
+        notifications.show({
+          title: "Error creating User Profile",
+          message: error.response.data,
+          autoClose: 3000,
+        });
+      });
+  }
 
   function handleSubmit(values) {
     try {

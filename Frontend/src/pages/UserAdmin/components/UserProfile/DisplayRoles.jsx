@@ -15,7 +15,6 @@ import EditUPModel from "../../EditUPModel";
 
 // data=[] means if data is not provided, default to an empty array instead
 function DisplayRoles({ data = [], setData = null }) {
-  const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
@@ -28,16 +27,6 @@ function DisplayRoles({ data = [], setData = null }) {
       })
       .catch((error) => console.log(error));
   }, []);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/searchuserprofile?q=${query}`)
-      .then((response) => {
-        console.log(response.data);
-        setData(response.data);
-      })
-      .catch((error) => console.log(error));
-  }, [query]);
 
   function handleSuspend(id) {
     const updatedUser = {

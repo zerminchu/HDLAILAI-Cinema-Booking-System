@@ -13,12 +13,13 @@ import {
   Divider,
   Text,
 } from "@mantine/core";
+import { useAuth } from "../../AuthContext.jsx";
 
 function CustomerHome() {
   const [movies, setMovies] = useState([]);
   const [isAllMovie, setIsAllMovie] = useState(true);
   const [query, setQuery] = useState("");
-
+  const { currentUser } = useAuth();
   const recordsPerPage = 6;
   const [page, setPage] = useState(1);
   const [records, setRecords] = useState(movies.slice(0, recordsPerPage));
@@ -55,13 +56,20 @@ function CustomerHome() {
     if (movie.suspended) {
       return null;
     }
-
     return (
       <div key={movie.id}>
         <Anchor
           component={Link}
           to={`/ViewMovieDetails/${movie.id}`}
           state={movie}
+          {...(currentUser?.role !== "Customer"
+            ? {
+                onClick: (event) => {
+                  event.preventDefault();
+                },
+                style: { cursor: "not-allowed" },
+              }
+            : null)}
         >
           <Image src={movie.imageURL} height={550} />
         </Anchor>
