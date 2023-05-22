@@ -7,10 +7,7 @@ import { ActionIcon } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useLocation, useNavigate } from "react-router-dom";
 function UpdateMovieSession({
-  hallId = -1,
-  movieId = -1,
-  endDateTime = "",
-  startDateTime = "",
+  hallId = -1
 }) {
   const location = useLocation();
   const route = useNavigate();
@@ -77,8 +74,7 @@ function UpdateMovieSession({
 
   useEffect(() => {
     const et = new Date(
-      `${date.getFullYear()} ${
-        date.getMonth() + 1
+      `${date.getFullYear()} ${date.getMonth() + 1
       } ${date.getDate()} ${startTime}`
     );
     console.log(movie);
@@ -107,13 +103,11 @@ function UpdateMovieSession({
         suspended: data.suspended,
         hallId: hall.id,
         startDateTime: new Date(
-          `${date.getFullYear()} ${
-            date.getMonth() + 1
+          `${date.getFullYear()} ${date.getMonth() + 1
           } ${date.getDate()} ${startTime}`
         ),
         endDateTime: new Date(
-          `${date.getFullYear()} ${
-            date.getMonth() + 1
+          `${date.getFullYear()} ${date.getMonth() + 1
           } ${date.getDate()} ${endTime}`
         ),
       })

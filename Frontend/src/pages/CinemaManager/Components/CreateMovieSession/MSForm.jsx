@@ -24,20 +24,9 @@ function MSForm({ hallId = null }) {
   useEffect(() => {
     async function getFieldData() {
       try {
-        const hallResponse = await axios.get(
-          "http://localhost:8080/viewhall/all"
-        );
         const movieResponse = await axios.get(
           "http://localhost:8080/viewmovie/all"
         );
-        if (hallResponse.data && hallResponse.data.length > 0) {
-          setHallOptions(
-            hallResponse.data.map((hall) => ({
-              value: hall,
-              label: hall.name,
-            }))
-          );
-        }
         if (movieResponse.data && movieResponse.data.length > 0) {
           setMovieOptions(
             movieResponse.data.map((movie) => ({
@@ -55,8 +44,7 @@ function MSForm({ hallId = null }) {
 
   useEffect(() => {
     const et = new Date(
-      `${date.getFullYear()} ${
-        date.getMonth() + 1
+      `${date.getFullYear()} ${date.getMonth() + 1
       } ${date.getDate()} ${startTime}`
     );
 
@@ -125,13 +113,11 @@ function MSForm({ hallId = null }) {
         movieId: movie.id,
         hallId: hall.id,
         startDateTime: new Date(
-          `${date.getFullYear()} ${
-            date.getMonth() + 1
+          `${date.getFullYear()} ${date.getMonth() + 1
           } ${date.getDate()} ${startTime}`
         ),
         endDateTime: new Date(
-          `${date.getFullYear()} ${
-            date.getMonth() + 1
+          `${date.getFullYear()} ${date.getMonth() + 1
           } ${date.getDate()} ${endTime}`
         ),
       })
@@ -171,17 +157,6 @@ function MSForm({ hallId = null }) {
             setDate(event);
           }}
         />
-        {!hallId && (
-          <Select
-            className="movieNameField"
-            label="Hall"
-            /* placeholder={Movie Name} */
-            data={hallOptions}
-            value={hall}
-            onChange={setHall}
-            withAsterisk
-          />
-        )}
 
         <Select
           className="movieNameField"
