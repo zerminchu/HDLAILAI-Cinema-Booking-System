@@ -142,32 +142,38 @@ function DisplayRoles({ data = [], setData = null }) {
   const totalPages = Math.ceil(data.length / perPage);
 
   return (
-    <ScrollArea>
-      <Table sx={{ minWidth: 400 }} verticalSpacing="sm">
-        <thead>
-          <tr>
-            <th>Profile Name</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Update</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-      {data.length > 0 && (
-        <Pagination
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: 20,
-          }}
-          limit={perPage}
-          page={currentPage}
-          onChange={(newPage) => setCurrentPage(newPage)}
-          total={totalPages}
-        />
+    <>
+      {data.length === 0 ? (
+        <Text fw={400} style={{ textAlign: "center" }}>
+          No user profiles found
+        </Text>
+      ) : (
+        <ScrollArea>
+          <Table sx={{ minWidth: 400 }} verticalSpacing="sm">
+            <thead>
+              <tr>
+                <th>Profile Name</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Update</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
+          <Pagination
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: 20,
+            }}
+            limit={perPage}
+            page={currentPage}
+            onChange={(newPage) => setCurrentPage(newPage)}
+            total={totalPages}
+          />
+        </ScrollArea>
       )}
-    </ScrollArea>
+    </>
   );
 }
 
