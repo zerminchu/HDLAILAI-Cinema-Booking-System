@@ -21,7 +21,7 @@ build_back:
   image: openjdk:17-alpine
   script:
     - cd Backend
-    - gradle bootRun
+    - ./gradlew bootRun
   artifacts:
     paths:
       - ./build/libs/
