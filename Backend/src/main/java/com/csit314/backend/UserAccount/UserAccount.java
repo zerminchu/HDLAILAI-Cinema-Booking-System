@@ -31,6 +31,12 @@ public class UserAccount {
         profile = null;
     }
 
+    public UserAccount(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     // For new users, suspended will always default to false
     public UserAccount(String name, String email, String password, UserProfile profile) {
         this.name = name;
@@ -359,6 +365,7 @@ public class UserAccount {
             statement.setString(3, user.password);
             statement.setInt(4, user.id);
             statement.executeUpdate();
+            System.out.println("aa");
             return true;
         } catch (SQLException e) {
             System.out.println(e);

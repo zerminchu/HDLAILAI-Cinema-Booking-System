@@ -83,19 +83,28 @@ function EditUserAccount() {
             id: profileId,
           },
         })
-
         .then(() => {
           notifications.show({
             title: `User Account`,
             message: "Account updated successfully",
             autoClose: 3000,
           });
-        });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
 
-      navigate("/");
+          navigate("/");
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        })
+
+        .catch((error) => {
+          notifications.show({
+            title: "Error updating User Account",
+            message: error.response.data,
+            autoClose: 3000,
+          });
+          form.reset();
+        });
     }
   }
 

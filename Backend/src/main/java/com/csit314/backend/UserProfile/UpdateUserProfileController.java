@@ -17,7 +17,6 @@ public class UpdateUserProfileController {
     public ResponseEntity<?> update(@RequestBody UserProfile user, @PathVariable Integer id) throws SQLException {
 
         UserProfile up = new UserProfile();
-
         UserProfile existingUser = up.findByProfileName(user.getProfileName());
         if (existingUser != null && existingUser.getId() != user.getId()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Profile name already exists");

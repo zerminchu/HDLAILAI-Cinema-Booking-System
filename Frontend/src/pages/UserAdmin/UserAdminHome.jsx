@@ -35,7 +35,7 @@ function UserAdminHome() {
       .catch((error) => console.log(error));
   };
 
-  const handleSearch = (event) => {
+  function handleSearch(event) {
     event.preventDefault();
     axios
       .get(`http://localhost:8080/searchuseraccount?q=${query}`)
@@ -44,9 +44,9 @@ function UserAdminHome() {
         setCurrentPage(1);
       })
       .catch((error) => console.log(error));
-  };
+  }
 
-  const handleAddAccount = (name, email, password, profileId) => {
+  function handleAddAccount(name, email, password, profileId) {
     axios
       .post("http://localhost:8080/createuseraccount/add", {
         name: name,
@@ -75,7 +75,7 @@ function UserAdminHome() {
       window.location.reload();
     }, 1000);
     navigate("/UserAdminHome");
-  };
+  }
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);

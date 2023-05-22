@@ -1,10 +1,16 @@
-import { TextInput, PasswordInput, Button, Container, SimpleGrid } from "@mantine/core";
+import {
+  TextInput,
+  PasswordInput,
+  Button,
+  Container,
+  SimpleGrid,
+} from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { DatePickerInput } from '@mantine/dates';
+import { DatePickerInput } from "@mantine/dates";
 
 function ViewAccount() {
   const { id } = useParams();
@@ -16,16 +22,19 @@ function ViewAccount() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleAccUpdate = () => {
+  function handleAccUpdate() {
     const updatedAcc = {
       id: id,
       name: form.values.name,
       email: form.values.email,
       password: form.values.password,
     };
-    console.log(updatedAcc);
+
     axios
-      .put(`http://localhost:8080/updateuseraccount/updatecustomer/${id}`, updatedAcc)
+      .put(
+        `http://localhost:8080/updateuseraccount/updatecustomer/${id}`,
+        updatedAcc
+      )
       .then(() => {
         setAccIsUpdating(!accIsUpdating);
         notifications.show({
@@ -41,7 +50,7 @@ function ViewAccount() {
           autoClose: 3000,
         });
       });
-  };
+  }
 
   async function getAccountAndInfo(id) {
     try {
@@ -64,7 +73,6 @@ function ViewAccount() {
       name: name,
       email: email,
       password: password,
-
     },
 
     validate: {
@@ -111,7 +119,6 @@ function ViewAccount() {
               className="firstNameField"
               label="Name"
               {...form.getInputProps("name")}
-
               disabled={!accIsUpdating}
             />
           </div>
@@ -122,7 +129,6 @@ function ViewAccount() {
               className="emailField"
               label="Email"
               {...form.getInputProps("email")}
-
               disabled={!accIsUpdating}
             />
           </div>
@@ -133,7 +139,6 @@ function ViewAccount() {
               className="passwordField"
               label="Password"
               {...form.getInputProps("password")}
-
               disabled={!accIsUpdating}
             />
           </div>

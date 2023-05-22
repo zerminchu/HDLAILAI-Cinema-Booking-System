@@ -17,6 +17,11 @@ public class UpdateUserAccountController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@RequestBody UserAccount user, @PathVariable Integer id) throws SQLException {
         UserAccount ua = new UserAccount();
+        UserAccount duplicate = ua.findByEmail(user.getEmail());
+
+        if (duplicate != null && user.getId() != duplicate.getId()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
+        }
         if (ua.update(user)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -27,7 +32,9 @@ public class UpdateUserAccountController {
     public ResponseEntity<?> updateCustomer(@RequestBody UserAccount user, @PathVariable Integer id)
             throws SQLException {
         UserAccount ua = new UserAccount();
-        if (ua.findByEmail(user.getEmail()) != null) {
+        UserAccount duplicate = ua.findByEmail(user.getEmail());
+
+        if (duplicate != null && user.getId() != duplicate.getId()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
         }
         if (ua.updateCustomer(user)) {
