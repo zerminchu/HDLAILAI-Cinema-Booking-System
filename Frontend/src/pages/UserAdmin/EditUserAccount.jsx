@@ -87,7 +87,7 @@ function EditUserAccount() {
         .then(() => {
           notifications.show({
             title: `User Account`,
-            message: "Profile updated successfully",
+            message: "Account updated successfully",
             autoClose: 3000,
           });
         });
