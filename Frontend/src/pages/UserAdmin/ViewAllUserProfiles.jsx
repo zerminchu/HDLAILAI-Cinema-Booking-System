@@ -55,8 +55,9 @@ function ViewAllUserProfiles() {
         <Text fw={400} style={{ textAlign: "center" }}>
           No user profiles found
         </Text>
-      ) : null}
-      <DisplayRoles data={users} setData={setUsers} />
+      ) : (
+        <DisplayRoles data={users} setData={setUsers} />
+      )}
     </div>
   );
 }

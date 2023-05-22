@@ -53,7 +53,6 @@ function UserAdminHome() {
   const indexOfLastItem = currentPage * perPage;
   const indexOfFirstItem = indexOfLastItem - perPage;
   const currentUsers = users.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(users.length / perPage);
 
   return (
@@ -81,8 +80,10 @@ function UserAdminHome() {
         <Text fw={400} style={{ textAlign: "center" }}>
           No user accounts found
         </Text>
-      ) : null}
-      <UsersRolesTable data={currentUsers} setData={setUsers} />
+      ) : (
+        <UsersRolesTable data={currentUsers} setData={setUsers} />
+      )}
+
       {users.length > 0 && (
         <Pagination
           style={{
