@@ -8,6 +8,7 @@ build_front:
   stage: build
   image: node:latest
   script:
+    - cd Frontend
     - npm install
     - npm test
     - npm start
@@ -20,7 +21,8 @@ build_back:
   stage: build
   image: openjdk:17-alpine
   script:
-    - .gradle bootRun
+    - cd Backend
+    - gradle bootRun
   artifacts:
     paths:
       - ./build/libs/
