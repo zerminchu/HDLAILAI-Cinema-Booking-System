@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import CustomerPurchaseButton from "./CustomerPurchaseButton";
-import { Table, Image } from "@mantine/core";
+import { Table, Image, Pagination } from "@mantine/core";
 
 function FoodTable({ data, onAddToCart }) {
   const [selectedItems, setSelectedItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const filteredData = data.filter((item) => item.type === "Food");
+  const visibleData = filteredData.slice(startIndex, startIndex + itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const handleAdd = (id, data) => {
     const itemIndex = selectedItems.findIndex((item) => item.id === id);
@@ -17,9 +23,7 @@ function FoodTable({ data, onAddToCart }) {
     }
   };
 
-  const filteredData = data.filter((item) => item.type === "Food");
-
-  const rows = filteredData.map((item, index) => (
+  const rows = visibleData.map((item, index) => (
     <tr key={index}>
       <td>
         <Image src={item.imageURL} width={100} height={100} alt={item.name} />
@@ -37,17 +41,28 @@ function FoodTable({ data, onAddToCart }) {
   ));
 
   return (
-    <Table miw={1080} verticalSpacing="sm">
-      <thead>
-        <tr>
-          <th>Food Image</th>
-          <th>Food Name</th>
-          <th>Price</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </Table>
+    <>
+      <Table miw={1080} verticalSpacing="sm">
+        <thead>
+          <tr>
+            <th>Food Image</th>
+            <th>Food Name</th>
+            <th>Price</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </Table>
+      {totalPages > 1 && (
+        <Pagination
+          position="center"
+          total={totalPages}
+          limit={itemsPerPage}
+          page={currentPage}
+          onChange={setCurrentPage}
+        />
+      )}
+    </>
   );
 }
 
