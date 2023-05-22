@@ -2,9 +2,15 @@ import MSHomeButton from "./MSHomeButton";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-import { Table, Text, Button } from "@mantine/core";
+import { Table, Text, Button, Pagination } from "@mantine/core";
 
 function MovieSessionTable({ data, setData }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const visibleData = data.slice(startIndex, startIndex + itemsPerPage);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
   function handleSuspend(id) {
     axios
       .delete(`http://localhost:8080/suspendmoviesession/${id}`)
@@ -35,7 +41,7 @@ function MovieSessionTable({ data, setData }) {
       .catch((error) => console.log(error));
   }
 
-  const rows = data.map((item, index) => {
+  const rows = visibleData.map((item, index) => {
     return (
       <tr key={index}>
         <td>
@@ -113,6 +119,7 @@ function MovieSessionTable({ data, setData }) {
   });
 
   return (
+    <>
     <Table miw={720} verticalSpacing="sm">
       <thead>
         <tr>
@@ -126,6 +133,16 @@ function MovieSessionTable({ data, setData }) {
       </thead>
       <tbody>{rows}</tbody>
     </Table>
+       {totalPages > 1 && (
+        <Pagination
+          position="center"
+          total={totalPages} // Use Math.max to ensure the pagination is displayed
+          limit={itemsPerPage}
+          page={currentPage}
+          onChange={setCurrentPage}
+        />
+      )}
+    </>
   );
 }
 
