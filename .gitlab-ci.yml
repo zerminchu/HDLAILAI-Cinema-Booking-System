@@ -10,7 +10,7 @@ build_front:
   script:
     - cd Frontend
     - npm install
-    - npm build
+    - npm run build
   artifacts:
     paths:
       - ./dist
