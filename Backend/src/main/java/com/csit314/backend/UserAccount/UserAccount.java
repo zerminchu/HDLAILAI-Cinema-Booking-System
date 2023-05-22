@@ -112,10 +112,6 @@ public class UserAccount {
     }
 
     public String save(UserAccount user) throws SQLException {
-        // Return failure early incase of incomplete fields
-        if (user.email == "" || user.password == "" || user.name == "" || user.profile == null) {
-            return "Failure";
-        }
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
@@ -141,11 +137,6 @@ public class UserAccount {
     }
 
     public String saveCust(UserAccount user) throws SQLException {
-
-        // Return failure early incase of incomplete fields
-        if (user.email == "" || user.password == "" || user.name == "") {
-            return "Failure";
-        }
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
