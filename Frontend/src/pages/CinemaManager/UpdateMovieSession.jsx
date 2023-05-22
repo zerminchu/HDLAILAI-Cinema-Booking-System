@@ -138,7 +138,7 @@ function UpdateMovieSession({
       .catch((error) => {
         notifications.show({
           title: "Error updating Movie Session",
-          message: error.response.data,
+          message: "Movie Session is overlapping",
           autoClose: 3000,
         });
       });
