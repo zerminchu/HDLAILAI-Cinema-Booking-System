@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest --ui",
+    "test": "vitest --coverage",
     "typecheck": "vitest typecheck"
   },
   "dependencies": {
