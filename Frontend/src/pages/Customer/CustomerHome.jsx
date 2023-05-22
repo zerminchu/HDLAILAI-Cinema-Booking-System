@@ -9,8 +9,6 @@ import {
   Pagination,
   Image,
   SimpleGrid,
-  Grid,
-  Center,
   Anchor,
   Divider,
   Text,
@@ -38,7 +36,6 @@ function CustomerHome() {
       console.log(response);
       setMovies(response.data);
     });
-    // [] means the loadData function only runs once when the page first loads
   }, []);
 
   function search(event) {
@@ -54,17 +51,23 @@ function CustomerHome() {
       .catch((error) => console.log(error));
   }
 
-  const grid = records.map((movie) => (
-    <div key={movie.id}>
-      <Anchor
-        component={Link}
-        to={`/ViewMovieDetails/${movie.id}`}
-        state={movie}
-      >
-        <Image src={movie.imageURL} height={550} />
-      </Anchor>
-    </div>
-  ));
+  const grid = records.map((movie) => {
+    if (movie.suspended) {
+      return null;
+    }
+
+    return (
+      <div key={movie.id}>
+        <Anchor
+          component={Link}
+          to={`/ViewMovieDetails/${movie.id}`}
+          state={movie}
+        >
+          <Image src={movie.imageURL} height={550} />
+        </Anchor>
+      </div>
+    );
+  });
 
   return (
     <SimpleGrid>

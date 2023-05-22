@@ -68,6 +68,9 @@ function ViewMovieSessionsByMovie({ movie = null }) {
 
   function showMovieSessionsListings(daySessions) {
     return daySessions.map((movieSession) => {
+      if (movieSession.suspended) {
+        return null;
+      }
       return (
         <Box
           key={movieSession.id}

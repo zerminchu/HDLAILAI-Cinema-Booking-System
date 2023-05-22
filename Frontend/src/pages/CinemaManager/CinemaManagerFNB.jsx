@@ -1,7 +1,15 @@
 import CinemaManagerHeader from "./Components/ViewHalls/CinemaManagerHeader";
 import FNBTable from "./Components/Fnb/FNBTable";
 import { useEffect, useState } from "react";
-import { Button, Group, TextInput, Text, Space, Divider } from "@mantine/core";
+import {
+  Button,
+  Group,
+  TextInput,
+  Text,
+  Space,
+  Divider,
+  Pagination,
+} from "@mantine/core";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -9,6 +17,8 @@ const CinemaManagerFNB = () => {
   const [fnbs, setFnbs] = useState([]);
   const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
 
   function search(event) {
     event.preventDefault();
@@ -31,6 +41,15 @@ const CinemaManagerFNB = () => {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    setPerPage(10); // Update perPage value to 10
+  };
+
+  const indexOfLastFnb = currentPage * perPage;
+  const indexOfFirstFnb = indexOfLastFnb - perPage;
+  const currentFnb = fnbs.slice(indexOfFirstFnb, indexOfLastFnb);
 
   return (
     <div>
@@ -67,12 +86,19 @@ const CinemaManagerFNB = () => {
         Add Item
       </Button>
 
-      {fnbs && <FNBTable fnbs={fnbs} />}
+      {fnbs && <FNBTable fnbs={currentFnb} />}
       {fnbs.length === 0 && (
         <Text fw={600} style={{ textAlign: "center", margin: "30px" }}>
           No Items found
         </Text>
       )}
+      <Pagination
+        style={{ justifyContent: "center", marginTop: 20 }}
+        limit={perPage}
+        page={currentPage}
+        onChange={handlePageChange}
+        total={Math.ceil(fnbs.length / perPage)}
+      />
     </div>
   );
 };
