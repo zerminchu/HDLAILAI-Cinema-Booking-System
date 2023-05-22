@@ -227,7 +227,7 @@ public class MovieSession {
                     + " ON ms.hallId = h.id "
                     + " INNER JOIN Movie m"
                     + " ON ms.movieId = m.id "
-                    + " WHERE movieId = ?";
+                    + " WHERE movieId = ? AND h.status = 'Available' AND ms.suspended = FALSE";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, movieId);
             ResultSet resultSet = statement.executeQuery();

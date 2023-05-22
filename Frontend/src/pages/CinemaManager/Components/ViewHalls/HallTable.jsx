@@ -19,7 +19,9 @@ const HallTable = (props) => {
     setHalls(props.halls);
   }, [props.halls]);
 
-  const handleStatus = (id, checkOrNot) => {
+  console.log(props.halls);
+
+  function handleStatus(id, checkOrNot) {
     const updatedHalls = halls.map((hall) => {
       if (hall.id === id) {
         hall.status = checkOrNot ? "Available" : "Not Available";
@@ -37,8 +39,7 @@ const HallTable = (props) => {
       return hall;
     });
     setHalls(updatedHalls);
-  };
-  
+  }
 
   const handleSuspend = (id) => {
     axios
@@ -54,7 +55,7 @@ const HallTable = (props) => {
       })
       .catch((err) => console.log(err));
   };
-  
+
   const rows = halls.map(
     (hall) =>
       hall && (
@@ -110,7 +111,7 @@ const HallTable = (props) => {
       <Table miw={1200} verticalSpacing="sm" position="left">
         <thead>
           <tr>
-            <th>Hall</th>
+            <th>Hall Name</th>
             <th>Status</th>
             <th>Details</th>
             <th></th>

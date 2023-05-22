@@ -3,7 +3,7 @@ import CustomModel2 from "./Components/CreateHall/CustomModel2";
 import CMCreateHall from "./Components/CreateHall/CMCreateHall";
 import logo from './Components/logo-no-background.png';
 
-function CMCreateRoomModel() {
+function CMCreateHallModel() {
   return (
     
     <CustomModel2>
@@ -13,4 +13,4 @@ function CMCreateRoomModel() {
   );
 }
 
-export default CMCreateRoomModel;
+export default CMCreateHallModel;

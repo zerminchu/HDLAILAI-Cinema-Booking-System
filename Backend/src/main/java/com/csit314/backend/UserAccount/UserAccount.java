@@ -31,6 +31,12 @@ public class UserAccount {
         profile = null;
     }
 
+    public UserAccount(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     // For new users, suspended will always default to false
     public UserAccount(String name, String email, String password, UserProfile profile) {
         this.name = name;
@@ -97,11 +103,11 @@ public class UserAccount {
         this.password = password;
     }
 
-    public UserProfile getUserProfile() {
+    public UserProfile getProfile() {
         return profile;
     }
 
-    public void setUserProfile(UserProfile profile) {
+    public void setProfile(UserProfile profile) {
         this.profile = profile;
     }
 
@@ -121,6 +127,45 @@ public class UserAccount {
             statement.setString(3, user.name);
             statement.setInt(4, user.profile.getId());
             statement.setBoolean(5, user.suspended);
+            statement.executeUpdate();
+            return "Success";
+        } catch (SQLException e) {
+            System.out.println(e);
+            return "Failure";
+        } finally {
+            // Close SQL connection when not in use
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public String saveCust(UserAccount user) throws SQLException {
+
+        // Return failure early incase of incomplete fields
+        if (user.email == "" || user.password == "" || user.name == "") {
+            return "Failure";
+        }
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String firstQuery = "SELECT id FROM UserProfiles WHERE permission = 'Customer'";
+            PreparedStatement firstPreparedStatement = connection.prepareStatement(firstQuery);
+            ResultSet rs = firstPreparedStatement.executeQuery();
+            Integer customerProfileId = -1;
+            System.out.println("a");
+            while (rs.next()) {
+                customerProfileId = rs.getInt("id");
+            }
+            String query = "INSERT INTO UserAccounts (email, password, name, profileId, suspended) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, user.email);
+            statement.setString(2, user.password);
+            statement.setString(3, user.name);
+            statement.setInt(4, customerProfileId);
+            statement.setBoolean(5, user.suspended);
+
             statement.executeUpdate();
             return "Success";
         } catch (SQLException e) {
@@ -164,7 +209,7 @@ public class UserAccount {
                 Boolean profileSuspended = resultSet.getBoolean("up_suspended");
                 UserProfile userProfile = new UserProfile(profileId, profileName, permission, profileSuspended);
                 // Convert the data into an object that can be sent back to boundary
-                UserAccount result = new UserAccount(accountId, email, name, password, accountSuspended, userProfile);
+                UserAccount result = new UserAccount(accountId, name, email, password, accountSuspended, userProfile);
                 results.add(result);
             }
             return results;
@@ -210,7 +255,7 @@ public class UserAccount {
             String profileName = resultSet.getString("profileName");
             Boolean up_suspended = resultSet.getBoolean("up_suspended");
             UserProfile userProfile = new UserProfile(profileId, profileName, permission, up_suspended);
-            UserAccount result = new UserAccount(id, email, name, password, ua_suspended, userProfile);
+            UserAccount result = new UserAccount(id, name, email, password, ua_suspended, userProfile);
             return result;
         } catch (SQLException e) {
             System.out.println(e);
@@ -264,7 +309,8 @@ public class UserAccount {
             JwtBuilder builder = Jwts.builder();
             builder.claim("name", name)
                     .claim("role", permission)
-                    .claim("profileName", profileName);
+                    .claim("profileName", profileName)
+                    .claim("id", accountId);
             builder.setIssuer("csit314-project")
                     .setSubject(email);
             String secretKey = "csit314-software-development-methodologies";
@@ -295,6 +341,31 @@ public class UserAccount {
             statement.setInt(4, user.profile.getId());
             statement.setInt(5, user.id);
             statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public Boolean updateCustomer(UserAccount user)
+            throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "UPDATE UserAccounts SET name= ?, email= ?, password= ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, user.name);
+            statement.setString(2, user.email);
+            statement.setString(3, user.password);
+            statement.setInt(4, user.id);
+            statement.executeUpdate();
+            System.out.println("aa");
             return true;
         } catch (SQLException e) {
             System.out.println(e);
@@ -348,4 +419,68 @@ public class UserAccount {
         }
     }
 
+    public UserAccount findByEmail(String email) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT * FROM UserAccounts WHERE email = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            statement.setMaxRows(1);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                return null;
+            }
+            Integer id = resultSet.getInt("id");
+            String password = resultSet.getString("password");
+            String name = resultSet.getString("name");
+            Boolean suspended = resultSet.getBoolean("suspended");
+
+            UserAccount result = new UserAccount(id, password, name, name, suspended, profile);
+            return result;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public ArrayList<UserAccount> search(String q) throws SQLException {
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "SELECT * FROM UserAccounts WHERE name LIKE ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            System.out.println(q);
+            statement.setString(1, "%" + q + "%");
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<UserAccount> results = new ArrayList<>();
+            while (resultSet.next()) {
+                // Get the data from the current row
+                Integer id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                Boolean suspended = resultSet.getBoolean("suspended");
+                Integer profileId = resultSet.getInt("profileId");
+                UserProfile profile = new UserProfile(profileId);
+                // Convert the data into an object that can be sent back to boundary
+                UserAccount result = new UserAccount(id, name, email, password, suspended, profile);
+                results.add(result);
+            }
+            return results;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }

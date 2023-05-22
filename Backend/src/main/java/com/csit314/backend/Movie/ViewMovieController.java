@@ -26,6 +26,9 @@ public class ViewMovieController {
     public ResponseEntity<Movie> getMovieById(@PathVariable Integer id) throws SQLException {
         Movie mv = new Movie();
         Movie result = mv.get(id);
+        if (result == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<Movie>(result, HttpStatus.OK);
     }
 

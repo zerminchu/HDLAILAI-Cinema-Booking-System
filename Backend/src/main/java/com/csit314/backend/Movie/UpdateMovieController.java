@@ -17,7 +17,7 @@ public class UpdateMovieController {
     public ResponseEntity<?> update(@RequestBody Movie movie, @PathVariable Integer id) throws SQLException {
         Movie mv = new Movie();
         Movie existingMovie = mv.findByMovie(movie.getTitle());
-        if (existingMovie != null && existingMovie.getId() != existingMovie.getId()) {
+        if (existingMovie != null && existingMovie.getId() != movie.getId()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Movie Title already exists");
         }
 

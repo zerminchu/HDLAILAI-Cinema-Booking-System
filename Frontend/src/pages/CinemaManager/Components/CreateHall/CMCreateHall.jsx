@@ -51,7 +51,7 @@ function CMCreateHall() {
 
         setTimeout(() => {
           window.location.reload();
-        }, 500); 
+        }, 1000);
       })
       .catch((error) => {
         notifications.show({
@@ -75,7 +75,7 @@ function CMCreateHall() {
         />
       </div>
       <div className="CMCreateHall-button-container">
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Add</Button>
       </div>
     </form>
   );

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.csit314.backend.Ticket.Ticket;
+import com.csit314.backend.TransactionItem.TransactionItem;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,11 +35,24 @@ public class CreateTransactionController {
     }
 
     @PostMapping(path = "/fnb")
-    public ResponseEntity<?> addFnbTransaction(@RequestBody Transaction transaction) throws SQLException {
+    public ResponseEntity<?> addFnbTransaction(@RequestBody Map<String, Object> json) throws SQLException {
 
         try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Transaction transaction = objectMapper.convertValue(json.get("transaction"), Transaction.class);
+            ArrayList<TransactionItem> transactionItem = objectMapper.convertValue(json.get("transactionItem"),
+                    new TypeReference<ArrayList<TransactionItem>>() {
+                    });
+
             Transaction txn = new Transaction();
-            txn.save(transaction);
+            TransactionItem t = new TransactionItem();
+
+            Integer transactionId = txn.save(transaction);
+            System.out.println(transactionId);
+
+            t.saveAllFnb(transactionItem, transactionId);
+
+            // txn.save(transaction);
             return ResponseEntity.ok("Saved");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -57,6 +72,7 @@ public class CreateTransactionController {
             Ticket t = new Ticket();
             // 1 controller talks to 2 entities
             Integer transactionId = txn.save(transaction);
+            System.out.println(transactionId);
             t.saveAll(tickets, transactionId);
             return ResponseEntity.ok("Saved");
         } catch (IllegalArgumentException e) {

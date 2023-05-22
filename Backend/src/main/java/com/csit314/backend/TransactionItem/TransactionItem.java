@@ -142,6 +142,43 @@ public class TransactionItem {
         }
     }
 
+    public String saveAllFnb(ArrayList<TransactionItem> transactionItem, Integer transactionId) throws SQLException {
+        // Return failure early incase of incomplete fields
+        if (transactionItem.size() == 0) {
+            return "Failure";
+        }
+        Connection connection = null;
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            connection = sqlConnection.getConnection();
+            String query = "INSERT INTO TransactionItem (paidPrice, transactionId, quantity, fnbId, fnbName) VALUES";
+            for (int i = 0; i < transactionItem.size(); i++) {
+                query += " (?, ?, ?, ?, ?),";
+            }
+            // Remove the trailing comma from the query string
+            query = query.substring(0, query.length() - 1);
+            PreparedStatement statement = connection.prepareStatement(query);
+            int parameterIndex = 1;
+            for (TransactionItem txnItem : transactionItem) {
+                statement.setInt(parameterIndex++, txnItem.paidPrice);
+                statement.setInt(parameterIndex++, transactionId);
+                statement.setInt(parameterIndex++, txnItem.quantity);
+                statement.setInt(parameterIndex++, txnItem.fnbId);
+                statement.setString(parameterIndex++, txnItem.fnbName);
+            }
+            statement.executeUpdate();
+            return "Success";
+        } catch (SQLException e) {
+            System.out.println(e);
+            return "Failure";
+        } finally {
+            // Close SQL connection when not in use
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
     // List all fnb TransactionItem
     public ArrayList<TransactionItem> listAll() throws SQLException {
         Connection connection = null;
@@ -248,5 +285,4 @@ public class TransactionItem {
             }
         }
     }
-
 }

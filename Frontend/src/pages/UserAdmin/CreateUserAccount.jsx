@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { TextInput, Select, Button, Group, Box } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 function CreateUserAccount() {
   const [name, setName] = useState("");
@@ -15,7 +14,6 @@ function CreateUserAccount() {
   ]);
   const [error, setError] = useState("");
   const navigateTo = useNavigate();
-
 
   useEffect(() => {
     axios
@@ -39,8 +37,8 @@ function CreateUserAccount() {
         name: name,
         password: password,
         email: email,
-        userProfile: {
-          id: userProfile,
+        profile: {
+          id: profile,
         },
       })
       .then(() => {
@@ -49,15 +47,11 @@ function CreateUserAccount() {
           message: "Account created successfully",
           autoClose: 3000,
         });
-        navigateTo('/ViewUserAccount');
+        navigateTo("/UserAdminHome");
       })
       .catch((error) => {
         console.log(error);
-        //errorMessage = Name cannot be empty/Password cannot be empty/Email cannot be empty/User Profile cannot be empty
         let errorMessage = `${error.response.data}`;
-
-        //If Name is empty display the general text "Please fill in all the fields"
-        //Else, display the individual fields error messages
         if (errorMessage === "Name cannot be empty") {
           errorMessage = "Please fill in all the fields";
         }

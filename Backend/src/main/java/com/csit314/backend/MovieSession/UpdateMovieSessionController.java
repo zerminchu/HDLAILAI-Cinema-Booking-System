@@ -19,6 +19,6 @@ public class UpdateMovieSessionController {
         if (ms.update(movieSession)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
     }
 }

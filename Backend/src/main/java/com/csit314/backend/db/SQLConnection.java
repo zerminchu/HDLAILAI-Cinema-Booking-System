@@ -58,7 +58,8 @@ public class SQLConnection {
                 String TicketTypeQuery = "CREATE TABLE IF NOT EXISTS TicketType ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "typeName VARCHAR(255),"
-                                + "price INT"
+                                + "price INT,"
+                                + "status VARCHAR(255)"
                                 + ")";
 
                 String movieQuery = "CREATE TABLE IF NOT EXISTS Movie ("
@@ -95,14 +96,14 @@ public class SQLConnection {
 
                 String transactionQuery = "CREATE TABLE IF NOT EXISTS Transaction  ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                                + "totalGrossPrice DOUBLE,"
-                                + "gst DOUBLE,"
-                                + "totalNetPrice DOUBLE,"
+                                + "totalGrossPrice INT,"
+                                + "gst INT,"
+                                + "totalNetPrice INT,"
                                 + "dateTime DATETIME,"
                                 + "type VARCHAR(255),"
                                 + "cancelled BOOLEAN,"
-                                + "userAccountId  INT,"
-                                + "UNIQUE KEY unique_id_useraccount (userAccountId),"
+                                + "userAccountId INT,"
+                                /* + "UNIQUE KEY unique_id_useraccount (userAccountId)," */
                                 + "CONSTRAINT FK_useraccounts_transaction FOREIGN KEY (userAccountId)"
                                 + "REFERENCES UserAccounts(id)"
                                 + ")";
@@ -124,7 +125,10 @@ public class SQLConnection {
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "dob VARCHAR(255),"
                                 + "address VARCHAR(255),"
-                                + "gender VARCHAR(255)"
+                                + "gender VARCHAR(255),"
+                                + "accountId INT,"
+                                + "CONSTRAINT FK_customerinfo_accountid FOREIGN KEY (accountId)"
+                                + "REFERENCES UserAccounts(id)"
                                 + ")";
                 String transactionItemQuery = "CREATE TABLE IF NOT EXISTS TransactionItem ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
@@ -137,6 +141,25 @@ public class SQLConnection {
                                 + "REFERENCES Fnb(id),"
                                 + "CONSTRAINT FK_transactionitem_transaction FOREIGN KEY (transactionId)"
                                 + "REFERENCES Transaction(id)"
+                                + ")";
+
+                String cinemaOwnerQuery = "CREATE TABLE IF NOT EXISTS CinemaOwner ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "date DATETIME,"
+                                + "reportType VARCHAR(255),"
+                                + "time DATETIME,"
+                                + "transactionId INT,"
+                                + "CONSTRAINT FK_cinemaowner_transaction FOREIGN KEY (transactionId)"
+                                + "REFERENCES Transaction(id)"
+                                + ")";
+
+                String reportQuery = "CREATE TABLE IF NOT EXISTS Report ("
+                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                                + "totalNetPrice INT,"
+                                + "hourly DATETIME,"
+                                + "daily DATE,"
+                                + "weekly VARCHAR(255),"
+                                + "type VARCHAR(255)"
                                 + ")";
 
                 PreparedStatement profileStatement = con.prepareStatement(profileQuery);
@@ -177,6 +200,12 @@ public class SQLConnection {
 
                 PreparedStatement transactionItemStatement = con.prepareStatement(transactionItemQuery);
                 transactionItemStatement.executeUpdate();
+
+                PreparedStatement cinemaOwnerStatement = con.prepareStatement(cinemaOwnerQuery);
+                cinemaOwnerStatement.executeUpdate();
+
+                PreparedStatement reportStatement = con.prepareStatement(reportQuery);
+                reportStatement.executeUpdate();
 
                 tablesCreated = true;
                 System.out.println("tables created");

@@ -19,6 +19,7 @@ function MSForm({ hallId = null }) {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [error, setError] = useState("");
+  const [suspendedMovies, setSuspendedMovies] = useState([]);
 
   useEffect(() => {
     async function getFieldData() {
@@ -58,13 +59,11 @@ function MSForm({ hallId = null }) {
         date.getMonth() + 1
       } ${date.getDate()} ${startTime}`
     );
-    console.log(movie);
-    console.log(et);
 
     if (movie?.runTime) {
       et.setMinutes(et.getMinutes() + movie?.runTime + bufferTimeInMinutes);
     }
-    console.log(et);
+
     if (et)
       setEndTime(
         et.toLocaleTimeString("en-SG", {
@@ -75,8 +74,52 @@ function MSForm({ hallId = null }) {
       );
   }, [movie, date, startTime]);
 
+  useEffect(() => {
+    async function getMovieData() {
+      try {
+        const movieResponse = await axios.get(
+          "http://localhost:8080/viewmovie/all"
+        );
+        if (movieResponse.data && movieResponse.data.length > 0) {
+          setMovieOptions(
+            movieResponse.data.map((movie) => ({
+              value: movie,
+              label: movie.title,
+            }))
+          );
+          setSuspendedMovies(
+            movieResponse.data.filter((movie) => movie.suspended)
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getMovieData();
+  }, []);
+
   function handleSubmit(event) {
     event.preventDefault();
+
+    if (!startTime) {
+      notifications.show({
+        title: "Error creating Movie Session",
+        message: "Please fill in the start time field.",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (movie.suspended) {
+      notifications.show({
+        title: "Error creating Movie Session",
+        message:
+          "This movie is currently not available and cannot be selected.",
+        autoClose: 3000,
+      });
+      return;
+    }
+
     axios
       .post("http://localhost:8080/createmoviesession/add", {
         movieId: movie.id,
@@ -98,12 +141,15 @@ function MSForm({ hallId = null }) {
           message: "Movie Session created successfully",
           autoClose: 3000,
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
       .catch((error) => {
         notifications.show({
           title: "Error creating Movie Session",
           message: error.response.data,
-          autoClose: 3000,
+          autoClose: 100000,
         });
       });
   }
@@ -136,15 +182,16 @@ function MSForm({ hallId = null }) {
             withAsterisk
           />
         )}
+
         <Select
           className="movieNameField"
           label="Movie"
-          /* placeholder={Movie Name} */
           data={movieOptions}
           value={movie}
           onChange={setMovie}
           withAsterisk
         />
+
         <TimeInput
           className="startTimeField"
           placeholder="What time does it start"

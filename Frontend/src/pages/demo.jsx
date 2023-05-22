@@ -37,43 +37,17 @@ function Demo() {
             <Link to="/OwnerHome">Owner Home</Link>
           </List.Item>
           <List.Item>
-            <Link to="/ViewUserAccount">View User Account</Link>
+            <Link to="/ViewUserAccount">User Admin Home</Link>
           </List.Item>
-          <List.Item>
-            <Link to="/CreateUserAccount">Create User Account</Link>
-          </List.Item>
-          <List.Item>
-            <Link to="/ProfilePage ">User Profile Home</Link>
-          </List.Item>
+
           <List.Item>
             <Link to="/CinemaManagerHome">Cinema Manager Home</Link>{" "}
           </List.Item>
-          <List.Item>
-            <Link to="/CreateMS">Create Movie Session</Link>{" "}
-          </List.Item>
-          <List.Item>
-            <Link to="/ViewMovieSession">View Movie Session</Link>{" "}
-          </List.Item>
-          <List.Item>
-            <Link to="/UserAdminHome"> User Admin Home</Link>
-          </List.Item>
-          {currentUser ? (
-            <List.Item>
-              <LogoutButton />
-            </List.Item>
-          ) : (
-            <List.Item>
-              <LoginModal />
-            </List.Item>
 
-
-          )}
+          <List.Item>
+            <Link to="/FnbPurchase"> Customer F&B</Link>
+          </List.Item>
         </List>
-        <Image
-          width={200}
-          height={400}
-          src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81rvqkDIVseCWKxu7UfkjzFLj7dbQBnBiiRRkI_UgmHJDX57ePJRveri1i_dYx5Qe7u_vHMC9sgbNqjsW9X-sC-zqhSqag=s1600"
-        />
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ import {
   Textarea,
 } from "@mantine/core";
 import "../CinemaManager/Components/ViewMovie/MovieStyle.css";
+import { useForm } from "@mantine/form";
 
 function UpdateMovie() {
   const { id } = useParams();
@@ -25,19 +26,63 @@ function UpdateMovie() {
   const [imageURL, setImageURL] = useState(data.imageURL);
   const [error, setError] = useState("");
 
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
-  function handleSubmit(event) {
+  const form = useForm({
+    initialValues: {
+      title: title,
+      runTime: runTime,
+      genre: genre,
+      synopsis: synopsis,
+      imageURL: imageURL,
+    },
+
+    validate: {
+      title: (value) => {
+        if (value.length === 0) return "Movie title is empty.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Movie title contains trailing/leading whitespaces";
+        return null;
+      },
+      runTime: (value) => {
+        if (value.length === 0) return "Movie runtime is empty.";
+        if (value <= 0) return "Movie runtime must be greater than 0.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Item price contains trailing/leading whitespaces";
+        return null;
+      },
+      genre: (value) => {
+        if (value.length === 0) return "Movie imageURL is empty.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Movie genre contains trailing/leading whitespaces";
+        return null;
+      },
+      synopsis: (value) => {
+        if (value.length === 0) return "Movie imageURL is empty.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Movie synopsis contains trailing/leading whitespaces";
+        return null;
+      },
+      imageURL: (value) => {
+        if (value.length === 0) return "Movie imageURL is empty.";
+        if (/^\s*$|^\s+.*|.*\s+$/.test(value))
+          return "Movie image URL contains trailing/leading whitespaces";
+        return null;
+      },
+    },
+  });
+
+  function handleSubmit(values) {
     console.log(runTime);
-    event.preventDefault();
+    //event.preventDefault();
     axios
-      .put(`http://localhost:8080/updatemoviesession/update/${id}`, {
+      .put(`http://localhost:8080/updatemovie/update/${id}`, {
         id: id,
-        title: title,
-        runTime: runTime,
-        genre: genre,
-        synopsis: synopsis,
-        imageURL: imageURL,
+        title: values.title,
+        runTime: values.runTime,
+        genre: values.genre,
+        synopsis: values.synopsis,
+        imageURL: values.imageURL,
       })
       .then(() => {
         notifications.show({
@@ -60,10 +105,11 @@ function UpdateMovie() {
           color: "red",
         });
       });
+    navigate("/ViewMovies");
   }
 
   return (
-    <form className="UpdateMovieForm" onSubmit={handleSubmit}>
+    <form className="UpdateMovieForm" onSubmit={form.onSubmit(handleSubmit)}>
       <h1>Update Movie</h1>
       <div>
         <Container my="md">
@@ -74,8 +120,9 @@ function UpdateMovie() {
                 className="movieTitleField"
                 placeholder="Title of the movie"
                 label="Movie Title"
-                value={title}
-                onChange={(event) => setTitle(event.target.value)}
+                //value={title}
+                //onChange={(event) => setTitle(event.target.value)}
+                {...form.getInputProps("title")}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -87,8 +134,9 @@ function UpdateMovie() {
                 placeholder="Runtime in minutes"
                 label="Runtime"
                 min={0}
-                value={runTime}
-                onChange={setRuntime}
+                //value={runTime}
+                //onChange={setRuntime}
+                {...form.getInputProps("runTime")}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -99,8 +147,9 @@ function UpdateMovie() {
                 className="genreField"
                 placeholder="Genre of the movie"
                 label="Genre"
-                value={genre}
-                onChange={(event) => setGenre(event.target.value)}
+                /* value={genre}
+                onChange={(event) => setGenre(event.target.value)} */
+                {...form.getInputProps("genre")}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -111,8 +160,9 @@ function UpdateMovie() {
                 className="synopsisField"
                 placeholder="Synopsis of the movie"
                 label="Synopsis"
-                value={synopsis}
-                onChange={(event) => setSynopsis(event.target.value)}
+                /*  value={synopsis}
+                onChange={(event) => setSynopsis(event.target.value)} */
+                {...form.getInputProps("synopsis")}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
@@ -123,8 +173,9 @@ function UpdateMovie() {
                 className="movieImageField"
                 placeholder="Movie image URL"
                 label="Movie Image"
-                value={imageURL}
-                onChange={(event) => setImageURL(event.target.value)}
+                /*       value={imageURL}
+                onChange={(event) => setImageURL(event.target.value)} */
+                {...form.getInputProps("imageURL")}
               />
             </Grid.Col>
             <Grid.Col xs={2}></Grid.Col>
