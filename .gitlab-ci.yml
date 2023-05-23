@@ -22,7 +22,9 @@ build_front:
 build_back:
   image: gradle:alpine
   stage: build
-  script: gradle --build-cache assemble
+  script: 
+    - cd Backend
+    - gradle --build-cache assemble
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
