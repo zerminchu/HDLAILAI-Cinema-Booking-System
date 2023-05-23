@@ -28,7 +28,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-function CreateAccountForm({ onAddAccount }) {
+function CreateAccountForm() {
   const classes = useStyles();
   const [userProfile, setUserProfile] = useState("");
   const [profileOptions, setProfileOptions] = useState([
