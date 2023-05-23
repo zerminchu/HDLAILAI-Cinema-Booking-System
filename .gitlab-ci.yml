@@ -15,11 +15,14 @@ build_front:
       - ./Frontend/dist
 
 build_back:
+  image: gradle:alpine
   stage: build
-  image: openjdk:17-alpine
-  script:
-    - cd Backend
-    - ./gradlew bootRun
-  artifacts:
+  script: gradle --build-cache assemble
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
     paths:
-      - ./Backend/build/libs/
+      - build
+      - .gradle
+
+
