@@ -76,11 +76,6 @@ public class UserProfile {
     }
 
     public String save(UserProfile userProfile) throws SQLException {
-        System.out.println("Calling userprofile save method");
-        // Return failure early incase of incomplete fields
-        if (userProfile.profileName == "" || userProfile.permission == "") {
-            return "Failure";
-        }
         Connection connection = null;
         try {
             SQLConnection sqlConnection = new SQLConnection();
