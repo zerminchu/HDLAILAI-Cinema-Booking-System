@@ -11,7 +11,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const HallTable = (props) => {
+function HallTable(props) {
   const theme = useMantineTheme();
   const [halls, setHalls] = useState(props.halls);
 
@@ -41,7 +41,7 @@ const HallTable = (props) => {
     setHalls(updatedHalls);
   }
 
-  const handleSuspend = (id) => {
+  function handleSuspend(id) {
     axios
       .delete(`http://localhost:8080/suspendhall/${id}`)
       .then(() => {
@@ -54,7 +54,7 @@ const HallTable = (props) => {
         setHalls(updatedHalls);
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   const rows = halls.map(
     (hall) =>
@@ -121,6 +121,6 @@ const HallTable = (props) => {
       </Table>
     </Group>
   );
-};
+}
 
 export default HallTable;
