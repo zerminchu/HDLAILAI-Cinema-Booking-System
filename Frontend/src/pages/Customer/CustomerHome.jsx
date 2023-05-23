@@ -23,11 +23,17 @@ function CustomerHome() {
   const recordsPerPage = 6;
   const [page, setPage] = useState(1);
   const [records, setRecords] = useState(movies.slice(0, recordsPerPage));
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     const from = (page - 1) * recordsPerPage;
     const to = from + recordsPerPage;
     setRecords(movies.slice(from, to));
+    setTotalPages(
+      Math.ceil(
+        movies.filter((movie) => !movie.suspended).length / recordsPerPage
+      )
+    );
   }, [page, movies]);
 
   useEffect(function loadData() {
@@ -112,7 +118,7 @@ function CustomerHome() {
         position="center"
         value={page}
         onChange={setPage}
-        total={Math.ceil(movies.length / recordsPerPage)}
+        total={totalPages}
       />
     </SimpleGrid>
   );

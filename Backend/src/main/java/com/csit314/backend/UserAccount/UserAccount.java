@@ -445,23 +445,34 @@ public class UserAccount {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM UserAccounts WHERE name LIKE ?";
+            String query = "SELECT *,"
+                    + " ua.id AS ua_id, up.id AS up_id,"
+                    + " ua.name AS name, ua.email as email,"
+                    + " ua.password AS password,"
+                    + " up.permission AS permission, up.profileName AS profileName,"
+                    + " ua.suspended AS ua_suspended, up.suspended AS up_suspended"
+                    + " FROM UserAccounts ua"
+                    + " INNER JOIN UserProfiles up"
+                    + " ON ua.profileId = up.id"
+                    + " WHERE name LIKE ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            System.out.println(q);
             statement.setString(1, "%" + q + "%");
             ResultSet resultSet = statement.executeQuery();
             ArrayList<UserAccount> results = new ArrayList<>();
             while (resultSet.next()) {
                 // Get the data from the current row
-                Integer id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
+                Integer accountId = resultSet.getInt("ua_id");
                 String email = resultSet.getString("email");
+                String name = resultSet.getString("name");
                 String password = resultSet.getString("password");
-                Boolean suspended = resultSet.getBoolean("suspended");
-                Integer profileId = resultSet.getInt("profileId");
-                UserProfile profile = new UserProfile(profileId);
+                Boolean accountSuspended = resultSet.getBoolean("ua_suspended");
+                Integer profileId = resultSet.getInt("up_id");
+                String profileName = resultSet.getString("profileName");
+                String permission = resultSet.getString("permission");
+                Boolean profileSuspended = resultSet.getBoolean("up_suspended");
+                UserProfile userProfile = new UserProfile(profileId, profileName, permission, profileSuspended);
                 // Convert the data into an object that can be sent back to boundary
-                UserAccount result = new UserAccount(id, name, email, password, suspended, profile);
+                UserAccount result = new UserAccount(accountId, name, email, password, accountSuspended, userProfile);
                 results.add(result);
             }
             return results;

@@ -199,7 +199,7 @@ public class Transaction {
         try {
             SQLConnection sqlConnection = new SQLConnection();
             connection = sqlConnection.getConnection();
-            String query = "SELECT * FROM Transaction s INNER JOIN UserAccounts u ON s.userAccountId = u.id";
+            String query = "SELECT * FROM Transaction s INNER JOIN UserAccounts u ON s.userAccountId = u.id ORDER BY s.id DESC";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             ArrayList<Transaction> results = new ArrayList<>();
@@ -239,7 +239,8 @@ public class Transaction {
             String query = "SELECT * FROM Transaction "
                     + "t INNER JOIN UserAccounts u "
                     + "ON t.userAccountId = u.id "
-                    + "WHERE t.userAccountId = ?";
+                    + "WHERE t.userAccountId = ? "
+                    + "ORDER BY t.id DESC";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, userAccountId);
             ResultSet resultSet = statement.executeQuery();

@@ -51,13 +51,7 @@ function ViewAllUserProfiles() {
       </form>
       <CreateUPModal />
 
-      {users.length === 0 ? (
-        <Text fw={400} style={{ textAlign: "center" }}>
-          No user profiles found
-        </Text>
-      ) : (
-        <DisplayRoles data={users} setData={setUsers} />
-      )}
+      <DisplayRoles data={users} setData={setUsers} />
     </div>
   );
 }
