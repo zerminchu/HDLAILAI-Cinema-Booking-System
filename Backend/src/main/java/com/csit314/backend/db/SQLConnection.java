@@ -121,15 +121,6 @@ public class SQLConnection {
                                 + "CONSTRAINT FK_ticketType_ticket FOREIGN KEY (ticketTypeId) REFERENCES TicketType(id)"
                                 + ")";
 
-                String customerInfoQuery = "CREATE TABLE IF NOT EXISTS CustomerInfo ("
-                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                                + "dob VARCHAR(255),"
-                                + "address VARCHAR(255),"
-                                + "gender VARCHAR(255),"
-                                + "accountId INT,"
-                                + "CONSTRAINT FK_customerinfo_accountid FOREIGN KEY (accountId)"
-                                + "REFERENCES UserAccounts(id)"
-                                + ")";
                 String transactionItemQuery = "CREATE TABLE IF NOT EXISTS TransactionItem ("
                                 + "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 + "paidPrice INT,"
@@ -141,25 +132,6 @@ public class SQLConnection {
                                 + "REFERENCES Fnb(id),"
                                 + "CONSTRAINT FK_transactionitem_transaction FOREIGN KEY (transactionId)"
                                 + "REFERENCES Transaction(id)"
-                                + ")";
-
-                String cinemaOwnerQuery = "CREATE TABLE IF NOT EXISTS CinemaOwner ("
-                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                                + "date DATETIME,"
-                                + "reportType VARCHAR(255),"
-                                + "time DATETIME,"
-                                + "transactionId INT,"
-                                + "CONSTRAINT FK_cinemaowner_transaction FOREIGN KEY (transactionId)"
-                                + "REFERENCES Transaction(id)"
-                                + ")";
-
-                String reportQuery = "CREATE TABLE IF NOT EXISTS Report ("
-                                + "id INT AUTO_INCREMENT PRIMARY KEY,"
-                                + "totalNetPrice INT,"
-                                + "hourly DATETIME,"
-                                + "daily DATE,"
-                                + "weekly VARCHAR(255),"
-                                + "type VARCHAR(255)"
                                 + ")";
 
                 PreparedStatement profileStatement = con.prepareStatement(profileQuery);
@@ -192,20 +164,8 @@ public class SQLConnection {
                 PreparedStatement fnbStatement = con.prepareStatement(fnbQuery);
                 fnbStatement.executeUpdate();
 
-                // PreparedStatement ticketStatement = con.prepareStatement(ticketQuery);
-                // ticketStatement.executeUpdate();
-
-                PreparedStatement customerInfoStatement = con.prepareStatement(customerInfoQuery);
-                customerInfoStatement.executeUpdate();
-
                 PreparedStatement transactionItemStatement = con.prepareStatement(transactionItemQuery);
                 transactionItemStatement.executeUpdate();
-
-                PreparedStatement cinemaOwnerStatement = con.prepareStatement(cinemaOwnerQuery);
-                cinemaOwnerStatement.executeUpdate();
-
-                PreparedStatement reportStatement = con.prepareStatement(reportQuery);
-                reportStatement.executeUpdate();
 
                 tablesCreated = true;
                 System.out.println("tables created");

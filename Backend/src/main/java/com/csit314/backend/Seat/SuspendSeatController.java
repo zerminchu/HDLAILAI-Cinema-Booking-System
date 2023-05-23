@@ -22,7 +22,7 @@ public class SuspendSeatController {
     }
 
     @PutMapping("/unsuspend/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id) throws SQLException {
+    public ResponseEntity<?> unsuspend(@PathVariable Integer id) throws SQLException {
         Seat s = new Seat();
         if (s.unsuspend(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
