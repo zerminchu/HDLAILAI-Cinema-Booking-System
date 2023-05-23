@@ -17,8 +17,6 @@ import CreateUAModal from "./CreateUAModal";
 
 function UserAdminHome() {
   const [users, setUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
@@ -46,15 +44,6 @@ function UserAdminHome() {
       .catch((error) => console.log(error));
   }
 
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  const indexOfLastItem = currentPage * perPage;
-  const indexOfFirstItem = indexOfLastItem - perPage;
-  const currentUsers = users.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(users.length / perPage);
-
   return (
     <div>
       <h1>User Accounts</h1>
@@ -81,21 +70,7 @@ function UserAdminHome() {
           No user accounts found
         </Text>
       ) : (
-        <UsersRolesTable data={currentUsers} setData={setUsers} />
-      )}
-
-      {users.length > 0 && (
-        <Pagination
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: 20,
-          }}
-          limit={perPage}
-          page={currentPage}
-          onChange={handlePageChange}
-          total={totalPages}
-        />
+        <UsersRolesTable data={users} setData={setUsers} />
       )}
     </div>
   );

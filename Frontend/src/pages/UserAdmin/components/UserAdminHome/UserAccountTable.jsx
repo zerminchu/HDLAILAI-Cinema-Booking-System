@@ -2,9 +2,19 @@ import UAHomeButton from "../UAHomeButton";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-import { Table, Text, ScrollArea, Button } from "@mantine/core";
+import { Table, Text, ScrollArea, Button, Pagination } from "@mantine/core";
 
 export function UsersRolesTable({ data, setData }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const indexOfLastItem = currentPage * perPage;
+  const indexOfFirstItem = indexOfLastItem - perPage;
+  const currentUsers = data.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(data.length / perPage);
   function handleSuspend(id) {
     axios
       .delete(`http://localhost:8080/suspenduseraccount/${id}`, {
@@ -35,10 +45,10 @@ export function UsersRolesTable({ data, setData }) {
       .catch((error) => console.log(error));
   }
 
-  const rows = !data ? (
+  const rows = !currentUsers ? (
     <></>
   ) : (
-    data.map(
+    currentUsers.map(
       (item, index) =>
         item && (
           <tr key={index}>
@@ -109,6 +119,19 @@ export function UsersRolesTable({ data, setData }) {
         </thead>
         <tbody>{rows}</tbody>
       </Table>
+      {data.length > 0 && (
+        <Pagination
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 20,
+          }}
+          limit={perPage}
+          page={currentPage}
+          onChange={handlePageChange}
+          total={totalPages}
+        />
+      )}
     </ScrollArea>
   );
 }
