@@ -24,4 +24,4 @@ build_back:
     - ./gradlew bootRun
   artifacts:
     paths:
-      - ./build/libs/
+      - ./Backend/build/libs/
