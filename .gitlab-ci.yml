@@ -3,7 +3,6 @@ stages:
   - build
   - deploy
 
-# ONLY Build when front(FrontendCarProject) in changed
 build_front:
   stage: build
   image: node:latest
@@ -15,7 +14,6 @@ build_front:
     paths:
       - ./Frontend/dist
 
-# ONLY build when backend(BackendCarProject) is changed
 build_back:
   stage: build
   image: openjdk:17-alpine
