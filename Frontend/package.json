@@ -33,7 +33,7 @@
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.10.0",
     "react-toastify": "^9.1.2",
-    "typescript": "^5.0.4"
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
